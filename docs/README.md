@@ -1,4 +1,4 @@
-# Duke
+# CashFlow.java
 
 {Give product intro here}
 
