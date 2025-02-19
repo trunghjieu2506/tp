@@ -1,6 +1,6 @@
-# Duke project template
+# CashFlow.java
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+This is a project for CS2113 module in NUS.
 
 ## Setting up in Intellij
 
