@@ -1,8 +1,5 @@
 package budget;
 
-/**
- * Concrete class for handling monthly budget.
- */
 public class MonthlyBudget implements IBudget {
 
     private static final String MSG_BUDGET_SET = "Monthly budget set to $";
@@ -29,7 +26,6 @@ public class MonthlyBudget implements IBudget {
         }
     }
 
-    // Updated checkBudget method:
     @Override
     public void checkBudget() {
         try {
@@ -39,8 +35,7 @@ public class MonthlyBudget implements IBudget {
         }
     }
 
-    // Updated deduct method:
-    public void deduct(double amount) {
+    public void deductFromBudget(double amount) {
         try {
             if(amount <= remaining) {
                 remaining -= amount;
