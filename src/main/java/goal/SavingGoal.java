@@ -1,15 +1,16 @@
-package savingGoal;
+package goal;
 
 /**
  * Represents a savings goal.
  */
 public class SavingGoal {
+
+    private static final String MSG_CONTRIBUTION_EXCEEDS = "Contribution exceeds goal amount.";
+
     private String name;
     private double targetAmount;
     private double contributed;
     private String deadline;
-
-    private static final String MSG_CONTRIBUTION_EXCEEDS = "Contribution exceeds goal amount.";
 
     public SavingGoal(String name, double targetAmount, String deadline) {
         this.name = name;

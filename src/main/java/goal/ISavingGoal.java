@@ -1,4 +1,4 @@
-package savingGoal;
+package goal;
 
 /**
  * Interface for savings goal operations.

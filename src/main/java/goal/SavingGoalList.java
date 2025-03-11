@@ -1,4 +1,4 @@
-package savingGoal;
+package goal;
 
 import java.util.ArrayList;
 import java.util.List;
