@@ -2,7 +2,7 @@ package seedu.duke.expense.commands;
 
 import seedu.duke.expense.*;
 
-public class AddCommand extends Command {
+public class AddCommand extends ExpenseCommand {
     private String description;
     private double amount;
 

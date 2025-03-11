@@ -2,7 +2,7 @@ package seedu.duke.expense.commands;
 
 import seedu.duke.expense.*;
 
-public class DeleteCommand extends Command {
+public class DeleteCommand extends ExpenseCommand {
     private int index;
 
     public DeleteCommand(int index) {
