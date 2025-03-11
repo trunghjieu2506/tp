@@ -34,10 +34,6 @@ public class SavingGoal {
         return deadline;
     }
 
-    /**
-     * Calculates the remaining amount needed to reach the goal.
-     * @return Remaining amount.
-     */
     public double getAmountLeft() {
         return targetAmount - contributed;
     }
