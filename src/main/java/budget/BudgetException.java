@@ -5,3 +5,4 @@ public class BudgetException extends Exception {
         super(message);
     }
 }
+
