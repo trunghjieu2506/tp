@@ -3,6 +3,7 @@ package money;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.Objects;
 
 public class Money {
     protected Currency currency;
@@ -41,5 +42,33 @@ public class Money {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public void increment(double percentage) {
+        amount = amount.add(amount.multiply(new BigDecimal(percentage / 100))).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public boolean isMoreThan(Money money) throws CurrencyNotMatchException {
+        if (this.currency == money.currency) {
+            return this.amount.compareTo(money.amount) > 0;
+        } else {
+            throw new CurrencyNotMatchException("Cannot compare as the currencies do not match");
+        }
+    }
+
+    public boolean isLessThan(Money money) throws CurrencyNotMatchException {
+        if (this.currency == money.currency) {
+            return this.amount.compareTo(money.amount) < 0;
+        } else {
+            throw new CurrencyNotMatchException("Cannot compare as the currencies do not match");
+        }
+    }
+
+    public boolean equals(Money money) throws CurrencyNotMatchException {
+        if (this.currency == money.currency) {
+            return this.amount.equals(money.amount);
+        } else {
+            throw new CurrencyNotMatchException("Cannot compare as the currencies do not match");
+        }
     }
 }

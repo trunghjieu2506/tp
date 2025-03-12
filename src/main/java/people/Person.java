@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Person {
     protected final String name;
     protected String contactNumber;
-    protected String eMail;
+    protected String email;
     protected ArrayList<String> tags;
 
     public Person(String name) {
@@ -21,7 +21,7 @@ public class Person {
     }
 
     public String getEMail() {
-        return eMail;
+        return email;
     }
 
     public boolean hasTag(String tag) {
@@ -30,5 +30,17 @@ public class Person {
 
     public void addTag(String tag) {
         tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        tags.remove(tag);
+    }
+
+    public void setContactNumber(String number) {
+        this.contactNumber = number;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
