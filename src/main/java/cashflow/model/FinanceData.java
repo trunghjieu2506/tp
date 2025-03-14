@@ -26,13 +26,13 @@ public class FinanceData {
         this.currency = currency;
     }
 
-//    // Categories management.
-//    public List<String> getCategories() {
-//        return categories;
-//    }
-//    public void addCategory(String category) {
-//        this.categories.add(category);
-//    }
+    //    // Categories management.
+    //    public List<String> getCategories() {
+    //        return categories;
+    //    }
+    //    public void addCategory(String category) {
+    //        this.categories.add(category);
+    //    }
 
     public DummyExpense getExpenseIncomeManager() {
         return expenseIncomeManager;
