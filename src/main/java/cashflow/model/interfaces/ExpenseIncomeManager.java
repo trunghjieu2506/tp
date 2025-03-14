@@ -10,5 +10,5 @@ public interface ExpenseIncomeManager {
     double getTotalIncome();
     String getCurrency();
     void setCurrency(String currency);
-//    void setDefaultCategories(java.util.List<String> defaultCategories);
+    //    void setDefaultCategories(java.util.List<String> defaultCategories);
 }
