@@ -3,14 +3,19 @@ package cashflow.ui;
 import cashflow.command.HelpCommand;
 import cashflow.command.OverviewCommand;
 import cashflow.model.FinanceData;
+import saving.Saving;
+import saving.SavingList;
+import saving.command.SavingGeneralCommand;
 
 import java.util.Scanner;
 
 public class UI {
     private FinanceData data;
+    private SavingList savingList;
 
     public UI(FinanceData data) {
         this.data = data;
+        this.savingList = new SavingList(data.getCurrency());
     }
 
     public void run() {
@@ -35,6 +40,10 @@ public class UI {
                 break;
             case "setup":
                 new SetUp(data).run();
+                break;
+                //added new saving commands
+            case "saving":
+                new SavingGeneralCommand(input, savingList).execute();
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
