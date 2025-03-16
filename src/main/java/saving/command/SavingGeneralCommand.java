@@ -51,7 +51,8 @@ public class SavingGeneralCommand implements Command {
         }
     }
 
-    private static Command parseSetGoalCommand(String input, SavingList savingList) throws NumberFormatException {
+    private static Command parseSetGoalCommand(String input, SavingList savingList)
+            throws NumberFormatException {
         // Expected format: set-goal n/GOAL_NAME a/AMOUNT b/BY
         int nIndex = input.indexOf("n/");
         int aIndex = input.indexOf("a/");
@@ -66,7 +67,8 @@ public class SavingGeneralCommand implements Command {
         return new SetGoalCommand(savingList, name, moneyAmount, deadline);
     }
 
-    private static Command parseContributeGoalCommand(String input, SavingList savingList) throws NumberFormatException {
+    private static Command parseContributeGoalCommand(String input, SavingList savingList)
+            throws NumberFormatException {
         // Expected format: contribute-goal n/GOAL_NAME a/AMOUNT
         int nIndex = input.indexOf("n/");
         int aIndex = input.indexOf("a/");

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import money.Money;
-import java.math.BigDecimal;
 
 public class SavingList implements SavingsManager {
     private Map<String, Saving> savings;
