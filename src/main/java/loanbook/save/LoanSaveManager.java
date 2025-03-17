@@ -10,13 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * Manages the saving of loan information to a text file.
  */
 public class LoanSaveManager {
-    public static final String defaultLoanSavePath = "save/loansData.txt";
+    public static final String DEFAULT_PATH = "save/loansData.txt";
+    public static final String SAVE_SEPARATOR = "<saveSeparator>";
 
     /**
      * Writes a text file at <code>filePath</code> with the contents of <code>text</code>. Creates the directory if it does not exist

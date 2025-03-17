@@ -3,29 +3,29 @@ package money;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
-import java.util.Objects;
 
-public class Money {
+public class Money implements Comparable<Money> {
     protected Currency currency;
     protected BigDecimal amount;
 
-    public Money(Currency currency, BigDecimal amount) {
+    public Money(Currency currency, double amount) {
         this.currency = currency;
-        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+        this.amount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Money(CommonCurrencies currency, BigDecimal amount) {
+    public Money(CommonCurrencies currency, double amount) {
         this.currency = Currency.getInstance(currency.toString());
-        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+        this.amount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Money(String currency, BigDecimal amount) throws IllegalArgumentException {
+    public Money(String currency, double amount) throws IllegalArgumentException {
         this.currency = Currency.getInstance(currency);
-        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+        this.amount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP);
     }
 
+    @Override
     public String toString(){
-        return currency.getDisplayName() + ' ' + amount.toString();
+        return currency.getCurrencyCode() + ' ' + amount.toString();
     }
 
     public Currency getCurrency() {
@@ -40,33 +40,30 @@ public class Money {
         this.currency = currency;
     }
 
+    public void setCurrency(CommonCurrencies currency) {
+        this.currency = Currency.getInstance(currency.toString());
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = Currency.getInstance(currency);
+    }
+
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public void increment(BigDecimal amount) {
+        this.amount = this.amount.add(amount.setScale(2, RoundingMode.HALF_UP));
     }
 
     public void increment(double percentage) {
         amount = amount.add(amount.multiply(new BigDecimal(percentage / 100))).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public boolean isMoreThan(Money money) throws CurrencyNotMatchException {
+    @Override
+    public int compareTo(Money money) throws CurrencyNotMatchException {
         if (this.currency == money.currency) {
-            return this.amount.compareTo(money.amount) > 0;
-        } else {
-            throw new CurrencyNotMatchException("Cannot compare as the currencies do not match");
-        }
-    }
-
-    public boolean isLessThan(Money money) throws CurrencyNotMatchException {
-        if (this.currency == money.currency) {
-            return this.amount.compareTo(money.amount) < 0;
-        } else {
-            throw new CurrencyNotMatchException("Cannot compare as the currencies do not match");
-        }
-    }
-
-    public boolean equals(Money money) throws CurrencyNotMatchException {
-        if (this.currency == money.currency) {
-            return this.amount.equals(money.amount);
+            return this.amount.compareTo(money.amount);
         } else {
             throw new CurrencyNotMatchException("Cannot compare as the currencies do not match");
         }

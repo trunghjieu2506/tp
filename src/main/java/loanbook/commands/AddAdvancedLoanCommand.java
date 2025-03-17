@@ -1,5 +1,8 @@
 package loanbook.commands;
 
+import loanbook.LoanList;
+import loanbook.interest.Interest;
+import loanbook.loan.AdvancedLoan;
 import money.Money;
 import people.Person;
 
@@ -7,27 +10,15 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class AddAdvancedLoanCommand extends AddLoanCommand{
-    protected Period period;
-    protected double interest;
+    protected Interest interest;
 
-    public AddAdvancedLoanCommand(String description, Person lender, Person borrower, Money money, Period period, double interest) {
-        super(description, lender, borrower, money);
-        this.period = period;
-        this.interest = interest;
-    }
-
-    public AddAdvancedLoanCommand(String description, Person lender, Person borrower, Money money, LocalDate deadline, Period period, double interest) {
-        super(description, lender, borrower, money, deadline);
-        this.period = period;
+    public AddAdvancedLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money, Interest interest) {
+        super(loans, description, lender, borrower, money);
         this.interest = interest;
     }
 
     @Override
     public void execute() {
-        if (deadline == null) {
-            loans.add(description, lender, borrower, money, period, interest);
-        } else {
-            loans.add(description, lender, borrower, money, deadline, period, interest);
-        }
+        loans.add(new AdvancedLoan(description, lender, borrower, money, interest));
     }
 }

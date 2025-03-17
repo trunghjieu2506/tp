@@ -1,13 +1,9 @@
 package loanbook;
 
-import loanbook.loan.AdvancedLoan;
 import loanbook.loan.Loan;
-import loanbook.loan.SimpleLoan;
-import money.Money;
 import people.*;
+import tags.TagList;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +11,7 @@ import java.util.ArrayList;
  */
 public class LoanList {
     protected ArrayList<Loan> loans;
+    protected TagList<Loan> tags;
 
     public LoanList() {
         loans = new ArrayList<>();
@@ -24,30 +21,33 @@ public class LoanList {
         this.loans = loans;
     }
 
-    public void add(String description, Person lender, Person borrower, Money money) {
-        loans.add(new SimpleLoan(description, lender, borrower, money));
+    public void add(Loan loan) {
+        loans.add(loan);
     }
 
-    public void add(String description, Person lender, Person borrower, Money money, LocalDate deadline) {
-        loans.add(new SimpleLoan(description, lender, borrower, money, deadline));
+    public void add(Loan loan, String tag) {
+        loan.addTag(tag);
+        loans.add(loan);
+        tags.addMap(tag, loan);
     }
 
-    public void add(String description, Person lender, Person borrower, Money money, Period period, double interest) {
-        loans.add(new AdvancedLoan(description, lender, borrower, money, period, interest));
-    }
-
-    public void add(String description, Person lender, Person borrower, Money money, LocalDate deadline, Period period, double interest) {
-        loans.add(new AdvancedLoan(description, lender, borrower, money, deadline, period, interest));
-    }
-
-    public void delete(int index) {
+    public void delete(int index) throws IndexOutOfBoundsException {
+        Loan loan = loans.get(index);
+        ArrayList<String> loanTags = loan.getTagsList();
+        for (String tag : loanTags) {
+            tags.removeMap(tag, loan);
+        }
         loans.remove(index);
+    }
+
+    public Loan get(int index) {
+        return loans.get(index - 1);
     }
 
     public ArrayList<Loan> findIncomingLoan(Person borrower) {
         ArrayList<Loan> found = new ArrayList<>();
         for (Loan loan : loans) {
-            if (loan.getBorrower() == borrower) {
+            if (loan.borrower() == borrower) {
                 found.add(loan);
             }
         }
@@ -57,7 +57,7 @@ public class LoanList {
     public ArrayList<Loan> findOutgoingLoan(Person lender) {
         ArrayList<Loan> found = new ArrayList<>();
         for (Loan loan : loans) {
-            if (loan.getLender() == lender) {
+            if (loan.lender() == lender) {
                 found.add(loan);
             }
         }
@@ -67,10 +67,37 @@ public class LoanList {
     public ArrayList<Loan> findLoan(Person lender, Person borrower) {
         ArrayList<Loan> found = new ArrayList<>();
         for (Loan loan : loans) {
-            if (loan.getLender() == lender && loan.getBorrower() == borrower) {
+            if (loan.lender() == lender && loan.borrower() == borrower) {
                 found.add(loan);
             }
         }
         return found;
+    }
+
+    public ArrayList<Loan> findLoanWithTag(String tag) {
+        return tags.findWithTag(tag);
+    }
+
+    public String simpleFulList() {
+        StringBuilder output = new StringBuilder();
+        int i = 1;
+        for (Loan loan : loans) {
+            output.append("[" + i + "] ").append(loan.basicInfo()).append('\n');
+            i++;
+        }
+        return output.toString();
+    }
+
+    public String showDetail(int index) {
+        Loan loan = loans.get(index - 1);
+        return "[" + index + "]\n" + loan.showDetails();
+    }
+
+    public String toSave() {
+        StringBuilder save = new StringBuilder();
+        for (Loan loan : loans) {
+            save.append(loan.forSave()).append('\n');
+        }
+        return save.toString();
     }
 }
