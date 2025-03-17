@@ -1,6 +1,6 @@
-package seedu.duke.income.commands;
+package income.commands;
 
-import seedu.duke.income.*;
+import income.IncomeManager;
 
 public class DeleteCommand extends IncomeCommand {
     private int index;

@@ -1,4 +1,4 @@
-package seedu.duke.income;
+package income;
 
 public class Income {
     private String source;

@@ -1,6 +1,6 @@
-package seedu.duke.expense.commands;
+package expense.commands;
 
-import seedu.duke.expense.*;
+import expense.ExpenseManager;
 
 public class ListExpenseCommand extends ExpenseCommand {
     @Override

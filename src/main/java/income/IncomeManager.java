@@ -1,4 +1,4 @@
-package seedu.duke.income;
+package income;
 
 import java.util.ArrayList;
 import java.util.List;
