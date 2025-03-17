@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * A class to make searching objects with tags easier. Each tag is mapped to a unique <code>ArrayList</code> that contains all objects with this tag.
+ * A class to make searching objects with tags easier. Each tag is mapped to a unique <code>ArrayList</code>
+ * that contains all objects with this tag.
  * @param <T> the type of objects that the tags are attached to.
  */
 public class TagList<T> {
@@ -30,7 +31,8 @@ public class TagList<T> {
     }
 
     /**
-     * Removes the mapping of the <code>tag</code> to the <code>object</code>. Only executes if the tag exists in the <code>tagList</code>.
+     * Removes the mapping of the <code>tag</code> to the <code>object</code>. Only executes if the tag exists
+     * in the <code>tagList</code>.
      * @param tag the tag of the removed mapping.
      * @param object the object of the removed mapping.
      */
@@ -55,7 +57,9 @@ public class TagList<T> {
      * @return an <code>ArrayList</code> of all objects mapped to the <code>tag</code>.
      */
     public ArrayList<T> findWithTag(String tag) {
-        if (tagList.get(tag) == null) return null;
+        if (tagList.get(tag) == null) {
+            return null;
+        }
         return new ArrayList<>(tagList.get(tag));
     }
 }

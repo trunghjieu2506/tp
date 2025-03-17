@@ -7,13 +7,13 @@ import money.Money;
 import people.Person;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 public class AddAdvancedLoanCommand extends AddSimpleBulletLoanCommand{
     protected LocalDate startDate;
     protected Interest interest;
 
-    public AddAdvancedLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money, LocalDate startDate, Interest interest) {
+    public AddAdvancedLoanCommand(LoanList loans, String description, Person lender, Person borrower,
+                                  Money money, LocalDate startDate, Interest interest) {
         super(loans, description, lender, borrower, money);
         this.startDate = startDate;
         this.interest = interest;

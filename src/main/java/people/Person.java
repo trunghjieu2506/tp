@@ -5,7 +5,8 @@ import tags.TagList;
 import java.util.ArrayList;
 
 /**
- * Stores information about a person, including the name, contact number, e-mail, and tags. <code>name</code> cannot be changed once instantiated. The tags are automatically traced in <code>PeopleList</code>.
+ * Stores information about a person, including the name, contact number, e-mail, and tags.
+ * <code>name</code> cannot be changed once instantiated. The tags are automatically traced in <code>PeopleList</code>.
  */
 public class Person {
     protected final String name;
@@ -15,7 +16,9 @@ public class Person {
     protected TagList<Person> personTagList = PeopleList.tags;
 
     public Person(String name) throws SameNameException {
-        if (PeopleList.contacts.containsKey(name)) throw new SameNameException("This person already exists!");
+        if (PeopleList.contacts.containsKey(name)) {
+            throw new SameNameException("This person already exists!");
+        }
         this.name = name;
         myTags = new ArrayList<>();
         PeopleList.add(this);

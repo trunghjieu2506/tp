@@ -1,7 +1,7 @@
 package loanbook;
 
 import loanbook.loan.Loan;
-import people.*;
+import people.Person;
 import tags.TagList;
 
 import java.util.ArrayList;

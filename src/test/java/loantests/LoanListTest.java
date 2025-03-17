@@ -94,8 +94,6 @@ public class LoanListTest {
 
         ListCommand command_list = new ListCommand(loanList);
 
-
-        //System.out.println("Now is " + LocalDate.now());
         System.out.println("Full List:");
         command_list.execute();
         System.out.println("Details of the first loan");

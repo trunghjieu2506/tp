@@ -17,7 +17,8 @@ public class AdvancedLoan extends Loan {
     protected Interest interest;
     protected int incrementCount;
 
-    public AdvancedLoan(String description, Person lender, Person borrower, Money money, LocalDate startDate, Interest interest) {
+    public AdvancedLoan(String description, Person lender, Person borrower, Money money,
+                        LocalDate startDate, Interest interest) {
         super(description, lender, borrower, money);
         this.interest = interest;
         this.startDate = startDate;

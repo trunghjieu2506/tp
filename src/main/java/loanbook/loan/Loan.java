@@ -106,12 +106,16 @@ public abstract class Loan {
     }
 
     public ArrayList<String> getTagsList() {
-        if (tags == null) return null;
+        if (tags == null) {
+            return null;
+        }
         return new ArrayList<>(tags);
     }
 
     public String getTags() {
-        if (tags == null || tags.isEmpty()) return "None";
+        if (tags == null || tags.isEmpty()) {
+            return "None";
+        }
         StringBuilder output = new StringBuilder();
         int i = 0;
         for (String tag : tags) {

@@ -2,13 +2,13 @@ package loanbook.interest;
 
 import java.time.Period;
 
-import static loanbook.interest.InterestType.*;
-
 /**
  * A class to store information about a certain interest.
  * <code>description</code> is optional and describes what this interest is about.
  * <code>rate</code> is the percentage that the outstanding balance increases at the end of each <code>period</code>.
- * <code>type</code> can be either SIMPLE or COMPOUND. SIMPLE interests increases the outstanding balance by <code>rate</code>% of the original principal, while COMPOUND interests increase the outstanding balance by <code>rate</code>% of the outstanding balance.
+ * <code>type</code> can be either SIMPLE or COMPOUND. SIMPLE interests increases the outstanding balance
+ * by <code>rate</code>% of the original principal, while COMPOUND interests increase the outstanding balance
+ * by <code>rate</code>% of the outstanding balance.
  */
 public class Interest {
     protected String description;
@@ -88,7 +88,7 @@ public class Interest {
         if (period.getDays() != 0) {
             period_string.append(period.getDays()).append(" Day").append(period.getDays() == 1 ? "" : "s");
         }
-        return (type == SIMPLE ? "Simple Interest " : "Compound Interest ")
+        return (type == InterestType.SIMPLE ? "Simple Interest " : "Compound Interest ")
                 + rate + "% Per "
                 + period_string.toString().trim();
     }
