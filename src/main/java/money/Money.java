@@ -13,6 +13,16 @@ public class Money implements Comparable<Money> {
         this.amount = amount.setScale(2, RoundingMode.HALF_UP);
     }
 
+    public Money(CommonCurrencies currency, BigDecimal amount) {
+        this.currency = Currency.getInstance(currency.toString());
+        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public Money(String currency, BigDecimal amount) throws IllegalArgumentException {
+        this.currency = Currency.getInstance(currency);
+        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+    }
+
     public Money(Currency currency, double amount) {
         this.currency = currency;
         this.amount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP);
