@@ -47,8 +47,8 @@ public class PeopleList {
 
     /**
      * @param name the name of the person to be found.
-     * @return the <code>Person</code> with the input <code>name</code>. If the name is not in the contact list, return
-     * <code>null</code>.
+     * @return the <code>Person</code> with the input <code>name</code>. If the name is not in the contact list,
+     * return <code>null</code>.
      */
     public static Person findName(String name) {
         return contacts.get(name);

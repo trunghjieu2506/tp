@@ -24,9 +24,11 @@ public class LoanListTest {
         Money moneyOne = new Money("SGD", 100);
         Money moneyTwo = new Money("USD", 123.33);
 
-        LoanCommand command_one = new AddSimpleBulletLoanCommand(loanList, "money one", George, Miao, moneyOne);
+        LoanCommand command_one = new AddSimpleBulletLoanCommand(loanList, "money one", George, Miao,
+                moneyOne);
         command_one.execute();
-        LoanCommand command_two = new AddSimpleBulletLoanCommand(loanList, "money two", Miao, George, moneyTwo);
+        LoanCommand command_two = new AddSimpleBulletLoanCommand(loanList, "money two", Miao, George,
+                moneyTwo);
         command_two.execute();
 
         ListCommand command_list = new ListCommand(loanList);
