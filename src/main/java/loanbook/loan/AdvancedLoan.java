@@ -17,9 +17,10 @@ public class AdvancedLoan extends Loan {
     protected Interest interest;
     protected int incrementCount;
 
-    public AdvancedLoan(String description, Person lender, Person borrower, Money money, Interest interest) {
+    public AdvancedLoan(String description, Person lender, Person borrower, Money money, LocalDate startDate, Interest interest) {
         super(description, lender, borrower, money);
         this.interest = interest;
+        this.startDate = startDate;
         outstandingBalance = money;
         incrementCount = 0;
     }
@@ -32,25 +33,48 @@ public class AdvancedLoan extends Loan {
         return incrementCount;
     }
 
-    public void applyInterest() {
-        if (interest.type() == SIMPLE) {
-            BigDecimal increment = this.principal.getAmount().multiply(BigDecimal.valueOf(interest.rate()));
-            outstandingBalance.increment(increment);
-        } else {
-            outstandingBalance.increment(interest.rate());
+    public void calculateBalance() {
+        LocalDate date = startDate;
+        Money balance = new Money(principal.getCurrency(), principal.getAmount());
+        incrementCount = 0;
+        while (date.plus(interest.period()).isBefore(LocalDate.now())) {
+            if (interest.type() == SIMPLE) {
+                BigDecimal increment = this.principal.getAmount().multiply(BigDecimal.valueOf(interest.rate() / 100));
+                balance.increment(increment);
+            } else {
+                balance.increment(interest.rate());
+            }
+            incrementCount++;
+            date = date.plus(interest.period());
         }
-        incrementCount++;
+        outstandingBalance = balance;
     }
 
-    public void applyInterest(int count) {
-        if (interest.type() == SIMPLE) {
-            BigDecimal increment = this.principal.getAmount().multiply(BigDecimal.valueOf(interest.rate()));
-            outstandingBalance.increment(increment.multiply(BigDecimal.valueOf(count)));
-        } else {
-            for (int i = 0; i < count; i++) {
-                outstandingBalance.increment(interest.rate());
-            }
-        }
-        incrementCount++;
+    /**
+     * Displays the basic information of the loan.
+     * @return a ready-to-print <code>String</code> containing all necessary information.
+     */
+    @Override
+    public String basicInfo() {
+        calculateBalance();
+        return "Lender: [" + lender.getName()
+                + "]    Borrower: [" + borrower.getName()
+                + "]    Amount: " + principal
+                + "    Start Date: " + startDate + '\n'
+                + "    Interest: " + interest + '\n'
+                + "    Outstanding Balance: " + outstandingBalance + '\n'
+                + (isReturned ? "    Returned" : "    Not Returned");
+    }
+
+    /**
+     * Shows all details of this loan.
+     * @return a ready-to-print <code>String</code> containing all information. Multiple lines.
+     */
+    @Override
+    public String showDetails() {
+        return super.showDetails()
+                + "Interest: " + interest + '\n'
+                + "Outstanding Balance: " + outstandingBalance + '\n'
+                + (isReturned ? "Returned" : "Not Returned");
     }
 }

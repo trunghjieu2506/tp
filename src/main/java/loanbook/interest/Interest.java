@@ -2,6 +2,8 @@ package loanbook.interest;
 
 import java.time.Period;
 
+import static loanbook.interest.InterestType.*;
+
 /**
  * A class to store information about a certain interest.
  * <code>description</code> is optional and describes what this interest is about.
@@ -75,5 +77,19 @@ public class Interest {
         this.description = description;
     }
 
-
+    public String toString() {
+        StringBuilder period_string = new StringBuilder();
+        if (period.getYears() != 0) {
+            period_string.append(period.getYears()).append(" Year").append(period.getYears() == 1 ? "" : "s");
+        }
+        if (period.getMonths() != 0) {
+            period_string.append(period.getMonths()).append(" Month").append(period.getMonths() == 1 ? "" : "s");
+        }
+        if (period.getDays() != 0) {
+            period_string.append(period.getDays()).append(" Day").append(period.getDays() == 1 ? "" : "s");
+        }
+        return (type == SIMPLE ? "Simple Interest " : "Compound Interest ")
+                + rate + "% Per "
+                + period_string.toString().trim();
+    }
 }

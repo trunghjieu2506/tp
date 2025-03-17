@@ -25,6 +25,7 @@ public abstract class Loan {
         this.borrower = borrower;
         this.principal = money;
         this.isReturned = false;
+        tags = new ArrayList<>();
     }
 
     public Loan(String description, Person lender, Person borrower, Money money, LocalDate returnDate) {
@@ -34,6 +35,7 @@ public abstract class Loan {
         this.principal = money;
         this.returnDate = returnDate;
         this.isReturned = false;
+        tags = new ArrayList<>();
     }
 
     public Loan(String description, Person lender, Person borrower, Money money, LocalDate startDate, LocalDate returnDate) {
@@ -44,6 +46,7 @@ public abstract class Loan {
         this.startDate = startDate;
         this.returnDate = returnDate;
         this.isReturned = false;
+        tags = new ArrayList<>();
     }
 
     public String description() {
@@ -120,12 +123,21 @@ public abstract class Loan {
         return output.toString();
     }
 
+    /**
+     * Basic information of this loan.
+     * @return a ready-to-print <code>String</code> containing all basic information. Multiple lines.
+     */
     public String basicInfo() {
-        return "Lender: " + lender.getName()
-                + " Borrower: " + borrower.getName()
-                + " Amount: " + principal.toString();
+        return "Lender: [" + lender.getName()
+                + "] Borrower: [" + borrower.getName()
+                + "] Amount: " + principal
+                + (isReturned ? "    Returned" : "    Not Returned");
     }
 
+    /**
+     * Shows all details of this loan.
+     * @return a ready-to-print <code>String</code> containing all information. Multiple lines.
+     */
     public String showDetails() {
         return "Lender: " + lender + '\n'
                 + "Borrower: " + borrower + '\n'

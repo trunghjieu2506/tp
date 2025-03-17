@@ -9,6 +9,6 @@ public class InvalidLoanCommand extends LoanCommand{
 
     @Override
     public void execute() {
-
+        System.out.println("Invalid Loan Command");
     }
 }

@@ -8,6 +8,11 @@ public class Money implements Comparable<Money> {
     protected Currency currency;
     protected BigDecimal amount;
 
+    public Money(Currency currency, BigDecimal amount) {
+        this.currency = currency;
+        this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+    }
+
     public Money(Currency currency, double amount) {
         this.currency = currency;
         this.amount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP);
@@ -57,7 +62,7 @@ public class Money implements Comparable<Money> {
     }
 
     public void increment(double percentage) {
-        amount = amount.add(amount.multiply(new BigDecimal(percentage / 100))).setScale(2, RoundingMode.HALF_UP);
+        amount = amount.multiply(BigDecimal.valueOf(1.0 + percentage / 100.00)).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
