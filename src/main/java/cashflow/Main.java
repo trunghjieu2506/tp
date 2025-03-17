@@ -5,7 +5,8 @@ import cashflow.dummy.DummyLoan;
 import cashflow.dummy.DummySavings;
 import cashflow.model.FinanceData;
 import cashflow.analytics.AnalyticsManager;
-import cashflow.ui.*;
+import cashflow.ui.SetUp;
+import cashflow.ui.UI;
 
 
 public class Main {

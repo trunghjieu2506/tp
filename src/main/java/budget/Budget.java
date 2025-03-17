@@ -1,6 +1,6 @@
 package budget;
 
-public class MonthlyBudget implements IBudget {
+public class Budget implements IBudget {
 
     private static final String MSG_BUDGET_SET = "Monthly budget set to $";
     private static final String MSG_CHECK_BUDGET = "You have $%s left for this month, and your budget is $%s.";
@@ -9,7 +9,7 @@ public class MonthlyBudget implements IBudget {
     private double budget;
     private double remaining;
 
-    public MonthlyBudget() {
+    public Budget() {
         this.budget = 0;
         this.remaining = 0;
     }
