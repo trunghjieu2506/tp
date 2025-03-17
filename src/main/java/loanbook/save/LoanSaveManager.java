@@ -24,7 +24,7 @@ public class LoanSaveManager {
      * @param filePath the path where the file is stored.
      * @param text the content of the text file to be written. If null, creates a new empty file.
      * @throws IOException if the named file exists but is a directory rather than a regular file, does not exist but
-     * cannot be created, or cannot be opened for any other reason
+     *     cannot be created, or cannot be opened for any other reason
      */
     public static void writeTextFile(String filePath, String text) throws IOException {
         Files.createDirectories(Paths.get("save"));
@@ -42,7 +42,7 @@ public class LoanSaveManager {
      * @param filePath the path of the file.
      * @param appendText the content to be appended.
      * @throws IOException if the named file exists but is a directory rather than a regular file, does not exist but
-     * cannot be created, or cannot be opened for any other reason
+     *     cannot be created, or cannot be opened for any other reason
      */
     public static void appendTextFile(String filePath, String appendText) throws IOException {
         Files.createDirectories(Paths.get("save"));
