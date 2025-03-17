@@ -23,8 +23,8 @@ public class LoanSaveManager {
      * Creates the directory if it does not exist
      * @param filePath the path where the file is stored.
      * @param text the content of the text file to be written. If null, creates a new empty file.
-     * @throws IOException if the named file exists but is a directory rather than a regular file,
-     * does not exist but cannot be created, or cannot be opened for any other reason
+     * @throws IOException if the named file exists but is a directory rather than a regular file, does not exist but
+     * cannot be created, or cannot be opened for any other reason
      */
     public static void writeTextFile(String filePath, String text) throws IOException {
         Files.createDirectories(Paths.get("save"));
@@ -41,8 +41,8 @@ public class LoanSaveManager {
      * Appends <code>appendText</code> to the file at <code>filePath</code>.
      * @param filePath the path of the file.
      * @param appendText the content to be appended.
-     * @throws IOException if the named file exists but is a directory rather than a regular file,
-     * does not exist but cannot be created, or cannot be opened for any other reason
+     * @throws IOException if the named file exists but is a directory rather than a regular file, does not exist but
+     * cannot be created, or cannot be opened for any other reason
      */
     public static void appendTextFile(String filePath, String appendText) throws IOException {
         Files.createDirectories(Paths.get("save"));
@@ -62,10 +62,7 @@ public class LoanSaveManager {
         ArrayList<Loan> list = new ArrayList<>();
         Scanner s = new Scanner(f);
         while (s.hasNext()){
-            try {
-                list.add(readLoan(s.nextLine()));
-            } catch (IllegalArgumentException ignored){
-            }
+            list.add(readLoan(s.nextLine()));
         }
         return list;
     }
@@ -74,7 +71,6 @@ public class LoanSaveManager {
      * Reads one line of text and parses out each information of the loan.
      * @param line the line of text to be read.
      * @return a subclass of <code>Loan</code> based on the information of the text.
-     * @throws IllegalArgumentException when unable to parse valid loan information.
      */
     private static Loan readLoan(String line) {
         return null;

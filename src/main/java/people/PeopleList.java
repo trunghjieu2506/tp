@@ -47,8 +47,8 @@ public class PeopleList {
 
     /**
      * @param name the name of the person to be found.
-     * @return the <code>Person</code> with the input <code>name</code>. If the name is not in the contact list,
-     * return <code>null</code>.
+     * @return the <code>Person</code> with the input <code>name</code>. If the name is not in the contact list, return
+     * <code>null</code>.
      */
     public static Person findName(String name) {
         return contacts.get(name);
@@ -63,9 +63,8 @@ public class PeopleList {
     }
 
     /**
-     * Returns the ready-to-print <code>String</code> of all people with the <code>tag</code>.
-     * If there are less than 5 people, they are shown in one line. If more than 5 people,
-     * they are printed in separate lines.
+     * Returns the ready-to-print <code>String</code> of all people with the <code>tag</code>. If there are less than
+     * 5 people, they are shown in one line. If more than 5 people, they are printed in separate lines.
      * @param tag the tag that each person has.
      * @return a String containing the name of all people with the tag.
      */

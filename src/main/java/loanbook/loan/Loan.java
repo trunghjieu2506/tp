@@ -38,7 +38,8 @@ public abstract class Loan {
         tags = new ArrayList<>();
     }
 
-    public Loan(String description, Person lender, Person borrower, Money money, LocalDate startDate, LocalDate returnDate) {
+    public Loan(String description, Person lender, Person borrower, Money money,
+                LocalDate startDate, LocalDate returnDate) {
         this.description = description;
         this.lender = lender;
         this.borrower = borrower;

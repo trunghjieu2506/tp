@@ -66,7 +66,9 @@ public class Person {
      * @throws IllegalArgumentException if the input <code>String</code> does not contain "@".
      */
     public void setEmail(String email) throws IllegalArgumentException {
-        if (!email.contains("@")) throw new IllegalArgumentException("Incorrect E-Mail format");
+        if (!email.contains("@")) {
+            throw new IllegalArgumentException("Incorrect E-Mail format");
+        }
         this.email = email;
     }
 
@@ -81,7 +83,9 @@ public class Person {
      * @return a <code>String</code> of all tags that this person has. In one line, separated by commas.
      */
     public String showTags() {
-        if (myTags == null || myTags.isEmpty()) return "None";
+        if (myTags == null || myTags.isEmpty()) {
+            return "None";
+        }
         StringBuilder output = new StringBuilder();
         int i = 0;
         for (String tag : myTags) {
