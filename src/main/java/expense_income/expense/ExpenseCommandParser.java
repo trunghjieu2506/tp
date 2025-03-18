@@ -4,8 +4,16 @@ import expense_income.expense.commands.AddCommand;
 import expense_income.expense.commands.DeleteCommand;
 import expense_income.expense.commands.ExpenseCommand;
 import expense_income.expense.commands.ListExpenseCommand;
+import expense_income.expense.commands.ListAllCommand;
+
+import expense_income.income.IncomeManager;
 
 public class ExpenseCommandParser {
+    private static IncomeManager incomeManager; // Reference to IncomeManager
+
+    public static void setIncomeManager(IncomeManager manager) {
+        incomeManager = manager;
+    }
 
     public static ExpenseCommand parseCommand(String input) {
         String[] parts = input.split(" ", 3);
@@ -30,6 +38,9 @@ public class ExpenseCommandParser {
             }
 
         case "list":
+            return new ListAllCommand(incomeManager); // List both expenses and incomes
+
+        case "list-expense":
             return new ListExpenseCommand(); // List only expenses
 
         case "delete":

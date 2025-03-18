@@ -20,15 +20,15 @@ public class UI {
     private FinanceData data;
     private SavingList savingList;
     private BudgetList budgetList;
-    private ExpenseManager expenseManager;
-    private IncomeManager incomeManager;
 
     public UI(FinanceData data) {
         this.data = data;
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());
+
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
+
     }
 
     public void run() {
@@ -54,6 +54,7 @@ public class UI {
             case "setup":
                 new SetUp(data).run();
                 break;
+                //added new saving commands
             case "budget_saving/budget/saving":
                 new SavingGeneralCommand(input, savingList).execute();
                 break;
