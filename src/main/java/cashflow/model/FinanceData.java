@@ -4,8 +4,6 @@ import cashflow.analytics.AnalyticsManager;
 import cashflow.dummy.DummyExpense;
 import cashflow.dummy.DummyLoan;
 import cashflow.dummy.DummySavings;
-import expense_income.expense.ExpenseManager;
-import expense_income.income.IncomeManager;
 
 
 //Centralized data hub
@@ -20,22 +18,6 @@ public class FinanceData {
     // Your analytics module.
     private AnalyticsManager analyticsManager;
 
-    // Nicholas Expense and Income Manager
-    private ExpenseManager expenseManager;
-    private IncomeManager incomeManager;
-
-    public ExpenseManager getExpenseManager() {
-        return expenseManager;
-    }
-
-    public IncomeManager getIncomeManager() {
-        return incomeManager;
-    }
-
-    public FinanceData() {
-        this.expenseManager = new ExpenseManager();
-        this.incomeManager = new IncomeManager();
-    }
     // Basic getters and setters.
     public String getCurrency() {
         return currency;
