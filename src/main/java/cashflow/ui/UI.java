@@ -18,6 +18,13 @@ public class UI {
         this.savingList = new SavingList(data.getCurrency());
     }
 
+    public void welcome() {
+        // Display a welcome message with an initial financial summary.
+        System.out.println("welcome to cashflow!");
+        System.out.println(data.getAnalyticsManager().getFinancialSummary());
+        System.out.println();
+    }
+
     public void run() {
         Scanner scanner = new Scanner(System.in);
         String input;
@@ -44,6 +51,7 @@ public class UI {
                 //added new saving commands
             case "saving":
                 new SavingGeneralCommand(input, savingList).execute();
+                // new SavingGeneralCommand(, data).execute();
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
