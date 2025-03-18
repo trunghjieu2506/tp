@@ -1,9 +1,9 @@
 package peopletest;
 
 import org.junit.jupiter.api.Test;
-import people.PeopleList;
-import people.Person;
-import people.SameNameException;
+import utils.people.PeopleList;
+import utils.people.Person;
+import utils.people.SameNameException;
 
 public class PeopleListTest {
     @Test
