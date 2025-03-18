@@ -1,6 +1,9 @@
-package seedu.duke.income;
+package income;
 
-import seedu.duke.income.commands.*;
+import income.commands.AddCommand;
+import income.commands.DeleteCommand;
+import income.commands.IncomeCommand;
+import income.commands.ListIncomeCommand;
 
 public class IncomeCommandParser {
     public static IncomeCommand parseCommand(String input) {

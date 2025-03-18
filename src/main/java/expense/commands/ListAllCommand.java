@@ -1,7 +1,7 @@
-package seedu.duke.expense.commands;
+package expense.commands;
 
-import seedu.duke.expense.*;
-import seedu.duke.income.*;
+import expense.ExpenseManager;
+import income.IncomeManager;
 
 public class ListAllCommand extends ExpenseCommand {
     private IncomeManager incomeManager;

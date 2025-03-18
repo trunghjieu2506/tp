@@ -1,7 +1,12 @@
-package seedu.duke.expense;
+package expense;
 
-import seedu.duke.expense.commands.*;
-import seedu.duke.income.IncomeManager;
+import expense.commands.AddCommand;
+import expense.commands.DeleteCommand;
+import expense.commands.ExpenseCommand;
+import expense.commands.ListExpenseCommand;
+import expense.commands.ListAllCommand;
+
+import income.IncomeManager;
 
 public class ExpenseCommandParser {
     private static IncomeManager incomeManager; // Reference to IncomeManager
