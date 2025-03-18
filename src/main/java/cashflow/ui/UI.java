@@ -1,13 +1,12 @@
 package cashflow.ui;
 
-import budget.BudgetList;
-import budget.command.BudgetGeneralCommand;
+import budget_saving.budget.BudgetList;
+import budget_saving.budget.command.BudgetGeneralCommand;
 import cashflow.command.HelpCommand;
 import cashflow.command.OverviewCommand;
 import cashflow.model.FinanceData;
-import saving.Saving;
-import saving.SavingList;
-import saving.command.SavingGeneralCommand;
+import budget_saving.budget.saving.SavingList;
+import budget_saving.budget.saving.command.SavingGeneralCommand;
 
 import java.util.Scanner;
 
@@ -46,10 +45,10 @@ public class UI {
                 new SetUp(data).run();
                 break;
                 //added new saving commands
-            case "saving":
+            case "budget_saving/budget/saving":
                 new SavingGeneralCommand(input, savingList).execute();
                 break;
-            case "budget":
+            case "budget_saving/budget":
                 new BudgetGeneralCommand(input, budgetList).execute();
                 break;
             default:
