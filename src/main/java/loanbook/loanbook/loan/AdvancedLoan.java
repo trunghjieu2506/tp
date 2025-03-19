@@ -1,13 +1,13 @@
-package lonebook.loanbook.loan;
+package loanbook.loanbook.loan;
 
-import lonebook.loanbook.interest.Interest;
+import loanbook.loanbook.interest.Interest;
 import utils.money.Money;
 import utils.people.Person;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static lonebook.loanbook.interest.InterestType.SIMPLE;
+import static loanbook.loanbook.interest.InterestType.SIMPLE;
 
 /**
  * Advanced loan type containing interest-related information.

@@ -1,4 +1,4 @@
-package lonebook.loanbook.loan;
+package loanbook.loanbook.loan;
 
 import utils.money.Money;
 import utils.people.Person;
@@ -149,7 +149,7 @@ public abstract class Loan {
                 + "Amount: " + principal + '\n'
                 + "Start Date: " + (startDate == null ? "None" : startDate) + '\n'
                 + "Return Date: " + (returnDate == null ? "None" : returnDate) + '\n'
-                + "Description: " + description + '\n'
+                + "Description: " + (description == null ? "None" : description) + '\n'
                 + "Tags: " + getTags() + '\n';
     }
 

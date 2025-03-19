@@ -1,10 +1,10 @@
 package loantests;
 
-import lonebook.loanbook.LoanList;
-import lonebook.loanbook.commands.*;
-import lonebook.loanbook.interest.Interest;
-import lonebook.loanbook.interest.InterestType;
-import lonebook.loanbook.loan.Loan;
+import loanbook.loanbook.LoanList;
+import loanbook.loanbook.commands.*;
+import loanbook.loanbook.interest.Interest;
+import loanbook.loanbook.interest.InterestType;
+import loanbook.loanbook.loan.Loan;
 import utils.money.Money;
 import org.junit.jupiter.api.Test;
 import utils.people.PeopleList;

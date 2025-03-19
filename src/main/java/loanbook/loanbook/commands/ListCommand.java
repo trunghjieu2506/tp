@@ -1,11 +1,12 @@
-package lonebook.loanbook.commands;
+package loanbook.loanbook.commands;
 
-import lonebook.loanbook.LoanList;
+import loanbook.loanbook.LoanList;
 
 public class ListCommand extends LoanCommand {
+    protected LoanList loans;
 
     public ListCommand(LoanList loans) {
-        super(loans);
+        this.loans = loans;
     }
 
     @Override

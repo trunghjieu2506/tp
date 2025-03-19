@@ -1,6 +1,6 @@
-package lonebook.loanbook.loan;
+package loanbook.loanbook.loan;
 
-import lonebook.loanbook.interest.Interest;
+import loanbook.loanbook.interest.Interest;
 import utils.money.Money;
 import utils.people.Person;
 

@@ -1,6 +1,6 @@
-package lonebook.loanbook.save;
+package loanbook.loanbook.save;
 
-import lonebook.loanbook.loan.Loan;
+import loanbook.loanbook.loan.Loan;
 
 import java.io.File;
 import java.io.FileNotFoundException;
