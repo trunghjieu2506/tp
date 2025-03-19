@@ -19,7 +19,6 @@ public class CashFlowManager {
     private FinanceData data;
     private SavingList savingList;
 
-
     /**
      * Constructs a CorgiManager instance with the specified file path for storage.
      * Loads TaskList from storage or creates a new empty list upon failure.

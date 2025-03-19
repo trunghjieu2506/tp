@@ -1,4 +1,4 @@
-package cashflow.command;
+package cashflow.ui.command;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.model.FinanceData;
 

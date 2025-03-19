@@ -1,6 +1,6 @@
 package saving.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import money.Money;
 import saving.SavingList;
 import java.time.LocalDate;

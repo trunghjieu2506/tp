@@ -1,6 +1,6 @@
 package saving.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import saving.SavingList;
 
 public class CheckGoalCommand implements Command {

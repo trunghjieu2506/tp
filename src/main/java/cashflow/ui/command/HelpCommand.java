@@ -1,4 +1,4 @@
-package cashflow.command;
+package cashflow.ui.command;
 
 public class HelpCommand implements Command {
     @Override
