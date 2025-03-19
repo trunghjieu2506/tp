@@ -27,7 +27,7 @@ public class BudgetGeneralCommand implements Command {
      * @param budgetManager the budget manager to operate on.
      */
     public BudgetGeneralCommand(String input, BudgetManager budgetManager) {
-        if (input.trim().equalsIgnoreCase("budget_saving/budget")) {
+        if (input.trim().equalsIgnoreCase("budget")) {
             Scanner scanner = new Scanner(System.in);
             System.out.print(BUDGET_COMMANDS + "Enter budget command: ");
             input = scanner.nextLine().trim();
