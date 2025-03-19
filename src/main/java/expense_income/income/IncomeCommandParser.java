@@ -15,9 +15,9 @@ public class IncomeCommandParser {
         String commandType = parts[0];
 
         switch (commandType) {
-        case "add-income":
+        case "add":
             if (parts.length < 3) {
-                System.out.println("Usage: add-income <source> <amount>");
+                System.out.println("Usage: add <source> <amount>");
                 return null;
             }
             try {
@@ -28,12 +28,12 @@ public class IncomeCommandParser {
                 return null;
             }
 
-        case "list-income":
+        case "list":
             return new ListIncomeCommand(); // List only incomes
 
-        case "delete-income":
+        case "delete":
             if (parts.length < 2) {
-                System.out.println("Usage: delete-income <number>");
+                System.out.println("Usage: delete <number>");
                 return null;
             }
             try {

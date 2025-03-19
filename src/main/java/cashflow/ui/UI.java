@@ -8,6 +8,13 @@ import cashflow.model.FinanceData;
 import budget_saving.saving.SavingList;
 import budget_saving.saving.command.SavingGeneralCommand;
 
+import expense_income.expense.ExpenseCommandParser;
+import expense_income.expense.commands.ExpenseCommand;
+import expense_income.income.IncomeCommandParser;
+import expense_income.income.commands.IncomeCommand;
+import expense_income.expense.ExpenseManager;
+import expense_income.income.IncomeManager;
+
 import java.util.Scanner;
 
 public class UI {
@@ -15,10 +22,16 @@ public class UI {
     private SavingList savingList;
     private BudgetList budgetList;
 
+    private ExpenseManager expenseManager;
+    private IncomeManager incomeManager;
+
     public UI(FinanceData data) {
         this.data = data;
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());
+
+        this.expenseManager = data.getExpenseManager();
+        this.incomeManager = data.getIncomeManager();
     }
 
     public void run() {
@@ -51,8 +64,54 @@ public class UI {
             case "budget":
                 new BudgetGeneralCommand(input, budgetList).execute();
                 break;
+            case "expense":
+                handleExpenseCommands(scanner);
+                break;
+            case "income":
+                handleIncomeCommands(scanner);
+                break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
+            }
+        }
+    }
+
+    private void handleExpenseCommands(Scanner scanner) {
+        System.out.println("Expense Mode: Enter commands (type 'exit' to return)");
+        while (true) {
+            System.out.print("> ");
+            String command = scanner.nextLine().trim();
+
+            if (command.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting Expense Mode.");
+                break;
+            }
+
+            ExpenseCommand expenseCommand = ExpenseCommandParser.parseCommand(command);
+            if (expenseCommand != null) {
+                expenseCommand.execute(expenseManager);
+            } else {
+                System.out.println("Invalid expense command.");
+            }
+        }
+    }
+
+    private void handleIncomeCommands(Scanner scanner) {
+        System.out.println("Income Mode: Enter commands (type 'exit' to return)");
+        while (true) {
+            System.out.print("> ");
+            String command = scanner.nextLine().trim();
+
+            if (command.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting Income Mode.");
+                break;
+            }
+
+            IncomeCommand incomeCommand = IncomeCommandParser.parseCommand(command);
+            if (incomeCommand != null) {
+                incomeCommand.execute(incomeManager);
+            } else {
+                System.out.println("Invalid income command.");
             }
         }
     }
