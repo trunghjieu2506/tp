@@ -5,8 +5,8 @@ import budget_saving.budget.command.BudgetGeneralCommand;
 import cashflow.command.HelpCommand;
 import cashflow.command.OverviewCommand;
 import cashflow.model.FinanceData;
-import budget_saving.budget.saving.SavingList;
-import budget_saving.budget.saving.command.SavingGeneralCommand;
+import budget_saving.saving.SavingList;
+import budget_saving.saving.command.SavingGeneralCommand;
 
 import expense_income.expense.ExpenseCommandParser;
 import expense_income.expense.commands.ExpenseCommand;
@@ -58,10 +58,10 @@ public class UI {
                 new SetUp(data).run();
                 break;
                 //added new saving commands
-            case "budget_saving/budget/saving":
+            case "saving":
                 new SavingGeneralCommand(input, savingList).execute();
                 break;
-            case "budget_saving/budget":
+            case "budget":
                 new BudgetGeneralCommand(input, budgetList).execute();
                 break;
             case "expense":
