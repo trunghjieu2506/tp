@@ -13,6 +13,7 @@ public class Main {
     private static boolean isFirstTime = true;
 
     public static void main(String[] args) {
+
         // Initialize the central data model.
         FinanceData data = new FinanceData();
 
