@@ -1,7 +1,7 @@
-package budget_saving.budget.saving.command;
+package budget_saving.saving.command;
 
 import cashflow.command.Command;
-import budget_saving.budget.saving.SavingList;
+import budget_saving.saving.SavingList;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import utils.money.Money;
@@ -29,7 +29,7 @@ public class SavingGeneralCommand implements Command {
      */
     public SavingGeneralCommand(String input, SavingList savingList){
         // If the command is exactly "saving", prompt the user for the specific saving subcommand.
-        if (input.trim().equalsIgnoreCase("budget_saving/budget/saving")) {
+        if (input.trim().equalsIgnoreCase("saving")) {
             Scanner scanner = new Scanner(System.in);
             System.out.print(SAVING_COMMANDS + "Enter saving command: ");
             input = scanner.nextLine().trim();

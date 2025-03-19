@@ -1,4 +1,4 @@
-package budget_saving.budget.saving;
+package budget_saving.saving;
 
 public class SavingException extends Exception {
     public SavingException(String message) {
