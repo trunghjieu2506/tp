@@ -1,6 +1,6 @@
-package lonebook.loanbook;
+package loanbook.loanbook;
 
-import lonebook.loanbook.loan.Loan;
+import loanbook.loanbook.loan.Loan;
 import utils.people.Person;
 import utils.tags.TagList;
 
@@ -44,7 +44,7 @@ public class LoanList {
                 tags.removeMap(tag, loan);
             }
         }
-        loans.remove(index);
+        loans.remove(index - 1);
     }
 
     /**
@@ -142,6 +142,9 @@ public class LoanList {
      */
     public String showDetail(int index) {
         Loan loan = loans.get(index - 1);
+        if (loan == null) {
+            return "Invalid loan index";
+        }
         String[] lines = loan.showDetails().split("\n");
 
         for (int i = 1; i < lines.length; i++) {

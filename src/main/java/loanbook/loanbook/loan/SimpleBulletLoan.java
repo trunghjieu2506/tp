@@ -1,4 +1,4 @@
-package lonebook.loanbook.loan;
+package loanbook.loanbook.loan;
 
 import utils.money.Money;
 import utils.people.Person;
