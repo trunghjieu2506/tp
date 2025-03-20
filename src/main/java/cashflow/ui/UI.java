@@ -14,6 +14,12 @@ import expense_income.income.IncomeCommandParser;
 import expense_income.income.commands.IncomeCommand;
 import expense_income.expense.ExpenseManager;
 import expense_income.income.IncomeManager;
+import loanbook.loanbook.parsers.LoanCommandParser;
+import loanbook.loanbook.LoanList;
+import loanbook.loanbook.commands.AddSimpleBulletLoanCommand;
+import loanbook.loanbook.commands.LoanCommand;
+import utils.money.Money;
+import utils.people.Person;
 
 import java.util.Scanner;
 
@@ -21,6 +27,7 @@ public class UI {
     private FinanceData data;
     private SavingList savingList;
     private BudgetList budgetList;
+    private LoanList loanList;
 
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
@@ -29,6 +36,7 @@ public class UI {
         this.data = data;
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());
+        this.loanList = new LoanList();
 
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
@@ -57,7 +65,6 @@ public class UI {
             case "setup":
                 new SetUp(data).run();
                 break;
-                //added new saving commands
             case "saving":
                 new SavingGeneralCommand(input, savingList).execute();
                 break;
@@ -69,6 +76,9 @@ public class UI {
                 break;
             case "income":
                 handleIncomeCommands(scanner);
+                break;
+            case "loan":
+                handleLoanCommands(scanner);
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
@@ -112,6 +122,26 @@ public class UI {
                 incomeCommand.execute(incomeManager);
             } else {
                 System.out.println("Invalid income command.");
+            }
+        }
+    }
+
+    private void handleLoanCommands(Scanner scanner) {
+        System.out.println("Loan Mode: Enter commands (type 'exit' to return)");
+        while (true) {
+            System.out.print("> ");
+            String command = scanner.nextLine().trim();
+
+            if (command.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting Loan Mode.");
+                break;
+            }
+
+            LoanCommand loanCommand = LoanCommandParser.parse(loanList, scanner, data.getCurrency(), command);
+            if (loanCommand != null) {
+                loanCommand.execute();
+            } else {
+                System.out.println("Invalid loan command.");
             }
         }
     }

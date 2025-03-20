@@ -1,4 +1,4 @@
-package lonebook.loanbook.interest;
+package loanbook.loanbook.interest;
 
 public enum InterestType {
     SIMPLE, COMPOUND

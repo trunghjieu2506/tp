@@ -54,6 +54,13 @@ public class PeopleList {
         return contacts.get(name);
     }
 
+    public static Person findOrAddPerson(String name) {
+        if (contacts.get(name) == null) {
+            return new Person(name);
+        }
+        return contacts.get((name));
+    }
+
     /**
      * @param tag the tag of people to be found.
      * @return an <code>ArrayList</code> of all people with the <code>tag</code>.
