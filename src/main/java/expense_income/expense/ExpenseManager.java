@@ -11,10 +11,18 @@ public class ExpenseManager {
     }
 
     public void addExpense(String description, double amount) {
+        if (description == null || description.trim().isEmpty()) {
+            throw new IllegalArgumentException("Expense description cannot be empty.");
+        }
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Expense amount must be greater than zero.");
+        }
+
         Expense expense = new Expense(description, amount);
         expenses.add(expense);
         System.out.println("Added: " + expense);
     }
+
 
     public void listExpenses() {
         if (expenses.isEmpty()) {
@@ -28,11 +36,19 @@ public class ExpenseManager {
     }
 
     public void deleteExpense(int index) {
-        if (index >= 1 && index <= expenses.size()) {
-            Expense removed = expenses.remove(index - 1);
-            System.out.println("Deleted: " + removed);
-        } else {
-            System.out.println("Invalid expense number.");
+        if (index < 1 || index > expenses.size()) {
+            throw new IllegalArgumentException("Invalid index: must be between 1 and " + expenses.size());
         }
+        Expense removed = expenses.remove(index - 1);
+        System.out.println("Deleted: " + removed);
+    }
+
+
+    public int getExpenseCount() {
+        return expenses.size();
+    }
+
+    public Expense getExpense(int i) {
+        return expenses.get(i);
     }
 }
