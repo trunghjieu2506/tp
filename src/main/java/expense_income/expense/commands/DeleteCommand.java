@@ -11,6 +11,9 @@ public class DeleteCommand extends ExpenseCommand {
 
     @Override
     public void execute(ExpenseManager manager) {
+        assert manager != null : "ExpenseManager instance should not be null.";
+        assert index >= 1 : "Index must be positive (should be checked before calling this method).";
+
         manager.deleteExpense(index);
     }
 }

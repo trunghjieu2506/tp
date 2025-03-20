@@ -5,6 +5,9 @@ public class Expense {
     private double amount;
 
     public Expense(String description, double amount) {
+        assert description != null && !description.trim().isEmpty() : "Expense description cannot be empty.";
+        assert amount > 0 : "Expense amount must be greater than zero.";
+
         this.description = description;
         this.amount = amount;
     }

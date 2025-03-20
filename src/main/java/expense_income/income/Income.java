@@ -5,6 +5,9 @@ public class Income {
     private double amount;
 
     public Income(String source, double amount) {
+        assert source != null && !source.trim().isEmpty() : "Income source cannot be null or empty";
+        assert amount > 0 : "Income amount must be greater than zero";
+
         this.source = source;
         this.amount = amount;
     }
