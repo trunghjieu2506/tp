@@ -1,16 +1,20 @@
 package budget_saving.budget;
 
+import expense_income.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class Budget {
     private String name;
     private Money totalBudget;
     private Money remainingBudget;
+    private ArrayList<Expense> expenses;
 
     public Budget(String name, Money totalBudget) {
         this.name = name;
         this.totalBudget = totalBudget;
+        this.expenses = new ArrayList<>();
         // Initialize remainingBudget with the same currency and amount as totalBudget
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
     }
@@ -20,12 +24,8 @@ public class Budget {
         return name;
     }
 
-    public Money getTotalBudget() {
-        return totalBudget;
-    }
-
-    public Money getRemainingBudget() {
-        return remainingBudget;
+    public BigDecimal getMoneySpent(){
+        return totalBudget.getAmount().subtract(remainingBudget.getAmount());
     }
 
     // Setters now accept a double and convert it to a BigDecimal internally
@@ -55,6 +55,39 @@ public class Budget {
         BigDecimal addition = BigDecimal.valueOf(amount);
         remainingBudget.setAmount(remainingBudget.getAmount().add(addition));
         totalBudget.setAmount(totalBudget.getAmount().add(addition));
+    }
+
+    //to be used by expense, when adding a new expense
+    public void deductFromExpense(Expense expense) {
+        if (expense == null){
+            throw new IllegalArgumentException("Invalid expense.");
+        }
+        if (expenses.add(expense)) {
+            deduct(expense.getAmount());
+        }
+    }
+
+    public void removeExpenseFromBudget(Expense expense) {
+        if (expense == null){
+            throw new IllegalArgumentException("Invalid expense.");
+        }
+        //returns a true value if the method successfully removed the budget
+        if (expenses.remove(expense)) {
+            BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
+            remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
+        }
+    }
+
+    //If do not modify one of the attributes, call the method with
+    //totalAmount = 0, and name = null
+    public void modifyBudget(double totalAmount, String name) {
+        if (name != null){ this.name = name; }
+        if (totalAmount > 0){
+            BigDecimal spent = getMoneySpent();
+            setTotalBudget(totalAmount);
+            double updatedRemaining = totalAmount - spent.doubleValue();
+            setRemainingBudget(updatedRemaining);
+        }
     }
 
     @Override
