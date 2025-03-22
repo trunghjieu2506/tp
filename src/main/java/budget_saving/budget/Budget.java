@@ -3,6 +3,7 @@ package budget_saving.budget;
 import expense_income.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Budget {
@@ -10,11 +11,24 @@ public class Budget {
     private Money totalBudget;
     private Money remainingBudget;
     private ArrayList<Expense> expenses;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public Budget(String name, Money totalBudget) {
         this.name = name;
         this.totalBudget = totalBudget;
         this.expenses = new ArrayList<>();
+        this.startDate = LocalDate.now();
+        // Initialize remainingBudget with the same currency and amount as totalBudget
+        this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
+    }
+
+    public Budget(String name, Money totalBudget, LocalDate endDate) {
+        this.name = name;
+        this.totalBudget = totalBudget;
+        this.expenses = new ArrayList<>();
+        this.startDate = LocalDate.now();
+        this.endDate = endDate;
         // Initialize remainingBudget with the same currency and amount as totalBudget
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
     }
@@ -26,6 +40,10 @@ public class Budget {
 
     public BigDecimal getMoneySpent(){
         return totalBudget.getAmount().subtract(remainingBudget.getAmount());
+    }
+
+    public ArrayList<Expense> getExpenses() {
+        return expenses;
     }
 
     // Setters now accept a double and convert it to a BigDecimal internally
@@ -92,7 +110,16 @@ public class Budget {
 
     @Override
     public String toString() {
-        return "Budget {name='" + name + "', totalBudget=" + totalBudget.toString() +
-                ", remainingBudget=" + remainingBudget.toString() + "}";
+        return "Budget { Name='" + name + "', TotalBudget=" + totalBudget.toString() +
+                ", RemainingBudget=" + remainingBudget.toString() + " }";
+    }
+
+    public String toStringWithExpenses(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this);
+        for (Expense expense : expenses) {
+            sb.append(expense.toString());
+        }
+        return sb.toString();
     }
 }
