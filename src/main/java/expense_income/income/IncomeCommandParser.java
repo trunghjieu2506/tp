@@ -9,6 +9,10 @@ import expense_income.income.commands.SortIncomeCommand;
 import java.time.LocalDate;
 
 public class IncomeCommandParser {
+    private static String capitalize(String input) {
+        if (input == null || input.isEmpty()) return input;
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
 
     public static IncomeCommand parseCommand(String input) {
         if (input == null || input.trim().isEmpty()) {
@@ -27,19 +31,31 @@ public class IncomeCommandParser {
         switch (commandType) {
         case "add":
             if (parts.length < 3) {
-                System.out.println("Usage: add <source> <amount> [yyyy-mm-dd]");
+                System.out.println("Usage: add <source> <amount> <category> [yyyy-mm-dd]");
                 return null;
             }
+
             try {
+                String[] args = parts[2].split(" ");
+                if (args.length < 2) {
+                    System.out.println("Usage: add <source> <amount> <category> [yyyy-mm-dd]");
+                    return null;
+                }
+
                 String source = parts[1];
-                String[] amtAndDate = parts[2].split(" ");
-                double amount = Double.parseDouble(amtAndDate[0]);
-                LocalDate date = (amtAndDate.length >= 2) ? LocalDate.parse(amtAndDate[1]) : LocalDate.now();
-                return new AddIncomeCommand(source, amount, date);
+                double amount = Double.parseDouble(args[0]);
+
+                String rawCategory = args[1];
+                String category = capitalize(rawCategory);
+
+                LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
+
+                return new AddIncomeCommand(source, amount, date, category);
             } catch (Exception e) {
-                System.out.println("Invalid input. Please use: add <source> <amount> [yyyy-mm-dd] - optional");
+                System.out.println("Invalid input. Format: add <source> <amount> <category> [yyyy-mm-dd]");
                 return null;
             }
+
 
         case "list":
             return new ListIncomeCommand();
@@ -63,24 +79,33 @@ public class IncomeCommandParser {
 
         case "edit":
             if (parts.length < 3) {
-                System.out.println("Usage: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
+                System.out.println("Usage: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
+
             try {
                 int index = Integer.parseInt(parts[1]);
-                String[] values = parts[2].split(" ");
-                if (values.length < 2) {
-                    System.out.println("Usage: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
+                String[] args = parts[2].split(" ");
+
+                if (args.length < 3) {
+                    System.out.println("Usage: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                     return null;
                 }
-                String newSource = values[0];
-                double newAmount = Double.parseDouble(values[1]);
-                LocalDate newDate = (values.length >= 3) ? LocalDate.parse(values[2]) : LocalDate.now();
-                return new EditIncomeCommand(index, newSource, newAmount, newDate);
+
+                String newSource = args[0];
+                double newAmount = Double.parseDouble(args[1]);
+
+                String rawCategory = args[2];
+                String newCategory = capitalize(rawCategory);
+
+                LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
+
+                return new EditIncomeCommand(index, newSource, newAmount, newDate, newCategory);
             } catch (Exception e) {
-                System.out.println("Invalid input. Please use: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
+
 
         case "sort":
             if (parts.length < 2) {

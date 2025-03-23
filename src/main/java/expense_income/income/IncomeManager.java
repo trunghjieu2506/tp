@@ -12,7 +12,7 @@ public class IncomeManager {
         this.incomes = new ArrayList<>();
     }
 
-    public void addIncome(String source, double amount, LocalDate date) {
+    public void addIncome(String source, double amount, LocalDate date, String category) {
         try {
             if (source == null || source.trim().isEmpty()) {
                 throw new IllegalArgumentException("Income source cannot be empty.");
@@ -20,8 +20,11 @@ public class IncomeManager {
             if (amount <= 0) {
                 throw new IllegalArgumentException("Income amount must be greater than zero.");
             }
+            if (category == null || category.trim().isEmpty()) {
+                throw new IllegalArgumentException("Income category cannot be empty.");
+            }
 
-            Income income = new Income(source, amount, date);
+            Income income = new Income(source, amount, date, category);
             incomes.add(income);
             System.out.println("Added: " + income);
         } catch (IllegalArgumentException e) {
@@ -52,7 +55,7 @@ public class IncomeManager {
         }
     }
 
-    public void editIncome(int index, String newSource, double newAmount, LocalDate newDate) {
+    public void editIncome(int index, String newSource, double newAmount, LocalDate newDate, String newCategory) {
         try {
             if (index < 1 || index > incomes.size()) {
                 throw new IllegalArgumentException("Invalid index: must be between 1 and " + incomes.size());
@@ -63,11 +66,16 @@ public class IncomeManager {
             if (newAmount <= 0) {
                 throw new IllegalArgumentException("New amount must be greater than zero.");
             }
+            if (newCategory == null || newCategory.trim().isEmpty()) {
+                throw new IllegalArgumentException("New category cannot be empty.");
+            }
 
             Income income = incomes.get(index - 1);
             income.setSource(newSource);
             income.setAmount(newAmount);
             income.setDate(newDate);
+            income.setCategory(newCategory);
+
             System.out.println("Updated: " + income);
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to edit income. " + e.getMessage());
