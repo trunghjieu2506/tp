@@ -11,18 +11,21 @@ public class ExpenseManager {
     }
 
     public void addExpense(String description, double amount) {
-        if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Expense description cannot be empty.");
-        }
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Expense amount must be greater than zero.");
-        }
+        try {
+            if (description == null || description.trim().isEmpty()) {
+                throw new IllegalArgumentException("Expense description cannot be empty.");
+            }
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Expense amount must be greater than zero.");
+            }
 
-        Expense expense = new Expense(description, amount);
-        expenses.add(expense);
-        System.out.println("Added: " + expense);
+            Expense expense = new Expense(description, amount);
+            expenses.add(expense);
+            System.out.println("Added: " + expense);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to add expense. " + e.getMessage());
+        }
     }
-
 
     public void listExpenses() {
         if (expenses.isEmpty()) {
@@ -36,13 +39,37 @@ public class ExpenseManager {
     }
 
     public void deleteExpense(int index) {
-        if (index < 1 || index > expenses.size()) {
-            throw new IllegalArgumentException("Invalid index: must be between 1 and " + expenses.size());
+        try {
+            if (index < 1 || index > expenses.size()) {
+                throw new IllegalArgumentException("Invalid index: must be between 1 and " + expenses.size());
+            }
+            Expense removed = expenses.remove(index - 1);
+            System.out.println("Deleted: " + removed);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to delete expense. " + e.getMessage());
         }
-        Expense removed = expenses.remove(index - 1);
-        System.out.println("Deleted: " + removed);
     }
 
+    public void editExpense(int index, String newDescription, double newAmount) {
+        try {
+            if (index < 1 || index > expenses.size()) {
+                throw new IllegalArgumentException("Invalid index: must be between 1 and " + expenses.size());
+            }
+            if (newDescription == null || newDescription.trim().isEmpty()) {
+                throw new IllegalArgumentException("New description cannot be empty.");
+            }
+            if (newAmount <= 0) {
+                throw new IllegalArgumentException("New amount must be greater than zero.");
+            }
+
+            Expense expense = expenses.get(index - 1);
+            expense.setDescription(newDescription);
+            expense.setAmount(newAmount);
+            System.out.println("Updated: " + expense);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to edit expense. " + e.getMessage());
+        }
+    }
 
     public int getExpenseCount() {
         return expenses.size();

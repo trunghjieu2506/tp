@@ -4,11 +4,19 @@ import expense_income.income.commands.AddCommand;
 import expense_income.income.commands.DeleteCommand;
 import expense_income.income.commands.IncomeCommand;
 import expense_income.income.commands.ListIncomeCommand;
+import expense_income.income.commands.EditIncomeCommand;
 
 public class IncomeCommandParser {
+
     public static IncomeCommand parseCommand(String input) {
-        String[] parts = input.split(" ", 3);
+        if (input == null || input.trim().isEmpty()) {
+            System.out.println("Empty input. Please enter a command.");
+            return null;
+        }
+
+        String[] parts = input.trim().split(" ", 3);
         if (parts.length == 0) {
+            System.out.println("Invalid input format.");
             return null;
         }
 
@@ -21,30 +29,85 @@ public class IncomeCommandParser {
                 return null;
             }
             try {
+                String source = parts[1];
                 double amount = Double.parseDouble(parts[2]);
-                return new AddCommand(parts[1], amount);
+
+                if (source.trim().isEmpty()) {
+                    System.out.println("Source cannot be empty.");
+                    return null;
+                }
+                if (amount <= 0) {
+                    System.out.println("Amount must be greater than zero.");
+                    return null;
+                }
+
+                return new AddCommand(source, amount);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid amount. Please enter a valid number.");
                 return null;
             }
 
         case "list":
-            return new ListIncomeCommand(); // List only incomes
+            return new ListIncomeCommand();
 
         case "delete":
             if (parts.length < 2) {
-                System.out.println("Usage: delete <number>");
+                System.out.println("Usage: delete <index>");
                 return null;
             }
             try {
                 int index = Integer.parseInt(parts[1]);
+                if (index < 1) {
+                    System.out.println("Index must be a positive number.");
+                    return null;
+                }
                 return new DeleteCommand(index);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid index. Please enter a number.");
+                System.out.println("Invalid index. Please enter a valid number.");
+                return null;
+            }
+
+        case "edit":
+            if (parts.length < 3) {
+                System.out.println("Usage: edit <index> <newSource> <newAmount>");
+                return null;
+            }
+            try {
+                int index = Integer.parseInt(parts[1]);
+                String[] sourceAndAmount = parts[2].split(" ");
+
+                if (sourceAndAmount.length < 2) {
+                    System.out.println("Usage: edit <index> <newSource> <newAmount>");
+                    return null;
+                }
+
+                String newSource = sourceAndAmount[0];
+                double newAmount = Double.parseDouble(sourceAndAmount[1]);
+
+                if (index < 1) {
+                    System.out.println("Index must be a positive number.");
+                    return null;
+                }
+                if (newSource.trim().isEmpty()) {
+                    System.out.println("Source cannot be empty.");
+                    return null;
+                }
+                if (newAmount <= 0) {
+                    System.out.println("Amount must be greater than zero.");
+                    return null;
+                }
+
+                return new EditIncomeCommand(index, newSource, newAmount);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number format. Please enter valid numbers.");
+                return null;
+            } catch (Exception e) {
+                System.out.println("Invalid input for edit command.");
                 return null;
             }
 
         default:
+            System.out.println("Unknown income command: " + commandType);
             return null;
         }
     }

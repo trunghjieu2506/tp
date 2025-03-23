@@ -20,6 +20,16 @@ public class Expense {
         return amount;
     }
 
+    public void setDescription(String description) {
+        assert description != null && !description.trim().isEmpty() : "Expense description cannot be empty.";
+        this.description = description;
+    }
+
+    public void setAmount(double amount) {
+        assert amount > 0 : "Expense amount must be greater than zero.";
+        this.amount = amount;
+    }
+
     @Override
     public String toString() {
         return description + " - $" + amount;
