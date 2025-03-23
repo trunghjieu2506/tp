@@ -1,19 +1,12 @@
 package budget_saving.budget.command;
 
 import budget_saving.budget.utils.BudgetParser;
+import budget_saving.budget.utils.BudgetTextColour;
 import cashflow.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 import java.util.Scanner;
 
 public class BudgetGeneralCommand implements Command {
-
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String PURPLE = "\u001B[35m";
-    public static final String CYAN = "\u001B[36m";
 
     public static final String LIST_BUDGET = "list";
     public static final String SET_BUDGET = "set";
@@ -22,14 +15,15 @@ public class BudgetGeneralCommand implements Command {
     public static final String ADD_BUDGET = "add";
     public static final String MODIFY_BUDGET = "modify";
 
+    public static final String DASH = "- ";
 
     private static final String BUDGET_COMMANDS =
-                      RED    + "- " + SET_BUDGET     + " n/BUDGET_NAME a/AMOUNT\n" + RESET
-                    + GREEN  + "- " + CHECK_BUDGET  + " i/INDEX\n"               + RESET
-                    + YELLOW + "- " + LIST_BUDGET   + "\n"                      + RESET
-                    + BLUE   + "- " + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"       + RESET
-                    + PURPLE + "- " + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"     + RESET
-                    + CYAN   + "- " + MODIFY_BUDGET + " i/INDEX n/NAME a/AMOUNT\n"+ RESET;
+          BudgetTextColour.RED    + DASH + SET_BUDGET     + " n/BUDGET_NAME a/AMOUNT\n" + BudgetTextColour.RESET
+        + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"               + BudgetTextColour.RESET
+        + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                      + BudgetTextColour.RESET
+        + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"       + BudgetTextColour.RESET
+        + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"     + BudgetTextColour.RESET
+        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET + " i/INDEX n/NAME a/AMOUNT\n"+ BudgetTextColour.RESET;
 
     private Command command;
 
