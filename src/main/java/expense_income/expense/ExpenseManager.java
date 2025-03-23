@@ -2,6 +2,7 @@ package expense_income.expense;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class ExpenseManager {
     private List<Expense> expenses;
@@ -10,7 +11,7 @@ public class ExpenseManager {
         this.expenses = new ArrayList<>();
     }
 
-    public void addExpense(String description, double amount) {
+    public void addExpense(String description, double amount, LocalDate date) {
         try {
             if (description == null || description.trim().isEmpty()) {
                 throw new IllegalArgumentException("Expense description cannot be empty.");
@@ -19,7 +20,7 @@ public class ExpenseManager {
                 throw new IllegalArgumentException("Expense amount must be greater than zero.");
             }
 
-            Expense expense = new Expense(description, amount);
+            Expense expense = new Expense(description, amount, date);
             expenses.add(expense);
             System.out.println("Added: " + expense);
         } catch (IllegalArgumentException e) {
@@ -50,7 +51,7 @@ public class ExpenseManager {
         }
     }
 
-    public void editExpense(int index, String newDescription, double newAmount) {
+    public void editExpense(int index, String newDescription, double newAmount, LocalDate newDate) {
         try {
             if (index < 1 || index > expenses.size()) {
                 throw new IllegalArgumentException("Invalid index: must be between 1 and " + expenses.size());
@@ -65,6 +66,7 @@ public class ExpenseManager {
             Expense expense = expenses.get(index - 1);
             expense.setDescription(newDescription);
             expense.setAmount(newAmount);
+            expense.setDate(newDate);
             System.out.println("Updated: " + expense);
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to edit expense. " + e.getMessage());
