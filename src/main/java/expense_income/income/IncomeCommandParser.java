@@ -5,6 +5,7 @@ import expense_income.income.commands.DeleteIncomeCommand;
 import expense_income.income.commands.IncomeCommand;
 import expense_income.income.commands.ListIncomeCommand;
 import expense_income.income.commands.EditIncomeCommand;
+import expense_income.income.commands.SortIncomeCommand;
 import java.time.LocalDate;
 
 public class IncomeCommandParser {
@@ -78,6 +79,21 @@ public class IncomeCommandParser {
                 return new EditIncomeCommand(index, newSource, newAmount, newDate);
             } catch (Exception e) {
                 System.out.println("Invalid input. Please use: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
+                return null;
+            }
+
+        case "sort":
+            if (parts.length < 2) {
+                System.out.println("Usage: sort <recent|oldest>");
+                return null;
+            }
+            String sortType = parts[1].toLowerCase();
+            if (sortType.equals("recent")) {
+                return new SortIncomeCommand(true);
+            } else if (sortType.equals("oldest")) {
+                return new SortIncomeCommand(false);
+            } else {
+                System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
 

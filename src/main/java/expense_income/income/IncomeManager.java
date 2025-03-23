@@ -3,6 +3,7 @@ package expense_income.income;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 public class IncomeManager {
     private List<Income> incomes;
@@ -71,6 +72,24 @@ public class IncomeManager {
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to edit income. " + e.getMessage());
         }
+    }
+
+    public void sortIncomesByDate(boolean mostRecentFirst) {
+        if (incomes.isEmpty()) {
+            System.out.println("No incomes to sort.");
+            return;
+        }
+
+        incomes.sort((i1, i2) -> {
+            if (mostRecentFirst) {
+                return i2.getDate().compareTo(i1.getDate());
+            } else {
+                return i1.getDate().compareTo(i2.getDate());
+            }
+        });
+
+        System.out.println("Incomes sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first.");
+        listIncomes();
     }
 
     public int getIncomeCount() {
