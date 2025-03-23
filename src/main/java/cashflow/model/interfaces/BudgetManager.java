@@ -1,5 +1,6 @@
 package cashflow.model.interfaces;
 
+import budget_saving.budget.Budget;
 import budget_saving.budget.BudgetException;
 
 /**
@@ -8,6 +9,8 @@ import budget_saving.budget.BudgetException;
 public interface BudgetManager {
 
     void setBudget(String name, double amount);
+
+    Budget getBudget(int index) throws BudgetException;
 
     void listBudgets();
 

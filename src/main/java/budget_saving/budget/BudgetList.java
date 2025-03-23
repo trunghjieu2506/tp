@@ -90,15 +90,11 @@ public class BudgetList implements BudgetManager {
         System.out.println(b.toString());
     }
 
-    //returns the index of the budget, so it could be easily referenced
-    public int findBudgetIndex(Budget budget) {
-        for (int i = 0; i < budgets.size(); i++) {
-            Budget b = budgets.get(i);
-            if (b.equals(budget)) {
-                return i;
-            }
+    public Budget getBudget(int index) {
+        if (index < 0 || index >= budgets.size()) {
+            throw new IndexOutOfBoundsException("Index out of range.");
         }
-        return -1;
+        return budgets.get(index);
     }
 
     public void modifyBudget(int index, String name, double amount) throws BudgetException {

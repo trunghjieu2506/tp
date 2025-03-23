@@ -30,7 +30,7 @@ public class BudgetAttributes {
         if (iPos != -1) {
             int end = findNextIdentifier(iPos, nPos, aPos, input.length());
             String indexStr = input.substring(iPos + IDENTIFIER_OFFSET, end).trim();
-            this.index = Integer.parseInt(indexStr);
+            this.index = Integer.parseInt(indexStr) - 1;    //CHANGE THIS INTO 0-INDEX
         } else {
             this.index = -1;
         }
