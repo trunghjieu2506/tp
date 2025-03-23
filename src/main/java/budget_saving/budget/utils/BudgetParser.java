@@ -1,4 +1,4 @@
-package budget_saving.budget;
+package budget_saving.budget.utils;
 
 import budget_saving.budget.command.*;
 import cashflow.command.Command;
@@ -65,4 +65,30 @@ public class BudgetParser {
         double amount = Double.parseDouble(amountStr);
         return new AddToBudgetCommand(budgetManager, index, amount);
     }
+
+    public static Command parseModifyBudgetCommand(String input, BudgetManager budgetManager)
+            throws NumberFormatException {
+        // Expected format: set-budget n/BUDGET_NAME a/AMOUNT
+        try{
+            int iIndex = input.indexOf("i/");
+            int nIndex = input.indexOf("n/");
+            int aIndex = input.indexOf("a/");
+            if (nIndex == -1 || aIndex == -1) {
+                throw new IllegalArgumentException("Invalid set-budget command format. " +
+                        "Expected: set-budget n/BUDGET_NAME a/AMOUNT");
+            }
+            String name = input.substring(nIndex + 2, aIndex).trim();
+            String amountStr = input.substring(aIndex + 2).trim();
+            String indexStr = input.substring(iIndex + 2, nIndex).trim();
+            double amount = Double.parseDouble(amountStr);
+            int index = Integer.parseInt(indexStr);
+            return new ModifyBudgetCommand(budgetManager, index, amount, name);
+        } catch (NumberFormatException e) {
+            throw e;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+
+    }
+
 }
