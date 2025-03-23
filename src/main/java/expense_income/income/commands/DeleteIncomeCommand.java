@@ -2,10 +2,10 @@ package expense_income.income.commands;
 
 import expense_income.income.IncomeManager;
 
-public class DeleteCommand extends IncomeCommand {
+public class DeleteIncomeCommand extends IncomeCommand {
     private int index;
 
-    public DeleteCommand(int index) {
+    public DeleteIncomeCommand(int index) {
         this.index = index;
     }
 

@@ -1,7 +1,7 @@
 package expense_income.income;
 
-import expense_income.income.commands.AddCommand;
-import expense_income.income.commands.DeleteCommand;
+import expense_income.income.commands.AddIncomeCommand;
+import expense_income.income.commands.DeleteIncomeCommand;
 import expense_income.income.commands.IncomeCommand;
 import expense_income.income.commands.ListIncomeCommand;
 import expense_income.income.commands.EditIncomeCommand;
@@ -41,7 +41,7 @@ public class IncomeCommandParser {
                     return null;
                 }
 
-                return new AddCommand(source, amount);
+                return new AddIncomeCommand(source, amount);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid amount. Please enter a valid number.");
                 return null;
@@ -61,7 +61,7 @@ public class IncomeCommandParser {
                     System.out.println("Index must be a positive number.");
                     return null;
                 }
-                return new DeleteCommand(index);
+                return new DeleteIncomeCommand(index);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid index. Please enter a valid number.");
                 return null;

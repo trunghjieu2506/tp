@@ -1,7 +1,7 @@
 package expense_income.expense;
 
-import expense_income.expense.commands.AddCommand;
-import expense_income.expense.commands.DeleteCommand;
+import expense_income.expense.commands.AddExpenseCommand;
+import expense_income.expense.commands.DeleteExpenseCommand;
 import expense_income.expense.commands.ExpenseCommand;
 import expense_income.expense.commands.ListExpenseCommand;
 import expense_income.expense.commands.EditExpenseCommand;
@@ -24,7 +24,7 @@ public class ExpenseCommandParser {
             }
             try {
                 double amount = Double.parseDouble(parts[2]);
-                return new AddCommand(parts[1], amount);
+                return new AddExpenseCommand(parts[1], amount);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid amount. Please enter a valid number.");
                 return null;
@@ -40,7 +40,7 @@ public class ExpenseCommandParser {
             }
             try {
                 int index = Integer.parseInt(parts[1]);
-                return new DeleteCommand(index);
+                return new DeleteExpenseCommand(index);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid index. Please enter a number.");
                 return null;
