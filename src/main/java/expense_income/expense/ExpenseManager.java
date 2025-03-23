@@ -3,6 +3,7 @@ package expense_income.expense;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 public class ExpenseManager {
     private List<Expense> expenses;
@@ -71,6 +72,25 @@ public class ExpenseManager {
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to edit expense. " + e.getMessage());
         }
+    }
+
+
+    public void sortExpensesByDate(boolean mostRecentFirst) {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses to sort.");
+            return;
+        }
+
+        expenses.sort((e1, e2) -> {
+            if (mostRecentFirst) {
+                return e2.getDate().compareTo(e1.getDate());
+            } else {
+                return e1.getDate().compareTo(e2.getDate());
+            }
+        });
+
+        System.out.println("Expenses sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first.");
+        listExpenses();  // Show sorted list
     }
 
     public int getExpenseCount() {

@@ -5,6 +5,7 @@ import expense_income.expense.commands.DeleteExpenseCommand;
 import expense_income.expense.commands.ExpenseCommand;
 import expense_income.expense.commands.ListExpenseCommand;
 import expense_income.expense.commands.EditExpenseCommand;
+import expense_income.expense.commands.SortExpenseCommand;
 import java.time.LocalDate;
 
 public class ExpenseCommandParser {
@@ -68,6 +69,21 @@ public class ExpenseCommandParser {
                 return new EditExpenseCommand(index, newDescription, newAmount, newDate);
             } catch (Exception e) {
                 System.out.println("Invalid input. Use: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
+                return null;
+            }
+
+        case "sort":
+            if (parts.length < 2) {
+                System.out.println("Usage: sort <recent|oldest>");
+                return null;
+            }
+            String sortType = parts[1].toLowerCase();
+            if (sortType.equals("recent")) {
+                return new SortExpenseCommand(true);
+            } else if (sortType.equals("oldest")) {
+                return new SortExpenseCommand(false);
+            } else {
+                System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
 
