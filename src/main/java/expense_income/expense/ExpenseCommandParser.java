@@ -5,6 +5,8 @@ import expense_income.expense.commands.DeleteExpenseCommand;
 import expense_income.expense.commands.ExpenseCommand;
 import expense_income.expense.commands.ListExpenseCommand;
 import expense_income.expense.commands.EditExpenseCommand;
+import expense_income.expense.commands.SortExpenseCommand;
+import java.time.LocalDate;
 
 public class ExpenseCommandParser {
 
@@ -19,14 +21,17 @@ public class ExpenseCommandParser {
         switch (commandType) {
         case "add":
             if (parts.length < 3) {
-                System.out.println("Usage: add <desc> <amount>");
+                System.out.println("Usage: add <description> <amount> [yyyy-mm-dd]");
                 return null;
             }
             try {
-                double amount = Double.parseDouble(parts[2]);
-                return new AddExpenseCommand(parts[1], amount);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid amount. Please enter a valid number.");
+                String description = parts[1];
+                String[] amountAndDate = parts[2].split(" ");
+                double amount = Double.parseDouble(amountAndDate[0]);
+                LocalDate date = (amountAndDate.length > 1) ? LocalDate.parse(amountAndDate[1]) : LocalDate.now();
+                return new AddExpenseCommand(description, amount, date);
+            } catch (Exception e) {
+                System.out.println("Invalid input. Use: add <description> <amount> [yyyy-mm-dd]");
                 return null;
             }
 
@@ -48,21 +53,37 @@ public class ExpenseCommandParser {
 
         case "edit":
             if (parts.length < 3) {
-                System.out.println("Usage: edit <index> <newDesc> <newAmount>");
+                System.out.println("Usage: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
                 return null;
             }
             try {
-                String[] descAndAmount = parts[2].split(" ");
-                if (descAndAmount.length < 2) {
-                    System.out.println("Usage: edit <index> <newDesc> <newAmount>");
+                int index = Integer.parseInt(parts[1]);
+                String[] values = parts[2].split(" ");
+                if (values.length < 2) {
+                    System.out.println("Usage: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
                     return null;
                 }
-                int index = Integer.parseInt(parts[1]);
-                String newDesc = descAndAmount[0];
-                double newAmount = Double.parseDouble(descAndAmount[1]);
-                return new EditExpenseCommand(index, newDesc, newAmount);
+                String newDescription = values[0];
+                double newAmount = Double.parseDouble(values[1]);
+                LocalDate newDate = (values.length >= 3) ? LocalDate.parse(values[2]) : LocalDate.now();
+                return new EditExpenseCommand(index, newDescription, newAmount, newDate);
             } catch (Exception e) {
-                System.out.println("Invalid input for edit command.");
+                System.out.println("Invalid input. Use: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
+                return null;
+            }
+
+        case "sort":
+            if (parts.length < 2) {
+                System.out.println("Usage: sort <recent|oldest>");
+                return null;
+            }
+            String sortType = parts[1].toLowerCase();
+            if (sortType.equals("recent")) {
+                return new SortExpenseCommand(true);
+            } else if (sortType.equals("oldest")) {
+                return new SortExpenseCommand(false);
+            } else {
+                System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
 
