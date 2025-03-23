@@ -5,6 +5,7 @@ import expense_income.income.commands.DeleteIncomeCommand;
 import expense_income.income.commands.IncomeCommand;
 import expense_income.income.commands.ListIncomeCommand;
 import expense_income.income.commands.EditIncomeCommand;
+import java.time.LocalDate;
 
 public class IncomeCommandParser {
 
@@ -25,25 +26,17 @@ public class IncomeCommandParser {
         switch (commandType) {
         case "add":
             if (parts.length < 3) {
-                System.out.println("Usage: add <source> <amount>");
+                System.out.println("Usage: add <source> <amount> [yyyy-mm-dd]");
                 return null;
             }
             try {
                 String source = parts[1];
-                double amount = Double.parseDouble(parts[2]);
-
-                if (source.trim().isEmpty()) {
-                    System.out.println("Source cannot be empty.");
-                    return null;
-                }
-                if (amount <= 0) {
-                    System.out.println("Amount must be greater than zero.");
-                    return null;
-                }
-
-                return new AddIncomeCommand(source, amount);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid amount. Please enter a valid number.");
+                String[] amtAndDate = parts[2].split(" ");
+                double amount = Double.parseDouble(amtAndDate[0]);
+                LocalDate date = (amtAndDate.length >= 2) ? LocalDate.parse(amtAndDate[1]) : LocalDate.now();
+                return new AddIncomeCommand(source, amount, date);
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please use: add <source> <amount> [yyyy-mm-dd] - optional");
                 return null;
             }
 
@@ -69,40 +62,22 @@ public class IncomeCommandParser {
 
         case "edit":
             if (parts.length < 3) {
-                System.out.println("Usage: edit <index> <newSource> <newAmount>");
+                System.out.println("Usage: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
                 return null;
             }
             try {
                 int index = Integer.parseInt(parts[1]);
-                String[] sourceAndAmount = parts[2].split(" ");
-
-                if (sourceAndAmount.length < 2) {
-                    System.out.println("Usage: edit <index> <newSource> <newAmount>");
+                String[] values = parts[2].split(" ");
+                if (values.length < 2) {
+                    System.out.println("Usage: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
                     return null;
                 }
-
-                String newSource = sourceAndAmount[0];
-                double newAmount = Double.parseDouble(sourceAndAmount[1]);
-
-                if (index < 1) {
-                    System.out.println("Index must be a positive number.");
-                    return null;
-                }
-                if (newSource.trim().isEmpty()) {
-                    System.out.println("Source cannot be empty.");
-                    return null;
-                }
-                if (newAmount <= 0) {
-                    System.out.println("Amount must be greater than zero.");
-                    return null;
-                }
-
-                return new EditIncomeCommand(index, newSource, newAmount);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid number format. Please enter valid numbers.");
-                return null;
+                String newSource = values[0];
+                double newAmount = Double.parseDouble(values[1]);
+                LocalDate newDate = (values.length >= 3) ? LocalDate.parse(values[2]) : LocalDate.now();
+                return new EditIncomeCommand(index, newSource, newAmount, newDate);
             } catch (Exception e) {
-                System.out.println("Invalid input for edit command.");
+                System.out.println("Invalid input. Please use: edit <index> <newSource> <newAmount> [yyyy-mm-dd]");
                 return null;
             }
 
