@@ -20,6 +20,16 @@ public class Income {
         return amount;
     }
 
+    public void setSource(String source) {
+        assert source != null && !source.trim().isEmpty() : "Income source cannot be null or empty";
+        this.source = source;
+    }
+
+    public void setAmount(double amount) {
+        assert amount > 0 : "Income amount must be greater than zero";
+        this.amount = amount;
+    }
+
     @Override
     public String toString() {
         return source + " - $" + amount;
