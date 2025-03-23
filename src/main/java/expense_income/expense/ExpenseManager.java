@@ -12,7 +12,7 @@ public class ExpenseManager {
         this.expenses = new ArrayList<>();
     }
 
-    public void addExpense(String description, double amount, LocalDate date) {
+    public void addExpense(String description, double amount, LocalDate date, String category) {
         try {
             if (description == null || description.trim().isEmpty()) {
                 throw new IllegalArgumentException("Expense description cannot be empty.");
@@ -20,8 +20,11 @@ public class ExpenseManager {
             if (amount <= 0) {
                 throw new IllegalArgumentException("Expense amount must be greater than zero.");
             }
+            if (category == null || category.trim().isEmpty()) {
+                throw new IllegalArgumentException("Expense category cannot be empty.");
+            }
 
-            Expense expense = new Expense(description, amount, date);
+            Expense expense = new Expense(description, amount, date, category);
             expenses.add(expense);
             System.out.println("Added: " + expense);
         } catch (IllegalArgumentException e) {
@@ -52,7 +55,8 @@ public class ExpenseManager {
         }
     }
 
-    public void editExpense(int index, String newDescription, double newAmount, LocalDate newDate) {
+
+    public void editExpense(int index, String newDescription, double newAmount, LocalDate newDate, String newCategory) {
         try {
             if (index < 1 || index > expenses.size()) {
                 throw new IllegalArgumentException("Invalid index: must be between 1 and " + expenses.size());
@@ -63,17 +67,20 @@ public class ExpenseManager {
             if (newAmount <= 0) {
                 throw new IllegalArgumentException("New amount must be greater than zero.");
             }
+            if (newCategory == null || newCategory.trim().isEmpty()) {
+                throw new IllegalArgumentException("Category cannot be empty.");
+            }
 
             Expense expense = expenses.get(index - 1);
             expense.setDescription(newDescription);
             expense.setAmount(newAmount);
             expense.setDate(newDate);
+            expense.setCategory(newCategory);
             System.out.println("Updated: " + expense);
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to edit expense. " + e.getMessage());
         }
     }
-
 
     public void sortExpensesByDate(boolean mostRecentFirst) {
         if (expenses.isEmpty()) {

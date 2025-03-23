@@ -10,6 +10,11 @@ import java.time.LocalDate;
 
 public class ExpenseCommandParser {
 
+    private static String capitalize(String input) {
+        if (input == null || input.isEmpty()) return input;
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
     public static ExpenseCommand parseCommand(String input) {
         String[] parts = input.split(" ", 3);
         if (parts.length == 0) {
@@ -21,19 +26,33 @@ public class ExpenseCommandParser {
         switch (commandType) {
         case "add":
             if (parts.length < 3) {
-                System.out.println("Usage: add <description> <amount> [yyyy-mm-dd]");
+                System.out.println("Usage: add <desc> <amount> <category> [yyyy-mm-dd]");
                 return null;
             }
+
             try {
+                String[] args = parts[2].split(" ");
+
+                if (args.length < 2) {
+                    System.out.println("Usage: add <desc> <amount> <category> [yyyy-mm-dd]");
+                    return null;
+                }
+
                 String description = parts[1];
-                String[] amountAndDate = parts[2].split(" ");
-                double amount = Double.parseDouble(amountAndDate[0]);
-                LocalDate date = (amountAndDate.length > 1) ? LocalDate.parse(amountAndDate[1]) : LocalDate.now();
-                return new AddExpenseCommand(description, amount, date);
+                double amount = Double.parseDouble(args[0]);
+
+                String rawCategory = args[1];
+                String category = capitalize(rawCategory.trim());
+
+                LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
+
+                return new AddExpenseCommand(description, amount, date, category);
             } catch (Exception e) {
-                System.out.println("Invalid input. Use: add <description> <amount> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: add <desc> <amount> <category> [yyyy-mm-dd]");
                 return null;
             }
+
+
 
         case "list":
             return new ListExpenseCommand(); // List only expenses
@@ -53,22 +72,30 @@ public class ExpenseCommandParser {
 
         case "edit":
             if (parts.length < 3) {
-                System.out.println("Usage: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
+                System.out.println("Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
+
             try {
                 int index = Integer.parseInt(parts[1]);
-                String[] values = parts[2].split(" ");
-                if (values.length < 2) {
-                    System.out.println("Usage: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
+                String[] args = parts[2].split(" ");
+
+                if (args.length < 3) {
+                    System.out.println("Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
                     return null;
                 }
-                String newDescription = values[0];
-                double newAmount = Double.parseDouble(values[1]);
-                LocalDate newDate = (values.length >= 3) ? LocalDate.parse(values[2]) : LocalDate.now();
-                return new EditExpenseCommand(index, newDescription, newAmount, newDate);
+
+                String newDesc = args[0];
+                double newAmount = Double.parseDouble(args[1]);
+
+                String rawCategory = args[2];
+                String newCategory = capitalize(rawCategory.trim());
+
+                LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
+
+                return new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory);
             } catch (Exception e) {
-                System.out.println("Invalid input. Use: edit <index> <newDescription> <newAmount> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
 

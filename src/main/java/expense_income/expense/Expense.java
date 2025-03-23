@@ -6,14 +6,18 @@ public class Expense {
     private String description;
     private double amount;
     private LocalDate date;
+    private String category;
 
-    public Expense(String description, double amount, LocalDate date) {
+    public Expense(String description, double amount, LocalDate date, String category) {
         assert description != null && !description.trim().isEmpty();
         assert amount > 0;
         assert date != null;
+        assert category != null && !category.trim().isEmpty();
+
         this.description = description;
         this.amount = amount;
         this.date = date;
+        this.category = category;
     }
 
     public String getDescription() {
@@ -26,6 +30,10 @@ public class Expense {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public void setDescription(String description) {
@@ -43,8 +51,13 @@ public class Expense {
         this.date = date;
     }
 
+    public void setCategory(String category) {
+        assert category != null && !category.trim().isEmpty();
+        this.category = category;
+    }
+
     @Override
     public String toString() {
-        return description + " - $" + amount + " on " + date;
+        return description + " - $" + amount + " on " + date + " [Category: " + category + "]";
     }
 }
