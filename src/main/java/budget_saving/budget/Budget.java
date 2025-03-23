@@ -61,11 +61,7 @@ public class Budget {
     public void deduct(double amount) {
         BigDecimal deduction = BigDecimal.valueOf(amount);
         BigDecimal current = remainingBudget.getAmount();
-        if (current.compareTo(deduction) < 0) {
-            System.out.println("Not enough budget to deduct " + amount);
-        } else {
-            remainingBudget.setAmount(current.subtract(deduction));
-        }
+        remainingBudget.setAmount(current.subtract(deduction));
     }
 
     // Adds an amount to both the total and remaining budget
@@ -76,13 +72,18 @@ public class Budget {
     }
 
     //to be used by expense, when adding a new expense
-    public void deductFromExpense(Expense expense) {
+    //if true, then still have budget, else exceeded budget
+    public boolean deductFromExpense(Expense expense) {
         if (expense == null){
             throw new IllegalArgumentException("Invalid expense.");
         }
         if (expenses.add(expense)) {
             deduct(expense.getAmount());
+            BigDecimal remainingAmount = remainingBudget.getAmount();
+            double remainingAmountDouble = remainingAmount.doubleValue();
+            return remainingAmountDouble > 0;
         }
+        throw new IllegalArgumentException("Error adding the expense to the budget.");
     }
 
     public void removeExpenseFromBudget(Expense expense) {

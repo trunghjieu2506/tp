@@ -1,6 +1,7 @@
 package budget_saving.budget;
 
 import cashflow.model.interfaces.BudgetManager;
+import expense_income.expense.Expense;
 import utils.money.Money;
 
 import java.math.BigDecimal;
@@ -68,7 +69,14 @@ public class BudgetList implements BudgetManager {
         b.deduct(amount);
         System.out.println("Budget deducted.");
         System.out.println(b.toString());
+    }
 
+    public boolean deductExpenseFromBudget(int index, Expense expense) {
+        if (index < 0 || index >= budgets.size()) {
+            throw new IndexOutOfBoundsException("Index out of range.");
+        }
+        Budget b = budgets.get(index);
+        return b.deductFromExpense(expense);
     }
 
     public void addToBudget(int index, double amount) {
