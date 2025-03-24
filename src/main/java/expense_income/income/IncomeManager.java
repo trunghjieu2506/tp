@@ -3,9 +3,11 @@ package expense_income.income;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
-import java.util.Comparator;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class IncomeManager {
+    private static final Logger logger = Logger.getLogger(IncomeManager.class.getName());
     private List<Income> incomes;
 
     public IncomeManager() {
@@ -26,8 +28,10 @@ public class IncomeManager {
 
             Income income = new Income(source, amount, date, category);
             incomes.add(income);
+            logger.log(Level.INFO, "Added income: {0}", income);
             System.out.println("Added: " + income);
         } catch (IllegalArgumentException e) {
+            logger.log(Level.WARNING, "Failed to add income", e);
             System.out.println("Failed to add income. " + e.getMessage());
         }
     }
@@ -45,18 +49,26 @@ public class IncomeManager {
 
     public void deleteIncome(int index) {
         try {
+            logger.log(Level.INFO, "Attempting to delete income at index: {0}", index);
+
             if (index < 1 || index > incomes.size()) {
                 throw new IllegalArgumentException("Invalid index: must be between 1 and " + incomes.size());
             }
+
             Income removed = incomes.remove(index - 1);
+            logger.log(Level.INFO, "Deleted income: {0}", removed);
             System.out.println("Deleted: " + removed);
         } catch (IllegalArgumentException e) {
+            logger.log(Level.WARNING, "Failed to delete income at index: " + index, e);
             System.out.println("Failed to delete income. " + e.getMessage());
         }
     }
 
     public void editIncome(int index, String newSource, double newAmount, LocalDate newDate, String newCategory) {
         try {
+            logger.log(Level.INFO, "Editing income at index {0} to new values: {1}, ${2}, {3}, category={4}",
+                    new Object[]{index, newSource, newAmount, newDate, newCategory});
+
             if (index < 1 || index > incomes.size()) {
                 throw new IllegalArgumentException("Invalid index: must be between 1 and " + incomes.size());
             }
@@ -76,8 +88,10 @@ public class IncomeManager {
             income.setDate(newDate);
             income.setCategory(newCategory);
 
+            logger.log(Level.INFO, "Updated income: {0}", income);
             System.out.println("Updated: " + income);
         } catch (IllegalArgumentException e) {
+            logger.log(Level.WARNING, "Failed to edit income at index: " + index, e);
             System.out.println("Failed to edit income. " + e.getMessage());
         }
     }
@@ -87,6 +101,9 @@ public class IncomeManager {
             System.out.println("No incomes to sort.");
             return;
         }
+
+        logger.log(Level.INFO, "Sorting incomes by date. Order: {0}",
+                mostRecentFirst ? "most recent first" : "oldest first");
 
         incomes.sort((i1, i2) -> {
             if (mostRecentFirst) {
