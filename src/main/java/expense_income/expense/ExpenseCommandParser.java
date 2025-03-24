@@ -6,6 +6,7 @@ import expense_income.expense.commands.ExpenseCommand;
 import expense_income.expense.commands.ListExpenseCommand;
 import expense_income.expense.commands.EditExpenseCommand;
 import expense_income.expense.commands.SortExpenseCommand;
+import expense_income.expense.commands.ListCategoryExpenseCommand;
 import java.time.LocalDate;
 
 public class ExpenseCommandParser {
@@ -52,10 +53,16 @@ public class ExpenseCommandParser {
                 return null;
             }
 
-
-
         case "list":
-            return new ListExpenseCommand(); // List only expenses
+            if (parts.length >= 2 && parts[1].equalsIgnoreCase("category")) {
+                if (parts.length < 3) {
+                    System.out.println("Usage: list category <categoryName>");
+                    return null;
+                }
+                String category = capitalize(parts[2].trim());
+                return new ListCategoryExpenseCommand(category);
+            }
+            return new ListExpenseCommand();
 
         case "delete":
             if (parts.length < 2) {

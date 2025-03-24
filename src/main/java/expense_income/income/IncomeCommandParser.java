@@ -6,6 +6,7 @@ import expense_income.income.commands.IncomeCommand;
 import expense_income.income.commands.ListIncomeCommand;
 import expense_income.income.commands.EditIncomeCommand;
 import expense_income.income.commands.SortIncomeCommand;
+import expense_income.income.commands.ListCategoryIncomeCommand;
 import java.time.LocalDate;
 
 public class IncomeCommandParser {
@@ -56,8 +57,15 @@ public class IncomeCommandParser {
                 return null;
             }
 
-
         case "list":
+            if (parts.length >= 2 && parts[1].equalsIgnoreCase("category")) {
+                if (parts.length < 3) {
+                    System.out.println("Usage: list category <categoryName>");
+                    return null;
+                }
+                String category = capitalize(parts[2].trim());
+                return new ListCategoryIncomeCommand(category);
+            }
             return new ListIncomeCommand();
 
         case "delete":

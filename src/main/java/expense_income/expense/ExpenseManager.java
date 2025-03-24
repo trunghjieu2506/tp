@@ -116,6 +116,28 @@ public class ExpenseManager {
         listExpenses();  // Show sorted list
     }
 
+    public void listExpensesByCategory(String category) {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded.");
+            return;
+        }
+
+        System.out.println("Expenses in category: " + category);
+        boolean found = false;
+
+        for (int i = 0; i < expenses.size(); i++) {
+            Expense e = expenses.get(i);
+            if (e.getCategory().equalsIgnoreCase(category)) {
+                System.out.println((i + 1) + ". " + e);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No expenses found in this category.");
+        }
+    }
+
     public int getExpenseCount() {
         return expenses.size();
     }

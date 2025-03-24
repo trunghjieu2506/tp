@@ -117,6 +117,28 @@ public class IncomeManager {
         listIncomes();
     }
 
+    public void listIncomesByCategory(String category) {
+        if (incomes.isEmpty()) {
+            System.out.println("No incomes recorded.");
+            return;
+        }
+
+        System.out.println("Incomes in category: " + category);
+        boolean found = false;
+
+        for (int i = 0; i < incomes.size(); i++) {
+            Income income = incomes.get(i);
+            if (income.getCategory().equalsIgnoreCase(category)) {
+                System.out.println((i + 1) + ". " + income);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No incomes found in this category.");
+        }
+    }
+
     public int getIncomeCount() {
         return incomes.size();
     }
