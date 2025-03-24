@@ -13,6 +13,7 @@ public class Budget {
     private ArrayList<Expense> expenses;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String category;
 
     public Budget(String name, Money totalBudget) {
         this.name = name;
@@ -23,12 +24,13 @@ public class Budget {
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
     }
 
-    public Budget(String name, Money totalBudget, LocalDate endDate) {
+    public Budget(String name, Money totalBudget, LocalDate endDate, String category) {
         this.name = name;
         this.totalBudget = totalBudget;
         this.expenses = new ArrayList<>();
         this.startDate = LocalDate.now();
         this.endDate = endDate;
+        this.category = category;
         // Initialize remainingBudget with the same currency and amount as totalBudget
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
     }

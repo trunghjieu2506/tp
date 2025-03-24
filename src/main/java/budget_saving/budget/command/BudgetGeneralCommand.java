@@ -18,25 +18,18 @@ public class BudgetGeneralCommand implements Command {
     public static final String DASH = "- ";
 
     private static final String BUDGET_COMMANDS =
-          BudgetTextColour.RED    + DASH + SET_BUDGET     + " n/BUDGET_NAME a/AMOUNT\n" + BudgetTextColour.RESET
-        + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"               + BudgetTextColour.RESET
-        + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                      + BudgetTextColour.RESET
-        + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"       + BudgetTextColour.RESET
-        + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"     + BudgetTextColour.RESET
-        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET + " i/INDEX n/NAME a/AMOUNT\n"+ BudgetTextColour.RESET;
+          BudgetTextColour.RED    + DASH + SET_BUDGET    + " n/BUDGET_NAME a/AMOUNT\n"  + BudgetTextColour.RESET
+        + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + BudgetTextColour.RESET
+        + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + BudgetTextColour.RESET
+        + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
+        + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
+        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET + " i/INDEX n/NAME a/AMOUNT\n" + BudgetTextColour.RESET;
 
     private Command command;
 
     /**
      * Constructs a BudgetGeneralCommand by parsing the user input and initializing the corresponding command.
      * If the input is exactly "budget", the user is prompted for further details.
-     *
-     * Expected budget subcommand formats:
-     * - set-budget n/BUDGET_NAME a/AMOUNT
-     * - check-budget
-     * - deduct-budget i/INDEX a/AMOUNT
-     * - add-budget i/INDEX a/AMOUNT
-     *
      * @param input the full user input command string.
      * @param budgetManager the budget manager to operate on.
      */

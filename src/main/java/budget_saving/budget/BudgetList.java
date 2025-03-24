@@ -5,6 +5,7 @@ import expense_income.expense.Expense;
 import utils.money.Money;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,17 @@ public class BudgetList implements BudgetManager {
         }
     }
 
+    public void setBudget(String name, double amount, LocalDate endDate, String category) throws BudgetException {
+        Money money = new Money(currency, BigDecimal.valueOf(amount));
+        Budget newBudget = new Budget(name, money, endDate, category);
+        try {
+            addBudget(newBudget);
+            System.out.println("New budget added: " + newBudget);
+        } catch (BudgetException e) {
+            System.err.println("Error adding new budget: " + e.getMessage());
+        }
+    }
+
     @Override
     public void listBudgets() {
         if (budgets.isEmpty()) {
@@ -71,7 +83,7 @@ public class BudgetList implements BudgetManager {
         System.out.println(b.toString());
     }
 
-    public boolean deductExpenseFromBudget(int index, Expense expense) {
+    public boolean deductBudgetFromExpense(int index, Expense expense) {
         if (index < 0 || index >= budgets.size()) {
             throw new IndexOutOfBoundsException("Index out of range.");
         }
