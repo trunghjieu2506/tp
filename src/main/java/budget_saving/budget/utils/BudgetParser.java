@@ -4,14 +4,26 @@ import budget_saving.budget.command.*;
 import cashflow.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
+import java.time.LocalDate;
+
 public class BudgetParser {
+
+//    public static Command parseSetBudgetCommand(String input, BudgetManager budgetManager)
+//            throws NumberFormatException {
+//        BudgetAttributes attributes = new BudgetAttributes(input);
+//        String name = attributes.getName();
+//        double amount = attributes.getAmount();
+//        return new SetBudgetCommand(budgetManager, name, amount);
+//    }
 
     public static Command parseSetBudgetCommand(String input, BudgetManager budgetManager)
             throws NumberFormatException {
         BudgetAttributes attributes = new BudgetAttributes(input);
         String name = attributes.getName();
         double amount = attributes.getAmount();
-        return new SetBudgetCommand(budgetManager, name, amount);
+        String category = attributes.getCategory();
+        LocalDate endDate = attributes.getEndDate();
+        return new SetBudgetCommand(budgetManager, name, amount, endDate, category);
     }
 
     public static Command parseCheckBudgetCommand(String input, BudgetManager budgetManager) {
@@ -49,7 +61,9 @@ public class BudgetParser {
         int index = attributes.getIndex();
         String name = attributes.getName();
         double amount = attributes.getAmount();
-        return new ModifyBudgetCommand(budgetManager, index, amount, name);
+        LocalDate endDate = attributes.getEndDate();
+        String category = attributes.getCategory();
+        return new ModifyBudgetCommand(budgetManager, index, amount, name, endDate, category);
     }
 
 }

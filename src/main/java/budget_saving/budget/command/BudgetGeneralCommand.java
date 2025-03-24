@@ -15,15 +15,21 @@ public class BudgetGeneralCommand implements Command {
     public static final String ADD_BUDGET = "add";
     public static final String MODIFY_BUDGET = "modify";
 
+    public static final String LINE_SEPARATOR = "-".repeat(70) + "\n";
+
     public static final String DASH = "- ";
 
     private static final String BUDGET_COMMANDS =
-          BudgetTextColour.RED    + DASH + SET_BUDGET    + " n/BUDGET_NAME a/AMOUNT\n"  + BudgetTextColour.RESET
+            LINE_SEPARATOR
+        + BudgetTextColour.RED    + DASH + SET_BUDGET
+                  + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + BudgetTextColour.RESET
         + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + BudgetTextColour.RESET
         + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + BudgetTextColour.RESET
         + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
         + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
-        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET + " i/INDEX n/NAME a/AMOUNT\n" + BudgetTextColour.RESET;
+        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET
+                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + BudgetTextColour.RESET
+        + LINE_SEPARATOR;
 
     private Command command;
 

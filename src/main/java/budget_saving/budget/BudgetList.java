@@ -7,11 +7,13 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BudgetList implements BudgetManager {
-    private List<Budget> budgets;
+    private ArrayList<Budget> budgets;
     private String currency;
+    private HashMap<Budget, String> budgetHash;
 
     // Modified constructor to accept a currency
     public BudgetList(String currency) {
@@ -35,19 +37,7 @@ public class BudgetList implements BudgetManager {
         budgets.add(budget);
     }
 
-    @Override
-    public void setBudget(String name, double amount) {
-        Money money = new Money(currency, BigDecimal.valueOf(amount));
-        Budget newBudget = new Budget(name, money);
-        try {
-            addBudget(newBudget);
-            System.out.println("New budget added: " + newBudget);
-        } catch (BudgetException e) {
-            System.err.println("Error adding new budget: " + e.getMessage());
-        }
-    }
-
-    public void setBudget(String name, double amount, LocalDate endDate, String category) throws BudgetException {
+    public void setBudget(String name, double amount, LocalDate endDate, String category){
         Money money = new Money(currency, BigDecimal.valueOf(amount));
         Budget newBudget = new Budget(name, money, endDate, category);
         try {
@@ -109,12 +99,13 @@ public class BudgetList implements BudgetManager {
         return budgets.get(index);
     }
 
-    public void modifyBudget(int index, String name, double amount) throws BudgetException {
+    public void modifyBudget(int index, String name, double amount, LocalDate endDate, String category)
+            throws BudgetException {
         if (index < 0 || index >= budgets.size()) {
             throw new BudgetException("Index out of range.");
         }
         Budget b = budgets.get(index);
-        b.modifyBudget(amount, name);
+        b.modifyBudget(amount, name, endDate, category);
     }
 
     //to list out all the expenses within the budget
@@ -124,6 +115,6 @@ public class BudgetList implements BudgetManager {
             System.out.println("Index out of range.");
             return;
         }
-        System.out.println(budgets.get(index).toStringWithExpenses());
+        System.out.println(budgets.get(index).printExpenses());
     }
 }

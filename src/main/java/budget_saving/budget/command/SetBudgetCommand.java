@@ -10,22 +10,23 @@ public class SetBudgetCommand implements Command {
     private double amount;
     private String name;
     private LocalDate endDate;
+    private String category;
 
-    public SetBudgetCommand(BudgetManager budgetManager, String name, double amount) {
-        this.budgetManager = budgetManager;
-        this.amount = amount;
-        this.name = name;
-    }
-
-    public SetBudgetCommand(BudgetManager budgetManager, String name, double amount, LocalDate endDate) {
+    public SetBudgetCommand(BudgetManager budgetManager, String name,
+                            double amount, LocalDate endDate, String category) {
         this.budgetManager = budgetManager;
         this.amount = amount;
         this.name = name;
         this.endDate = endDate;
+        this.category = category;
     }
 
     @Override
     public void execute() {
-        budgetManager.setBudget(name, amount);
+        try {
+            budgetManager.setBudget(name, amount, endDate, category);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
