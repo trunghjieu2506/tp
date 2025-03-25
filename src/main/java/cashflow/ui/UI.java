@@ -16,7 +16,6 @@ import expense_income.expense.ExpenseManager;
 import expense_income.income.IncomeManager;
 import loanbook.loanbook.parsers.LoanCommandParser;
 import loanbook.loanbook.LoanList;
-import loanbook.loanbook.commands.AddSimpleBulletLoanCommand;
 import loanbook.loanbook.commands.LoanCommand;
 import utils.money.Money;
 import utils.people.Person;

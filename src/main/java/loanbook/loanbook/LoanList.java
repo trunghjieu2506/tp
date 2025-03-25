@@ -1,10 +1,13 @@
 package loanbook.loanbook;
 
 import loanbook.loanbook.loan.Loan;
+import utils.money.Money;
 import utils.people.Person;
 import utils.tags.TagList;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Currency;
 
 /**
  * Stores the list of loans and related operations.
@@ -45,6 +48,15 @@ public class LoanList {
             }
         }
         loans.remove(index - 1);
+    }
+
+    public void addTag(int index, String tag) {
+        get(index).addTag(tag);
+        tags.addMap(tag, get(index));
+    }
+
+    public void deleteTag(int index, String tag) {
+        get(index).deleteTag(tag);
     }
 
     /**
@@ -118,6 +130,18 @@ public class LoanList {
             i++;
         }
         return output.toString();
+    }
+
+    public void initialiseTags() {
+        tags = new TagList<>();
+        for (Loan loan : loans) {
+            ArrayList<String> loanTags = loan.getTagsList();
+            if (loanTags != null) {
+                for (String tag : loanTags) {
+                    tags.addMap(tag, loan);
+                }
+            }
+        }
     }
 
     /**
