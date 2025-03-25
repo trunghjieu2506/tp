@@ -10,7 +10,7 @@ public class AddToBudgetCommand implements Command {
 
     public AddToBudgetCommand(BudgetManager budgetManager, int index, double amount) {
         this.budgetManager = budgetManager;
-        this.index = index - 1;
+        this.index = index;
         this.amount = amount;
     }
 
