@@ -19,7 +19,7 @@ public class Money implements Comparable<Money> {
     }
 
     public Money(String currency, BigDecimal amount) throws IllegalArgumentException {
-        this.currency = Currency.getInstance(currency);
+        this.currency = Currency.getInstance(currency.toUpperCase());
         this.amount = amount.setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -34,7 +34,7 @@ public class Money implements Comparable<Money> {
     }
 
     public Money(String currency, double amount) throws IllegalArgumentException {
-        this.currency = Currency.getInstance(currency);
+        this.currency = Currency.getInstance(currency.toUpperCase());
         this.amount = BigDecimal.valueOf(amount).setScale(2, RoundingMode.HALF_UP);
     }
 
