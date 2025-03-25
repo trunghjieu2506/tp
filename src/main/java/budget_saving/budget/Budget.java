@@ -35,6 +35,10 @@ public class Budget {
         return totalBudget.getAmount().subtract(remainingBudget.getAmount());
     }
 
+    public Money getRemainingBudget(){
+        return this.remainingBudget;
+    }
+
     public ArrayList<Expense> getExpenses() {
         return expenses;
     }

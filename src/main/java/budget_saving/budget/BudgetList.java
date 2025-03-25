@@ -34,18 +34,23 @@ public class BudgetList implements BudgetManager {
         if (budget == null) {
             throw new BudgetException("Cannot add a null budget.");
         }
+        assert !budgets.contains(budget) : "Budget already exists before addition.";
         budgets.add(budget);
+        assert budgets.contains(budget) : "Budget not added properly.";
     }
 
     public void setBudget(String name, double amount, LocalDate endDate, String category){
         Money money = new Money(currency, BigDecimal.valueOf(amount));
         Budget newBudget = new Budget(name, money, endDate, category);
+        int initialSize = budgets.size();
         try {
             addBudget(newBudget);
             System.out.println("New budget added: " + newBudget);
         } catch (BudgetException e) {
             System.err.println("Error adding new budget: " + e.getMessage());
         }
+        assert budgets.size() == initialSize + 1 : "Budget list size did not increase.";
+        assert budgets.get(budgets.size() - 1).equals(newBudget) : "Last budget is not the newly added one.";
     }
 
     @Override
@@ -68,9 +73,12 @@ public class BudgetList implements BudgetManager {
             return;
         }
         Budget b = budgets.get(index);
+        Money before = b.getRemainingBudget(); // assuming this exists
         b.deduct(amount);
+        Money after = b.getRemainingBudget();
+        assert after.getAmount().compareTo(before.getAmount()) <= 0 : "Budget did not decrease after deduction.";
         System.out.println("Budget deducted.");
-        System.out.println(b.toString());
+        System.out.println(b);
     }
 
     public boolean deductBudgetFromExpense(int index, Expense expense) {
@@ -87,7 +95,10 @@ public class BudgetList implements BudgetManager {
             return;
         }
         Budget b = budgets.get(index);
+        Money before = b.getRemainingBudget(); // assuming getRemaining returns a Money object
         b.add(amount);
+        Money after = b.getRemainingBudget();
+        assert after.getAmount().compareTo(before.getAmount()) >= 0 : "Budget did not increase after addition.";
         System.out.println("Budget added");
         System.out.println(b.toString());
     }
