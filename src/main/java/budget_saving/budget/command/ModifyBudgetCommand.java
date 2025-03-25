@@ -36,11 +36,14 @@ public class ModifyBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        try{
+        try {
             budgetManager.modifyBudget(index, name, amount, endDate, category);
             printSuccess(budgetManager.getBudget(index));
-        } catch (BudgetException e){
+        } catch (BudgetException e) {
             System.err.println(e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error modifying the budget: " + e.getMessage());
         }
     }
+
 }
