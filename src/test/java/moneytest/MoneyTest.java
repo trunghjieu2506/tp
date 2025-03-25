@@ -1,8 +1,8 @@
 package moneytest;
 
-import money.CommonCurrencies;
-import money.CurrencyNotMatchException;
-import money.Money;
+import utils.money.CommonCurrencies;
+import utils.money.CurrencyNotMatchException;
+import utils.money.Money;
 import org.junit.jupiter.api.Test;
 
 import java.util.Currency;

@@ -1,14 +1,14 @@
 package loantests;
 
-import loanbook.LoanList;
-import loanbook.commands.*;
-import loanbook.interest.Interest;
-import loanbook.interest.InterestType;
-import loanbook.loan.Loan;
-import money.Money;
+import loanbook.loanbook.LoanList;
+import loanbook.loanbook.commands.*;
+import loanbook.loanbook.interest.Interest;
+import loanbook.loanbook.interest.InterestType;
+import loanbook.loanbook.loan.Loan;
+import utils.money.Money;
 import org.junit.jupiter.api.Test;
-import people.PeopleList;
-import people.Person;
+import utils.people.PeopleList;
+import utils.people.Person;
 
 import java.time.LocalDate;
 import java.time.Period;

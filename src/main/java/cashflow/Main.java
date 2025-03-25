@@ -12,13 +12,14 @@ public class Main {
     private static boolean isFirstTime = true;
 
     public static void main(String[] args) {
+
         // Initialize the central data model.
         FinanceData data = new FinanceData();
 
         // Initialize integration modules (dummy implementations for now).
         DummyExpense expenseIncomeManager = new DummyExpense();
         DummySavings savingsManager = new DummySavings();
-        DummyLoan loanDebtManager = new cashflow.dummy.DummyLoan();
+        DummyLoan loanDebtManager = new DummyLoan();
 
         // Set integration points in FinanceData.
         data.setExpenseIncomeManager(expenseIncomeManager);
