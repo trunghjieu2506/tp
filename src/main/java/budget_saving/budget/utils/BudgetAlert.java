@@ -1,4 +1,4 @@
-package budget_saving.budget;
+package budget_saving.budget.utils;
 
 public class BudgetAlert {
     public static final String BUDGET_ALERT = "Your expenses has exceeded the budget limit!\n" +

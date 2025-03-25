@@ -13,22 +13,15 @@ public class Budget {
     private ArrayList<Expense> expenses;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String category;
 
-    public Budget(String name, Money totalBudget) {
-        this.name = name;
-        this.totalBudget = totalBudget;
-        this.expenses = new ArrayList<>();
-        this.startDate = LocalDate.now();
-        // Initialize remainingBudget with the same currency and amount as totalBudget
-        this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
-    }
-
-    public Budget(String name, Money totalBudget, LocalDate endDate) {
+    public Budget(String name, Money totalBudget, LocalDate endDate, String category) {
         this.name = name;
         this.totalBudget = totalBudget;
         this.expenses = new ArrayList<>();
         this.startDate = LocalDate.now();
         this.endDate = endDate;
+        this.category = category;
         // Initialize remainingBudget with the same currency and amount as totalBudget
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
     }
@@ -40,6 +33,10 @@ public class Budget {
 
     public BigDecimal getMoneySpent(){
         return totalBudget.getAmount().subtract(remainingBudget.getAmount());
+    }
+
+    public Money getRemainingBudget(){
+        return this.remainingBudget;
     }
 
     public ArrayList<Expense> getExpenses() {
@@ -99,8 +96,10 @@ public class Budget {
 
     //If do not modify one of the attributes, call the method with
     //totalAmount = 0, and name = null
-    public void modifyBudget(double totalAmount, String name) {
+    public void modifyBudget(double totalAmount, String name, LocalDate endDate, String category) {
         if (name != null){ this.name = name; }
+        if (endDate != null){ this.endDate = endDate; }
+        if (category != null){ this.category = category; }
         if (totalAmount > 0){
             BigDecimal spent = getMoneySpent();
             setTotalBudget(totalAmount);
@@ -111,13 +110,21 @@ public class Budget {
 
     @Override
     public String toString() {
-        return "Budget { Name='" + name + "', TotalBudget=" + totalBudget.toString() +
-                ", RemainingBudget=" + remainingBudget.toString() + " }";
+        return  "Name: " + name +
+                "\nBudgetCategory: " + category +
+                "\nTotalBudget: " + totalBudget.toString() +
+                "\nRemainingBudget: " + remainingBudget.toString() +
+                "\nBudget starting date: " + startDate +
+                "\nBudget ending date: " + endDate + "\n\n";
     }
 
-    public String toStringWithExpenses(){
+    public String printExpenses(){
         StringBuilder sb = new StringBuilder();
         sb.append(this);
+        if (expenses.isEmpty()){
+            System.out.println("There are no expenses in this budget yet");
+            return null;
+        }
         for (Expense expense : expenses) {
             sb.append(expense.toString());
         }
