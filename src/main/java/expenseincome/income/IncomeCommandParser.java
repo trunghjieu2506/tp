@@ -108,7 +108,8 @@ public class IncomeCommandParser {
 
                 return new EditIncomeCommand(index, newSource, newAmount, newDate, newCategory);
             } catch (Exception e) {
-                System.out.println("Invalid input. Format: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: edit <index> " +
+                        "<newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
 
