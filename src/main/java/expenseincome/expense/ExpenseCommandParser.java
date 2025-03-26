@@ -100,7 +100,8 @@ public class ExpenseCommandParser {
 
                 return new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory);
             } catch (Exception e) {
-                System.out.println("Invalid input. Format: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: edit <index> " +
+                        "<newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
 
