@@ -1,17 +1,20 @@
-package expense_income.income;
+package expenseincome.income;
 
-import expense_income.income.commands.AddIncomeCommand;
-import expense_income.income.commands.DeleteIncomeCommand;
-import expense_income.income.commands.IncomeCommand;
-import expense_income.income.commands.ListIncomeCommand;
-import expense_income.income.commands.EditIncomeCommand;
-import expense_income.income.commands.SortIncomeCommand;
-import expense_income.income.commands.ListCategoryIncomeCommand;
+import expenseincome.income.commands.AddIncomeCommand;
+import expenseincome.income.commands.DeleteIncomeCommand;
+import expenseincome.income.commands.IncomeCommand;
+import expenseincome.income.commands.ListIncomeCommand;
+import expenseincome.income.commands.EditIncomeCommand;
+import expenseincome.income.commands.SortIncomeCommand;
+import expenseincome.income.commands.ListCategoryIncomeCommand;
 import java.time.LocalDate;
 
 public class IncomeCommandParser {
     private static String capitalize(String input) {
-        if (input == null || input.isEmpty()) return input;
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 

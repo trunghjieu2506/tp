@@ -2,7 +2,7 @@ package budget_saving.budget;
 
 import budget_saving.budget.utils.BudgetAlert;
 import cashflow.model.interfaces.BudgetManager;
-import expense_income.expense.Expense;
+import expenseincome.expense.Expense;
 import utils.money.Money;
 
 import java.math.BigDecimal;

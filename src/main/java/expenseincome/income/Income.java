@@ -1,4 +1,4 @@
-package expense_income.income;
+package expenseincome.income;
 
 import java.time.LocalDate;
 
@@ -20,9 +20,18 @@ public class Income {
         this.category = category;
     }
 
-    public String getSource() { return source; }
-    public double getAmount() { return amount; }
-    public LocalDate getDate() { return date; }
+    public String getSource() {
+        return source;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
     public String getCategory() {
         return category;
     }

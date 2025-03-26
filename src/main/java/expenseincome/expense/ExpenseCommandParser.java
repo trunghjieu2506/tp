@@ -1,18 +1,20 @@
-package expense_income.expense;
+package expenseincome.expense;
 
-import expense_income.expense.commands.AddExpenseCommand;
-import expense_income.expense.commands.DeleteExpenseCommand;
-import expense_income.expense.commands.ExpenseCommand;
-import expense_income.expense.commands.ListExpenseCommand;
-import expense_income.expense.commands.EditExpenseCommand;
-import expense_income.expense.commands.SortExpenseCommand;
-import expense_income.expense.commands.ListCategoryExpenseCommand;
+import expenseincome.expense.commands.AddExpenseCommand;
+import expenseincome.expense.commands.DeleteExpenseCommand;
+import expenseincome.expense.commands.ExpenseCommand;
+import expenseincome.expense.commands.ListExpenseCommand;
+import expenseincome.expense.commands.EditExpenseCommand;
+import expenseincome.expense.commands.SortExpenseCommand;
+import expenseincome.expense.commands.ListCategoryExpenseCommand;
 import java.time.LocalDate;
 
 public class ExpenseCommandParser {
 
     private static String capitalize(String input) {
-        if (input == null || input.isEmpty()) return input;
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 

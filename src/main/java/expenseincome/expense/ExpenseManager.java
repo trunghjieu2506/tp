@@ -1,4 +1,4 @@
-package expense_income.expense;
+package expenseincome.expense;
 
 import java.util.ArrayList;
 import java.util.List;
