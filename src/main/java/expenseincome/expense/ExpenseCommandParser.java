@@ -43,10 +43,8 @@ public class ExpenseCommandParser {
 
                 String description = parts[1];
                 double amount = Double.parseDouble(args[0]);
-
                 String rawCategory = args[1];
                 String category = capitalize(rawCategory.trim());
-
                 LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
 
                 return new AddExpenseCommand(description, amount, date, category);
@@ -96,10 +94,8 @@ public class ExpenseCommandParser {
 
                 String newDesc = args[0];
                 double newAmount = Double.parseDouble(args[1]);
-
                 String rawCategory = args[2];
                 String newCategory = capitalize(rawCategory.trim());
-
                 LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
 
                 return new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory);
