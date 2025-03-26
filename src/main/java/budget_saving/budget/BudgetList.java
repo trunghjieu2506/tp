@@ -1,5 +1,6 @@
 package budget_saving.budget;
 
+import budget_saving.budget.utils.BudgetAlert;
 import cashflow.model.interfaces.BudgetManager;
 import expense_income.expense.Expense;
 import utils.money.Money;
@@ -8,17 +9,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class BudgetList implements BudgetManager {
     private ArrayList<Budget> budgets;
     private String currency;
-    private HashMap<Budget, String> budgetHash;
+    private HashMap<String, Budget> budgetByCategory;
 
     // Modified constructor to accept a currency
     public BudgetList(String currency) {
+        assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.currency = currency;
         budgets = new ArrayList<>();
+        budgetByCategory = new HashMap<>();
     }
 
     // Added getter (and optionally setter) for currency
@@ -30,28 +32,36 @@ public class BudgetList implements BudgetManager {
         this.currency = currency;
     }
 
-    public void addBudget(Budget budget) throws BudgetException {
+    public void addNewBudget(Budget budget) throws BudgetException {
         if (budget == null) {
             throw new BudgetException("Cannot add a null budget.");
         }
+        String category = budget.getCategory();
+        if (budgetByCategory.containsKey(category)) {
+            throw new BudgetException("Budget in category " + category + " already exists.");
+        }
         assert !budgets.contains(budget) : "Budget already exists before addition.";
         budgets.add(budget);
+        budgetByCategory.put(category, budget);
         assert budgets.contains(budget) : "Budget not added properly.";
     }
 
-    public void setBudget(String name, double amount, LocalDate endDate, String category){
+
+    public void setBudget(String name, double amount, LocalDate endDate, String category) {
         Money money = new Money(currency, BigDecimal.valueOf(amount));
         Budget newBudget = new Budget(name, money, endDate, category);
         int initialSize = budgets.size();
         try {
-            addBudget(newBudget);
+            addNewBudget(newBudget);
             System.out.println("New budget added: " + newBudget);
         } catch (BudgetException e) {
             System.err.println("Error adding new budget: " + e.getMessage());
         }
         assert budgets.size() == initialSize + 1 : "Budget list size did not increase.";
         assert budgets.get(budgets.size() - 1).equals(newBudget) : "Last budget is not the newly added one.";
+        assert budgetByCategory.get(newBudget.getCategory()).equals(newBudget) : "Budget hash mapping not updated properly.";
     }
+
 
     @Override
     public void listBudgets() {
@@ -78,6 +88,9 @@ public class BudgetList implements BudgetManager {
         Money after = b.getRemainingBudget();
         assert after.getAmount().compareTo(before.getAmount()) <= 0 : "Budget did not decrease after deduction.";
         System.out.println("Budget deducted.");
+        if (after.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            BudgetAlert.exceedBudgetAlert();
+        }
         System.out.println(b);
     }
 
@@ -116,7 +129,17 @@ public class BudgetList implements BudgetManager {
             throw new BudgetException("Index out of range.");
         }
         Budget b = budgets.get(index);
-        b.modifyBudget(amount, name, endDate, category);
+        String oldCategory = b.getCategory();
+        if (!oldCategory.equals(category)) {
+            if (budgetByCategory.containsKey(category)) {
+                throw new BudgetException("Budget in category " + category + " already exists.");
+            }
+            b.modifyBudget(amount, name, endDate, category);
+            budgetByCategory.remove(oldCategory);
+            budgetByCategory.put(category, b);
+        } else {
+            b.modifyBudget(amount, name, endDate, category);
+        }
     }
 
     //to list out all the expenses within the budget

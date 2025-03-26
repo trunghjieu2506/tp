@@ -26,7 +26,8 @@ public class SetBudgetCommand implements Command {
         try {
             budgetManager.setBudget(name, amount, endDate, category);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println("Error setting the budget: " + e.getMessage());
         }
     }
+
 }
