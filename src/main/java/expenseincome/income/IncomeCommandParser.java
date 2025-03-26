@@ -14,7 +14,6 @@ public class IncomeCommandParser {
         if (input == null || input.isEmpty()) {
             return input;
         }
-
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
@@ -48,10 +47,8 @@ public class IncomeCommandParser {
 
                 String source = parts[1];
                 double amount = Double.parseDouble(args[0]);
-
                 String rawCategory = args[1];
                 String category = capitalize(rawCategory);
-
                 LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
 
                 return new AddIncomeCommand(source, amount, date, category);
@@ -105,10 +102,8 @@ public class IncomeCommandParser {
 
                 String newSource = args[0];
                 double newAmount = Double.parseDouble(args[1]);
-
                 String rawCategory = args[2];
                 String newCategory = capitalize(rawCategory);
-
                 LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
 
                 return new EditIncomeCommand(index, newSource, newAmount, newDate, newCategory);
@@ -116,7 +111,6 @@ public class IncomeCommandParser {
                 System.out.println("Invalid input. Format: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
-
 
         case "sort":
             if (parts.length < 2) {
