@@ -1,12 +1,13 @@
-package loanbook.loanbook.commands;
+package loanbook.loanbook.commands.addcommands;
 
 import loanbook.loanbook.LoanList;
+import loanbook.loanbook.commands.LoanCommand;
 import loanbook.loanbook.loan.Loan;
 import loanbook.loanbook.loan.SimpleBulletLoan;
 import utils.money.Money;
 import utils.people.Person;
 
-public class AddSimpleBulletLoanCommand extends LoanCommand{
+public class AddSimpleBulletLoanCommand extends LoanCommand {
     protected LoanList loans;
     protected String description;
     protected Person lender;

@@ -1,4 +1,4 @@
-package loanbook.loanbook.commands;
+package loanbook.loanbook.commands.addcommands;
 
 import loanbook.loanbook.LoanList;
 import loanbook.loanbook.interest.Interest;
@@ -9,7 +9,7 @@ import utils.people.Person;
 
 import java.time.LocalDate;
 
-public class AddAdvancedLoanCommand extends AddSimpleBulletLoanCommand{
+public class AddAdvancedLoanCommand extends AddSimpleBulletLoanCommand {
     protected LocalDate startDate;
     protected Interest interest;
 

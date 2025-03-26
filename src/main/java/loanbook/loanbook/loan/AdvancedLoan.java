@@ -34,6 +34,17 @@ public class AdvancedLoan extends Loan {
         return incrementCount;
     }
 
+    @Override
+    public void setStart(LocalDate date) {
+        this.startDate = date;
+        calculateBalance();
+    }
+
+    public void setInterest(Interest interest) {
+        this.interest = interest;
+        calculateBalance();
+    }
+
     public void calculateBalance() {
         LocalDate date = startDate;
         Money balance = new Money(principal.getCurrency(), principal.getAmount());
