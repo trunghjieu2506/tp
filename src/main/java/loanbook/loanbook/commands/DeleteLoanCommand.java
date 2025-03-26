@@ -1,6 +1,7 @@
 package loanbook.loanbook.commands;
 
 import loanbook.loanbook.LoanList;
+import loanbook.loanbook.loan.Loan;
 
 public class DeleteLoanCommand extends LoanCommand{
     protected LoanList loans;
@@ -13,6 +14,12 @@ public class DeleteLoanCommand extends LoanCommand{
 
     @Override
     public void execute() {
-        loans.delete(index);
+        try {
+            String deletedLoan = loans.get(index).basicInfo();
+            loans.delete(index);
+            System.out.println("Successfully deleted the following loan:\n" + deletedLoan + '\n');
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Loan not found");
+        }
     }
 }

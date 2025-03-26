@@ -8,12 +8,12 @@ public class MoneyParser {
         double amount;
         while (true) {
             System.out.print(instruction + "\n> ");
-            if (scanner.hasNextDouble()) {
-                amount = Double.parseDouble(scanner.nextLine());
+            String input = scanner.nextLine();
+            try {
+                amount = Double.parseDouble(input);
                 break;
-            } else {
-                System.out.println("Invalid input!");
-                scanner.next();
+            } catch (NumberFormatException | NullPointerException e) {
+                System.out.println("Invalid input");
             }
         }
         return new Money(currency, amount);

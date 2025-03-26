@@ -22,6 +22,7 @@ public class LoanList {
 
     public LoanList(ArrayList<Loan> loans) {
         this.loans = loans;
+        initialiseTags();
     }
 
     public void add(Loan loan) {
@@ -98,6 +99,16 @@ public class LoanList {
         return found;
     }
 
+    public ArrayList<Loan> findOverdueLoan() {
+        ArrayList<Loan> found = new ArrayList<>();
+        for (Loan loan : loans) {
+            if (loan.isOverdue()) {
+                found.add(loan);
+            }
+        }
+        return found;
+    }
+
     /**
      * Finds all the loans lent by <code>lender</code> and borrowed by <code>borrower</code>.
      * @param lender the lender.
@@ -118,20 +129,6 @@ public class LoanList {
         return tags.findWithTag(tag);
     }
 
-    /**
-     * Shows the full list of loans. Only the lenders, borrowers and money are shown.
-     * @return a ready-to-print <code>String</code> displaying all loans.
-     */
-    public String simpleFulList() {
-        StringBuilder output = new StringBuilder();
-        int i = 1;
-        for (Loan loan : loans) {
-            output.append("[" + i + "] ").append(loan.basicInfo()).append('\n');
-            i++;
-        }
-        return output.toString();
-    }
-
     public void initialiseTags() {
         tags = new TagList<>();
         for (Loan loan : loans) {
@@ -142,6 +139,23 @@ public class LoanList {
                 }
             }
         }
+    }
+
+    /**
+     * Shows the full list of loans. Only the lenders, borrowers and money are shown.
+     * @return a ready-to-print <code>String</code> displaying all loans.
+     */
+    public String simpleFulList() {
+        if (loans.isEmpty()) {
+            return "List is empty";
+        }
+        StringBuilder output = new StringBuilder();
+        int i = 1;
+        for (Loan loan : loans) {
+            output.append("[" + i + "] ").append(loan.basicInfo()).append('\n');
+            i++;
+        }
+        return output.toString();
     }
 
     /**
@@ -164,7 +178,7 @@ public class LoanList {
      * @param index the index of the loan in the ArrayList.
      * @return a ready-to-print <code>String</code> containing all information of the loan.
      */
-    public String showDetail(int index) {
+    public String showDetail(int index) throws IndexOutOfBoundsException {
         Loan loan = loans.get(index - 1);
         if (loan == null) {
             return "Invalid loan index";

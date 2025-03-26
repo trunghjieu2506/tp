@@ -133,6 +133,13 @@ public abstract class Loan {
         return output.toString();
     }
 
+    public boolean isOverdue() {
+        if (returnDate == null) {
+            return false;
+        }
+        return LocalDate.now().isAfter(returnDate);
+    }
+
     /**
      * Basic information of this loan.
      * @return a ready-to-print <code>String</code> containing all basic information. Multiple lines.

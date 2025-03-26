@@ -17,6 +17,10 @@ public class SimpleBulletLoan extends Loan {
         super(description, lender, borrower, money, returnDate);
     }
 
+    public SimpleBulletLoan(String description, Person lender, Person borrower, Money money, LocalDate startDate, LocalDate returnDate) {
+        super(description, lender, borrower, money, startDate, returnDate);
+    }
+
     @Override
     public String forSave() {
         return "S" + super.forSave();

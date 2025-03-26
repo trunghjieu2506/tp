@@ -7,13 +7,16 @@ import loanbook.loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
 import loanbook.loanbook.interest.Interest;
 import loanbook.loanbook.interest.InterestType;
 import loanbook.loanbook.loan.Loan;
+import loanbook.loanbook.parsers.LoanCommandParser;
 import utils.money.Money;
 import org.junit.jupiter.api.Test;
 import utils.people.PeopleList;
 import utils.people.Person;
 
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Scanner;
 
 public class LoanListTest {
     public LoanList loanList;
@@ -33,10 +36,10 @@ public class LoanListTest {
                 moneyTwo);
         command_two.execute();
 
-        ListCommand command_list = new ListCommand(loanList);
+        ListLoansCommand command_list = new ListLoansCommand(loanList);
         command_list.execute();
 
-        ShowDetailCommand command_detail = new ShowDetailCommand(loanList, 1);
+        ShowLoanDetailCommand command_detail = new ShowLoanDetailCommand(loanList, 1);
         command_detail.execute();
 
         Loan first = loanList.get(1);
@@ -96,12 +99,12 @@ public class LoanListTest {
                 money6, LocalDate.of(2024, 2, 20), interest_6);
         command_6.execute();
 
-        ListCommand command_list = new ListCommand(loanList);
+        ListLoansCommand command_list = new ListLoansCommand(loanList);
 
         System.out.println("Full List:");
         command_list.execute();
         System.out.println("Details of the first loan");
-        ShowDetailCommand command_7 = new ShowDetailCommand(loanList, 1);
+        ShowLoanDetailCommand command_7 = new ShowLoanDetailCommand(loanList, 1);
         command_7.execute();
         System.out.println("Outgoing loans of George");
         System.out.println(loanList.forPrint(loanList.findOutgoingLoan(George)));
@@ -112,5 +115,31 @@ public class LoanListTest {
         command_8.execute();
         command_list.execute();
 
+    }
+
+    @Test
+    public void testUI() {
+        LoanList loanList = new LoanList();
+        String input = """
+                e
+                y
+                George
+                John
+                wer
+                123
+                2025-13-13
+                2025-1-1
+                not interest
+                COMPOUND 3% per month
+                """;
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
+        LoanCommand command1 = LoanCommandParser.parse(loanList, scanner, "USD", "add");
+        LoanCommand listCommand = new ListLoansCommand(loanList);
+        LoanCommand showCommand = new ShowLoanDetailCommand(loanList, 1);
+
+        assert command1 != null;
+        command1.execute();
+        listCommand.execute();
+        showCommand.execute();
     }
 }

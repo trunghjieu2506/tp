@@ -26,6 +26,15 @@ public class AdvancedLoan extends Loan {
         incrementCount = 0;
     }
 
+    public AdvancedLoan(String description, Person lender, Person borrower, Money money,
+                        LocalDate startDate, LocalDate returnDate, Interest interest) {
+        super(description, lender, borrower, money, returnDate);
+        this.interest = interest;
+        this.startDate = startDate;
+        outstandingBalance = money;
+        incrementCount = 0;
+    }
+
     public Money outstandingBalance() {
         return outstandingBalance;
     }
@@ -72,7 +81,8 @@ public class AdvancedLoan extends Loan {
         return "Lender: [" + lender.getName()
                 + "]    Borrower: [" + borrower.getName()
                 + "]    Amount: " + principal
-                + "    Start Date: " + startDate + '\n'
+                + "    Start Date: " + startDate
+                + (returnDate == null ? "" : "    Return Date: " + returnDate) + '\n'
                 + "    Interest: " + interest + '\n'
                 + "    Outstanding Balance: " + outstandingBalance + '\n'
                 + (isReturned ? "    Returned" : "    Not Returned");

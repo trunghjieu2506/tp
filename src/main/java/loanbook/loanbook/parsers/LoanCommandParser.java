@@ -15,6 +15,7 @@ import utils.people.Person;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class LoanCommandParser {
         try {
             switch (firstWord) {
             case "list":
-                return new ListCommand(loanList);
+                return new ListLoansCommand(loanList);
             case "delete":
                 int deleteIndex = Integer.parseInt(splitFirst[1]);
                 return new DeleteLoanCommand(loanList, deleteIndex);
@@ -33,7 +34,7 @@ public class LoanCommandParser {
                 return handleAddLoanCommand(loanList, scanner, Currency.getInstance(defaultCurrency.toUpperCase()));
             case "show":
                 int showIndex = Integer.parseInt(splitFirst[1]);
-                return new ShowDetailCommand(loanList, showIndex);
+                return new ShowLoanDetailCommand(loanList, showIndex);
             case "return":
                 int returnIndex = Integer.parseInt(splitFirst[1]);
                 return new SetReturnStatusCommand(loanList, returnIndex, true);
@@ -45,7 +46,12 @@ public class LoanCommandParser {
                     return new InvalidCommand("What part of which loan are you editing? Format: edit X [attribute]");
                 }
                 String[] split = splitFirst[1].split(" ", 2);
-                int index = Integer.parseInt(split[0]);
+                int index;
+                try {
+                    index = Integer.parseInt(split[0]);
+                } catch (NumberFormatException e) {
+                    return new InvalidCommand("What part of which loan are you editing? Format: edit X [attribute]");
+                }
                 String attribute = split[1];
                 return handleSetCommand(loanList, scanner, index, attribute, defaultCurrency);
             }
@@ -71,15 +77,19 @@ public class LoanCommandParser {
         try {
             if (mode.equals("n")) {
                 Money money = MoneyParser.handleMoneyInputUI(scanner, currency, "Key in the amount of money lent:");
-                return new AddSimpleBulletLoanCommand(loanList, lender, borrower, money);
+                String description = handleDescriptionInputUI(scanner);
+                LocalDate returnDate = DateParser.handleLocalDateUI(scanner, "Key in the return date of the loan (yyyy-mm-dd)", true);
+                return new AddSimpleBulletLoanCommand(loanList, description, lender, borrower, money, returnDate);
             } else if (mode.equals("y")) {
                 Money money = MoneyParser.handleMoneyInputUI(scanner, currency, "Key in the amount of principal:");
                 LocalDate startDate = DateParser.handleLocalDateUI(scanner, "Key in the start date of the loan (yyyy-mm-dd):");
+                LocalDate returnDate = DateParser.handleLocalDateUI(scanner, "Key in the return date of the loan (yyyy-mm-dd)", true);
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 if (interest == null) {
                     return null;
                 }
-                return new AddAdvancedLoanCommand(loanList, lender, borrower, money, startDate, interest);
+                String description = handleDescriptionInputUI(scanner);
+                return new AddAdvancedLoanCommand(loanList, description, lender, borrower, money, startDate, returnDate, interest);
             }
         } catch (NullPointerException | NumberFormatException e) {
             return new InvalidCommand("Invalid number input");
@@ -91,9 +101,15 @@ public class LoanCommandParser {
 
     private static LoanCommand handleSetCommand(LoanList loanList, Scanner scanner, int index, String attribute, String defaultCurrency) {
         switch (attribute) {
+        case "lender":
+        case "borrower":
+            return new InvalidCommand("You cannot edit the lender or borrower.");
         case "description":
             System.out.print("Key in the new description:\n> ");
             String description = scanner.nextLine();
+            if (description.equalsIgnoreCase("N/A")) {
+                description = null;
+            }
             return new SetDescriptionCommand(loanList, index, description);
         case "start date":
             LocalDate startDate = DateParser.handleLocalDateUI(scanner, "Key in the new start date:");
@@ -102,9 +118,8 @@ public class LoanCommandParser {
             LocalDate returnDate = DateParser.handleLocalDateUI(scanner, "Key in the new return date:");
             return new SetReturnDateCommand(loanList, index, returnDate);
         case "principal":
-            String instruction = "Key in the amount of principal:";
         case "amount":
-            instruction = "Key in the amount:";
+            String instruction = "Key in the amount" + (attribute.equals("principal") ? "of principal" : "");
             Money money = MoneyParser.handleMoneyInputUI(scanner, Currency.getInstance(defaultCurrency), instruction);
             return new SetPrincipalCommand(loanList, index, money);
         case "interest":
@@ -116,5 +131,27 @@ public class LoanCommandParser {
             }
         }
         return null;
+    }
+
+    private static String handleDescriptionInputUI(Scanner scanner) {
+        System.out.print("Key in the description (Key in \"N/A\" if not applicable):" + "\n> ");
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase("N/A")) {
+            return null;
+        }
+        return input;
+    }
+
+    private static ArrayList<String> handleAddTagsUI(Scanner scanner) {
+        ArrayList<String> output = new ArrayList<>();
+        while (true) {
+            System.out.print("Key in a tag (Key in \"N/A\" if not applicable");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("N/A")) {
+                break;
+            }
+            output.add(input);
+        }
+        return output;
     }
 }

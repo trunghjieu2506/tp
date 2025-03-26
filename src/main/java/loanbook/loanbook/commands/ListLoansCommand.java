@@ -2,10 +2,10 @@ package loanbook.loanbook.commands;
 
 import loanbook.loanbook.LoanList;
 
-public class ListCommand extends LoanCommand {
+public class ListLoansCommand extends LoanCommand {
     protected LoanList loans;
 
-    public ListCommand(LoanList loans) {
+    public ListLoansCommand(LoanList loans) {
         this.loans = loans;
     }
 
