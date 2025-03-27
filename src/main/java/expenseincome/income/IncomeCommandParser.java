@@ -1,24 +1,31 @@
-package expense_income.expense;
+package expenseincome.income;
 
-import expense_income.expense.commands.AddExpenseCommand;
-import expense_income.expense.commands.DeleteExpenseCommand;
-import expense_income.expense.commands.ExpenseCommand;
-import expense_income.expense.commands.ListExpenseCommand;
-import expense_income.expense.commands.EditExpenseCommand;
-import expense_income.expense.commands.SortExpenseCommand;
-import expense_income.expense.commands.ListCategoryExpenseCommand;
+import expenseincome.income.commands.AddIncomeCommand;
+import expenseincome.income.commands.DeleteIncomeCommand;
+import expenseincome.income.commands.IncomeCommand;
+import expenseincome.income.commands.ListIncomeCommand;
+import expenseincome.income.commands.EditIncomeCommand;
+import expenseincome.income.commands.SortIncomeCommand;
+import expenseincome.income.commands.ListCategoryIncomeCommand;
 import java.time.LocalDate;
 
-public class ExpenseCommandParser {
-
+public class IncomeCommandParser {
     private static String capitalize(String input) {
-        if (input == null || input.isEmpty()) return input;
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
-    public static ExpenseCommand parseCommand(String input) {
-        String[] parts = input.split(" ", 3);
+    public static IncomeCommand parseCommand(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            System.out.println("Empty input. Please enter a command.");
+            return null;
+        }
+
+        String[] parts = input.trim().split(" ", 3);
         if (parts.length == 0) {
+            System.out.println("Invalid input format.");
             return null;
         }
 
@@ -27,29 +34,26 @@ public class ExpenseCommandParser {
         switch (commandType) {
         case "add":
             if (parts.length < 3) {
-                System.out.println("Usage: add <desc> <amount> <category> [yyyy-mm-dd]");
+                System.out.println("Usage: add <source> <amount> <category> [yyyy-mm-dd]");
                 return null;
             }
 
             try {
                 String[] args = parts[2].split(" ");
-
                 if (args.length < 2) {
-                    System.out.println("Usage: add <desc> <amount> <category> [yyyy-mm-dd]");
+                    System.out.println("Usage: add <source> <amount> <category> [yyyy-mm-dd]");
                     return null;
                 }
 
-                String description = parts[1];
+                String source = parts[1];
                 double amount = Double.parseDouble(args[0]);
-
                 String rawCategory = args[1];
-                String category = capitalize(rawCategory.trim());
-
+                String category = capitalize(rawCategory);
                 LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
 
-                return new AddExpenseCommand(description, amount, date, category);
+                return new AddIncomeCommand(source, amount, date, category);
             } catch (Exception e) {
-                System.out.println("Invalid input. Format: add <desc> <amount> <category> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: add <source> <amount> <category> [yyyy-mm-dd]");
                 return null;
             }
 
@@ -60,26 +64,30 @@ public class ExpenseCommandParser {
                     return null;
                 }
                 String category = capitalize(parts[2].trim());
-                return new ListCategoryExpenseCommand(category);
+                return new ListCategoryIncomeCommand(category);
             }
-            return new ListExpenseCommand();
+            return new ListIncomeCommand();
 
         case "delete":
             if (parts.length < 2) {
-                System.out.println("Usage: delete <number>");
+                System.out.println("Usage: delete <index>");
                 return null;
             }
             try {
                 int index = Integer.parseInt(parts[1]);
-                return new DeleteExpenseCommand(index);
+                if (index < 1) {
+                    System.out.println("Index must be a positive number.");
+                    return null;
+                }
+                return new DeleteIncomeCommand(index);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid index. Please enter a number.");
+                System.out.println("Invalid index. Please enter a valid number.");
                 return null;
             }
 
         case "edit":
             if (parts.length < 3) {
-                System.out.println("Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+                System.out.println("Usage: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
 
@@ -88,21 +96,20 @@ public class ExpenseCommandParser {
                 String[] args = parts[2].split(" ");
 
                 if (args.length < 3) {
-                    System.out.println("Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+                    System.out.println("Usage: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                     return null;
                 }
 
-                String newDesc = args[0];
+                String newSource = args[0];
                 double newAmount = Double.parseDouble(args[1]);
-
                 String rawCategory = args[2];
-                String newCategory = capitalize(rawCategory.trim());
-
+                String newCategory = capitalize(rawCategory);
                 LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
 
-                return new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory);
+                return new EditIncomeCommand(index, newSource, newAmount, newDate, newCategory);
             } catch (Exception e) {
-                System.out.println("Invalid input. Format: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: edit <index> " +
+                        "<newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
 
@@ -113,15 +120,16 @@ public class ExpenseCommandParser {
             }
             String sortType = parts[1].toLowerCase();
             if (sortType.equals("recent")) {
-                return new SortExpenseCommand(true);
+                return new SortIncomeCommand(true);
             } else if (sortType.equals("oldest")) {
-                return new SortExpenseCommand(false);
+                return new SortIncomeCommand(false);
             } else {
                 System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
 
         default:
+            System.out.println("Unknown income command: " + commandType);
             return null;
         }
     }

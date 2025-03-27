@@ -1,6 +1,6 @@
-package expense_income.expense.commands;
+package expenseincome.expense.commands;
 
-import expense_income.expense.ExpenseManager;
+import expenseincome.expense.ExpenseManager;
 
 public abstract class ExpenseCommand {
     public abstract void execute(ExpenseManager manager);

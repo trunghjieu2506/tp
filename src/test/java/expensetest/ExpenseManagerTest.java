@@ -1,13 +1,13 @@
 package expensetest;
 
-import expense_income.expense.Expense;
-import expense_income.expense.ExpenseManager;
+import expenseincome.expense.Expense;
+import expenseincome.expense.ExpenseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpenseManagerTest {
     private ExpenseManager manager;
@@ -18,7 +18,7 @@ public class ExpenseManagerTest {
     }
 
     @Test
-    void testAddExpense_WithDate() {
+    void testAddExpenseWithDate() {
         LocalDate date = LocalDate.of(2025, 3, 20);
         manager.addExpense("Lunch", 10.50, date, "Food");
         assertEquals(1, manager.getExpenseCount());
@@ -30,7 +30,7 @@ public class ExpenseManagerTest {
     }
 
     @Test
-    void testAddExpense_DefaultTodayDate() {
+    void testAddExpenseDefaultTodayDate() {
         LocalDate today = LocalDate.now();
         manager.addExpense("Coffee", 4.00, today, "Drink");
         assertEquals(today, manager.getExpense(0).getDate());
@@ -38,31 +38,31 @@ public class ExpenseManagerTest {
     }
 
     @Test
-    void testAddExpense_EmptyDescription() {
+    void testAddExpenseEmptyDescription() {
         manager.addExpense("", 10.50, LocalDate.now(), "Other");
         assertEquals(0, manager.getExpenseCount());
     }
 
     @Test
-    void testAddExpense_NullDescription() {
+    void testAddExpenseNullDescription() {
         manager.addExpense(null, 10.50, LocalDate.now(), "Other");
         assertEquals(0, manager.getExpenseCount());
     }
 
     @Test
-    void testAddExpense_NegativeAmount() {
+    void testAddExpenseNegativeAmount() {
         manager.addExpense("Lunch", -5, LocalDate.now(), "Food");
         assertEquals(0, manager.getExpenseCount());
     }
 
     @Test
-    void testAddExpense_EmptyCategory() {
+    void testAddExpenseEmptyCategory() {
         manager.addExpense("Lunch", 5.00, LocalDate.now(), "");
         assertEquals(0, manager.getExpenseCount());
     }
 
     @Test
-    void testDeleteExpense_ValidIndex() {
+    void testDeleteExpenseValidIndex() {
         manager.addExpense("Lunch", 10.50, LocalDate.now(), "Food");
         assertEquals(1, manager.getExpenseCount());
         manager.deleteExpense(1);
@@ -70,14 +70,14 @@ public class ExpenseManagerTest {
     }
 
     @Test
-    void testDeleteExpense_InvalidIndex() {
+    void testDeleteExpenseInvalidIndex() {
         manager.addExpense("Lunch", 10.50, LocalDate.now(), "Food");
         manager.deleteExpense(2);
         assertEquals(1, manager.getExpenseCount());
     }
 
     @Test
-    void testEditExpense_ValidEdit() {
+    void testEditExpenseValidEdit() {
         LocalDate oldDate = LocalDate.of(2025, 3, 15);
         LocalDate newDate = LocalDate.of(2025, 3, 20);
         manager.addExpense("Lunch", 10.50, oldDate, "Food");
@@ -90,7 +90,7 @@ public class ExpenseManagerTest {
     }
 
     @Test
-    void testEditExpense_InvalidIndex() {
+    void testEditExpenseInvalidIndex() {
         manager.editExpense(1, "Dinner", 15.00, LocalDate.now(), "Food");
         assertEquals(0, manager.getExpenseCount());
     }
@@ -101,7 +101,7 @@ public class ExpenseManagerTest {
         manager.addExpense("B", 10, LocalDate.of(2025, 1, 1), "Misc");
         manager.addExpense("C", 7, LocalDate.of(2024, 1, 1), "Misc");
 
-        manager.sortExpensesByDate(true); // most recent first
+        manager.sortExpensesByDate(true);
 
         assertEquals("B", manager.getExpense(0).getDescription());
         assertEquals("C", manager.getExpense(1).getDescription());
@@ -114,7 +114,7 @@ public class ExpenseManagerTest {
         manager.addExpense("Y", 6, LocalDate.of(2022, 3, 10), "Food");
         manager.addExpense("Z", 9, LocalDate.of(2023, 3, 10), "Food");
 
-        manager.sortExpensesByDate(false); // oldest first
+        manager.sortExpensesByDate(false);
 
         assertEquals("Y", manager.getExpense(0).getDescription());
         assertEquals("Z", manager.getExpense(1).getDescription());

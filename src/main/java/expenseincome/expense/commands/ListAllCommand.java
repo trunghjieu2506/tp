@@ -1,7 +1,7 @@
-package expense_income.expense.commands;
+package expenseincome.expense.commands;
 
-import expense_income.expense.ExpenseManager;
-import expense_income.income.IncomeManager;
+import expenseincome.expense.ExpenseManager;
+import expenseincome.income.IncomeManager;
 
 public class ListAllCommand extends ExpenseCommand {
     private IncomeManager incomeManager;

@@ -1,6 +1,6 @@
-package expense_income.expense.commands;
+package expenseincome.expense.commands;
 
-import expense_income.expense.ExpenseManager;
+import expenseincome.expense.ExpenseManager;
 import java.time.LocalDate;
 
 public class EditExpenseCommand extends ExpenseCommand {
@@ -10,7 +10,8 @@ public class EditExpenseCommand extends ExpenseCommand {
     private LocalDate newDate;
     private String newCategory;
 
-    public EditExpenseCommand(int index, String newDescription, double newAmount, LocalDate newDate, String newCategory) {
+    public EditExpenseCommand(int index, String newDescription,
+                              double newAmount, LocalDate newDate, String newCategory) {
         this.index = index;
         this.newDescription = newDescription;
         this.newAmount = newAmount;

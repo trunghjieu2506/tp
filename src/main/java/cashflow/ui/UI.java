@@ -1,24 +1,21 @@
 package cashflow.ui;
 
 import budget_saving.budget.BudgetList;
-import budget_saving.budget.command.BudgetGeneralCommand;
 import cashflow.command.HelpCommand;
 import cashflow.command.OverviewCommand;
 import cashflow.model.FinanceData;
 import budget_saving.saving.SavingList;
 import budget_saving.saving.command.SavingGeneralCommand;
 
-import expense_income.expense.ExpenseCommandParser;
-import expense_income.expense.commands.ExpenseCommand;
-import expense_income.income.IncomeCommandParser;
-import expense_income.income.commands.IncomeCommand;
-import expense_income.expense.ExpenseManager;
-import expense_income.income.IncomeManager;
+import expenseincome.expense.ExpenseCommandParser;
+import expenseincome.expense.commands.ExpenseCommand;
+import expenseincome.income.IncomeCommandParser;
+import expenseincome.income.commands.IncomeCommand;
+import expenseincome.expense.ExpenseManager;
+import expenseincome.income.IncomeManager;
 import loanbook.loanbook.parsers.LoanCommandParser;
 import loanbook.loanbook.LoanList;
 import loanbook.loanbook.commands.LoanCommand;
-import utils.money.Money;
-import utils.people.Person;
 
 import java.util.Scanner;
 
