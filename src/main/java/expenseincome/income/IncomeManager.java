@@ -5,6 +5,9 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.Map;
+import java.util.HashMap;
+
 
 public class IncomeManager {
     private static final Logger logger = Logger.getLogger(IncomeManager.class.getName());
@@ -137,6 +140,58 @@ public class IncomeManager {
         if (!found) {
             System.out.println("No incomes found in this category.");
         }
+    }
+
+    public void printTopCategory() {
+        if (incomes.isEmpty()) {
+            System.out.println("No incomes recorded.");
+            return;
+        }
+
+        Map<String, Double> totals = new HashMap<>();
+        for (Income income : incomes) {
+            String category = income.getCategory();
+            double amount = income.getAmount();
+            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        }
+
+        String topCategory = null;
+        double maxAmount = 0.0;
+
+        for (Map.Entry<String, Double> entry : totals.entrySet()) {
+            if (entry.getValue() > maxAmount) {
+                maxAmount = entry.getValue();
+                topCategory = entry.getKey();
+            }
+        }
+
+        System.out.printf("Top Income Category: %s ($%.2f)%n", topCategory, maxAmount);
+    }
+
+    public void printBottomCategory() {
+        if (incomes.isEmpty()) {
+            System.out.println("No incomes recorded.");
+            return;
+        }
+
+        Map<String, Double> totals = new HashMap<>();
+        for (Income i : incomes) {
+            String category = i.getCategory();
+            double amount = i.getAmount();
+            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        }
+
+        String bottomCategory = null;
+        double minAmount = Double.MAX_VALUE;
+
+        for (Map.Entry<String, Double> entry : totals.entrySet()) {
+            if (entry.getValue() < minAmount) {
+                minAmount = entry.getValue();
+                bottomCategory = entry.getKey();
+            }
+        }
+
+        System.out.printf("Lowest Income Category: %s ($%.2f)%n", bottomCategory, minAmount);
     }
 
     public int getIncomeCount() {

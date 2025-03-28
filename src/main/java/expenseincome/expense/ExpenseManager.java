@@ -5,6 +5,8 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.Map;
+import java.util.HashMap;
 
 public class ExpenseManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
@@ -137,6 +139,59 @@ public class ExpenseManager {
             System.out.println("No expenses found in this category.");
         }
     }
+
+    public void printTopCategory() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded.");
+            return;
+        }
+
+        Map<String, Double> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String category = e.getCategory();
+            double amount = e.getAmount();
+            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        }
+
+        String topCategory = null;
+        double maxAmount = 0.0;
+
+        for (Map.Entry<String, Double> entry : totals.entrySet()) {
+            if (entry.getValue() > maxAmount) {
+                maxAmount = entry.getValue();
+                topCategory = entry.getKey();
+            }
+        }
+
+        System.out.printf("Top Spending Category: %s ($%.2f)%n", topCategory, maxAmount);
+    }
+
+    public void printBottomCategory() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded.");
+            return;
+        }
+
+        Map<String, Double> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String category = e.getCategory();
+            double amount = e.getAmount();
+            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        }
+
+        String bottomCategory = null;
+        double minAmount = Double.MAX_VALUE;
+
+        for (Map.Entry<String, Double> entry : totals.entrySet()) {
+            if (entry.getValue() < minAmount) {
+                minAmount = entry.getValue();
+                bottomCategory = entry.getKey();
+            }
+        }
+
+        System.out.printf("Lowest Spending Category: %s ($%.2f)%n", bottomCategory, minAmount);
+    }
+
 
     public int getExpenseCount() {
         return expenses.size();
