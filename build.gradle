@@ -12,11 +12,12 @@ repositories {
 dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 }
 
 test {
     useJUnitPlatform()
-    jvmArgs '-ea'
+    workingDir = projectDir
     testLogging {
         events "passed", "skipped", "failed"
 
@@ -29,12 +30,11 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
-    applicationDefaultJvmArgs = ['-ea']
+    mainClass.set("cashflow.Main")
 }
 
 shadowJar {
-    archiveBaseName.set("duke")
+    archiveBaseName.set("tp")
     archiveClassifier.set("")
 }
 
@@ -44,4 +44,8 @@ checkstyle {
 
 run{
     standardInput = System.in
+}
+
+run {
+    enableAssertions = true
 }
