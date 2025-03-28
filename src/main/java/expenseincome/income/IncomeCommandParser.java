@@ -7,6 +7,11 @@ import expenseincome.income.commands.ListIncomeCommand;
 import expenseincome.income.commands.EditIncomeCommand;
 import expenseincome.income.commands.SortIncomeCommand;
 import expenseincome.income.commands.ListCategoryIncomeCommand;
+import expenseincome.income.commands.TopCategoryIncomeCommand;
+import expenseincome.income.commands.BottomCategoryIncomeCommand;
+import expenseincome.income.commands.HelpIncomeCommand;
+
+
 import java.time.LocalDate;
 
 public class IncomeCommandParser {
@@ -127,6 +132,15 @@ public class IncomeCommandParser {
                 System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
+
+        case "top":
+            return new TopCategoryIncomeCommand();
+
+        case "bottom":
+            return new BottomCategoryIncomeCommand();
+
+        case "help":
+            return new HelpIncomeCommand();
 
         default:
             System.out.println("Unknown income command: " + commandType);

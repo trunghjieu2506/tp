@@ -7,6 +7,11 @@ import expenseincome.expense.commands.ListExpenseCommand;
 import expenseincome.expense.commands.EditExpenseCommand;
 import expenseincome.expense.commands.SortExpenseCommand;
 import expenseincome.expense.commands.ListCategoryExpenseCommand;
+import expenseincome.expense.commands.TopCategoryExpenseCommand;
+import expenseincome.expense.commands.BottomCategoryExpenseCommand;
+import expenseincome.expense.commands.HelpExpenseCommand;
+
+
 import java.time.LocalDate;
 
 public class ExpenseCommandParser {
@@ -119,6 +124,15 @@ public class ExpenseCommandParser {
                 System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
+
+        case "top":
+            return new TopCategoryExpenseCommand();
+
+        case "bottom":
+            return new BottomCategoryExpenseCommand();
+
+        case "help":
+            return new HelpExpenseCommand();
 
         default:
             return null;
