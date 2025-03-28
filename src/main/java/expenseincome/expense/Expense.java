@@ -1,4 +1,4 @@
-package expense_income.expense;
+package expenseincome.expense;
 
 import java.time.LocalDate;
 
@@ -19,7 +19,6 @@ public class Expense {
         this.date = date;
         this.category = category;
     }
-
     public String getDescription() {
         return description;
     }

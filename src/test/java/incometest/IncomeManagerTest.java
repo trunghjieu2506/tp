@@ -1,13 +1,13 @@
 package incometest;
 
-import expense_income.income.Income;
-import expense_income.income.IncomeManager;
+import expenseincome.income.Income;
+import expenseincome.income.IncomeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IncomeManagerTest {
     private IncomeManager manager;
@@ -18,7 +18,7 @@ public class IncomeManagerTest {
     }
 
     @Test
-    void testAddIncome_WithDate() {
+    void testAddIncomeWithDate() {
         LocalDate date = LocalDate.of(2025, 3, 20);
         manager.addIncome("Salary", 2000.00, date, "Job");
         assertEquals(1, manager.getIncomeCount());
@@ -30,7 +30,7 @@ public class IncomeManagerTest {
     }
 
     @Test
-    void testAddIncome_TodayDate() {
+    void testAddIncomeTodayDate() {
         LocalDate today = LocalDate.now();
         manager.addIncome("Bonus", 500.00, today, "Job");
         assertEquals(today, manager.getIncome(0).getDate());
@@ -38,37 +38,37 @@ public class IncomeManagerTest {
     }
 
     @Test
-    void testAddIncome_EmptySource() {
+    void testAddIncomeEmptySource() {
         manager.addIncome("", 100.00, LocalDate.now(), "Gift");
         assertEquals(0, manager.getIncomeCount());
     }
 
     @Test
-    void testAddIncome_NullSource() {
+    void testAddIncomeNullSource() {
         manager.addIncome(null, 100.00, LocalDate.now(), "Gift");
         assertEquals(0, manager.getIncomeCount());
     }
 
     @Test
-    void testAddIncome_ZeroAmount() {
+    void testAddIncomeZeroAmount() {
         manager.addIncome("Test", 0, LocalDate.now(), "Other");
         assertEquals(0, manager.getIncomeCount());
     }
 
     @Test
-    void testAddIncome_NegativeAmount() {
+    void testAddIncomeNegativeAmount() {
         manager.addIncome("Freelance", -100, LocalDate.now(), "Freelance");
         assertEquals(0, manager.getIncomeCount());
     }
 
     @Test
-    void testAddIncome_EmptyCategory() {
+    void testAddIncomeEmptyCategory() {
         manager.addIncome("Lottery", 1000.00, LocalDate.now(), "");
         assertEquals(0, manager.getIncomeCount());
     }
 
     @Test
-    void testDeleteIncome_ValidIndex() {
+    void testDeleteIncomeValidIndex() {
         manager.addIncome("Salary", 2000.00, LocalDate.now(), "Job");
         assertEquals(1, manager.getIncomeCount());
         manager.deleteIncome(1);
@@ -76,14 +76,14 @@ public class IncomeManagerTest {
     }
 
     @Test
-    void testDeleteIncome_InvalidIndex() {
+    void testDeleteIncomeInvalidIndex() {
         manager.addIncome("Salary", 2000.00, LocalDate.now(), "Job");
         manager.deleteIncome(2);
         assertEquals(1, manager.getIncomeCount());
     }
 
     @Test
-    void testEditIncome_ValidUpdate() {
+    void testEditIncomeValidUpdate() {
         manager.addIncome("Part-Time", 800.00, LocalDate.of(2024, 1, 1), "Freelance");
         manager.editIncome(1, "Internship", 1000.00, LocalDate.of(2025, 1, 1), "Job");
         Income updated = manager.getIncome(0);
@@ -94,7 +94,7 @@ public class IncomeManagerTest {
     }
 
     @Test
-    void testEditIncome_InvalidIndex() {
+    void testEditIncomeInvalidIndex() {
         manager.editIncome(1, "New", 123.45, LocalDate.now(), "Gift");
         assertEquals(0, manager.getIncomeCount());
     }

@@ -1,6 +1,6 @@
 package budget_saving.budget;
 
-import expense_income.expense.Expense;
+import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;

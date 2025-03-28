@@ -1,18 +1,25 @@
-package expense_income.expense;
+package expenseincome.expense;
 
-import expense_income.expense.commands.AddExpenseCommand;
-import expense_income.expense.commands.DeleteExpenseCommand;
-import expense_income.expense.commands.ExpenseCommand;
-import expense_income.expense.commands.ListExpenseCommand;
-import expense_income.expense.commands.EditExpenseCommand;
-import expense_income.expense.commands.SortExpenseCommand;
-import expense_income.expense.commands.ListCategoryExpenseCommand;
+import expenseincome.expense.commands.AddExpenseCommand;
+import expenseincome.expense.commands.DeleteExpenseCommand;
+import expenseincome.expense.commands.ExpenseCommand;
+import expenseincome.expense.commands.ListExpenseCommand;
+import expenseincome.expense.commands.EditExpenseCommand;
+import expenseincome.expense.commands.SortExpenseCommand;
+import expenseincome.expense.commands.ListCategoryExpenseCommand;
+import expenseincome.expense.commands.TopCategoryExpenseCommand;
+import expenseincome.expense.commands.BottomCategoryExpenseCommand;
+import expenseincome.expense.commands.HelpExpenseCommand;
+
+
 import java.time.LocalDate;
 
 public class ExpenseCommandParser {
 
     private static String capitalize(String input) {
-        if (input == null || input.isEmpty()) return input;
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
@@ -41,10 +48,8 @@ public class ExpenseCommandParser {
 
                 String description = parts[1];
                 double amount = Double.parseDouble(args[0]);
-
                 String rawCategory = args[1];
                 String category = capitalize(rawCategory.trim());
-
                 LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
 
                 return new AddExpenseCommand(description, amount, date, category);
@@ -94,15 +99,14 @@ public class ExpenseCommandParser {
 
                 String newDesc = args[0];
                 double newAmount = Double.parseDouble(args[1]);
-
                 String rawCategory = args[2];
                 String newCategory = capitalize(rawCategory.trim());
-
                 LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
 
                 return new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory);
             } catch (Exception e) {
-                System.out.println("Invalid input. Format: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+                System.out.println("Invalid input. Format: edit <index> " +
+                        "<newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
                 return null;
             }
 
@@ -120,6 +124,15 @@ public class ExpenseCommandParser {
                 System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
                 return null;
             }
+
+        case "top":
+            return new TopCategoryExpenseCommand();
+
+        case "bottom":
+            return new BottomCategoryExpenseCommand();
+
+        case "help":
+            return new HelpExpenseCommand();
 
         default:
             return null;

@@ -1,6 +1,6 @@
-package expense_income.income.commands;
+package expenseincome.income.commands;
 
-import expense_income.income.IncomeManager;
+import expenseincome.income.IncomeManager;
 
 public class SortIncomeCommand extends IncomeCommand {
     private boolean mostRecentFirst;
