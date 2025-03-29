@@ -2,10 +2,11 @@ package budgettest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import budget_saving.budget.BudgetList;
-import budget_saving.budget.command.BudgetGeneralCommand;
+import budgetsaving.budget.BudgetList;
+import budgetsaving.budget.command.BudgetGeneralCommand;
 import cashflow.model.interfaces.BudgetManager;
 
 public class BudgetTest {
