@@ -1,9 +1,7 @@
 package utils.people;
 
-import utils.savemanager.PeopleSaveManager;
 import utils.tags.TagList;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

@@ -108,7 +108,8 @@ public class LoanCommandParser {
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 assert interest != null;
                 String description = handleDescriptionInputUI(scanner);
-                return new AddAdvancedLoanCommand(loanList, description, lender, borrower, money, startDate, returnDate, interest);
+                return new AddAdvancedLoanCommand(loanList, description, lender, borrower, money, startDate,
+                        returnDate, interest);
             }
         } catch (NullPointerException | NumberFormatException e) {
             return new InvalidCommand("Invalid number input");
@@ -118,7 +119,8 @@ public class LoanCommandParser {
         return null;
     }
 
-    private static LoanCommand handleSetCommand(LoanList loanList, Scanner scanner, int index, String attribute, String defaultCurrency) {
+    private static LoanCommand handleSetCommand(LoanList loanList, Scanner scanner, int index, String attribute,
+                                                String defaultCurrency) {
         switch (attribute) {
         case "lender":
         case "borrower":

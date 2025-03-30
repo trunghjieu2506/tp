@@ -17,7 +17,7 @@ import loanbook.parsers.LoanCommandParser;
 import loanbook.LoanList;
 import loanbook.commands.LoanCommand;
 import loanbook.save.LoanSaveManager;
-import utils.savemanager.PeopleSaveManager;
+import utils.people.PeopleSaveManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,7 +38,8 @@ public class UI {
         this.data = data;
         try {
             PeopleSaveManager.readSave();
-        } catch (FileNotFoundException ignored) {
+        } catch (FileNotFoundException e) {
+            System.out.println("People save file not found");
         }
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());

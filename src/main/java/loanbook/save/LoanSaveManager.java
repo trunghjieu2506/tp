@@ -44,15 +44,17 @@ public class LoanSaveManager extends SaveManager {
         Person lender = PeopleList.findOrAddPerson(splitLine[1].replace("<Lender>", "").trim());
         Person borrower = PeopleList.findOrAddPerson(splitLine[2].replace("<Borrower>", "").trim());
         Money principal = MoneyParser.parse(splitLine[3].replace("<Principal>", "").trim());
-        LocalDate startDate = null;
-        LocalDate returnDate = null;
+        LocalDate startDate;
+        LocalDate returnDate;
         try {
             startDate = LocalDate.parse(splitLine[4].replace("<StartDate>", "").trim());
-        } catch (DateTimeParseException ignored) {
+        } catch (DateTimeParseException e) {
+            startDate = null;
         }
         try {
             returnDate = LocalDate.parse(splitLine[5].replace("<ReturnDate>", "").trim());
         } catch (DateTimeParseException ignored) {
+            returnDate = null;
         }
         String description = splitLine[6].replace("<Description>", "").trim();
         ArrayList<String> tagList = null;

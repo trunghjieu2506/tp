@@ -75,7 +75,7 @@ public class Person {
      * @throws IllegalArgumentException if the input <code>String</code> does not contain "@".
      */
     public void setEmail(String email) throws IllegalArgumentException {
-        if (!email.contains("@")) {
+        if (email != null && !email.contains("@")) {
             throw new IllegalArgumentException("Incorrect E-Mail format");
         }
         this.email = email;

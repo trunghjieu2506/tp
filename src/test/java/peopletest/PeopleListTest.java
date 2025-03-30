@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import utils.people.PeopleList;
 import utils.people.Person;
 import utils.people.SameNameException;
-import utils.savemanager.PeopleSaveManager;
+import utils.people.PeopleSaveManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

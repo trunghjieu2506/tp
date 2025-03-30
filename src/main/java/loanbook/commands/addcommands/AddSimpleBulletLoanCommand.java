@@ -33,7 +33,8 @@ public class AddSimpleBulletLoanCommand extends LoanCommand {
         this.money = money;
     }
 
-    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money, LocalDate returnDate) {
+    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money,
+                                      LocalDate returnDate) {
         this.loans = loans;
         this.description = description;
         this.lender = lender;
@@ -42,7 +43,8 @@ public class AddSimpleBulletLoanCommand extends LoanCommand {
         this.returnDate = returnDate;
     }
 
-    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money, LocalDate startDate, LocalDate returnDate) {
+    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money,
+                                      LocalDate startDate, LocalDate returnDate) {
         this.loans = loans;
         this.description = description;
         this.lender = lender;

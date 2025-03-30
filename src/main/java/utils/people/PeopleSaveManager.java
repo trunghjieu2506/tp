@@ -1,14 +1,13 @@
-package utils.savemanager;
+package utils.people;
 
-import utils.people.PeopleList;
-import utils.people.Person;
+import utils.savemanager.SaveManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PeopleSaveManager extends SaveManager{
+public class PeopleSaveManager extends SaveManager {
     public static final String PEOPLE_SEPARATOR = "<PersonSaveSeparator>\n";
     public static final String NAME = "<Name>";
     public static final String CONTACT_NUMBER = "<ContactNumber>";
@@ -47,7 +46,8 @@ public class PeopleSaveManager extends SaveManager{
             person.setContactNumber(contactNumber);
             try {
                 person.setEmail(email);
-            } catch (IllegalArgumentException ignored) {
+            } catch (IllegalArgumentException e) {
+                person.setEmail(null);
             }
             person.addTags(tagList);
         }
