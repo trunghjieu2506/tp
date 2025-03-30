@@ -1,10 +1,13 @@
 package budgetsaving.budget;
 
+import budgetsaving.budget.utils.BudgetActiveStatus;
+import budgetsaving.budget.utils.BudgetExceedStatus;
 import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 
 public class Budget {
     private String name;
@@ -14,6 +17,8 @@ public class Budget {
     private LocalDate startDate;
     private LocalDate endDate;
     private String category;
+    private BudgetActiveStatus activeStatus;
+    private BudgetExceedStatus exceedStatus;
 
     public Budget(String name, Money totalBudget, LocalDate endDate, String category) {
         if (name == null || name.trim().isEmpty()) {
@@ -44,6 +49,8 @@ public class Budget {
         this.endDate = endDate;
         this.category = category;
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
+        this.activeStatus = BudgetActiveStatus.ACTIVE;
+        this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
     }
 
 
@@ -118,6 +125,8 @@ public class Budget {
             deduct(expense.getAmount());
             BigDecimal remainingAmount = remainingBudget.getAmount();
             double remainingAmountDouble = remainingAmount.doubleValue();
+            exceedStatus = remainingAmountDouble > 0 ?
+                    BudgetExceedStatus.HAS_REMAINING_BUDGET : exceedStatus;
             return remainingAmountDouble > 0;
         }
         throw new IllegalStateException("Error adding the expense to the budget.");
