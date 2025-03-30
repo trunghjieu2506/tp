@@ -16,7 +16,12 @@ public class DeductFromBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        budgetManager.deductFromBudget(index, amount);
+        try {
+            budgetManager.deductFromBudget(index, amount);
+        } catch (Exception e) {
+            System.err.println("Error deducting from a budget: " + e.getMessage());
+        }
     }
+
 }
 

@@ -1,11 +1,16 @@
 package budget_saving.budget.command;
 
+import budget_saving.budget.BudgetException;
 import budget_saving.budget.utils.BudgetParser;
 import budget_saving.budget.utils.BudgetTextColour;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 import java.util.Scanner;
 
+
+//this class contains all the budget commands
+//ALL EXCEPTIONS should be handled inside their respective commands
+//so any exception thrown out should not be coming from lower hierarchy
 public class BudgetGeneralCommand implements Command {
 
     public static final String LIST_BUDGET = "list";
@@ -70,7 +75,7 @@ public class BudgetGeneralCommand implements Command {
         try {
             command.execute();
         } catch (Exception e) {
-            System.err.println("An error has occurred when executing the budget command.");
+            System.err.println(BudgetException.ERROR_NOTIFIER);
         }
     }
 

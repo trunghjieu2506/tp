@@ -12,7 +12,12 @@ public class ListBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        budgetManager.listBudgets();
+        try {
+            budgetManager.listBudgets();
+        } catch (Exception e) {
+            System.err.println("Error listing budgets: " + e.getMessage());
+        }
     }
+
 }
 

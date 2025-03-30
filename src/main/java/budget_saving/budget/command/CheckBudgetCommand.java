@@ -14,6 +14,11 @@ public class CheckBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        budgetManager.checkBudget(index);
+        try {
+            budgetManager.checkBudget(index);
+        } catch (Exception e) {
+            System.err.println("Error checking a budget: " + e.getMessage());
+        }
     }
+
 }

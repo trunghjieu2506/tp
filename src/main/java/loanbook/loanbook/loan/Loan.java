@@ -1,5 +1,6 @@
 package loanbook.loanbook.loan;
 
+import loanbook.loanbook.interest.Interest;
 import utils.money.Money;
 import utils.people.Person;
 
@@ -68,6 +69,10 @@ public abstract class Loan {
 
     public Money principal() {
         return principal;
+    }
+
+    public void setPrincipal(Money money) {
+        principal = money;
     }
 
     public boolean isReturned() {
