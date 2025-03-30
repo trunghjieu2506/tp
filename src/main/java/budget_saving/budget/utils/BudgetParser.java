@@ -1,7 +1,7 @@
 package budget_saving.budget.utils;
 
 import budget_saving.budget.command.*;
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
 import java.time.LocalDate;

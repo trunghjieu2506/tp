@@ -2,8 +2,8 @@ package cashflow.ui;
 
 import budget_saving.budget.BudgetList;
 import budget_saving.budget.command.BudgetGeneralCommand;
-import cashflow.command.HelpCommand;
-import cashflow.command.OverviewCommand;
+import cashflow.ui.command.HelpCommand;
+import cashflow.ui.command.OverviewCommand;
 import cashflow.model.FinanceData;
 import budget_saving.saving.SavingList;
 import budget_saving.saving.command.SavingGeneralCommand;

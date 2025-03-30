@@ -1,6 +1,6 @@
 package budget_saving.saving.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import budget_saving.saving.SavingList;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;

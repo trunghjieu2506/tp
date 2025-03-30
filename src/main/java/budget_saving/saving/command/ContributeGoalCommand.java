@@ -1,6 +1,6 @@
 package budget_saving.saving.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import utils.money.Money;
 import budget_saving.saving.SavingList;
 
