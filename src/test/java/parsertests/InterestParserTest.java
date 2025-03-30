@@ -1,8 +1,8 @@
 package parsertests;
 
-import loanbook.loanbook.interest.Interest;
-import loanbook.loanbook.interest.InterestType;
-import loanbook.loanbook.parsers.InterestParser;
+import loanbook.interest.Interest;
+import loanbook.interest.InterestType;
+import loanbook.parsers.InterestParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

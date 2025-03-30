@@ -45,6 +45,15 @@ public class Person {
         personTagList.addMap(tag, this);
     }
 
+    public void addTags(ArrayList<String> tags) {
+        if (tags != null) {
+            for (String tag : tags) {
+                myTags.add(tag);
+                personTagList.addMap(tag, this);
+            }
+        }
+    }
+
     public void removeTag(String tag) {
         myTags.remove(tag);
         personTagList.removeMap(tag, this);
@@ -90,9 +99,10 @@ public class Person {
         int i = 0;
         for (String tag : myTags) {
             output.append(tag);
-            if (i < myTags.size() - 1) {
+            if (i < (myTags.size() - 1)) {
                 output.append(", ");
             }
+            i++;
         }
         return output.toString();
     }
@@ -122,5 +132,12 @@ public class Person {
                 + "Contact Number: " + (contactNumber == null ? "None" : contactNumber) + '\n'
                 + "E-Mail: " + (email == null ? "None" : email) + '\n'
                 + "Tags: " + showTags() + '\n';
+    }
+
+    public String forSave() {
+        return "<Name>" + name + '\n' +
+                "<ContactNumber>" + (contactNumber == null ? "None" : contactNumber) + '\n' +
+                "<EMail>" + (email == null ? "None" : email) + '\n' +
+                "<Tags>" + showTags();
     }
 }

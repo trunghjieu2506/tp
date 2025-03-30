@@ -13,10 +13,14 @@ import expenseincome.income.IncomeCommandParser;
 import expenseincome.income.commands.IncomeCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
-import loanbook.loanbook.parsers.LoanCommandParser;
-import loanbook.loanbook.LoanList;
-import loanbook.loanbook.commands.LoanCommand;
+import loanbook.parsers.LoanCommandParser;
+import loanbook.LoanList;
+import loanbook.commands.LoanCommand;
+import loanbook.save.LoanSaveManager;
+import utils.savemanager.PeopleSaveManager;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static budget_saving.budget.command.BudgetGeneralCommand.handleBudgetCommand;
@@ -32,9 +36,17 @@ public class UI {
 
     public UI(FinanceData data) {
         this.data = data;
+        try {
+            PeopleSaveManager.readSave();
+        } catch (FileNotFoundException ignored) {
+        }
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());
-        this.loanList = new LoanList();
+        try {
+            this.loanList = LoanSaveManager.readLoanList();
+        } catch (FileNotFoundException e) {
+            this.loanList = new LoanList();
+        }
 
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
@@ -49,6 +61,12 @@ public class UI {
             input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("exit")) {
+                try {
+                    LoanSaveManager.saveLoanList(loanList);
+                    PeopleSaveManager.savePeopleList();
+                } catch (IOException e) {
+                    System.out.println("Unable to update save file");
+                }
                 System.out.println("Exiting. Goodbye!");
                 break;
             }

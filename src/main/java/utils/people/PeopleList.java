@@ -1,7 +1,9 @@
 package utils.people;
 
+import utils.savemanager.PeopleSaveManager;
 import utils.tags.TagList;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -107,7 +109,6 @@ public class PeopleList {
     public static String listAll() {
         ArrayList<String> names = new ArrayList<>(contacts.keySet());
         Collections.sort(names);
-
         StringBuilder output = new StringBuilder();
         int i = 1;
         for (String name : names) {
@@ -115,5 +116,14 @@ public class PeopleList {
             i++;
         }
         return output.toString();
+    }
+
+    public static String toSave() {
+        StringBuilder save = new StringBuilder();
+        ArrayList<String> names = new ArrayList<>(contacts.keySet());
+        for (String name : names) {
+            save.append(contacts.get(name).forSave()).append("\n").append(PeopleSaveManager.PEOPLE_SEPARATOR);
+        }
+        return save.toString();
     }
 }

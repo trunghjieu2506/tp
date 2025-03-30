@@ -1,21 +1,29 @@
 package loantests;
 
-import loanbook.loanbook.LoanList;
-import loanbook.loanbook.commands.*;
-import loanbook.loanbook.commands.addcommands.AddAdvancedLoanCommand;
-import loanbook.loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
-import loanbook.loanbook.interest.Interest;
-import loanbook.loanbook.interest.InterestType;
-import loanbook.loanbook.loan.Loan;
-import loanbook.loanbook.parsers.LoanCommandParser;
+import loanbook.LoanList;
+import loanbook.commands.DeleteLoanCommand;
+import loanbook.commands.ListLoansCommand;
+import loanbook.commands.LoanCommand;
+import loanbook.commands.ShowLoanDetailCommand;
+import loanbook.commands.addcommands.AddAdvancedLoanCommand;
+import loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
+import loanbook.interest.Interest;
+import loanbook.interest.InterestType;
+import loanbook.loan.AdvancedLoan;
+import loanbook.loan.Loan;
+import loanbook.parsers.LoanCommandParser;
+import loanbook.save.LoanSaveManager;
 import utils.money.Money;
 import org.junit.jupiter.api.Test;
 import utils.people.PeopleList;
 import utils.people.Person;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LoanListTest {
@@ -51,6 +59,49 @@ public class LoanListTest {
 
         command_list.execute();
         command_detail.execute();
+    }
+
+    private LoanList testList() {
+        new Person("George").addTag("Student");
+        new Person("Miao").addTag("Parent");
+        Money money1 = new Money("SGD", 100);
+        Money money2 = new Money("USD", 123.33);
+        Money money3 = new Money("CNY", 1122.33);
+        Money money4 = new Money("GBP", 1024.00);
+        Money money5 = new Money("SGD", 32768.00);
+        Money money6 = new Money("JPY", 11232223.00);
+
+        Interest interest1 = new Interest(5, InterestType.COMPOUND, Period.ofMonths(1));
+        Interest interest2 = new Interest(3, InterestType.SIMPLE, Period.ofYears(1));
+        Interest interest3 = new Interest(4.5, InterestType.COMPOUND, Period.ofMonths(1));
+        Interest interest4 = new Interest(10, InterestType.SIMPLE, Period.ofYears(1));
+        Interest interest5 = new Interest(1.5, InterestType.COMPOUND, Period.ofMonths(3));
+        Interest interest6 = new Interest(3.3, InterestType.COMPOUND, Period.ofMonths(3));
+
+        Person George = PeopleList.findOrAddPerson("George");
+        Person Miao = PeopleList.findOrAddPerson("Miao");
+        Person DBS = PeopleList.findOrAddPerson("DBS Bank");
+        Person friend = PeopleList.findOrAddPerson("freundin");
+
+        ArrayList<Loan> existingLoans = new ArrayList<>();
+        existingLoans.add(new AdvancedLoan("testOne", George, Miao,
+                money1, LocalDate.of(2025, 1, 1), interest1));
+        existingLoans.add(new AdvancedLoan("testOne", George, Miao,
+                money2, LocalDate.of(2022, 11, 1), interest2));
+        existingLoans.add(new AdvancedLoan("testOne", friend, George,
+                money3, LocalDate.of(2023, 3, 1), interest3));
+        existingLoans.add(new AdvancedLoan("testOne", Miao, George,
+                money4, LocalDate.of(2020, 5, 1), interest4));
+        existingLoans.add(new AdvancedLoan("testOne", DBS, Miao,
+                money5, LocalDate.of(2019, 6, 1), interest5));
+        existingLoans.add(new AdvancedLoan("testOne", DBS, friend,
+                money6, LocalDate.of(2001, 12, 1), interest6));
+        existingLoans.add(new AdvancedLoan("testOne", George, Miao,
+                money2, LocalDate.of(1975, 3, 1), interest1));
+        existingLoans.add(new AdvancedLoan("testOne", George, Miao,
+                money4, LocalDate.of(2024, 1, 1), interest2));
+
+        return new LoanList(existingLoans);
     }
 
     @Test
@@ -107,9 +158,9 @@ public class LoanListTest {
         ShowLoanDetailCommand command_7 = new ShowLoanDetailCommand(loanList, 1);
         command_7.execute();
         System.out.println("Outgoing loans of George");
-        System.out.println(loanList.forPrint(loanList.findOutgoingLoan(George)));
+        System.out.println(LoanList.forPrint(loanList.findOutgoingLoan(George)));
         System.out.println("Outgoing loans of Miao");
-        System.out.println(loanList.forPrint(loanList.findOutgoingLoan(Miao)));
+        System.out.println(LoanList.forPrint(loanList.findOutgoingLoan(Miao)));
         System.out.println("Remove loans[5]");
         DeleteLoanCommand command_8= new DeleteLoanCommand(loanList, 5);
         command_8.execute();
@@ -141,5 +192,68 @@ public class LoanListTest {
         command1.execute();
         listCommand.execute();
         showCommand.execute();
+    }
+
+    @Test
+    public void testSetCommands() {
+        LoanList loanList = testList();
+
+        String input = """
+                
+                """;
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
+
+        LoanCommand command1 = LoanCommandParser.parse(loanList, scanner, "USD", "edit 1 description");
+        LoanCommand listCommand = new ListLoansCommand(loanList);
+        LoanCommand showCommand = new ShowLoanDetailCommand(loanList, 1);
+
+        assert command1 != null;
+        command1.execute();
+        listCommand.execute();
+        showCommand.execute();
+    }
+
+    @Test
+    public void testFindCommands() {
+        LoanList loanList = testList();
+
+        String input = """
+                
+                """;
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
+
+        LoanCommand command1 = LoanCommandParser.parse(loanList, scanner, "USD", "find George outgoing loan");
+        LoanCommand command2 = LoanCommandParser.parse(loanList, scanner, "USD", "find outgoing loan George");
+        LoanCommand listCommand = new ListLoansCommand(loanList);
+        LoanCommand showCommand = new ShowLoanDetailCommand(loanList, 1);
+
+        assert command1 != null;
+        assert command2 != null;
+        command1.execute();
+        command2.execute();
+        listCommand.execute();
+        showCommand.execute();
+    }
+
+    @Test
+    public void testSave() {
+        LoanList loanList = testList();
+        try {
+            LoanSaveManager.saveLoanList(loanList);
+        } catch (IOException e) {
+            System.out.println("IOException thrown");
+        }
+    }
+
+    @Test
+    public void testReadSave() {
+        LoanList loanList;
+        try {
+            loanList = LoanSaveManager.readLoanList();
+        } catch (FileNotFoundException e) {
+            loanList = new LoanList();
+            System.out.println("File not found");
+        }
+        System.out.println(loanList.simpleFulList());
     }
 }
