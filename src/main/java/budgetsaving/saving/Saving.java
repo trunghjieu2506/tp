@@ -2,6 +2,9 @@ package budgetsaving.saving;
 
 import java.time.LocalDate;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import budgetsaving.saving.utils.SavingStatus;
 import utils.money.Money;
 
 public class Saving {
@@ -9,11 +12,15 @@ public class Saving {
     private Money goalAmount;
     private Money currentAmount;
     private LocalDate deadline;
+    private SavingStatus status;
+
+    private ArrayList<SavingContribution> contributions;
 
     public Saving(String name, Money goalAmount, LocalDate deadline) {
         this.name = name;
         this.goalAmount = goalAmount;
         this.deadline = deadline;
+        this.status = SavingStatus.ACTIVE;
         // Initialize current amount to zero with the same currency as goalAmount.
         this.currentAmount = new Money(goalAmount.getCurrency(), BigDecimal.ZERO);
     }
@@ -34,24 +41,63 @@ public class Saving {
         return deadline;
     }
 
-    public void addContribution(Money contribution) {
-        // Ensure the contribution is in the same currency
-        if (!contribution.getCurrency().equals(goalAmount.getCurrency())) {
+    public SavingStatus getStatus() {
+        return status;
+    }
+
+    private void updateStatus(SavingStatus status) {
+        this.status = status;
+        System.out.println("Saving status updated to: " + status);
+    }
+
+    private void updateAmount(Money newAmount) {
+        //different currency
+        if (!newAmount.getCurrency().equals(goalAmount.getCurrency())) {
             throw new IllegalArgumentException("Currency mismatch: Expected "
-                    + goalAmount.getCurrency() + " but got " + contribution.getCurrency());
+                    + goalAmount.getCurrency() + " but got " + newAmount.getCurrency());
         }
-        // Add contribution amount using BigDecimal arithmetic.
-        BigDecimal newAmount = currentAmount.getAmount().add(contribution.getAmount());
-        // Cap the current amount at the goal amount if it exceeds it.
-        if (newAmount.compareTo(goalAmount.getAmount()) > 0) {
-            newAmount = goalAmount.getAmount();
+        //restrict the saving amount to be 0 < curr < goal
+        if (newAmount.getAmount().compareTo(goalAmount.getAmount()) > 0) {
+            newAmount = goalAmount;
+            updateStatus(SavingStatus.COMPLETED);
+        } else if (newAmount.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            newAmount = new Money(goalAmount.getCurrency(), BigDecimal.ZERO);
         }
-        currentAmount.setAmount(newAmount);
+        currentAmount = newAmount;
+    }
+
+    private void addNewContribution(SavingContribution contribution) {
+        if (contributions == null) {
+            throw new RuntimeException("Saving contributions is null");
+        }
+        contributions.add(contribution);
+    }
+
+    public void addContribution(Money contribution) {
+        currentAmount.increment(contribution.getAmount());
+        //double check currency and restrict amount
+        updateAmount(currentAmount);
+        SavingContribution newContribution = new SavingContribution(contribution, LocalDate.now());
+        addNewContribution(newContribution);
+        System.out.println("Saving contribution added.\n" + this);
     }
 
     @Override
     public String toString() {
-        return "Saving [name=" + name + ", goalAmount=" + goalAmount
-                + ", currentAmount=" + currentAmount + ", deadline=" + deadline + "]";
+        return "Saving: { name=" + name + ", goalAmount=" + goalAmount
+                + ", currentAmount=" + currentAmount + ", deadline=" + deadline + " }";
+    }
+
+    public String toStringWithContributions() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this);
+        for (int i = 0; i < contributions.size(); i++) {
+            SavingContribution contribution = contributions.get(i);
+            if (contribution == null) {
+                throw new RuntimeException("Saving contribution is null");
+            }
+            sb.append("Contribution " + i + ". " + contributions.get(i).toString());
+        }
+        return sb.toString();
     }
 }
