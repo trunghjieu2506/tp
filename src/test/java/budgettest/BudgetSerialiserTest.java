@@ -8,7 +8,8 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class BudgetSerialiserTest {
 
@@ -35,7 +36,8 @@ public class BudgetSerialiserTest {
         assertEquals(original.getName(), restored.getName(), "Name should match");
         assertEquals(original.getCategory(), restored.getCategory(), "Category should match");
         assertEquals(original.getEndDate(), restored.getEndDate(), "End date should match");
-        assertEquals(original.getRemainingBudget().getCurrency(), restored.getRemainingBudget().getCurrency(), "Currency should match");
+        assertEquals(original.getRemainingBudget().getCurrency(),
+                restored.getRemainingBudget().getCurrency(), "Currency should match");
         assertEquals(
                 original.getRemainingBudget().getAmount().doubleValue(),
                 restored.getRemainingBudget().getAmount().doubleValue(),

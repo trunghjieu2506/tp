@@ -64,7 +64,8 @@ public class BudgetListTest {
         assertEquals(budget1, budgetList.getBudget(0));
 
         // Adding a budget with a duplicate category => BudgetException
-        Budget budgetDuplicate = new Budget("Budget2", new Money("USD", BigDecimal.valueOf(500)), futureDate, "Category1");
+        Budget budgetDuplicate = new Budget("Budget2",
+                new Money("USD", BigDecimal.valueOf(500)), futureDate, "Category1");
         assertThrows(BudgetException.class, () -> budgetList.addNewBudget(budgetDuplicate));
     }
 
