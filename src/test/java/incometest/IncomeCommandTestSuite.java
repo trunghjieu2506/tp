@@ -7,6 +7,9 @@ import expenseincome.income.commands.EditIncomeCommand;
 import expenseincome.income.commands.ListCategoryIncomeCommand;
 import expenseincome.income.commands.ListIncomeCommand;
 import expenseincome.income.commands.SortIncomeCommand;
+import expenseincome.income.commands.HelpIncomeCommand;
+import expenseincome.income.commands.TopCategoryIncomeCommand;
+import expenseincome.income.commands.BottomCategoryIncomeCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -80,4 +83,28 @@ public class IncomeCommandTestSuite {
         command.execute(incomeManager);
         assertEquals("Y", incomeManager.getIncome(0).getSource());
     }
+
+    @Test
+    void testHelpIncomeCommandExecute() {
+        HelpIncomeCommand command = new HelpIncomeCommand();
+        command.execute(incomeManager); // should print help text without errors
+    }
+
+    @Test
+    void testTopCategoryIncomeCommandExecute() {
+        incomeManager.addIncome("Paycheck", 3000.0, LocalDate.now(), "Job");
+        incomeManager.addIncome("Freelance", 2000.0, LocalDate.now(), "Freelance");
+        incomeManager.addIncome("Bonus", 1000.0, LocalDate.now(), "Job");
+        TopCategoryIncomeCommand command = new TopCategoryIncomeCommand();
+        command.execute(incomeManager); // should output "Job"
+    }
+
+    @Test
+    void testBottomCategoryIncomeCommandExecute() {
+        incomeManager.addIncome("Paycheck", 3000.0, LocalDate.now(), "Job");
+        incomeManager.addIncome("Freelance", 200.0, LocalDate.now(), "Freelance");
+        BottomCategoryIncomeCommand command = new BottomCategoryIncomeCommand();
+        command.execute(incomeManager); // should output "Freelance"
+    }
+
 }
