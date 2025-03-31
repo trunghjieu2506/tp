@@ -1,4 +1,4 @@
-package parsertests;
+package utiltest.parsertests;
 
 import loanbook.interest.Interest;
 import loanbook.interest.InterestType;

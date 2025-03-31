@@ -1,17 +1,24 @@
 package loanbook.commands.findcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
-import utils.people.PeopleList;
-import utils.people.Person;
+import loanbook.loan.Loan;
+import utils.contacts.Person;
+
+import java.util.ArrayList;
 
 public class FindOutgoingLoanCommand extends LoanCommand {
-    protected LoanList loanList;
+    protected LoanManager loanManager;
     protected Person lender;
 
-    public FindOutgoingLoanCommand(LoanList loanList, String name) {
-        this.loanList = loanList;
-        this.lender = PeopleList.findName(name);
+    public FindOutgoingLoanCommand(LoanManager loanManager, String name) {
+        this.loanManager = loanManager;
+        this.lender = loanManager.getContactsList().findName(name);
+    }
+
+    public FindOutgoingLoanCommand(LoanManager loanManager, Person person) {
+        this.loanManager = loanManager;
+        this.lender = person;
     }
 
     @Override
@@ -19,8 +26,13 @@ public class FindOutgoingLoanCommand extends LoanCommand {
         if (lender == null) {
             System.out.println("Person not found");
         } else {
-            System.out.println("Outgoing loans for " + lender.getName() + " are:");
-            System.out.println(LoanList.forPrint(loanList.findOutgoingLoan(lender)));
+            ArrayList<Loan> found = loanManager.findOutgoingLoan(lender);
+            if (found.isEmpty()) {
+                System.out.println("No results found");
+            } else {
+                System.out.println("Outgoing loans for [" + lender.getName() + (found.size() == 1 ? "] is:" : "] are:"));
+                System.out.println(LoanManager.forPrint(found));
+            }
         }
     }
 }

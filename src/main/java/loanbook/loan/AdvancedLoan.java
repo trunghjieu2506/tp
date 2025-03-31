@@ -2,7 +2,7 @@ package loanbook.loan;
 
 import loanbook.interest.Interest;
 import utils.money.Money;
-import utils.people.Person;
+import utils.contacts.Person;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

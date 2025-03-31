@@ -1,12 +1,12 @@
 package loanbook.commands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 
 public class DeleteLoanCommand extends LoanCommand{
-    protected LoanList loans;
+    protected LoanManager loans;
     protected int index;
 
-    public DeleteLoanCommand(LoanList loans, int index) {
+    public DeleteLoanCommand(LoanManager loans, int index) {
         this.loans = loans;
         this.index = index;
     }

@@ -1,6 +1,6 @@
 package loanbook.save;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.interest.Interest;
 import loanbook.loan.AdvancedLoan;
 import loanbook.loan.DateUndefinedException;
@@ -9,8 +9,9 @@ import loanbook.loan.SimpleBulletLoan;
 import loanbook.parsers.InterestParser;
 import utils.money.Money;
 import utils.money.MoneyParser;
-import utils.people.PeopleList;
-import utils.people.Person;
+import utils.contacts.ContactsList;
+import utils.contacts.ContactsSaveManager;
+import utils.contacts.Person;
 import utils.savemanager.SaveManager;
 
 import java.io.FileNotFoundException;
@@ -24,14 +25,15 @@ import java.util.Arrays;
  * Manages the saving of loan information to a text file.
  */
 public class LoanSaveManager extends SaveManager {
-    public static final String LOAN_SAVE_PATH = "save/loansData.txt";
     public static final String LOAN_SEPARATOR = "<LoanSaveSeparator>\n";
+    public static final String LOANS_SAVE_FOLDER = "save/loans";
+    public static final String SAVE_FILE_SUFFIX = "_loans.txt";
 
-    public static ArrayList<Loan> readSaveString(String save) {
+    public static ArrayList<Loan> readSaveString(String save, ContactsList contactsList) {
         String[] splitLoan = save.split(LOAN_SEPARATOR);
         ArrayList<Loan> list = new ArrayList<>();
         for (String loanString : splitLoan) {
-            Loan loan = readLoan(loanString);
+            Loan loan = readLoan(loanString, contactsList);
             if (loan != null) {
                 list.add(loan);
             }
@@ -39,10 +41,10 @@ public class LoanSaveManager extends SaveManager {
         return list;
     }
 
-    private static Loan readLoan(String save) throws IllegalArgumentException {
+    private static Loan readLoan(String save, ContactsList contactsList) throws IllegalArgumentException {
         String[] splitLine = save.split("\n");
-        Person lender = PeopleList.findOrAddPerson(splitLine[1].replace("<Lender>", "").trim());
-        Person borrower = PeopleList.findOrAddPerson(splitLine[2].replace("<Borrower>", "").trim());
+        Person lender = contactsList.findOrAdd(splitLine[1].replace("<Lender>", "").trim());
+        Person borrower = contactsList.findOrAdd(splitLine[2].replace("<Borrower>", "").trim());
         Money principal = MoneyParser.parse(splitLine[3].replace("<Principal>", "").trim());
         LocalDate startDate;
         LocalDate returnDate;
@@ -83,16 +85,29 @@ public class LoanSaveManager extends SaveManager {
         return null;
     }
 
-    public static void saveLoanList(LoanList loanList) throws IOException {
-        writeTextFile(LOAN_SAVE_PATH, loanList.toSave());
+    public static void saveLoanList(LoanManager loanManager) throws IOException {
+        ContactsSaveManager.savePeopleList(loanManager.getContactsList());
+        writeTextFile(LOANS_SAVE_FOLDER, savePath(loanManager.getUser()), loanManager.toSave());
     }
 
-    public static LoanList readLoanList() throws FileNotFoundException {
-        String save = getSaveString(LOAN_SAVE_PATH);
-        return new LoanList(readSaveString(save));
+    public static LoanManager readLoanList(String user) throws FileNotFoundException {
+        ContactsList contactsList;
+        try {
+            contactsList = ContactsSaveManager.readSave(user);
+        } catch (FileNotFoundException e) {
+            System.out.println("Contact book for [" + user + "] not found. Creating a new contact book");
+            contactsList = new ContactsList(user);
+        }
+        String save = getSaveString(savePath(user));
+
+        return new LoanManager(user, readSaveString(save, contactsList), contactsList);
     }
 
-    public static void appendSave(String text) throws IOException {
-        appendTextFile(LOAN_SAVE_PATH, text);
+    public static void appendSave(String user, String text) throws IOException {
+        appendTextFile(LOANS_SAVE_FOLDER, savePath(user), text);
+    }
+
+    private static String savePath(String user) {
+        return LOANS_SAVE_FOLDER + '/' + user + SAVE_FILE_SUFFIX;
     }
 }

@@ -1,27 +1,33 @@
-package utils.people;
+package utils.contacts;
 
-import utils.tags.TagList;
+import utils.tags.Taggable;
 
 import java.util.ArrayList;
 
 /**
  * Stores information about a person, including the name, contact number, e-mail, and tags.
- * <code>name</code> cannot be changed once instantiated. The tags are automatically traced in <code>PeopleList</code>.
+ * <code>name</code> cannot be changed once instantiated. The tags are automatically traced in <code>ContactsList</code>.
  */
-public class Person {
+public class Person implements Taggable {
     protected final String name;
     protected String contactNumber;
     protected String email;
     protected ArrayList<String> myTags;
-    protected TagList<Person> personTagList = PeopleList.tags;
 
-    public Person(String name) throws SameNameException {
-        if (PeopleList.contacts.containsKey(name)) {
-            throw new SameNameException("This person already exists!");
-        }
+    public Person(String name) {
         this.name = name;
         myTags = new ArrayList<>();
-        PeopleList.add(this);
+    }
+
+    public Person(String name, String tag) {
+        this.name = name;
+        myTags = new ArrayList<>();
+        myTags.add(tag);
+    }
+
+    public Person(String name, ArrayList<String> tags) {
+        this.name = name;
+        myTags = tags;
     }
 
     public String getName() {
@@ -42,31 +48,32 @@ public class Person {
 
     public void addTag(String tag) {
         myTags.add(tag);
-        personTagList.addMap(tag, this);
     }
 
     public void addTags(ArrayList<String> tags) {
         if (tags != null) {
-            for (String tag : tags) {
-                myTags.add(tag);
-                personTagList.addMap(tag, this);
-            }
+            myTags.addAll(tags);
         }
     }
 
     public void removeTag(String tag) {
         myTags.remove(tag);
-        personTagList.removeMap(tag, this);
     }
 
     public void removeAllTags() {
-        for (String tag : myTags) {
-            personTagList.removeMap(tag, this);
-        }
+        myTags.clear();
+    }
+
+    public ArrayList<String> getTagList() {
+        return myTags;
     }
 
     public void setContactNumber(String number) {
-        this.contactNumber = number;
+        if (number.matches("\\d+")) {
+            this.contactNumber = number;
+        } else {
+            this.contactNumber = null;
+        }
     }
 
     /**

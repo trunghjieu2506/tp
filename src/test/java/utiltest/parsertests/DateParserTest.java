@@ -1,4 +1,4 @@
-package parsertests;
+package utiltest.parsertests;
 
 import org.junit.jupiter.api.Test;
 import utils.datetime.DateParser;

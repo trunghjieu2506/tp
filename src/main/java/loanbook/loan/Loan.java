@@ -1,7 +1,8 @@
 package loanbook.loan;
 
 import utils.money.Money;
-import utils.people.Person;
+import utils.contacts.Person;
+import utils.tags.Taggable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Stores basic information about a loan.
  */
-public abstract class Loan {
+public abstract class Loan implements Taggable {
     protected String description;
     protected final Person lender;
     protected final Person borrower;
@@ -114,11 +115,15 @@ public abstract class Loan {
         }
     }
 
-    public void deleteTag(String tag) {
+    public void removeTag(String tag) {
         tags.remove(tag);
     }
 
-    public ArrayList<String> getTagsList() {
+    public void removeAllTags() {
+        tags.clear();
+    }
+
+    public ArrayList<String> getTagList() {
         if (tags == null) {
             return null;
         }

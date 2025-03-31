@@ -14,10 +14,9 @@ import expenseincome.income.commands.IncomeCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.parsers.LoanCommandParser;
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
 import loanbook.save.LoanSaveManager;
-import utils.people.PeopleSaveManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,24 +28,20 @@ public class UI {
     private FinanceData data;
     private SavingList savingList;
     private BudgetList budgetList;
-    private LoanList loanList;
+    private LoanManager loanManager;
 
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
 
     public UI(FinanceData data) {
         this.data = data;
-        try {
-            PeopleSaveManager.readSave();
-        } catch (FileNotFoundException e) {
-            System.out.println("People save file not found");
-        }
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());
+        //Can create a username.
         try {
-            this.loanList = LoanSaveManager.readLoanList();
+            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
         } catch (FileNotFoundException e) {
-            this.loanList = new LoanList();
+            this.loanManager = new LoanManager("GeorgeMiao");
         }
 
         this.expenseManager = data.getExpenseManager();
@@ -63,8 +58,7 @@ public class UI {
 
             if (input.equalsIgnoreCase("exit")) {
                 try {
-                    LoanSaveManager.saveLoanList(loanList);
-                    PeopleSaveManager.savePeopleList();
+                    LoanSaveManager.saveLoanList(loanManager);
                 } catch (IOException e) {
                     System.out.println("Unable to update save file");
                 }
@@ -154,7 +148,7 @@ public class UI {
                 break;
             }
 
-            LoanCommand loanCommand = LoanCommandParser.parse(loanList, scanner, data.getCurrency(), command);
+            LoanCommand loanCommand = LoanCommandParser.parse(loanManager, scanner, data.getCurrency(), command);
             if (loanCommand != null) {
                 loanCommand.execute();
             } else {

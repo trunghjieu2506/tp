@@ -1,13 +1,13 @@
 package loanbook.commands.setcommands;
 
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 
 public class SetReturnStatusCommand extends SetCommand {
     protected boolean isReturned;
 
-    public SetReturnStatusCommand(LoanList loanList, int index, boolean isReturned) {
-        super(loanList, index);
+    public SetReturnStatusCommand(LoanManager loanManager, int index, boolean isReturned) {
+        super(loanManager, index);
         this.isReturned = isReturned;
     }
 

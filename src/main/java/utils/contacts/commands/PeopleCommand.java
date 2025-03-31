@@ -1,4 +1,4 @@
-package utils.people.commands;
+package utils.contacts.commands;
 
 public class PeopleCommand {
     public void execute() {

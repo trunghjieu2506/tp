@@ -2,8 +2,8 @@ package loanbook;
 
 import loanbook.loan.Loan;
 import loanbook.save.LoanSaveManager;
-import utils.people.PeopleList;
-import utils.people.Person;
+import utils.contacts.ContactsList;
+import utils.contacts.Person;
 import utils.tags.TagList;
 
 import java.io.IOException;
@@ -13,17 +13,36 @@ import java.util.ArrayList;
 /**
  * Stores the list of loans and related operations.
  */
-public class LoanList {
+public class LoanManager {
+    protected String user;
     protected ArrayList<Loan> loans;
+    protected ContactsList contactsList;
     protected TagList<Loan> tags;
 
-    public LoanList() {
+    public LoanManager(String user) {
+        this.user = user;
         loans = new ArrayList<>();
+        contactsList = new ContactsList(user);
+        tags = new TagList<>();
     }
 
-    public LoanList(ArrayList<Loan> loans) {
+    public LoanManager(String user, ArrayList<Loan> loans, ContactsList contactsList) {
+        this.user = user;
         this.loans = loans;
+        this.contactsList = contactsList;
         initialiseTags();
+    }
+
+    public ContactsList getContactsList() {
+        return contactsList;
+    }
+
+    public void setContactsList(ContactsList contactsList) {
+        this.contactsList = contactsList;
+    }
+
+    public String getUser() {
+        return user;
     }
 
     public void add(Loan loan) {
@@ -43,7 +62,7 @@ public class LoanList {
      */
     public void delete(int index) throws IndexOutOfBoundsException {
         Loan loan = loans.get(index - 1);
-        ArrayList<String> loanTags = loan.getTagsList();
+        ArrayList<String> loanTags = loan.getTagList();
         if (loanTags != null) {
             for (String tag : loanTags) {
                 tags.removeMap(tag, loan);
@@ -63,7 +82,7 @@ public class LoanList {
     }
 
     public void deleteTag(int index, String tag) {
-        get(index).deleteTag(tag);
+        get(index).removeTag(tag);
     }
 
     /**
@@ -76,7 +95,7 @@ public class LoanList {
     }
 
     /**
-     * Finds all loans lent by <code>borrower</code>.
+     * Finds all loans borrowed by <code>borrower</code>.
      * @param borrower the borrower.
      * @return an <code>ArrayList</code> of all <code>Loan</code>s found.
      */
@@ -105,6 +124,21 @@ public class LoanList {
         return found;
     }
 
+    /**
+     * Finds all loans lent or borrowed by a person.
+     * @param person the name of the person.
+     * @return an <code>ArrayList</code> of all <code>Loan</code>s found.
+     */
+    public ArrayList<Loan> findAssociatedLoan(Person person) {
+        ArrayList<Loan> found = new ArrayList<>();
+        for (Loan loan : loans) {
+            if (loan.lender() == person || loan.borrower() == person) {
+                found.add(loan);
+            }
+        }
+        return found;
+    }
+
     public ArrayList<Loan> findOverdueLoan() {
         ArrayList<Loan> found = new ArrayList<>();
         for (Loan loan : loans) {
@@ -116,14 +150,14 @@ public class LoanList {
     }
 
     public BigDecimal getTotalLoanFrom(String name) {
-        Person borrower = PeopleList.findName(name);
+        Person borrower = contactsList.findName(name);
         if (borrower == null) {
             return null;
         }
         BigDecimal amount = BigDecimal.valueOf(0);
         for (Loan loan : loans) {
             if (loan.borrower() == borrower) {
-                amount.add(loan.getBalance().getAmount());
+                amount = amount.add(loan.getBalance().getAmount());
             }
         }
         return amount;
@@ -152,7 +186,7 @@ public class LoanList {
     public void initialiseTags() {
         tags = new TagList<>();
         for (Loan loan : loans) {
-            ArrayList<String> loanTags = loan.getTagsList();
+            ArrayList<String> loanTags = loan.getTagList();
             if (loanTags != null) {
                 for (String tag : loanTags) {
                     tags.addMap(tag, loan);

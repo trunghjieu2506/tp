@@ -1,4 +1,4 @@
-package moneytest;
+package utiltest.moneytest;
 
 import utils.money.CommonCurrencies;
 import utils.money.CurrencyNotMatchException;

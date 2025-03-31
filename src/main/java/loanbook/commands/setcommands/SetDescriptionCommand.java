@@ -1,12 +1,12 @@
 package loanbook.commands.setcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 
 public class SetDescriptionCommand extends SetCommand {
     protected String newDescription;
 
-    public SetDescriptionCommand(LoanList loanList, int index, String description) {
-        super(loanList, index);
+    public SetDescriptionCommand(LoanManager loanManager, int index, String description) {
+        super(loanManager, index);
         this.newDescription = description;
     }
 

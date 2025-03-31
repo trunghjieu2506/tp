@@ -1,14 +1,14 @@
 package loanbook.commands.setcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 
 import java.time.LocalDate;
 
 public class SetReturnDateCommand extends SetCommand {
     protected LocalDate newReturnDate;
 
-    public SetReturnDateCommand(LoanList loanList, int index, LocalDate returnDate) {
-        super(loanList, index);
+    public SetReturnDateCommand(LoanManager loanManager, int index, LocalDate returnDate) {
+        super(loanManager, index);
         this.newReturnDate = returnDate;
     }
 

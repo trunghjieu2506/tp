@@ -1,7 +1,7 @@
 package loanbook.loan;
 
 import utils.money.Money;
-import utils.people.Person;
+import utils.contacts.Person;
 
 import java.time.LocalDate;
 

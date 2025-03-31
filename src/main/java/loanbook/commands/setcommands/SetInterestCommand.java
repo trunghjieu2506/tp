@@ -1,6 +1,6 @@
 package loanbook.commands.setcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.interest.Interest;
 import loanbook.loan.AdvancedLoan;
 
@@ -8,8 +8,8 @@ public class SetInterestCommand extends SetCommand {
     protected Interest interest;
     protected AdvancedLoan advancedLoan;
 
-    public SetInterestCommand(LoanList loanList, int index, Interest interest) {
-        super(loanList, index);
+    public SetInterestCommand(LoanManager loanManager, int index, Interest interest) {
+        super(loanManager, index);
         this.interest = interest;
         try {
             this.advancedLoan = (AdvancedLoan) loan;

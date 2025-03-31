@@ -1,11 +1,11 @@
 package loanbook.commands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 
 public class ListLoansCommand extends LoanCommand {
-    protected LoanList loans;
+    protected LoanManager loans;
 
-    public ListLoansCommand(LoanList loans) {
+    public ListLoansCommand(LoanManager loans) {
         this.loans = loans;
     }
 

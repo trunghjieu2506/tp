@@ -1,13 +1,15 @@
 package loanbook.parsers;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.commands.DeleteLoanCommand;
-import loanbook.commands.InvalidCommand;
+import loanbook.commands.PrintMessageCommand;
 import loanbook.commands.ListLoansCommand;
 import loanbook.commands.LoanCommand;
 import loanbook.commands.ShowLoanDetailCommand;
 import loanbook.commands.addcommands.AddAdvancedLoanCommand;
 import loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
+import loanbook.commands.findcommands.FindAssociatedLoanCommand;
+import loanbook.commands.findcommands.FindIncomingLoanCommand;
 import loanbook.commands.findcommands.FindOutgoingLoanCommand;
 import loanbook.commands.setcommands.SetDescriptionCommand;
 import loanbook.commands.setcommands.SetInterestCommand;
@@ -20,8 +22,7 @@ import loanbook.loan.SimpleBulletLoan;
 import utils.datetime.DateParser;
 import utils.money.Money;
 import utils.money.MoneyParser;
-import utils.people.PeopleList;
-import utils.people.Person;
+import utils.contacts.Person;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -30,45 +31,51 @@ import java.util.Currency;
 import java.util.Scanner;
 
 public class LoanCommandParser {
-    public static LoanCommand parse(LoanList loanList, Scanner scanner, String defaultCurrency, String input) {
+    public static LoanCommand parse(LoanManager loanManager, Scanner scanner, String defaultCurrency, String input) {
         String[] splitFirst = input.split(" ", 2);
         String firstWord = splitFirst[0].trim();
         try {
             switch (firstWord) {
             case "list":
-                return new ListLoansCommand(loanList);
+                return new ListLoansCommand(loanManager);
             case "delete":
                 int deleteIndex = Integer.parseInt(splitFirst[1]);
-                return new DeleteLoanCommand(loanList, deleteIndex);
+                return new DeleteLoanCommand(loanManager, deleteIndex);
             case "add":
-                return handleAddLoanCommand(loanList, scanner, Currency.getInstance(defaultCurrency.toUpperCase()));
+                return handleAddLoanCommand(loanManager, scanner, Currency.getInstance(defaultCurrency.toUpperCase()));
             case "show":
                 int showIndex = Integer.parseInt(splitFirst[1]);
-                return new ShowLoanDetailCommand(loanList, showIndex);
+                return new ShowLoanDetailCommand(loanManager, showIndex);
             case "return":
                 int returnIndex = Integer.parseInt(splitFirst[1]);
-                return new SetReturnStatusCommand(loanList, returnIndex, true);
+                return new SetReturnStatusCommand(loanManager, returnIndex, true);
             case "unreturn":
                 int unReturnIndex = Integer.parseInt(splitFirst[1]);
-                return new SetReturnStatusCommand(loanList, unReturnIndex, false);
+                return new SetReturnStatusCommand(loanManager, unReturnIndex, false);
             case "edit":
                 if (splitFirst.length == 1) {
-                    return new InvalidCommand("What part of which loan are you editing? Format: edit X [attribute]");
+                    return new PrintMessageCommand("What part of which loan are you editing? Format: edit X [attribute]");
                 }
                 String[] split = splitFirst[1].split(" ", 2);
                 int index;
                 try {
                     index = Integer.parseInt(split[0]);
                 } catch (NumberFormatException e) {
-                    return new InvalidCommand("What part of which loan are you editing? Format: edit X [attribute]");
+                    return new PrintMessageCommand("What part of which loan are you editing? Format: edit X [attribute]");
                 }
                 String attribute = split[1];
-                return handleSetCommand(loanList, scanner, index, attribute, defaultCurrency);
+                return handleSetCommand(loanManager, scanner, index, attribute, defaultCurrency);
             case "find":
                 if (splitFirst.length == 1) {
-                    return new InvalidCommand("What are you looking for?");
+                    return new PrintMessageCommand("What are you looking for? Type \"help find\" for help.");
                 }
-                return handleFindCommand(loanList, scanner, splitFirst[1]);
+                return handleFindCommand(loanManager, scanner, splitFirst[1]);
+            case "help":
+                if (splitFirst.length == 1) {
+                    return null;
+                } else {
+                    return handleHelpCommand(scanner, splitFirst[1]);
+                }
             default:
                 return null;
             }
@@ -77,7 +84,7 @@ public class LoanCommandParser {
         }
     }
 
-    private static LoanCommand handleAddLoanCommand(LoanList loanList, Scanner scanner, Currency currency) {
+    private static LoanCommand handleAddLoanCommand(LoanManager loanManager, Scanner scanner, Currency currency) {
         String mode;
         System.out.print("With or without interest? (y/n)\n> ");
         mode = scanner.nextLine();
@@ -86,9 +93,9 @@ public class LoanCommandParser {
             mode = scanner.nextLine();
         }
         System.out.print("Enter the lender's name:\n> ");
-        Person lender = PeopleList.findOrAddPerson(scanner.nextLine());
+        Person lender = loanManager.getContactsList().findOrAdd(scanner.nextLine());
         System.out.print("Enter the borrower's name:\n> ");
-        Person borrower = PeopleList.findOrAddPerson(scanner.nextLine());
+        Person borrower = loanManager.getContactsList().findOrAdd(scanner.nextLine());
 
         try {
             if (mode.equals("n")) {
@@ -97,7 +104,7 @@ public class LoanCommandParser {
                 String description = handleDescriptionInputUI(scanner);
                 LocalDate returnDate = DateParser.handleLocalDateUI(scanner,
                         "Key in the return date of the loan (yyyy-mm-dd)", true);
-                return new AddSimpleBulletLoanCommand(loanList, description, lender, borrower, money, returnDate);
+                return new AddSimpleBulletLoanCommand(loanManager, description, lender, borrower, money, returnDate);
             } else if (mode.equals("y")) {
                 Money money = MoneyParser.handleMoneyInputUI(scanner, currency,
                         "Key in the amount of principal:");
@@ -108,47 +115,47 @@ public class LoanCommandParser {
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 assert interest != null;
                 String description = handleDescriptionInputUI(scanner);
-                return new AddAdvancedLoanCommand(loanList, description, lender, borrower, money, startDate,
+                return new AddAdvancedLoanCommand(loanManager, description, lender, borrower, money, startDate,
                         returnDate, interest);
             }
         } catch (NullPointerException | NumberFormatException e) {
-            return new InvalidCommand("Invalid number input");
+            return new PrintMessageCommand("Invalid number input");
         } catch (DateTimeParseException e) {
-            return new InvalidCommand("Invalid date format");
+            return new PrintMessageCommand("Invalid date format");
         }
         return null;
     }
 
-    private static LoanCommand handleSetCommand(LoanList loanList, Scanner scanner, int index, String attribute,
+    private static LoanCommand handleSetCommand(LoanManager loanManager, Scanner scanner, int index, String attribute,
                                                 String defaultCurrency) {
         switch (attribute) {
         case "lender":
         case "borrower":
-            return new InvalidCommand("You cannot edit the lender or borrower.");
+            return new PrintMessageCommand("You cannot edit the lender or borrower.");
         case "description":
             System.out.print("Key in the new description:\n> ");
             String description = scanner.nextLine();
             if (description.equalsIgnoreCase("N/A")) {
                 description = null;
             }
-            return new SetDescriptionCommand(loanList, index, description);
+            return new SetDescriptionCommand(loanManager, index, description);
         case "start date":
             LocalDate startDate = DateParser.handleLocalDateUI(scanner, "Key in the new start date:");
-            return new SetStartDateCommand(loanList, index, startDate);
+            return new SetStartDateCommand(loanManager, index, startDate);
         case "return date":
             LocalDate returnDate = DateParser.handleLocalDateUI(scanner, "Key in the new return date:");
-            return new SetReturnDateCommand(loanList, index, returnDate);
+            return new SetReturnDateCommand(loanManager, index, returnDate);
         case "principal":
         case "amount":
             String instruction = "Key in the amount" + (attribute.equals("principal") ? "of principal" : "");
             Money money = MoneyParser.handleMoneyInputUI(scanner, Currency.getInstance(defaultCurrency), instruction);
-            return new SetPrincipalCommand(loanList, index, money);
+            return new SetPrincipalCommand(loanManager, index, money);
         case "interest":
-            if (loanList.get(index) instanceof SimpleBulletLoan) {
-                return new InvalidCommand("You cannot edit a simple loan.\n> ");
+            if (loanManager.get(index) instanceof SimpleBulletLoan) {
+                return new PrintMessageCommand("You cannot edit a simple loan.\n> ");
             } else {
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
-                return new SetInterestCommand(loanList, index, interest);
+                return new SetInterestCommand(loanManager, index, interest);
             }
         default:
             return null;
@@ -164,15 +171,17 @@ public class LoanCommandParser {
         return input;
     }
 
-    private static LoanCommand handleFindCommand(LoanList loanList, Scanner scanner, String input) {
+    private static LoanCommand handleFindCommand(LoanManager loanManager, Scanner scanner, String input) {
         if (input.contains("outgoing loan")) {
             String name = input.replace("outgoing loan", "");
-            System.out.println("Name is " + name);
-            return new FindOutgoingLoanCommand(loanList, name.trim());
+            return new FindOutgoingLoanCommand(loanManager, name.trim());
+        } else if (input.contains("incoming loan")) {
+            String name = input.replace("incoming loan", "");
+            return new FindIncomingLoanCommand(loanManager, name.trim());
         } else {
-            Person person = PeopleList.findName(input.trim());
+            Person person = loanManager.getContactsList().findName(input.trim());
             if (person != null) {
-
+                return new FindAssociatedLoanCommand(loanManager, person);
             }
         }
         return null;
@@ -189,5 +198,22 @@ public class LoanCommandParser {
             output.add(input);
         }
         return output;
+    }
+
+    private static LoanCommand handleHelpCommand(Scanner scanner, String input) {
+        if (input == null) {
+            return null;
+        }
+        switch (input.trim()) {
+        case "find":
+            return new PrintMessageCommand("""
+                    You can find loans by entering these commands:
+                    "find [name] outgoing loan": shows all loans lent [name].
+                    "find [name] incoming loan": shows all loans borrowed by [name].
+                    "find [name]": shows all loans lent or borrowed by [name].
+                    """);
+        default:
+            return null;
+        }
     }
 }

@@ -1,13 +1,13 @@
 package loanbook.commands.setcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import utils.money.Money;
 
 public class SetPrincipalCommand extends SetCommand{
     protected Money newPrincipal;
 
-    public SetPrincipalCommand(LoanList loanList, int index, Money money) {
-        super(loanList, index);
+    public SetPrincipalCommand(LoanManager loanManager, int index, Money money) {
+        super(loanManager, index);
         this.newPrincipal = money;
     }
 

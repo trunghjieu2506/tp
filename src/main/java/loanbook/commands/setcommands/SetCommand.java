@@ -1,18 +1,18 @@
 package loanbook.commands.setcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
 import loanbook.loan.Loan;
 
 public abstract class SetCommand extends LoanCommand {
-    protected LoanList loanList;
+    protected LoanManager loanManager;
     protected int index;
     protected Loan loan;
 
-    public SetCommand(LoanList loanList, int index) {
+    public SetCommand(LoanManager loanManager, int index) {
         super();
-        this.loanList = loanList;
+        this.loanManager = loanManager;
         this.index = index;
-        this.loan = loanList.get(index);
+        this.loan = loanManager.get(index);
     }
 }

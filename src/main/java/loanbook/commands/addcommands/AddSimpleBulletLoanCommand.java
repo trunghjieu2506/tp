@@ -1,16 +1,16 @@
 package loanbook.commands.addcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
 import loanbook.loan.Loan;
 import loanbook.loan.SimpleBulletLoan;
 import utils.money.Money;
-import utils.people.Person;
+import utils.contacts.Person;
 
 import java.time.LocalDate;
 
 public class AddSimpleBulletLoanCommand extends LoanCommand {
-    protected LoanList loans;
+    protected LoanManager loans;
     protected String description;
     protected Person lender;
     protected Person borrower;
@@ -18,14 +18,14 @@ public class AddSimpleBulletLoanCommand extends LoanCommand {
     protected LocalDate startDate;
     protected LocalDate returnDate;
 
-    public AddSimpleBulletLoanCommand(LoanList loans, Person lender, Person borrower, Money money) {
+    public AddSimpleBulletLoanCommand(LoanManager loans, Person lender, Person borrower, Money money) {
         this.loans = loans;
         this.lender = lender;
         this.borrower = borrower;
         this.money = money;
     }
 
-    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money) {
+    public AddSimpleBulletLoanCommand(LoanManager loans, String description, Person lender, Person borrower, Money money) {
         this.loans = loans;
         this.description = description;
         this.lender = lender;
@@ -33,7 +33,7 @@ public class AddSimpleBulletLoanCommand extends LoanCommand {
         this.money = money;
     }
 
-    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money,
+    public AddSimpleBulletLoanCommand(LoanManager loans, String description, Person lender, Person borrower, Money money,
                                       LocalDate returnDate) {
         this.loans = loans;
         this.description = description;
@@ -43,7 +43,7 @@ public class AddSimpleBulletLoanCommand extends LoanCommand {
         this.returnDate = returnDate;
     }
 
-    public AddSimpleBulletLoanCommand(LoanList loans, String description, Person lender, Person borrower, Money money,
+    public AddSimpleBulletLoanCommand(LoanManager loans, String description, Person lender, Person borrower, Money money,
                                       LocalDate startDate, LocalDate returnDate) {
         this.loans = loans;
         this.description = description;

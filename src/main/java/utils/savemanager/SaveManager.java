@@ -29,8 +29,8 @@ public class SaveManager {
      * @throws IOException if the named file exists but is a directory rather than a regular file, does not exist but
      *     cannot be created, or cannot be opened for any other reason
      */
-    public static void writeTextFile(String filePath, String text) throws IOException {
-        Files.createDirectories(Paths.get(SAVE_FOLDER));
+    public static void writeTextFile(String fileFolder, String filePath, String text) throws IOException {
+        Files.createDirectories(Paths.get(fileFolder));
         if (text == null){
             new FileWriter(filePath, false).close();
         } else {
@@ -47,8 +47,8 @@ public class SaveManager {
      * @throws IOException if the named file exists but is a directory rather than a regular file, does not exist but
      *     cannot be created, or cannot be opened for any other reason
      */
-    public static void appendTextFile(String filePath, String appendText) throws IOException {
-        Files.createDirectories(Paths.get(SAVE_FOLDER));
+    public static void appendTextFile(String fileFolder, String filePath, String appendText) throws IOException {
+        Files.createDirectories(Paths.get(fileFolder));
         FileWriter fw = new FileWriter(filePath, true);
         fw.write(appendText + '\n');
         fw.close();

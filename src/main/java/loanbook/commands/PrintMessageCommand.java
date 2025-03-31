@@ -1,8 +1,8 @@
 package loanbook.commands;
 
-public class InvalidCommand extends LoanCommand {
+public class PrintMessageCommand extends LoanCommand {
     protected String message;
-    public InvalidCommand(String message) {
+    public PrintMessageCommand(String message) {
         this.message = message;
     }
 

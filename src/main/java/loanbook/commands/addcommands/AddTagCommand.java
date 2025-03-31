@@ -1,25 +1,25 @@
 package loanbook.commands.addcommands;
 
-import loanbook.LoanList;
+import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
 import loanbook.loan.Loan;
 
 public class AddTagCommand extends LoanCommand {
-    protected LoanList loanList;
+    protected LoanManager loanManager;
     protected int index;
     protected String tag;
     protected Loan loan;
 
-    public AddTagCommand(LoanList loanList, int index, String tag) {
-        this.loanList = loanList;
+    public AddTagCommand(LoanManager loanManager, int index, String tag) {
+        this.loanManager = loanManager;
         this.index = index;
         this.tag = tag;
-        this.loan = loanList.get(index);
+        this.loan = loanManager.get(index);
     }
 
     @Override
     public void execute() {
-        loanList.addTag(index, tag);
+        loanManager.addTag(index, tag);
         System.out.println("The description of the following loan is updated:");
         System.out.println(loan.showDetails());
     }
