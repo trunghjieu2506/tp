@@ -30,7 +30,8 @@ public class FindAssociatedLoanCommand extends LoanCommand {
             if (found.isEmpty()) {
                 System.out.println("No results found");
             } else {
-                System.out.println("Associated loans for [" + person.getName() + (found.size() == 1 ? "] is:" : "] are:"));
+                System.out.println("Associated loans for [" + person.getName() +
+                        (found.size() == 1 ? "] is:" : "] are:"));
                 System.out.println(LoanManager.forPrint(found));
             }
         }

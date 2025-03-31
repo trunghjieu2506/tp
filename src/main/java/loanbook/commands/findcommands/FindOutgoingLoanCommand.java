@@ -30,7 +30,8 @@ public class FindOutgoingLoanCommand extends LoanCommand {
             if (found.isEmpty()) {
                 System.out.println("No results found");
             } else {
-                System.out.println("Outgoing loans for [" + lender.getName() + (found.size() == 1 ? "] is:" : "] are:"));
+                System.out.println("Outgoing loans for [" + lender.getName() +
+                        (found.size() == 1 ? "] is:" : "] are:"));
                 System.out.println(LoanManager.forPrint(found));
             }
         }

@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 /**
  * Stores information about a person, including the name, contact number, e-mail, and tags.
- * <code>name</code> cannot be changed once instantiated. The tags are automatically traced in <code>ContactsList</code>.
+ * <code>name</code> cannot be changed once instantiated. The tags are automatically traced in
+ *     <code>ContactsList</code>.
  */
 public class Person implements Taggable {
     protected final String name;

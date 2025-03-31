@@ -54,14 +54,16 @@ public class LoanCommandParser {
                 return new SetReturnStatusCommand(loanManager, unReturnIndex, false);
             case "edit":
                 if (splitFirst.length == 1) {
-                    return new PrintMessageCommand("What part of which loan are you editing? Format: edit X [attribute]");
+                    return new PrintMessageCommand(
+                            "What part of which loan are you editing? Format: edit X [attribute]");
                 }
                 String[] split = splitFirst[1].split(" ", 2);
                 int index;
                 try {
                     index = Integer.parseInt(split[0]);
                 } catch (NumberFormatException e) {
-                    return new PrintMessageCommand("What part of which loan are you editing? Format: edit X [attribute]");
+                    return new PrintMessageCommand(
+                            "What part of which loan are you editing? Format: edit X [attribute]");
                 }
                 String attribute = split[1];
                 return handleSetCommand(loanManager, scanner, index, attribute, defaultCurrency);
