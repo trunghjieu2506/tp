@@ -71,6 +71,14 @@ public class Budget {
         return category;
     }
 
+    public LocalDate getEndDate(){
+        return this.endDate;
+    }
+
+    public void updateBudgetActiveStatus(BudgetActiveStatus status){
+        this.activeStatus = status;
+    }
+
     public ArrayList<Expense> getExpenses() {
         return expenses;
     }
