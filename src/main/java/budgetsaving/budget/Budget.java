@@ -59,11 +59,11 @@ public class Budget {
         return name;
     }
 
-    public BigDecimal getMoneySpent(){
+    public BigDecimal getMoneySpent() {
         return totalBudget.getAmount().subtract(remainingBudget.getAmount());
     }
 
-    public Money getRemainingBudget(){
+    public Money getRemainingBudget() {
         return this.remainingBudget;
     }
 
@@ -71,15 +71,19 @@ public class Budget {
         return category;
     }
 
-    public LocalDate getEndDate(){
+    public LocalDate getEndDate() {
         return this.endDate;
     }
 
-    public void updateBudgetActiveStatus(BudgetActiveStatus status){
+    public BudgetActiveStatus getBudgetActiveStatus(){
+        return this.activeStatus;
+    }
+
+    public void updateBudgetActiveStatus(BudgetActiveStatus status) {
         this.activeStatus = status;
     }
 
-    public void updateBudgetExceedStatus(BudgetExceedStatus exceedStatus){
+    public void updateBudgetExceedStatus(BudgetExceedStatus exceedStatus) {
         this.exceedStatus = exceedStatus;
     }
 
@@ -197,7 +201,7 @@ public class Budget {
 
     @Override
     public String toString() {
-        return  "Name: " + name +
+        return "Name: " + name +
                 "\nBudgetCategory: " + category +
                 "\nTotalBudget: " + totalBudget.toString() +
                 "\nRemainingBudget: " + remainingBudget.toString() +
@@ -205,10 +209,10 @@ public class Budget {
                 "\nBudget ending date: " + endDate + "\n\n";
     }
 
-    public String printExpenses(){
+    public String printExpenses() {
         StringBuilder sb = new StringBuilder();
         sb.append(this);
-        if (expenses.isEmpty()){
+        if (expenses.isEmpty()) {
             System.out.println("There are no expenses in this budget yet");
             return null;
         }
@@ -218,8 +222,7 @@ public class Budget {
         return sb.toString();
     }
 
-    public String serialiseToString(){
+    public String serialiseToString() {
         return BudgetSerialiser.serialise(this);
     }
-
 }
