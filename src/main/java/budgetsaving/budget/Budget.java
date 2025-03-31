@@ -79,6 +79,10 @@ public class Budget {
         this.activeStatus = status;
     }
 
+    public void updateBudgetExceedStatus(BudgetExceedStatus exceedStatus){
+        this.exceedStatus = exceedStatus;
+    }
+
     public ArrayList<Expense> getExpenses() {
         return expenses;
     }
@@ -107,6 +111,9 @@ public class Budget {
         BigDecimal deduction = BigDecimal.valueOf(amount);
         BigDecimal current = remainingBudget.getAmount();
         remainingBudget.setAmount(current.subtract(deduction));
+        if (remainingBudget.getAmount().compareTo(deduction) < 0) {
+            this.exceedStatus = BudgetExceedStatus.EXCEEDED_BUDGET;
+        }
     }
 
     // Adds an amount to both the total and remaining budget
