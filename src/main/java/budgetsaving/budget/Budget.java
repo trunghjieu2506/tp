@@ -2,6 +2,7 @@ package budgetsaving.budget;
 
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetExceedStatus;
+import budgetsaving.budget.utils.BudgetSerialiser;
 import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
@@ -52,7 +53,6 @@ public class Budget {
         this.activeStatus = BudgetActiveStatus.ACTIVE;
         this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
     }
-
 
     // Getter for budget name
     public String getName() {
@@ -217,4 +217,9 @@ public class Budget {
         }
         return sb.toString();
     }
+
+    public String serialiseToString(){
+        return BudgetSerialiser.serialise(this);
+    }
+
 }
