@@ -5,7 +5,7 @@ import budgetsaving.budget.command.ModifyBudgetCommand;
 import budgetsaving.budget.command.CheckBudgetCommand;
 import budgetsaving.budget.command.DeductFromBudgetCommand;
 import budgetsaving.budget.command.ListBudgetCommand;
-import budgetsaving.budget.command.SetBudgetCommand ;
+import budgetsaving.budget.command.SetBudgetCommand;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
