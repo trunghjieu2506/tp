@@ -1,6 +1,6 @@
 package budgetsaving.saving.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.SavingManager;
 
 public class ListGoalCommand implements Command {

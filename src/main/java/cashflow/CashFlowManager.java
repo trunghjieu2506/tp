@@ -2,7 +2,7 @@ package cashflow;
 
 import cashflow.analytics.AnalyticsManager;
 import cashflow.dummy.DummyLoan;
-import cashflow.dummy.DummySavings;
+//import cashflow.dummy.DummySavings;
 import cashflow.model.FinanceData;
 import cashflow.model.storage.Storage;
 import cashflow.ui.SetUp;
