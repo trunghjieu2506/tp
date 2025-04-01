@@ -108,4 +108,12 @@ public class Saving {
         System.out.println("Here is a quick look at your saving progress: ");
         System.out.println(toStringWithContributions());
     }
+
+    public void setNewAmount(Money amount) {
+        this.goalAmount = amount;
+    }
+
+    public void setNewDeadline(LocalDate deadline){
+        this.deadline = deadline;
+    }
 }

@@ -14,4 +14,6 @@ public interface SavingManager {
     String listGoals();
     void checkOneGoal(int index);
     void modifySaving(int index, Money amount, LocalDate deadline);
+
+    String getSavingsSummary();
 }

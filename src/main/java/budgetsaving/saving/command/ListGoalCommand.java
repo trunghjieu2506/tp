@@ -3,10 +3,10 @@ package budgetsaving.saving.command;
 import cashflow.command.Command;
 import cashflow.model.interfaces.SavingManager;
 
-public class CheckGoalCommand implements Command {
+public class ListGoalCommand implements Command {
     private SavingManager savingList;
 
-    public CheckGoalCommand(SavingManager savingList) {
+    public ListGoalCommand(SavingManager savingList) {
         this.savingList = savingList;
     }
 

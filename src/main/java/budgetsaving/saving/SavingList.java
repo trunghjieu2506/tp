@@ -2,21 +2,22 @@ package budgetsaving.saving;
 
 import cashflow.model.interfaces.SavingManager;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import utils.money.Money;
 
 public class SavingList implements SavingManager {
-    private Map<String, Saving> savings;
+    private ArrayList<Saving> savings;
     private String currency;
 
     public SavingList(){
-        savings = new HashMap<>();
+        savings = new ArrayList<>();
     }
 
     public SavingList(String currency) {
         this.currency = currency;
-        savings = new HashMap<>();
+        savings = new ArrayList<>();
     }
 
     @Override
@@ -36,28 +37,15 @@ public class SavingList implements SavingManager {
     @Override
     public String setNewSaving(String name, Money amount, LocalDate deadline) {
         Saving goal = new Saving(name, amount, deadline);
-        savings.put(name, goal);
+        savings.add(goal);
         return String.format("You have set a new saving goal with \nName: %s\nAmount: %s\nBy: %s",
                 name, amount.toString(), deadline);
     }
 
-    /**
-     * Contributes an amount to an existing savings goal.
-     * Format: contribute-goal n/GOAL_NAME a/AMOUNT
-     */
+    //remove this method later
     @Override
     public String contributeToSaving(String name, Money amount) {
-        Saving goal = savings.get(name);
-        if (goal == null) {
-            return "Savings goal not found.";
-        }
-        goal.addContribution(amount);
-        Money left = new Money(
-                goal.getGoalAmount().getCurrency(),
-                goal.getGoalAmount().getAmount().subtract(goal.getCurrentAmount().getAmount())
-        );
-        return String.format("You have funded your saving goal\nName: %s\nAmount: %s\nAmount left to save: %s\nBy: %s",
-                name, amount.toString(), left.toString(), goal.getDeadline());
+        return null;
     }
 
     @Override
@@ -84,7 +72,7 @@ public class SavingList implements SavingManager {
             return "No savings goals set.";
         }
         StringBuilder sb = new StringBuilder();
-        for (Saving goal : savings.values()) {
+        for (Saving goal : savings) {
             sb.append(String.format("Name: %s\nTotal Amount: %s\nSaved: %s\nBy: %s\n\n",
                     goal.getName(), goal.getGoalAmount().toString(),
                     goal.getCurrentAmount().toString(), goal.getDeadline()));
@@ -104,7 +92,22 @@ public class SavingList implements SavingManager {
 
     @Override
     public void modifySaving(int index, Money amount, LocalDate deadline) {
+        if (index < 0 || index > savings.size()) {
+            System.err.println("Index out of bounds.");
+            return;
+        }
+        Saving saving = savings.get(index);
+        if (saving == null){
+            System.err.println("No saving goal found.");
+            return;
+        }
+        if (amount != null) { saving.setNewAmount(amount); }
+        if (deadline != null) { saving.setNewDeadline(deadline); }
+    }
 
+    @Override
+    public String getSavingsSummary() {
+        return "";
     }
 
 }

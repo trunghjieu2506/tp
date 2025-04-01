@@ -1,6 +1,6 @@
 package budgetsaving.saving.utils;
 
-import budgetsaving.saving.command.CheckGoalCommand;
+import budgetsaving.saving.command.ListGoalCommand;
 import budgetsaving.saving.command.ContributeGoalCommand;
 import budgetsaving.saving.command.SetGoalCommand;
 import cashflow.command.Command;
@@ -42,6 +42,6 @@ public class SavingParser {
 
     public static Command parseCheckGoalCommand(SavingManager savingList) {
         // Expected format: check-goal with no extra parameters.
-        return new CheckGoalCommand(savingList);
+        return new ListGoalCommand(savingList);
     }
 }
