@@ -1,6 +1,6 @@
 package budget_saving.budget.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
 public class ListBudgetCommand implements Command {
@@ -12,7 +12,12 @@ public class ListBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        budgetManager.listBudgets();
+        try {
+            budgetManager.listBudgets();
+        } catch (Exception e) {
+            System.err.println("Error listing budgets: " + e.getMessage());
+        }
     }
+
 }
 

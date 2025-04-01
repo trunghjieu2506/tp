@@ -2,6 +2,8 @@ package loantests;
 
 import loanbook.loanbook.LoanList;
 import loanbook.loanbook.commands.*;
+import loanbook.loanbook.commands.addcommands.AddAdvancedLoanCommand;
+import loanbook.loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
 import loanbook.loanbook.interest.Interest;
 import loanbook.loanbook.interest.InterestType;
 import loanbook.loanbook.loan.Loan;

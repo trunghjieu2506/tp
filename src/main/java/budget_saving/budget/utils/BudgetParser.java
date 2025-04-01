@@ -1,34 +1,35 @@
 package budget_saving.budget.utils;
 
 import budget_saving.budget.command.*;
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
+
+import java.time.LocalDate;
 
 public class BudgetParser {
 
+//    public static Command parseSetBudgetCommand(String input, BudgetManager budgetManager)
+//            throws NumberFormatException {
+//        BudgetAttributes attributes = new BudgetAttributes(input);
+//        String name = attributes.getName();
+//        double amount = attributes.getAmount();
+//        return new SetBudgetCommand(budgetManager, name, amount);
+//    }
+
     public static Command parseSetBudgetCommand(String input, BudgetManager budgetManager)
             throws NumberFormatException {
-        // Expected format: set-budget n/BUDGET_NAME a/AMOUNT
-        int nIndex = input.indexOf("n/");
-        int aIndex = input.indexOf("a/");
-        if (nIndex == -1 || aIndex == -1) {
-            throw new IllegalArgumentException("Invalid set-budget command format. " +
-                    "Expected: set-budget n/BUDGET_NAME a/AMOUNT");
-        }
-        String name = input.substring(nIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2).trim();
-        double amount = Double.parseDouble(amountStr);
-        return new SetBudgetCommand(budgetManager, name, amount);
+        BudgetAttributes attributes = new BudgetAttributes(input);
+        String name = attributes.getName();
+        double amount = attributes.getAmount();
+        String category = attributes.getCategory();
+        LocalDate endDate = attributes.getEndDate();
+        return new SetBudgetCommand(budgetManager, name, amount, endDate, category);
     }
 
     public static Command parseCheckBudgetCommand(String input, BudgetManager budgetManager) {
         // Expected format: check-budget (no extra parameters)
-        int iIndex = input.indexOf("i/");
-        if (iIndex == -1) {
-            throw new IllegalArgumentException("Invalid check-budget command format.");
-        }
-        String indexStr = input.substring(iIndex + 2).trim();
-        int index = Integer.parseInt(indexStr) - 1;
+        BudgetAttributes attributes = new BudgetAttributes(input);
+        int index = attributes.getIndex();
         return new CheckBudgetCommand(index, budgetManager);
     }
 
@@ -38,57 +39,31 @@ public class BudgetParser {
 
     public static Command parseDeductBudgetCommand(String input, BudgetManager budgetManager)
             throws NumberFormatException {
-        // Expected format: deduct-budget i/INDEX a/AMOUNT
-        int iIndex = input.indexOf("i/");
-        int aIndex = input.indexOf("a/");
-        if (iIndex == -1 || aIndex == -1) {
-            throw new IllegalArgumentException("Invalid deduct-budget command format.");
-        }
-        String indexStr = input.substring(iIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2).trim();
-        int index = Integer.parseInt(indexStr);
-        double amount = Double.parseDouble(amountStr);
+        BudgetAttributes attributes = new BudgetAttributes(input);
+        int index = attributes.getIndex();
+        double amount = attributes.getAmount();
         return new DeductFromBudgetCommand(budgetManager, index, amount);
     }
 
     public static Command parseAddBudgetCommand(String input, BudgetManager budgetManager)
             throws NumberFormatException {
         // Expected format: add-budget n/BUDGET_NAME a/AMOUNT
-        int iIndex = input.indexOf("i/");
-        int aIndex = input.indexOf("a/");
-        if (iIndex == -1 || aIndex == -1) {
-            throw new IllegalArgumentException("Invalid add-budget command format.");
-        }
-        String indexStr = input.substring(iIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2).trim();
-        int index = Integer.parseInt(indexStr);
-        double amount = Double.parseDouble(amountStr);
+        BudgetAttributes attributes = new BudgetAttributes(input);
+        int index = attributes.getIndex();
+        double amount = attributes.getAmount();
         return new AddToBudgetCommand(budgetManager, index, amount);
     }
 
     public static Command parseModifyBudgetCommand(String input, BudgetManager budgetManager)
             throws NumberFormatException {
         // Expected format: set-budget n/BUDGET_NAME a/AMOUNT
-        try{
-            int iIndex = input.indexOf("i/");
-            int nIndex = input.indexOf("n/");
-            int aIndex = input.indexOf("a/");
-            if (nIndex == -1 || aIndex == -1) {
-                throw new IllegalArgumentException("Invalid set-budget command format. " +
-                        "Expected: set-budget n/BUDGET_NAME a/AMOUNT");
-            }
-            String name = input.substring(nIndex + 2, aIndex).trim();
-            String amountStr = input.substring(aIndex + 2).trim();
-            String indexStr = input.substring(iIndex + 2, nIndex).trim();
-            double amount = Double.parseDouble(amountStr);
-            int index = Integer.parseInt(indexStr);
-            return new ModifyBudgetCommand(budgetManager, index, amount, name);
-        } catch (NumberFormatException e) {
-            throw e;
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
-
+        BudgetAttributes attributes = new BudgetAttributes(input);
+        int index = attributes.getIndex();
+        String name = attributes.getName();
+        double amount = attributes.getAmount();
+        LocalDate endDate = attributes.getEndDate();
+        String category = attributes.getCategory();
+        return new ModifyBudgetCommand(budgetManager, index, amount, name, endDate, category);
     }
 
 }

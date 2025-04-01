@@ -1,6 +1,6 @@
 package budget_saving.budget.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
 public class CheckBudgetCommand implements Command {
@@ -14,6 +14,11 @@ public class CheckBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        budgetManager.checkBudget(index);
+        try {
+            budgetManager.checkBudget(index);
+        } catch (Exception e) {
+            System.err.println("Error checking a budget: " + e.getMessage());
+        }
     }
+
 }

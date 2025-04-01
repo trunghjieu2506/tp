@@ -4,8 +4,8 @@ import cashflow.analytics.AnalyticsManager;
 import cashflow.dummy.DummyExpense;
 import cashflow.dummy.DummyLoan;
 import cashflow.dummy.DummySavings;
-import expense_income.expense.ExpenseManager;
-import expense_income.income.IncomeManager;
+import expenseincome.expense.ExpenseManager;
+import expenseincome.income.IncomeManager;
 
 //Centralized data hub
 public class FinanceData {

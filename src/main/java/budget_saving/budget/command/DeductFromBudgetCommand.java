@@ -1,6 +1,6 @@
 package budget_saving.budget.command;
 
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
 public class DeductFromBudgetCommand implements Command {
@@ -10,13 +10,18 @@ public class DeductFromBudgetCommand implements Command {
 
     public DeductFromBudgetCommand(BudgetManager budgetManager, int index, double amount) {
         this.budgetManager = budgetManager;
-        this.index = index - 1;
+        this.index = index;
         this.amount = amount;
     }
 
     @Override
     public void execute() {
-        budgetManager.deductFromBudget(index, amount);
+        try {
+            budgetManager.deductFromBudget(index, amount);
+        } catch (Exception e) {
+            System.err.println("Error deducting from a budget: " + e.getMessage());
+        }
     }
+
 }
 

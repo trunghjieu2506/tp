@@ -8,7 +8,6 @@ import cashflow.analytics.AnalyticsManager;
 import cashflow.ui.SetUp;
 import cashflow.ui.UI;
 
-
 public class Main {
     private static boolean isFirstTime = true;
 

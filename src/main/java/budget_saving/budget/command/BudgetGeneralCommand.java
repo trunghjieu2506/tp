@@ -1,19 +1,17 @@
 package budget_saving.budget.command;
 
+import budget_saving.budget.BudgetException;
 import budget_saving.budget.utils.BudgetParser;
-import cashflow.command.Command;
+import budget_saving.budget.utils.BudgetTextColour;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 import java.util.Scanner;
 
-public class BudgetGeneralCommand implements Command {
 
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String PURPLE = "\u001B[35m";
-    public static final String CYAN = "\u001B[36m";
+//this class contains all the budget commands
+//ALL EXCEPTIONS should be handled inside their respective commands
+//so any exception thrown out should not be coming from lower hierarchy
+public class BudgetGeneralCommand implements Command {
 
     public static final String LIST_BUDGET = "list";
     public static final String SET_BUDGET = "set";
@@ -22,27 +20,27 @@ public class BudgetGeneralCommand implements Command {
     public static final String ADD_BUDGET = "add";
     public static final String MODIFY_BUDGET = "modify";
 
+    public static final String LINE_SEPARATOR = "-".repeat(70) + "\n";
+
+    public static final String DASH = "- ";
 
     private static final String BUDGET_COMMANDS =
-                      RED    + "- " + SET_BUDGET     + " n/BUDGET_NAME a/AMOUNT\n" + RESET
-                    + GREEN  + "- " + CHECK_BUDGET  + " i/INDEX\n"               + RESET
-                    + YELLOW + "- " + LIST_BUDGET   + "\n"                      + RESET
-                    + BLUE   + "- " + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"       + RESET
-                    + PURPLE + "- " + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"     + RESET
-                    + CYAN   + "- " + MODIFY_BUDGET + " i/INDEX n/NAME a/AMOUNT\n"+ RESET;
+            LINE_SEPARATOR
+        + BudgetTextColour.RED    + DASH + SET_BUDGET
+                  + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + BudgetTextColour.RESET
+        + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + BudgetTextColour.RESET
+        + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + BudgetTextColour.RESET
+        + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
+        + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
+        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET
+                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + BudgetTextColour.RESET
+        + LINE_SEPARATOR;
 
     private Command command;
 
     /**
      * Constructs a BudgetGeneralCommand by parsing the user input and initializing the corresponding command.
      * If the input is exactly "budget", the user is prompted for further details.
-     *
-     * Expected budget subcommand formats:
-     * - set-budget n/BUDGET_NAME a/AMOUNT
-     * - check-budget
-     * - deduct-budget i/INDEX a/AMOUNT
-     * - add-budget i/INDEX a/AMOUNT
-     *
      * @param input the full user input command string.
      * @param budgetManager the budget manager to operate on.
      */
@@ -77,7 +75,7 @@ public class BudgetGeneralCommand implements Command {
         try {
             command.execute();
         } catch (Exception e) {
-            System.err.println("An error has occurred when executing the budget command.");
+            System.err.println(BudgetException.ERROR_NOTIFIER);
         }
     }
 

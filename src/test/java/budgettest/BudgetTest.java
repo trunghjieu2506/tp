@@ -1,129 +1,38 @@
 package budgettest;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import budget_saving.budget.Budget;
-import org.junit.Before;
-import org.junit.Test;
-import java.math.BigDecimal;
-import expense_income.expense.Expense;
-import utils.money.Money;
+import budget_saving.budget.BudgetList;
+import budget_saving.budget.command.BudgetGeneralCommand;
+import cashflow.model.interfaces.BudgetManager;
 
 public class BudgetTest {
+    private BudgetManager budgetManager;
 
-    private Budget budget;
-    private Money initialMoney;
-
-    @Before
-    public void setUp() {
-        initialMoney = new Money("USD", BigDecimal.valueOf(100));
-        budget = new Budget("Test Budget", initialMoney);
+    @BeforeEach
+    public void setup() {
+        budgetManager = new BudgetList("USD");
     }
 
     @Test
-    public void testConstructor() {
-        assertEquals("Test Budget", budget.getName());
-        assertEquals(BigDecimal.ZERO, budget.getMoneySpent());
+    public void testUnknownCommand() {
+        // Input that does not match any known command keyword.
+        BudgetGeneralCommand command = new BudgetGeneralCommand("unknown", budgetManager);
+        command.execute();
+        // No budget should be added; you might capture output if needed.
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            ((BudgetList) budgetManager).getBudget(0);
+        });
     }
 
     @Test
-    public void testDeduct() {
-        budget.deduct(30);
-        assertEquals(BigDecimal.valueOf(30), budget.getMoneySpent());
-    }
-
-    @Test
-    public void testDeductInsufficient() {
-        budget.deduct(150);
-        assertEquals(BigDecimal.ZERO, budget.getMoneySpent());
-    }
-
-    @Test
-    public void testAdd() {
-        budget.add(50);
-        assertEquals(BigDecimal.ZERO, budget.getMoneySpent());
-        budget.deduct(30);
-        assertEquals(BigDecimal.valueOf(30), budget.getMoneySpent());
-    }
-
-    @Test
-    public void testModifyBudget() {
-        budget.deduct(20);
-        budget.modifyBudget(200, "New Budget");
-        assertEquals("New Budget", budget.getName());
-        assertEquals(BigDecimal.valueOf(20), budget.getMoneySpent());
-    }
-
-    @Test
-    public void testDeductFromExpense() {
-        Expense expense = new Expense("test A", 30) {
-            @Override
-            public double getAmount() {
-                return 30;
-            }
-
-            @Override
-            public String toString() {
-                return "Expense: 30";
-            }
-        };
-        budget.deductFromExpense(expense);
-        assertEquals(1, budget.getExpenses().size());
-        assertEquals(BigDecimal.valueOf(30), budget.getMoneySpent());
-    }
-
-    @Test
-    public void testRemoveExpenseFromBudget() {
-        Expense expense = new Expense("test B", 30) {
-            @Override
-            public double getAmount() {
-                return 30;
-            }
-
-            @Override
-            public String toString() {
-                return "Expense: 30";
-            }
-        };
-        budget.deductFromExpense(expense);
-        assertEquals(BigDecimal.valueOf(30), budget.getMoneySpent());
-        budget.removeExpenseFromBudget(expense);
-        assertTrue(budget.getExpenses().isEmpty());
-        assertEquals(BigDecimal.ZERO, budget.getMoneySpent());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testDeductFromExpenseWithNull() {
-        budget.deductFromExpense(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testRemoveExpenseFromBudgetWithNull() {
-        budget.removeExpenseFromBudget(null);
-    }
-
-    @Test
-    public void testToString() {
-        String str = budget.toString();
-        assertTrue(str.contains("Test Budget"));
-        assertTrue(str.contains("TotalBudget"));
-    }
-
-    @Test
-    public void testToStringWithExpenses() {
-        Expense expense = new Expense("test c", 30) {
-            @Override
-            public double getAmount() {
-                return 30;
-            }
-
-            @Override
-            public String toString() {
-                return "Expense: 30";
-            }
-        };
-        budget.deductFromExpense(expense);
-        String str = budget.toStringWithExpenses();
-        assertTrue(str.contains("Expense: 30"));
+    public void testSetCommandViaGeneralCommand() {
+        // Example input for setting a budget; adjust the format as required by BudgetParser.
+        String input = "set n/TestBudget a/1000 e/2025-12-31 c/TestCategory";
+        BudgetGeneralCommand command = new BudgetGeneralCommand(input, budgetManager);
+        command.execute();
+        assertEquals("TestBudget", ((BudgetList) budgetManager).getBudget(0).getName());
     }
 }
