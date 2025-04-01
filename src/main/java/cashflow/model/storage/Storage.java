@@ -40,6 +40,7 @@ public class Storage {
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error loading tasks: " + e.getMessage());
         }
+        return new ArrayList<Object>();
     }
 
     /**
