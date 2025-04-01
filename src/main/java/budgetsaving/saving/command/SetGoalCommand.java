@@ -13,9 +13,9 @@ public class SetGoalCommand implements Command {
     private SavingManager savingList;
     private String goalName;
     private Money amount;
-    private String deadline;
+    private LocalDate deadline;
 
-    public SetGoalCommand(SavingManager savingList, String goalName, Money amount, String deadline) {
+    public SetGoalCommand(SavingManager savingList, String goalName, Money amount, LocalDate deadline) {
         this.savingList = savingList;
         this.goalName = goalName;
         this.amount = amount;
@@ -24,8 +24,7 @@ public class SetGoalCommand implements Command {
 
     @Override
     public void execute() throws DateTimeParseException {
-        LocalDate deadlineDate = LocalDate.parse(deadline);
-        String message = savingList.setNewSaving(goalName, amount, deadlineDate);
+        String message = savingList.setNewSaving(goalName, amount, deadline);
         System.out.println(message);
     }
 }

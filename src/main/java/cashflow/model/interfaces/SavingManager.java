@@ -9,7 +9,6 @@ public interface SavingManager {
     void setCurrency(String currency);
 
     String setNewSaving(String name, Money amount, LocalDate deadline);
-    String contributeToSaving(String name, Money amount);
     String contributeToSaving(int index, Money amount);
     String listGoals();
     void checkOneGoal(int index);

@@ -6,18 +6,18 @@ import utils.money.Money;
 
 public class ContributeGoalCommand implements Command {
     private SavingManager savingList;
-    private String goalName;
+    private int index;
     private Money amount;
 
-    public ContributeGoalCommand(SavingManager savingList, String goalName, Money amount) {
+    public ContributeGoalCommand(SavingManager savingList, int index, Money amount) {
         this.savingList = savingList;
-        this.goalName = goalName;
+        this.index = index;
         this.amount = amount;
     }
 
     @Override
     public void execute() {
-        String message = savingList.contributeToSaving(goalName, amount);
+        String message = savingList.contributeToSaving(index, amount);
         System.out.println(message);
     }
 }

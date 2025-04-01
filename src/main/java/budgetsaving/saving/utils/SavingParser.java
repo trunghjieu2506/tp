@@ -8,36 +8,34 @@ import cashflow.model.interfaces.SavingManager;
 import utils.money.Money;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class SavingParser {
     public static Command parseSetGoalCommand(String input, SavingManager savingList)
             throws NumberFormatException {
-        // Expected format: set-goal n/GOAL_NAME a/AMOUNT b/BY
-        int nIndex = input.indexOf("n/");
-        int aIndex = input.indexOf("a/");
-        int bIndex = input.indexOf("b/");
-        if (nIndex == -1 || aIndex == -1 || bIndex == -1) {
-            throw new IllegalArgumentException("Invalid set-goal command format.");
-        }
-        String name = input.substring(nIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2, bIndex).trim();
-        String deadline = input.substring(bIndex + 2).trim();
-        Money moneyAmount = new Money(savingList.getCurrency(), new BigDecimal(amountStr));
-        return new SetGoalCommand(savingList, name, moneyAmount, deadline);
+        SavingAttributes attributes = new SavingAttributes(input);
+        String name = attributes.getName();
+        Money setAmount = new Money(savingList.getCurrency(), attributes.getAmount());
+        LocalDate deadline = attributes.getDeadline();
+        return new SetGoalCommand(savingList, name, setAmount, deadline);
     }
 
     public static Command parseContributeGoalCommand(String input, SavingManager savingList)
             throws NumberFormatException {
-        // Expected format: contribute-goal n/GOAL_NAME a/AMOUNT
-        int nIndex = input.indexOf("n/");
-        int aIndex = input.indexOf("a/");
-        if (nIndex == -1 || aIndex == -1) {
-            throw new IllegalArgumentException("Invalid contribute-goal command format.");
-        }
-        String name = input.substring(nIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2).trim();
-        Money moneyAmount = new Money(savingList.getCurrency(), new BigDecimal(amountStr));
-        return new ContributeGoalCommand(savingList, name, moneyAmount);
+//        // Expected format: contribute-goal n/GOAL_NAME a/AMOUNT
+//        int nIndex = input.indexOf("n/");
+//        int aIndex = input.indexOf("a/");
+//        if (nIndex == -1 || aIndex == -1) {
+//            throw new IllegalArgumentException("Invalid contribute-goal command format.");
+//        }
+//        String name = input.substring(nIndex + 2, aIndex).trim();
+//        String amountStr = input.substring(aIndex + 2).trim();
+//        Money moneyAmount = new Money(savingList.getCurrency(), new BigDecimal(amountStr));
+        SavingAttributes attributes = new SavingAttributes(input);
+        int index = attributes.getIndex();
+        Money setAmount = new Money(savingList.getCurrency(), attributes.getAmount());
+
+        return new ContributeGoalCommand(savingList, index, setAmount);
     }
 
     public static Command parseCheckGoalCommand(SavingManager savingList) {

@@ -39,14 +39,9 @@ public class SavingList implements SavingManager {
         Saving goal = new Saving(name, amount, deadline);
         savings.add(goal);
         return String.format("You have set a new saving goal with \nName: %s\nAmount: %s\nBy: %s",
-                name, amount.toString(), deadline);
+                name, amount, deadline);
     }
 
-    //remove this method later
-    @Override
-    public String contributeToSaving(String name, Money amount) {
-        return null;
-    }
 
     @Override
     public String contributeToSaving(int index, Money amount) {

@@ -9,10 +9,16 @@ import java.util.Scanner;
 import cashflow.model.interfaces.SavingManager;
 
 public class SavingGeneralCommand implements Command {
+    private static final String SET_GOAL_COMMAND = "set";
+    private static final String CONTRIBUTE_COMMAND = "contribute";
+    private static final String LIST_GOAL_COMMAND = "list";
+    //just reuse it because it might be more confusing to read to import from budget side
+    public static final String DASH = "- ";
+
     private static final String SAVING_COMMANDS =
-            "- set-goal n/GOAL_NAME a/AMOUNT b/BY\n"
-                    + "- contribute-goal n/GOAL_NAME a/AMOUNT\n"
-                    + "- check-goal\n";
+                      DASH + SET_GOAL_COMMAND + " n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD\n"
+                    + DASH + CONTRIBUTE_COMMAND + " i/INDEX a/AMOUNT\n"
+                    + DASH + LIST_GOAL_COMMAND + " \n";
 
     private Command command;
 
@@ -38,11 +44,11 @@ public class SavingGeneralCommand implements Command {
         input = input.trim();
         String lowerInput = input.toLowerCase();
         try{
-            if (lowerInput.startsWith("set-goal")) {
+            if (lowerInput.startsWith(SET_GOAL_COMMAND)) {
                 command = SavingParser.parseSetGoalCommand(input, savingList);
-            } else if (lowerInput.startsWith("contribute-goal")) {
+            } else if (lowerInput.startsWith(CONTRIBUTE_COMMAND)) {
                 command = SavingParser.parseContributeGoalCommand(input, savingList);
-            } else if (lowerInput.startsWith("check-goal")) {
+            } else if (lowerInput.startsWith(LIST_GOAL_COMMAND)) {
                 command = SavingParser.parseCheckGoalCommand(savingList);
             } else {
                 System.out.println("Unknown saving command.");
