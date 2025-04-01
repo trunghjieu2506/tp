@@ -1,18 +1,18 @@
 package budgetsaving.saving.command;
 
 import cashflow.command.Command;
-import budgetsaving.saving.SavingList;
+import cashflow.model.interfaces.SavingManager;
 
 public class CheckGoalCommand implements Command {
-    private SavingList savingList;
+    private SavingManager savingList;
 
-    public CheckGoalCommand(SavingList savingList) {
+    public CheckGoalCommand(SavingManager savingList) {
         this.savingList = savingList;
     }
 
     @Override
     public void execute() {
-        System.out.println(savingList.checkGoals());
+        System.out.println(savingList.listGoals());
     }
 }
 

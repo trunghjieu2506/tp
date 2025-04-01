@@ -21,6 +21,7 @@ public class Saving {
         this.goalAmount = goalAmount;
         this.deadline = deadline;
         this.status = SavingStatus.ACTIVE;
+        this.contributions = new ArrayList<>();
         // Initialize current amount to zero with the same currency as goalAmount.
         this.currentAmount = new Money(goalAmount.getCurrency(), BigDecimal.ZERO);
     }
@@ -76,10 +77,10 @@ public class Saving {
     public void addContribution(Money contribution) {
         currentAmount.increment(contribution.getAmount());
         //double check currency and restrict amount
-        updateAmount(currentAmount);
         SavingContribution newContribution = new SavingContribution(contribution, LocalDate.now());
         addNewContribution(newContribution);
         System.out.println("Saving contribution added.\n" + this);
+        updateAmount(currentAmount);
     }
 
     @Override
@@ -90,7 +91,8 @@ public class Saving {
 
     public String toStringWithContributions() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this);
+        sb.append(this + "\n");
+        sb.append("Saving contributions: \n");
         for (int i = 0; i < contributions.size(); i++) {
             SavingContribution contribution = contributions.get(i);
             if (contribution == null) {
@@ -99,5 +101,11 @@ public class Saving {
             sb.append("Contribution " + i + ". " + contributions.get(i).toString());
         }
         return sb.toString();
+    }
+
+    public void printCompletionMessage(){
+        System.out.println("Congratulations! You have completed the saving goal!");
+        System.out.println("Here is a quick look at your saving progress: ");
+        System.out.println(toStringWithContributions());
     }
 }
