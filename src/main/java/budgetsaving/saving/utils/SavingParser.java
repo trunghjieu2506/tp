@@ -3,7 +3,7 @@ package budgetsaving.saving.utils;
 import budgetsaving.saving.command.ListGoalCommand;
 import budgetsaving.saving.command.ContributeGoalCommand;
 import budgetsaving.saving.command.SetGoalCommand;
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.SavingManager;
 import utils.money.Money;
 

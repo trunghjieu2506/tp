@@ -12,11 +12,6 @@ import java.util.ArrayList;
 public class Storage {
     private File file;
 
-    /**
-     * Initializes the Storage object with the specified file path for data persistence.
-     *
-     * @param filePath the file path used to save and load task data.
-     */
     public Storage(String filePath) {
         file = new File(filePath);
     }
@@ -25,7 +20,7 @@ public class Storage {
      * Loads the task data from the specified file location. If the file does not exist,
      * a FileNotFoundException is thrown.
      *
-     * @return An ArrayList of tasks loaded from storage.
+     * @return An ArrayList of objects loaded from storage.
      * @throws FileNotFoundException if the task data file does not exist.
      */
     @SuppressWarnings("unchecked")

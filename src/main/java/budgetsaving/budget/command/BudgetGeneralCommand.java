@@ -3,7 +3,7 @@ package budgetsaving.budget.command;
 import budgetsaving.budget.BudgetException;
 import budgetsaving.budget.utils.BudgetParser;
 import budgetsaving.budget.utils.BudgetTextColour;
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 import java.util.Scanner;
 

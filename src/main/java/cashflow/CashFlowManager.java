@@ -3,7 +3,7 @@ package cashflow;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.dummy.DummyExpense;
 import cashflow.dummy.DummyLoan;
-import cashflow.dummy.DummySavings;
+//import cashflow.dummy.DummySavings;
 import cashflow.model.FinanceData;
 import cashflow.model.storage.Storage;
 import cashflow.ui.SetUp;
@@ -34,12 +34,12 @@ public class CashFlowManager {
 
         // Initialize integration modules (dummy implementations for now).
         DummyExpense expenseIncomeManager = new DummyExpense();
-        DummySavings savingsManager = new DummySavings();
-        DummyLoan loanDebtManager = new cashflow.dummy.DummyLoan();
+//        DummySavings savingsManager = new DummySavings();
+        DummyLoan loanDebtManager = new DummyLoan();
 
         // Set integration points in FinanceData.
         data.setExpenseIncomeManager(expenseIncomeManager);
-        data.setSavingsManager(savingsManager);
+//        data.setSavingsManager(savingsManager);
         data.setLoanDebtManager(loanDebtManager);
 
         // Initialize Analytics module.
