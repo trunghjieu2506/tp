@@ -1,0 +1,54 @@
+@startuml
+
+class Expense {
+  -description: String
+  -amount: double
+  -date: LocalDate
+  -category: String
+  +getDescription(): String
+  +getAmount(): double
+  +getDate(): LocalDate
+  +getCategory(): String
+}
+
+class Income {
+  -source: String
+  -amount: double
+  -date: LocalDate
+  -category: String
+  +getSource(): String
+  +getAmount(): double
+  +getDate(): LocalDate
+  +getCategory(): String
+}
+
+class ExpenseManager {
+  -expenses: ArrayList<Expense>
+  +addExpense(desc: String, amount: double, date: LocalDate, category: String): void
+  +editExpense(index: int, desc: String, amount: double, date: LocalDate, category: String): void
+  +deleteExpense(index: int): void
+  +sortExpensesByDate(mostRecent: boolean): void
+  +listExpensesByCategory(category: String): void
+  +printTopCategory(): void
+  +printBottomCategory(): void
+  +getExpense(index: int): Expense
+  +getExpenseCount(): int
+}
+
+class IncomeManager {
+  -incomes: ArrayList<Income>
+  +addIncome(source: String, amount: double, date: LocalDate, category: String): void
+  +editIncome(index: int, source: String, amount: double, date: LocalDate, category: String): void
+  +deleteIncome(index: int): void
+  +sortIncomesByDate(mostRecent: boolean): void
+  +listIncomesByCategory(category: String): void
+  +printTopCategory(): void
+  +printBottomCategory(): void
+  +getIncome(index: int): Income
+  +getIncomeCount(): int
+}
+
+ExpenseManager "1" *-- "many" Expense
+IncomeManager "1" *-- "many" Income
+
+@enduml
