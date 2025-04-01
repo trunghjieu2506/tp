@@ -8,7 +8,7 @@ import java.util.HashMap;
  * that contains all objects with this tag.
  * @param <T> the type of objects that the tags are attached to.
  */
-public class TagList<T> {
+public class TagList<T extends Taggable> {
     protected HashMap<String, ArrayList<T>> tagList;
 
     public TagList() {
@@ -36,14 +36,21 @@ public class TagList<T> {
      * @param tag the tag of the removed mapping.
      * @param object the object of the removed mapping.
      */
-    public void removeMap(String tag, T object) {
+    public void removeMap(String tag, Taggable object) {
         if (tagList.get(tag) != null) {
             tagList.get(tag).remove(object);
         }
     }
 
+    public void removeObject(T object) {
+        ArrayList<String> tags = object.getTagList();
+        for (String tag : tags) {
+            removeMap(tag, object);
+        }
+    }
+
     /**
-     * Removes the <code>tag</code> and all relavent mappings.
+     * Removes the <code>tag</code> and all relevant mappings.
      * @param tag the tag to be removed.
      */
     public void removeTag(String tag) {
