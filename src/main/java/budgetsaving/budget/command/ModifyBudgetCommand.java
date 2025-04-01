@@ -2,7 +2,7 @@ package budgetsaving.budget.command;
 
 import budgetsaving.budget.Budget;
 import budgetsaving.budget.BudgetException;
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
 import java.time.LocalDate;

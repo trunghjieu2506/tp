@@ -6,7 +6,7 @@ import budgetsaving.budget.command.CheckBudgetCommand;
 import budgetsaving.budget.command.DeductFromBudgetCommand;
 import budgetsaving.budget.command.ListBudgetCommand;
 import budgetsaving.budget.command.SetBudgetCommand;
-import cashflow.command.Command;
+import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 
 import java.time.LocalDate;
