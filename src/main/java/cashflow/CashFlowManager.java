@@ -76,8 +76,4 @@ public class CashFlowManager {
      * Creates a hidden directory named '.corgimanager' in the user's home folder
      * and stores tasks in 'tasks.dat'.
      */
-
-    public static void main(String[] args) {
-        new CashFlowManager().run();
-    }
 }
