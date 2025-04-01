@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static budgetsaving.budget.command.BudgetGeneralCommand.handleBudgetCommand;
+import static budgetsaving.saving.command.SavingGeneralCommand.handleSavingCommand;
 
 public class UI {
     private FinanceData data;
@@ -47,6 +48,8 @@ public class UI {
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
     }
+
+    //printResult(Result result)
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -77,7 +80,8 @@ public class UI {
                 new SetUp(data).run();
                 break;
             case "saving":
-                new SavingGeneralCommand(input, savingList).execute();
+                //new SavingGeneralCommand(input, savingList).execute();
+                handleSavingCommand(scanner, savingList);
                 break;
             case "budget":
                 handleBudgetCommand(scanner, budgetList);

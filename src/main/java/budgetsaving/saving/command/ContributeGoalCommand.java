@@ -1,23 +1,23 @@
 package budgetsaving.saving.command;
 
 import cashflow.command.Command;
+import cashflow.model.interfaces.SavingManager;
 import utils.money.Money;
-import budgetsaving.saving.SavingList;
 
 public class ContributeGoalCommand implements Command {
-    private SavingList savingList;
-    private String goalName;
+    private SavingManager savingList;
+    private int index;
     private Money amount;
 
-    public ContributeGoalCommand(SavingList savingList, String goalName, Money amount) {
+    public ContributeGoalCommand(SavingManager savingList, int index, Money amount) {
         this.savingList = savingList;
-        this.goalName = goalName;
+        this.index = index;
         this.amount = amount;
     }
 
     @Override
     public void execute() {
-        String message = savingList.contributeGoal(goalName, amount);
+        String message = savingList.contributeToSaving(index, amount);
         System.out.println(message);
     }
 }
