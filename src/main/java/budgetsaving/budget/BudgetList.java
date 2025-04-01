@@ -1,5 +1,6 @@
 package budgetsaving.budget;
 
+import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetAlert;
 import cashflow.model.interfaces.BudgetManager;
 import expenseincome.expense.Expense;
@@ -31,6 +32,29 @@ public class BudgetList implements BudgetManager {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    //update the budget completion/active status
+    //refresh the status constantly when the user starts the app
+    private void updateBudgetCompletionStatus(Budget budget) {
+        if (budget == null) {
+            System.out.println("Budget does not exist.");
+            return;
+        }
+        LocalDate currDate = LocalDate.now();
+        LocalDate budgetExpireDate = budget.getEndDate();
+        if (currDate.isAfter(budgetExpireDate)){
+            budget.updateBudgetActiveStatus(BudgetActiveStatus.EXPIRED);
+        }
+    }
+
+    //please call this method when initialising the app
+    public void refreshBudgetStatuses(){
+        for (int i = 0; i < budgets.size(); i++) {
+            updateBudgetCompletionStatus(budgets.get(i));
+        }
+        System.out.println("Budget statuses are refreshed!");
+    }
+
 
     public void addNewBudget(Budget budget) throws BudgetException {
         if (budget == null) {

@@ -13,19 +13,23 @@ import expenseincome.income.IncomeCommandParser;
 import expenseincome.income.commands.IncomeCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
-import loanbook.loanbook.parsers.LoanCommandParser;
-import loanbook.loanbook.LoanList;
-import loanbook.loanbook.commands.LoanCommand;
+import loanbook.parsers.LoanCommandParser;
+import loanbook.LoanManager;
+import loanbook.commands.LoanCommand;
+import loanbook.save.LoanSaveManager;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static budgetsaving.budget.command.BudgetGeneralCommand.handleBudgetCommand;
+import static budgetsaving.saving.command.SavingGeneralCommand.handleSavingCommand;
 
 public class UI {
     private FinanceData data;
     private SavingList savingList;
     private BudgetList budgetList;
-    private LoanList loanList;
+    private LoanManager loanManager;
 
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
@@ -34,11 +38,18 @@ public class UI {
         this.data = data;
         this.savingList = new SavingList(data.getCurrency());
         this.budgetList = new BudgetList(data.getCurrency());
-        this.loanList = new LoanList();
+        //Can create a username.
+        try {
+            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
+        } catch (FileNotFoundException e) {
+            this.loanManager = new LoanManager("GeorgeMiao");
+        }
 
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
     }
+
+    //printResult(Result result)
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -49,6 +60,11 @@ public class UI {
             input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("exit")) {
+                try {
+                    LoanSaveManager.saveLoanList(loanManager);
+                } catch (IOException e) {
+                    System.out.println("Unable to update save file");
+                }
                 System.out.println("Exiting. Goodbye!");
                 break;
             }
@@ -64,7 +80,8 @@ public class UI {
                 new SetUp(data).run();
                 break;
             case "saving":
-                new SavingGeneralCommand(input, savingList).execute();
+                //new SavingGeneralCommand(input, savingList).execute();
+                handleSavingCommand(scanner, savingList);
                 break;
             case "budget":
                 handleBudgetCommand(scanner, budgetList);
@@ -135,7 +152,7 @@ public class UI {
                 break;
             }
 
-            LoanCommand loanCommand = LoanCommandParser.parse(loanList, scanner, data.getCurrency(), command);
+            LoanCommand loanCommand = LoanCommandParser.parse(loanManager, scanner, data.getCurrency(), command);
             if (loanCommand != null) {
                 loanCommand.execute();
             } else {

@@ -40,7 +40,28 @@ public class DateParser {
                 date = parse(input);
                 break;
             } catch (DateTimeParseException e) {
-                System.out.print("Invalid date format!\n> ");
+                System.out.println("Invalid date format!");
+            }
+        }
+        return date;
+    }
+
+    public static LocalDate handleLocalDateUI(Scanner scanner, String instruction, boolean allowNull) {
+        if (!allowNull) {
+            return handleLocalDateUI(scanner, instruction);
+        }
+        LocalDate date;
+        while (true) {
+            System.out.print(instruction + " (Key in \"N/A\" if not applicable):" + "\n> ");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("N/A")) {
+                return null;
+            }
+            try {
+                date = parse(input);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format!");
             }
         }
         return date;

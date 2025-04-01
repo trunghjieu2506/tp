@@ -1,17 +1,24 @@
 package budgetsaving.saving.command;
 
+import budgetsaving.saving.utils.SavingParser;
 import cashflow.command.Command;
-import budgetsaving.saving.SavingList;
+
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-import utils.money.Money;
-import java.math.BigDecimal;
+
+import cashflow.model.interfaces.SavingManager;
 
 public class SavingGeneralCommand implements Command {
+    private static final String SET_GOAL_COMMAND = "set";
+    private static final String CONTRIBUTE_COMMAND = "contribute";
+    private static final String LIST_GOAL_COMMAND = "list";
+    //just reuse it because it might be more confusing to read to import from budget side
+    public static final String DASH = "- ";
+
     private static final String SAVING_COMMANDS =
-            "- set-goal n/GOAL_NAME a/AMOUNT b/BY\n"
-                    + "- contribute-goal n/GOAL_NAME a/AMOUNT\n"
-                    + "- check-goal\n";
+                      DASH + SET_GOAL_COMMAND + " n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD\n"
+                    + DASH + CONTRIBUTE_COMMAND + " i/INDEX a/AMOUNT\n"
+                    + DASH + LIST_GOAL_COMMAND + " \n";
 
     private Command command;
 
@@ -27,7 +34,7 @@ public class SavingGeneralCommand implements Command {
      * @param input the full user input command string.
      * @param savingList the saving list to operate on.
      */
-    public SavingGeneralCommand(String input, SavingList savingList){
+    public SavingGeneralCommand(String input, SavingManager savingList){
         // If the command is exactly "saving", prompt the user for the specific saving subcommand.
         if (input.trim().equalsIgnoreCase("saving")) {
             Scanner scanner = new Scanner(System.in);
@@ -37,53 +44,18 @@ public class SavingGeneralCommand implements Command {
         input = input.trim();
         String lowerInput = input.toLowerCase();
         try{
-            if (lowerInput.startsWith("set-goal")) {
-                command = parseSetGoalCommand(input, savingList);
-            } else if (lowerInput.startsWith("contribute-goal")) {
-                command = parseContributeGoalCommand(input, savingList);
-            } else if (lowerInput.startsWith("check-goal")) {
-                command = parseCheckGoalCommand(savingList);
+            if (lowerInput.startsWith(SET_GOAL_COMMAND)) {
+                command = SavingParser.parseSetGoalCommand(input, savingList);
+            } else if (lowerInput.startsWith(CONTRIBUTE_COMMAND)) {
+                command = SavingParser.parseContributeGoalCommand(input, savingList);
+            } else if (lowerInput.startsWith(LIST_GOAL_COMMAND)) {
+                command = SavingParser.parseCheckGoalCommand(savingList);
             } else {
                 System.out.println("Unknown saving command.");
             }
         } catch (NumberFormatException e) {
             System.err.println("Invalid currency/amount entered.");
         }
-    }
-
-    private static Command parseSetGoalCommand(String input, SavingList savingList)
-            throws NumberFormatException {
-        // Expected format: set-goal n/GOAL_NAME a/AMOUNT b/BY
-        int nIndex = input.indexOf("n/");
-        int aIndex = input.indexOf("a/");
-        int bIndex = input.indexOf("b/");
-        if (nIndex == -1 || aIndex == -1 || bIndex == -1) {
-            throw new IllegalArgumentException("Invalid set-goal command format.");
-        }
-        String name = input.substring(nIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2, bIndex).trim();
-        String deadline = input.substring(bIndex + 2).trim();
-        Money moneyAmount = new Money(savingList.getCurrency(), new BigDecimal(amountStr));
-        return new SetGoalCommand(savingList, name, moneyAmount, deadline);
-    }
-
-    private static Command parseContributeGoalCommand(String input, SavingList savingList)
-            throws NumberFormatException {
-        // Expected format: contribute-goal n/GOAL_NAME a/AMOUNT
-        int nIndex = input.indexOf("n/");
-        int aIndex = input.indexOf("a/");
-        if (nIndex == -1 || aIndex == -1) {
-            throw new IllegalArgumentException("Invalid contribute-goal command format.");
-        }
-        String name = input.substring(nIndex + 2, aIndex).trim();
-        String amountStr = input.substring(aIndex + 2).trim();
-        Money moneyAmount = new Money(savingList.getCurrency(), new BigDecimal(amountStr));
-        return new ContributeGoalCommand(savingList, name, moneyAmount);
-    }
-
-    private static Command parseCheckGoalCommand(SavingList savingList) {
-        // Expected format: check-goal with no extra parameters.
-        return new CheckGoalCommand(savingList);
     }
 
     @Override
@@ -94,6 +66,20 @@ public class SavingGeneralCommand implements Command {
             System.err.println(SetGoalCommand.DATE_FORMAT_ERROR);
         } catch (Exception e) {
             System.err.println("An error has occurred when executing the command.");
+        }
+    }
+
+    //public Result excute()
+
+    public static void handleSavingCommand(Scanner scanner, SavingManager savingManager) {
+        while (true){
+            System.out.print("Here's a list of saving commands: \n" + SAVING_COMMANDS + "Enter saving command: ");
+            String input = scanner.nextLine().trim();
+            if (input.startsWith("exit")) {
+                break;
+            }
+            SavingGeneralCommand command = new SavingGeneralCommand(input, savingManager);
+            command.execute();
         }
     }
 }

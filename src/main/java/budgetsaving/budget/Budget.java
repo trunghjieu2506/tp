@@ -1,10 +1,14 @@
 package budgetsaving.budget;
 
+import budgetsaving.budget.utils.BudgetActiveStatus;
+import budgetsaving.budget.utils.BudgetExceedStatus;
+import budgetsaving.budget.utils.BudgetSerialiser;
 import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 
 public class Budget {
     private String name;
@@ -14,6 +18,8 @@ public class Budget {
     private LocalDate startDate;
     private LocalDate endDate;
     private String category;
+    private BudgetActiveStatus activeStatus;
+    private BudgetExceedStatus exceedStatus;
 
     public Budget(String name, Money totalBudget, LocalDate endDate, String category) {
         if (name == null || name.trim().isEmpty()) {
@@ -44,24 +50,41 @@ public class Budget {
         this.endDate = endDate;
         this.category = category;
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
+        this.activeStatus = BudgetActiveStatus.ACTIVE;
+        this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
     }
-
 
     // Getter for budget name
     public String getName() {
         return name;
     }
 
-    public BigDecimal getMoneySpent(){
+    public BigDecimal getMoneySpent() {
         return totalBudget.getAmount().subtract(remainingBudget.getAmount());
     }
 
-    public Money getRemainingBudget(){
+    public Money getRemainingBudget() {
         return this.remainingBudget;
     }
 
     public String getCategory() {
         return category;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public BudgetActiveStatus getBudgetActiveStatus(){
+        return this.activeStatus;
+    }
+
+    public void updateBudgetActiveStatus(BudgetActiveStatus status) {
+        this.activeStatus = status;
+    }
+
+    public void updateBudgetExceedStatus(BudgetExceedStatus exceedStatus) {
+        this.exceedStatus = exceedStatus;
     }
 
     public ArrayList<Expense> getExpenses() {
@@ -92,6 +115,9 @@ public class Budget {
         BigDecimal deduction = BigDecimal.valueOf(amount);
         BigDecimal current = remainingBudget.getAmount();
         remainingBudget.setAmount(current.subtract(deduction));
+        if (remainingBudget.getAmount().compareTo(deduction) < 0) {
+            this.exceedStatus = BudgetExceedStatus.EXCEEDED_BUDGET;
+        }
     }
 
     // Adds an amount to both the total and remaining budget
@@ -118,6 +144,8 @@ public class Budget {
             deduct(expense.getAmount());
             BigDecimal remainingAmount = remainingBudget.getAmount();
             double remainingAmountDouble = remainingAmount.doubleValue();
+            exceedStatus = remainingAmountDouble > 0 ?
+                    BudgetExceedStatus.HAS_REMAINING_BUDGET : exceedStatus;
             return remainingAmountDouble > 0;
         }
         throw new IllegalStateException("Error adding the expense to the budget.");
@@ -173,7 +201,7 @@ public class Budget {
 
     @Override
     public String toString() {
-        return  "Name: " + name +
+        return "Name: " + name +
                 "\nBudgetCategory: " + category +
                 "\nTotalBudget: " + totalBudget.toString() +
                 "\nRemainingBudget: " + remainingBudget.toString() +
@@ -181,10 +209,10 @@ public class Budget {
                 "\nBudget ending date: " + endDate + "\n\n";
     }
 
-    public String printExpenses(){
+    public String printExpenses() {
         StringBuilder sb = new StringBuilder();
         sb.append(this);
-        if (expenses.isEmpty()){
+        if (expenses.isEmpty()) {
             System.out.println("There are no expenses in this budget yet");
             return null;
         }
@@ -192,5 +220,9 @@ public class Budget {
             sb.append(expense.toString());
         }
         return sb.toString();
+    }
+
+    public String serialiseToString() {
+        return BudgetSerialiser.serialise(this);
     }
 }

@@ -3,7 +3,7 @@ package cashflow.model;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.dummy.DummyExpense;
 import cashflow.dummy.DummyLoan;
-import cashflow.dummy.DummySavings;
+import cashflow.model.interfaces.SavingManager;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 
@@ -30,7 +30,7 @@ public class FinanceData {
 
     // Integration modules for the other teams.
     private DummyExpense expenseIncomeManager;
-    private DummySavings savingsManager;
+    private SavingManager savingsManager;
     private DummyLoan loanDebtManager;
 
     // Your analytics module.
@@ -59,10 +59,10 @@ public class FinanceData {
         this.expenseIncomeManager = expenseIncomeManager;
     }
 
-    public DummySavings getSavingsManager() {
+    public SavingManager getSavingsManager() {
         return savingsManager;
     }
-    public void setSavingsManager(DummySavings savingsManager) {
+    public void setSavingsManager(SavingManager savingsManager) {
         this.savingsManager = savingsManager;
     }
 

@@ -78,7 +78,7 @@ public class BudgetAttributes {
 
     // Helper method to find the next identifier position after 'current'
     // among a variable number of identifier positions.
-    private int findNextIdentifier(String input, int current, int... positions) {
+    public static int findNextIdentifier(String input, int current, int... positions) {
         int next = input.length();
         for (int pos : positions) {
             if (pos != -1 && pos > current && pos < next) {
