@@ -41,18 +41,18 @@ public class LoanListTest {
         Money moneyOne = new Money("SGD", 100);
         Money moneyTwo = new Money("USD", 123.33);
 
-        LoanCommand command_one = new AddSimpleBulletLoanCommand(loanManager, "money one", George, Miao,
+        LoanCommand command1 = new AddSimpleBulletLoanCommand(loanManager, "money one", George, Miao,
                 moneyOne);
-        command_one.execute();
-        LoanCommand command_two = new AddSimpleBulletLoanCommand(loanManager, "money two", Miao, George,
+        command1.execute();
+        LoanCommand command2 = new AddSimpleBulletLoanCommand(loanManager, "money two", Miao, George,
                 moneyTwo);
-        command_two.execute();
+        command2.execute();
 
-        ListLoansCommand command_list = new ListLoansCommand(loanManager);
-        command_list.execute();
+        ListLoansCommand commandList = new ListLoansCommand(loanManager);
+        commandList.execute();
 
-        ShowLoanDetailCommand command_detail = new ShowLoanDetailCommand(loanManager, 1);
-        command_detail.execute();
+        ShowLoanDetailCommand commandDetail = new ShowLoanDetailCommand(loanManager, 1);
+        commandDetail.execute();
 
         Loan first = loanManager.get(1);
         first.setStart(LocalDate.parse("2025-01-01"));
@@ -61,8 +61,8 @@ public class LoanListTest {
         George.setEmail("12345677@nus.com");
         contactsList.findName("Miao").setEmail("miao@a.b.com");
 
-        command_list.execute();
-        command_detail.execute();
+        commandList.execute();
+        commandDetail.execute();
     }
 
     private ArrayList<Loan> testList(ContactsList contactsList) {
@@ -209,17 +209,53 @@ public class LoanListTest {
 
         String input = """
                 Hello World
+                2025-1-1
+                2024-1-1
+                SIMPLE 1% per 2 months
+                50
+                100
                 """;
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
-        LoanCommand command1 = LoanCommandParser.parse(loanManager, scanner, "USD", "edit 1 description");
+        LoanCommand command1 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "edit 1 description");
+        LoanCommand command2 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "edit 1 return date");
+        LoanCommand command3 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "edit 1 start date");
+        LoanCommand command4 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "edit 1 interest");
+        LoanCommand command5 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "edit 1 amount");
+        LoanCommand command6 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "edit 1 principal");
+        LoanCommand command7 = LoanCommandParser.parse(loanManager, scanner, "USD",
+                "return 1");
         LoanCommand listCommand = new ListLoansCommand(loanManager);
         LoanCommand showCommand = new ShowLoanDetailCommand(loanManager, 1);
 
         assert command1 != null;
+        assert command2 != null;
+        assert command3 != null;
+        assert command4 != null;
+        assert command5 != null;
+        assert command6 != null;
+        assert command7 != null;
         command1.execute();
-        listCommand.execute();
         showCommand.execute();
+        command2.execute();
+        showCommand.execute();
+        command3.execute();
+        showCommand.execute();
+        command4.execute();
+        showCommand.execute();
+        command5.execute();
+        showCommand.execute();
+        command6.execute();
+        showCommand.execute();
+        command7.execute();
+        showCommand.execute();
+        listCommand.execute();
     }
 
     @Test
