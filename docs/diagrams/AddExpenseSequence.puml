@@ -1,0 +1,26 @@
+@startuml
+actor User
+participant UI
+participant ExpenseCommandParser
+participant AddExpenseCommand
+participant ExpenseManager
+hide footbox
+
+User -> UI: "add Lunch 12.5 Food 2025-03-25"
+activate UI
+
+UI -> ExpenseCommandParser: parseCommand(input)
+activate ExpenseCommandParser
+
+ExpenseCommandParser -> AddExpenseCommand: execute(expenseManager)
+activate AddExpenseCommand
+AddExpenseCommand -> ExpenseManager: addExpense("Lunch", 12.5, 2025-03-25, "Food")
+activate ExpenseManager
+deactivate ExpenseManager
+AddExpenseCommand --> ExpenseCommandParser
+
+deactivate AddExpenseCommand
+ExpenseCommandParser --> UI
+deactivate ExpenseCommandParser
+
+@enduml

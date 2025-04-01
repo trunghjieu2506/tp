@@ -8,6 +8,9 @@ import expenseincome.expense.commands.ListAllCommand;
 import expenseincome.expense.commands.ListCategoryExpenseCommand;
 import expenseincome.expense.commands.ListExpenseCommand;
 import expenseincome.expense.commands.SortExpenseCommand;
+import expenseincome.expense.commands.HelpExpenseCommand;
+import expenseincome.expense.commands.TopCategoryExpenseCommand;
+import expenseincome.expense.commands.BottomCategoryExpenseCommand;
 import expenseincome.income.IncomeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,4 +92,29 @@ public class ExpenseCommandTestSuite {
         ListAllCommand cmd = new ListAllCommand(incomeManager);
         cmd.execute(expenseManager); // should not crash even with empty data
     }
+
+    @Test
+    void testHelpExpenseCommandExecute() {
+        HelpExpenseCommand cmd = new HelpExpenseCommand();
+        cmd.execute(expenseManager); // should print help text without errors
+    }
+
+    @Test
+    void testTopCategoryExpenseCommandExecute() {
+        expenseManager.addExpense("Meal", 20.0, LocalDate.now(), "Food");
+        expenseManager.addExpense("Snack", 10.0, LocalDate.now(), "Food");
+        expenseManager.addExpense("Taxi", 15.0, LocalDate.now(), "Transport");
+        TopCategoryExpenseCommand cmd = new TopCategoryExpenseCommand();
+        cmd.execute(expenseManager); // should output "Food"
+    }
+
+    @Test
+    void testBottomCategoryExpenseCommandExecute() {
+        expenseManager.addExpense("Meal", 20.0, LocalDate.now(), "Food");
+        expenseManager.addExpense("Snack", 10.0, LocalDate.now(), "Food");
+        expenseManager.addExpense("Taxi", 5.0, LocalDate.now(), "Transport");
+        BottomCategoryExpenseCommand cmd = new BottomCategoryExpenseCommand();
+        cmd.execute(expenseManager); // should output "Transport"
+    }
+
 }

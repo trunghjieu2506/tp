@@ -1,4 +1,4 @@
-package budget_saving.budget.command;
+package budgetsaving.budget.command;
 
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;

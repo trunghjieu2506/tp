@@ -1,7 +1,7 @@
-package budget_saving.saving.command;
+package budgetsaving.saving.command;
 
-import cashflow.ui.command.Command;
-import budget_saving.saving.SavingList;
+import cashflow.command.Command;
+import budgetsaving.saving.SavingList;
 
 public class CheckGoalCommand implements Command {
     private SavingList savingList;
