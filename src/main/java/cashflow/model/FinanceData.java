@@ -7,9 +7,11 @@ import cashflow.model.interfaces.SavingManager;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 
+import java.util.Currency;
+
 //Centralized data hub
 public class FinanceData {
-    private String currency = "$";
+    private Currency currency;
 
     // Nicholas Expense and Income Managers
     private ExpenseManager expenseManager;
@@ -36,11 +38,11 @@ public class FinanceData {
     private AnalyticsManager analyticsManager;
 
     // Basic getters and setters.
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
     public void setCurrency(String currency) {
-        this.currency = currency;
+        this.currency = Currency.getInstance(currency);
     }
 
     //    // Categories management.

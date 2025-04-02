@@ -1,7 +1,5 @@
 package cashflow.dummy;
 
-import cashflow.model.interfaces.LoanDebtManager;
-
 public class DummyLoan implements LoanDebtManager {
 
     public String getLoanDebtSummary() {

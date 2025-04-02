@@ -158,7 +158,7 @@ public class AnalyticsManager {
                 : new ArrayList<Finance>();
 
         ArrayList<Finance> incomeList = data.getIncomeManager() != null
-                ? data.getExpenseManager().getIncomeList();
+                ? data.getExpenseManager().getIncomeList()
                 : new ArrayList<Finance>();
         ArrayList<Finance> savingsList = data.getSavingsManager() != null
                 ? data.getSavingsManager().getSavingList()
