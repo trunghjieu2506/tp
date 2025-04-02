@@ -29,7 +29,6 @@ public class FinanceData {
     }
 
     // Integration modules for the other teams.
-    private DummyExpense expenseIncomeManager;
     private SavingManager savingsManager;
     private DummyLoan loanDebtManager;
 
@@ -52,13 +51,6 @@ public class FinanceData {
     //        this.categories.add(category);
     //    }
 
-    public DummyExpense getExpenseIncomeManager() {
-        return expenseIncomeManager;
-    }
-    public void setExpenseIncomeManager(DummyExpense expenseIncomeManager) {
-        this.expenseIncomeManager = expenseIncomeManager;
-    }
-
     public SavingManager getSavingsManager() {
         return savingsManager;
     }
@@ -78,5 +70,13 @@ public class FinanceData {
     }
     public void setAnalyticsManager(AnalyticsManager analyticsManager) {
         this.analyticsManager = analyticsManager;
+    }
+
+    public void setExpenseManager(ExpenseManager expenseManager) {
+        this.expenseManager = expenseManager;
+    }
+
+    public void setIncomeManager(IncomeManager incomeManager) {
+        this.incomeManager = incomeManager;
     }
 }
