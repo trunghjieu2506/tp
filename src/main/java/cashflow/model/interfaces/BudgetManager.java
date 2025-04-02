@@ -2,6 +2,7 @@ package cashflow.model.interfaces;
 
 import budgetsaving.budget.Budget;
 import budgetsaving.budget.BudgetException;
+import expenseincome.expense.Expense;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,8 @@ public interface BudgetManager {
     void listBudgets();
 
     void deductFromBudget(int index, double amount);
+
+    boolean deductBudgetFromExpense(Expense expense);
 
     void addToBudget(int index, double amount);
 
