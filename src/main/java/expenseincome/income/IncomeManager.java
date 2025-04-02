@@ -1,7 +1,9 @@
 package expenseincome.income;
 
+import cashflow.model.interfaces.Finance;
+import cashflow.model.interfaces.IncomeDataManager;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -9,9 +11,13 @@ import java.util.Map;
 import java.util.HashMap;
 
 
-public class IncomeManager {
+public class IncomeManager implements IncomeDataManager {
     private static final Logger logger = Logger.getLogger(IncomeManager.class.getName());
-    private List<Income> incomes;
+    private ArrayList<Income> incomes;
+
+    public ArrayList<Finance> getIncomeList() {
+        return new ArrayList<>(incomes);
+    }
 
     public IncomeManager() {
         this.incomes = new ArrayList<>();
