@@ -18,6 +18,8 @@ public interface BudgetManager {
 
     void deductFromBudget(int index, double amount);
 
+    void deductBudgetFromExpense(int index, double amount);
+
     void addToBudget(int index, double amount);
 
     void checkBudget(int index);
