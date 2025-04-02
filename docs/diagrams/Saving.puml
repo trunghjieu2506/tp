@@ -1,0 +1,73 @@
+@startuml
+package "budgetsaving.saving" {
+
+    ' ========== Class: Saving ==========
+    class Saving {
+        - String name
+        - Money goalAmount
+        - Money currentAmount
+        - LocalDate deadline
+        - SavingStatus status
+        - ArrayList<SavingContribution> contributions
+
+        + Saving(String, Money, LocalDate)
+        + getName(): String
+        + getGoalAmount(): Money
+        + getCurrentAmount(): Money
+        + getDeadline(): LocalDate
+        + getStatus(): SavingStatus
+        + addContribution(Money): void
+        + toString(): String
+        + toStringWithContributions(): String
+        + printCompletionMessage(): void
+        + setNewAmount(Money): void
+        + setNewDeadline(LocalDate): void
+    }
+
+    ' ========== Class: SavingList ==========
+    class SavingList {
+        - ArrayList<Saving> savings
+        - String currency
+
+        + SavingList()
+        + SavingList(String)
+        + getCurrency(): String
+        + setCurrency(String): void
+        + setNewSaving(String, Money, LocalDate): String
+        + contributeToSaving(int, Money): String
+        + listGoals(): String
+        + checkOneGoal(int): void
+        + modifySaving(int, Money, LocalDate): void
+        + getSavingsSummary(): String
+    }
+
+    ' ========== Interfaces ==========
+    interface SavingManager {
+        + getCurrency(): String
+        + setCurrency(String): void
+        + setNewSaving(String, Money, LocalDate): String
+        + contributeToSaving(int, Money): String
+        + listGoals(): String
+        + checkOneGoal(int): void
+        + modifySaving(int, Money, LocalDate): void
+        + getSavingsSummary(): String
+    }
+
+    ' ========== Supporting Classes ==========
+    class SavingContribution
+    class Money {
+        + getAmount(): BigDecimal
+        + getCurrency(): String
+        + increment(BigDecimal): void
+    }
+
+    enum SavingStatus
+
+    ' ========== Relationships ==========
+    SavingList ..|> SavingManager
+    SavingList --> "1..*" Saving
+    Saving --> SavingContribution
+    Saving --> Money
+    Saving --> SavingStatus
+}
+@enduml
