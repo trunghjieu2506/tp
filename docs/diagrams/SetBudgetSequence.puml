@@ -1,0 +1,30 @@
+@startuml
+actor User
+participant Scanner
+participant BudgetGeneralCommand
+participant BudgetParser
+participant SetBudgetCommand
+participant BudgetManager
+
+== Command Flow for "set" Budget Command ==
+
+User -> Scanner : enter "set n/Name a/Amount e/Date c/Category"
+activate Scanner
+Scanner -> BudgetGeneralCommand : new BudgetGeneralCommand(input, budgetManager)
+activate BudgetGeneralCommand
+
+BudgetGeneralCommand -> BudgetParser : parseSetBudgetCommand(input, budgetManager)
+activate BudgetParser
+BudgetParser -> SetBudgetCommand : new SetBudgetCommand(...)
+deactivate BudgetParser
+return SetBudgetCommand
+
+BudgetGeneralCommand -> BudgetGeneralCommand : execute()
+activate BudgetGeneralCommand
+BudgetGeneralCommand -> SetBudgetCommand : execute()
+activate SetBudgetCommand
+SetBudgetCommand -> BudgetManager : setBudget(name, amount, endDate, category)
+deactivate SetBudgetCommand
+
+return
+@enduml

@@ -5,18 +5,15 @@ import cashflow.ui.command.HelpCommand;
 import cashflow.ui.command.OverviewCommand;
 import cashflow.model.FinanceData;
 import budgetsaving.saving.SavingList;
-import budgetsaving.saving.command.SavingGeneralCommand;
-
 import expenseincome.expense.ExpenseCommandParser;
+import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.commands.ExpenseCommand;
 import expenseincome.income.IncomeCommandParser;
-import expenseincome.income.commands.IncomeCommand;
-import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
+
+import expenseincome.income.commands.IncomeCommand;
 import loanbook.LoanUI;
-import loanbook.parsers.LoanCommandParser;
 import loanbook.LoanManager;
-import loanbook.commands.LoanCommand;
 import loanbook.save.LoanSaveManager;
 
 import java.io.FileNotFoundException;
@@ -41,9 +38,9 @@ public class UI {
         this.budgetList = new BudgetList(data.getCurrency());
         //Can create a username.
         try {
-            this.loanManager = LoanSaveManager.readLoanList("Default");
+            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
         } catch (FileNotFoundException e) {
-            this.loanManager = new LoanManager("Default");
+            this.loanManager = new LoanManager("GeorgeMiao");
         }
 
         this.expenseManager = data.getExpenseManager();

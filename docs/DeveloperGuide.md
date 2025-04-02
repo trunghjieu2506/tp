@@ -48,7 +48,92 @@ This design simplifies testing, separates concerns clearly, and is extensible to
 - Advanced search and filtering (e.g., date ranges).
 - UI display of graphs or trends.
 
-### 2. Qiaozi
+
+### 2. Hongheng
+   Responsible for implementing the Budget and Saving management modules. This includes the Budget, Saving, BudgetList, SavingList, and the associated commands and parsers.
+
+The goal of these modules is to allow users to manage budgets and track savings efficiently, with support for adding, editing, deleting, listing, and viewing summary data.
+
+#### Budget and Saving Structure
+Each of the two entities — Budget and Saving — is represented by its own class and managed through its own container class (BudgetList, SavingList).
+
+The diagram below shows the high-level class structure:
+
+![BudgetManager.png](team/BudgetManager.png)
+
+
+Budget: Represents a budget allocation for a specific month, storing:
+
+month: YearMonth
+
+amount: double
+
+description: String (optional)
+
+Saving: Represents a saved fund entry, storing:
+
+date: LocalDate
+
+amount: double
+
+purpose: String
+
+BudgetList and SavingList: Handle collections of budgets and savings, providing utilities like filtering and summarizing.
+
+#### Command Parsing and Execution
+Each command related to Budget or Saving extends from a common Command base class and overrides the execute(Model model) method.
+
+#### Example sequence diagram for the command:
+add-budget m/2025-04 a/1000 d/April allowance
+
+
+Note: Replace with actual PNG exported from your PlantUML diagram.
+
+#### Flow:
+
+The user inputs the add-budget command.
+
+LogicManager passes it to AddBudgetCommandParser.
+
+A Budget object is created.
+
+AddBudgetCommand is constructed with the budget.
+
+execute(model) adds the budget to the model.
+
+The UI reflects the update.
+
+#### Savings commands like add-saving follow a similar pattern.
+
+
+![Saving.png](team/Saving.png)
+
+#### Key Implementation Choices
+Domain Classes: Having separate Budget and Saving classes allows clearer separation of concerns and future flexibility.
+
+JavaFX Bindings: Changes to ObservableList are reflected live in the UI.
+
+Date Parsing: Uses YearMonth and LocalDate to ensure correct input validation and display formatting.
+
+#### Alternatives Considered
+Using a shared superclass like FinancialEntry to generalize Budget and Saving.
+
+- Rejected to avoid premature generalization and preserve domain-specific logic.
+
+Managing budget/saving lists directly inside ModelManager.
+
+- Rejected in favor of separate BudgetList and SavingList classes to improve modularity and unit testing.
+
+#### Future Enhancements
+Support for recurring budgets (e.g., auto-renewing monthly budgets)
+
+Budget vs actual visualization using bar/line graphs
+
+Add filters for purpose, amount, and date/month
+
+Export functionality (e.g., CSV or Excel)
+
+### 3. Qiaozi
 
 Responsible for implementing the **Loan**, **Contact** and **Money** management modules. This includes the `Loan`, `LoanManager`, `Person`, `ContactList`, `Money`, as well as all associated commands and parsers.
 
@@ -150,4 +235,3 @@ The following steps help a tester verify the correctness of features:
    ```
 
 Note: Manual testing does not persist data unless storage is implemented. Re-adding entries is required after restarting the app.
-

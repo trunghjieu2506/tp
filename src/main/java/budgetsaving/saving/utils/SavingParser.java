@@ -6,8 +6,6 @@ import budgetsaving.saving.command.SetGoalCommand;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.SavingManager;
 import utils.money.Money;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class SavingParser {

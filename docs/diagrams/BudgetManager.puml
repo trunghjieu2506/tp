@@ -1,0 +1,105 @@
+@startuml
+package "budgetsaving.budget" {
+
+    ' ========== Class: BudgetList ==========
+    class BudgetList {
+        - ArrayList<Budget> budgets
+        - String currency
+        - HashMap<String, Budget> budgetByCategory
+
+        + BudgetList(String currency)
+        + getCurrency(): String
+        + setCurrency(String): void
+        + refreshBudgetStatuses(): void
+        + addNewBudget(Budget): void
+        + setBudget(String, double, LocalDate, String): void
+        + listBudgets(): void
+        + deductFromBudget(int, double): void
+        + deductBudgetFromExpense(int, Expense): boolean
+        + addToBudget(int, double): void
+        + getBudget(int): Budget
+        + modifyBudget(int, String, double, LocalDate, String): void
+        + checkBudget(int): void
+        - updateBudgetCompletionStatus(Budget): void
+    }
+
+    ' ========== Class: Budget ==========
+    class Budget {
+        - String name
+        - Money totalBudget
+        - Money remainingBudget
+        - ArrayList<Expense> expenses
+        - LocalDate startDate
+        - LocalDate endDate
+        - String category
+        - BudgetActiveStatus activeStatus
+        - BudgetExceedStatus exceedStatus
+
+        + Budget(String, Money, LocalDate, String)
+        + getName(): String
+        + getMoneySpent(): BigDecimal
+        + getRemainingBudget(): Money
+        + getCategory(): String
+        + getEndDate(): LocalDate
+        + getBudgetActiveStatus(): BudgetActiveStatus
+        + updateBudgetActiveStatus(BudgetActiveStatus): void
+        + updateBudgetExceedStatus(BudgetExceedStatus): void
+        + getExpenses(): ArrayList<Expense>
+        + setTotalBudget(double): void
+        + setRemainingBudget(double): void
+        + deduct(double): void
+        + add(double): void
+        + deductFromExpense(Expense): boolean
+        + removeExpenseFromBudget(Expense): void
+        + modifyBudget(double, String, LocalDate, String): void
+        + toString(): String
+        + printExpenses(): String
+        + serialiseToString(): String
+    }
+
+    ' ========== Interface: BudgetManager ==========
+    interface BudgetManager {
+        + listBudgets(): void
+        + deductFromBudget(int, double): void
+    }
+
+    ' ========== Supporting Classes ==========
+    class Expense
+    class Money {
+        + getAmount(): BigDecimal
+        + getCurrency(): String
+        + setAmount(BigDecimal): void
+    }
+
+    enum BudgetActiveStatus
+    enum BudgetExceedStatus
+
+    class BudgetSerialiser {
+        + serialise(Budget): String
+    }
+
+    class BudgetAlert {
+        + exceedBudgetAlert(): void
+    }
+
+    class BudgetTextColour {
+        {static} + RED: String
+        {static} + RESET: String
+    }
+
+    ' ========== Relationships ==========
+    BudgetList ..|> BudgetManager
+    BudgetList --> "1..*" Budget
+    BudgetList --> BudgetAlert
+    BudgetList --> Expense
+    BudgetList --> Money
+
+    Budget --> "0..*" Expense
+    Budget --> Money
+    Budget --> BudgetActiveStatus
+    Budget --> BudgetExceedStatus
+    Budget --> BudgetSerialiser
+
+    BudgetAlert --> BudgetTextColour
+}
+@enduml
