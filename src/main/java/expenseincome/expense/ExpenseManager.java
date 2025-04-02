@@ -1,19 +1,26 @@
 package expenseincome.expense;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Map;
 import java.util.HashMap;
 
-public class ExpenseManager {
+import cashflow.model.interfaces.BudgetManager;
+import cashflow.model.interfaces.ExpenseDataManager;
+import cashflow.model.interfaces.Finance;
+
+public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
-    private List<Expense> expenses;
+    private ArrayList<Expense> expenses;
 
     public ExpenseManager() {
         this.expenses = new ArrayList<>();
+    }
+
+    public ArrayList<Finance> getExpenseList() {
+        return new ArrayList<>(expenses);
     }
 
     public void addExpense(String description, double amount, LocalDate date, String category) {
@@ -29,6 +36,7 @@ public class ExpenseManager {
             }
 
             Expense expense = new Expense(description, amount, date, category);
+            BudgetManager.deductBudgetFromExpense(expense);
             expenses.add(expense);
             logger.log(Level.INFO, "Added expense: {0}", expense);
             System.out.println("Added: " + expense);

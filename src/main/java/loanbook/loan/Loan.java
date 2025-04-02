@@ -1,5 +1,6 @@
 package loanbook.loan;
 
+import cashflow.model.interfaces.Finance;
 import utils.money.Money;
 import utils.contacts.Person;
 import utils.tags.Taggable;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Stores basic information about a loan.
  */
-public abstract class Loan implements Taggable {
+public abstract class Loan extends Finance implements Taggable {
     protected String description;
     protected final Person lender;
     protected final Person borrower;

@@ -1,5 +1,7 @@
 package loanbook;
 
+import cashflow.model.interfaces.Finance;
+import cashflow.model.interfaces.LoanDataManager;
 import loanbook.loan.Loan;
 import loanbook.save.LoanSaveManager;
 import utils.contacts.ContactsList;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Stores the list of loans and related operations.
  */
-public class LoanManager {
+public class LoanManager implements LoanDataManager {
     protected String user;
     protected ArrayList<Loan> loans;
     protected ContactsList contactsList;
@@ -253,5 +255,10 @@ public class LoanManager {
             save.append(loan.forSave()).append('\n').append(LoanSaveManager.LOAN_SEPARATOR);
         }
         return save.toString();
+    }
+
+    @Override
+    public ArrayList<Finance> getLoanList() {
+        return new ArrayList<>(loans);
     }
 }
