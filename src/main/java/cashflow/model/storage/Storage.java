@@ -1,5 +1,7 @@
 package cashflow.model.storage;
 
+import cashflow.model.interfaces.Finance;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,18 +26,18 @@ public class Storage {
      * @throws FileNotFoundException if the task data file does not exist.
      */
     @SuppressWarnings("unchecked")
-    public ArrayList<Object> loadFile() throws FileNotFoundException {
+    public ArrayList<Finance> loadFile() throws FileNotFoundException {
         file.getParentFile().mkdirs();
         if (!file.exists()) {
             throw new FileNotFoundException();
         }
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             System.out.println("Storage loaded successfully");
-            return (ArrayList<Object>) in.readObject();
+            return (ArrayList<Finance>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error loading tasks: " + e.getMessage());
         }
-        return new ArrayList<Object>();
+        return new ArrayList<Finance>();
     }
 
     /**
@@ -43,10 +45,10 @@ public class Storage {
      *
      * @param taskList the list of tasks to save to file.
      */
-    public void saveFile(ArrayList<Object> taskList) {
+    public void saveFile(ArrayList<Finance> financeList) {
         file.getParentFile().mkdirs();
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
-            out.writeObject(taskList);
+            out.writeObject(financeList);
             System.out.println("Tasks saved successfully!");
         } catch (IOException e) {
             System.err.println("Error saving tasks: " + e.getMessage());
