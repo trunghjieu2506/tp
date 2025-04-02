@@ -8,12 +8,18 @@ import java.util.logging.Level;
 import java.util.Map;
 import java.util.HashMap;
 
+import budgetsaving.budget.utils.BudgetManager;
+
 public class ExpenseManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
     private List<Expense> expenses;
 
     public ExpenseManager() {
         this.expenses = new ArrayList<>();
+    }
+
+    public List<Expense> getExpenseList() {
+        return expenses;
     }
 
     public void addExpense(String description, double amount, LocalDate date, String category) {
@@ -29,6 +35,7 @@ public class ExpenseManager {
             }
 
             Expense expense = new Expense(description, amount, date, category);
+            deductBudgetFromExpense(expense);
             expenses.add(expense);
             logger.log(Level.INFO, "Added expense: {0}", expense);
             System.out.println("Added: " + expense);
