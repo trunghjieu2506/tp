@@ -133,6 +133,18 @@ Add filters for purpose, amount, and date/month
 
 Export functionality (e.g., CSV or Excel)
 
+### 3. Qiaozi
+
+Responsible for implementing the **Loan**, **Contact** and **Money** management modules. This includes the `Loan`, `LoanManager`, `Person`, `ContactList`, `Money`, as well as all associated commands and parsers.
+
+The goal of these modules is to allow users to accurately and efficiently manage their loans with support for adding, editing, deleting, listing, and finding entries.
+
+#### Loan Structure
+
+The loans can be classified as either as a Simple Bullet Loan or an Advanced Loan. Each type of loan inherits from an abstract class Loan. All loans are managed by the LoanManager class. 
+
+
+
 ## Product scope
 ### Target user profile
 
