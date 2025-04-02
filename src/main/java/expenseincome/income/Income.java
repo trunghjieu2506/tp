@@ -1,8 +1,10 @@
 package expenseincome.income;
 
+import cashflow.model.interfaces.Finance;
+
 import java.time.LocalDate;
 
-public class Income {
+public class Income extends Finance {
     private String source;
     private double amount;
     private LocalDate date;
@@ -26,6 +28,11 @@ public class Income {
 
     public double getAmount() {
         return amount;
+    }
+
+    @Override
+    public String getType() {
+        return "income";
     }
 
     public LocalDate getDate() {
