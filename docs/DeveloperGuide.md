@@ -48,6 +48,18 @@ This design simplifies testing, separates concerns clearly, and is extensible to
 - Advanced search and filtering (e.g., date ranges).
 - UI display of graphs or trends.
 
+### 2. Qiaozi
+
+Responsible for implementing the **Loan**, **Contact** and **Money** management modules. This includes the `Loan`, `LoanManager`, `Person`, `ContactList`, `Money`, as well as all associated commands and parsers.
+
+The goal of these modules is to allow users to accurately and efficiently manage their loans with support for adding, editing, deleting, listing, and finding entries.
+
+#### Loan Structure
+
+The loans can be classified as either as a Simple Bullet Loan or an Advanced Loan. Each type of loan inherits from an abstract class Loan. All loans are managed by the LoanManager class. 
+
+
+
 ## Product scope
 ### Target user profile
 
@@ -138,3 +150,4 @@ The following steps help a tester verify the correctness of features:
    ```
 
 Note: Manual testing does not persist data unless storage is implemented. Re-adding entries is required after restarting the app.
+

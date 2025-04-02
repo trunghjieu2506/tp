@@ -13,6 +13,7 @@ import expenseincome.income.IncomeCommandParser;
 import expenseincome.income.commands.IncomeCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
+import loanbook.LoanUI;
 import loanbook.parsers.LoanCommandParser;
 import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
@@ -40,9 +41,9 @@ public class UI {
         this.budgetList = new BudgetList(data.getCurrency());
         //Can create a username.
         try {
-            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
+            this.loanManager = LoanSaveManager.readLoanList("Default");
         } catch (FileNotFoundException e) {
-            this.loanManager = new LoanManager("GeorgeMiao");
+            this.loanManager = new LoanManager("Default");
         }
 
         this.expenseManager = data.getExpenseManager();
@@ -93,7 +94,7 @@ public class UI {
                 handleIncomeCommands(scanner);
                 break;
             case "loan":
-                handleLoanCommands(scanner);
+                LoanUI.handleLoanCommands(loanManager, scanner, data.getCurrency());
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
@@ -137,26 +138,6 @@ public class UI {
                 incomeCommand.execute(incomeManager);
             } else {
                 System.out.println("Invalid income command.");
-            }
-        }
-    }
-
-    private void handleLoanCommands(Scanner scanner) {
-        System.out.println("Loan Mode: Enter commands (type 'exit' to return)");
-        while (true) {
-            System.out.print("> ");
-            String command = scanner.nextLine().trim();
-
-            if (command.equalsIgnoreCase("exit")) {
-                System.out.println("Exiting Loan Mode.");
-                break;
-            }
-
-            LoanCommand loanCommand = LoanCommandParser.parse(loanManager, scanner, data.getCurrency(), command);
-            if (loanCommand != null) {
-                loanCommand.execute();
-            } else {
-                System.out.println("Invalid loan command.");
             }
         }
     }
