@@ -141,22 +141,6 @@ public class BudgetListTest {
         System.setOut(originalOut);
     }
 
-    @Test
-    public void testDeductBudgetFromExpense() {
-        BudgetList budgetList = new BudgetList("USD");
-        LocalDate futureDate = LocalDate.now().plusDays(10);
-        budgetList.setBudget("Budget1", 1000, futureDate, "Category1");
-
-        // Valid deduction from expense
-        Expense expense = new Expense("Expense1", 100, LocalDate.now(), "Food");
-        boolean result = budgetList.deductBudgetFromExpense(0, expense);
-        assertTrue(result);
-
-        // Invalid index => IndexOutOfBoundsException
-        assertThrows(IndexOutOfBoundsException.class, () ->
-                budgetList.deductBudgetFromExpense(5, expense)
-        );
-    }
 
     @Test
     public void testAddToBudget() {

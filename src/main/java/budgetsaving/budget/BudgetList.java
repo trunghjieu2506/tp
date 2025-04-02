@@ -121,12 +121,23 @@ public class BudgetList implements BudgetManager {
         System.out.println(b);
     }
 
-    public boolean deductBudgetFromExpense(int index, Expense expense) {
-        if (index < 0 || index >= budgets.size()) {
-            throw new IndexOutOfBoundsException("Index out of range.");
+    public boolean deductBudgetFromExpense(Expense expense) {
+        String category = expense.getCategory();
+        //dont need to check if category is null
+        //its done on expense side
+        Budget targetBudget = null;
+        for (int i = 0; i < budgets.size(); i++) {
+            if (budgets.get(i).getCategory().equals(category)) {
+                targetBudget = budgets.get(i);
+            }
         }
-        Budget b = budgets.get(index);
-        return b.deductFromExpense(expense);
+        boolean exceedBudget = false;
+        try{
+            exceedBudget = targetBudget.deductFromExpense(expense);
+        } catch (NullPointerException e) {
+            System.out.println("No budgets found.");
+        }
+        return exceedBudget;
     }
 
     public void addToBudget(int index, double amount) {
