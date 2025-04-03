@@ -40,9 +40,7 @@ public class StubExpenseManager extends ExpenseManager {
     }
 
     @Override
-    public void printTopCategory() {
-        // If your code calls printTopCategory(), you can just do nothing
-        // or simulate some output if needed for your test.
-        System.out.println("Biggest spending category is: food ($100.0)");
+    public String getTopCategory() {
+        return "Food (USD100)";
     }
 }
