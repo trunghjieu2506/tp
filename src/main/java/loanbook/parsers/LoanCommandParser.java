@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Scanner;
 
+/**
+ * This class parses the user input to generate commands. Asks the user for more input if necessary.
+ */
 public class LoanCommandParser {
     public static LoanCommand parse(LoanManager loanManager, Scanner scanner, String defaultCurrency, String input) {
         String[] splitFirst = input.split(" ", 2);
@@ -180,6 +183,8 @@ public class LoanCommandParser {
         } else if (input.contains("incoming loan")) {
             String name = input.replace("incoming loan", "");
             return new FindIncomingLoanCommand(loanManager, name.trim());
+        } else if (input.trim().startsWith("tag")){
+            String tag = input.replace("tag", "").trim();
         } else {
             Person person = loanManager.getContactsList().findName(input.trim());
             if (person != null) {
@@ -210,9 +215,10 @@ public class LoanCommandParser {
         case "find":
             return new PrintMessageCommand("""
                     You can find loans by entering these commands:
-                    "find [name] outgoing loan": shows all loans lent [name].
+                    "find [name] outgoing loan": shows all loans lent by [name].
                     "find [name] incoming loan": shows all loans borrowed by [name].
                     "find [name]": shows all loans lent or borrowed by [name].
+                    "find [tag]": shows all loans with [tag].
                     """);
         default:
             return null;

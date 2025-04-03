@@ -1,11 +1,22 @@
 package loanbook;
 
 import loanbook.commands.LoanCommand;
+import loanbook.loan.Loan;
 import loanbook.parsers.LoanCommandParser;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles the input and output of loan related information.
+ */
 public class LoanUI {
+    /**
+     * Runs continuously in loan mode
+     * @param loanManager the <code>LoanManager</code> that the commands operates on.
+     * @param scanner the <code>Scanner</code> that reads inputs.
+     * @param currency the currency that the loans are recorded in.
+     */
     public static void handleLoanCommands(LoanManager loanManager, Scanner scanner, String currency) {
         System.out.println("Loan Mode: Enter commands (type 'exit' to return)");
         while (true) {
@@ -24,5 +35,20 @@ public class LoanUI {
                 System.out.println("Invalid loan command.");
             }
         }
+    }
+
+    /**
+     * Convert an <code>ArrayList</code> of <code>Loan</code>s to a ready-to-print <code>String</code>.
+     * @param loans the <code>ArrayList</code> of <code>Loans</code> to be printed.
+     * @return the converted <code>String</code>.
+     */
+    public static String forPrint(ArrayList<Loan> loans) {
+        StringBuilder output = new StringBuilder();
+        int i = 1;
+        for (Loan loan : loans) {
+            output.append("[" + i + "] ").append(loan.basicInfo()).append('\n');
+            i++;
+        }
+        return output.toString();
     }
 }

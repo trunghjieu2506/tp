@@ -29,6 +29,15 @@ public class LoanSaveManager extends SaveManager {
     public static final String LOANS_SAVE_FOLDER = "save/loans";
     public static final String SAVE_FILE_SUFFIX = "_loans.txt";
 
+    /**
+     * Separates the full <code>String</code> read from the save file into small <code>String</code>s, each containing
+     *     information of one <code>Loan</code>. Reads each small <code>String</code> by calling the
+     *     <code>readLoan()</code> method.
+     * @param save the fill save String.
+     * @param contactsList the <code>ContactList</code> that stores information of every known person. Should be read
+     *                     before reading the loans save.
+     * @return an <code>ArrayList</code> of <code>Loan</code>s.
+     */
     public static ArrayList<Loan> readSaveString(String save, ContactsList contactsList) {
         String[] splitLoan = save.split(LOAN_SEPARATOR);
         ArrayList<Loan> list = new ArrayList<>();
@@ -41,7 +50,14 @@ public class LoanSaveManager extends SaveManager {
         return list;
     }
 
-    private static Loan readLoan(String save, ContactsList contactsList) throws IllegalArgumentException {
+    /**
+     * Parses every information of a <code>Loan</code> from a save String segment.
+     * @param save the <code>String</code> that stores every information of one <code>Loan</code>.
+     * @param contactsList the <code>ContactList</code> that stores information of every known person. Should be read
+     *                     before reading the loans save.
+     * @return a <code>Loan</code> class containing the parsed information.
+     */
+    private static Loan readLoan(String save, ContactsList contactsList) {
         String[] splitLine = save.split("\n");
         Person lender = contactsList.findOrAdd(splitLine[1].replace("<Lender>", "").trim());
         Person borrower = contactsList.findOrAdd(splitLine[2].replace("<Borrower>", "").trim());
@@ -85,9 +101,18 @@ public class LoanSaveManager extends SaveManager {
         return null;
     }
 
+    /**
+     * Saves the <code>LoanManager</code> as a text file to the designated directory. The file name depends on the
+     *     <code>user</code> of the LoanManager. If the LoanManager does not have a username, it is not stored.
+     * @param loanManager the <code>LoanManager</code> that contains a list of recorded <code>Loan</code>s.
+     * @throws IOException when the named file exists but is a directory rather than a regular file, does not exist but
+     *     cannot be created, or cannot be opened for any other reason
+     */
     public static void saveLoanList(LoanManager loanManager) throws IOException {
-        ContactsSaveManager.savePeopleList(loanManager.getContactsList());
-        writeTextFile(LOANS_SAVE_FOLDER, savePath(loanManager.getUser()), loanManager.toSave());
+        if (loanManager.getUser() != null) {
+            ContactsSaveManager.savePeopleList(loanManager.getContactsList());
+            writeTextFile(LOANS_SAVE_FOLDER, savePath(loanManager.getUser()), loanManager.toSave());
+        }
     }
 
     public static LoanManager readLoanList(String user) throws FileNotFoundException {
@@ -99,7 +124,6 @@ public class LoanSaveManager extends SaveManager {
             contactsList = new ContactsList(user);
         }
         String save = getSaveString(savePath(user));
-
         return new LoanManager(user, readSaveString(save, contactsList), contactsList);
     }
 

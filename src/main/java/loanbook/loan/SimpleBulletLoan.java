@@ -6,7 +6,7 @@ import utils.contacts.Person;
 import java.time.LocalDate;
 
 /**
- * The loan type that contains only the basic information.
+ * Simple Bullet Loans do not apply interests. Start and return dates are optional.
  */
 public class SimpleBulletLoan extends Loan {
     public SimpleBulletLoan(String description, Person lender, Person borrower, Money money) {
@@ -22,11 +22,20 @@ public class SimpleBulletLoan extends Loan {
         super(description, lender, borrower, money, startDate, returnDate);
     }
 
+    /**
+     * The balance equals the principal for simple bullet loans.
+     * @return a <code>Money</code> class representing the current balance.
+     */
     @Override
     public Money getBalance() {
         return principal;
     }
 
+    /**
+     * A method used to create storage files easily.
+     * @return a <code>String</code> that stores every information of this loan and can be read by
+     *     <code>LoanSaveManager</code>.
+     */
     @Override
     public String forSave() {
         return "<SimpleBulletLoanStart>\n" +
@@ -36,7 +45,7 @@ public class SimpleBulletLoan extends Loan {
     }
 
     /**
-     * Basic information of this loan.
+     * A method used for the output of the basic information of this loan to the user interface.
      * @return a ready-to-print <code>String</code> containing all basic information. Multiple lines.
      */
     @Override
@@ -48,12 +57,27 @@ public class SimpleBulletLoan extends Loan {
     }
 
     /**
-     * Shows all details of this loan.
+     * A method used for the output of all information of this loan to the user interface.
      * @return a ready-to-print <code>String</code> containing all information. Multiple lines.
      */
     @Override
     public String showDetails() {
         return super.showDetails()
                 + (isReturned ? "Returned" : "Not Returned");
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return null;
+    }
+
+    @Override
+    public double getAmount() {
+        return 0;
+    }
+
+    @Override
+    public String getType() {
+        return "";
     }
 }

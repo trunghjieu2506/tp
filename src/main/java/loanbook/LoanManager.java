@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
- * Stores the list of loans and related operations.
+ * Stores the list of loans and related operations. Each instance requires a <code>String</code> username.
  */
 public class LoanManager implements LoanDataManager {
     protected String user;
@@ -181,10 +181,20 @@ public class LoanManager implements LoanDataManager {
         return found;
     }
 
+    /**
+     * Finds all loans in this LoanManager that contains the <code>tag</code>.
+     * @param tag the <codee>String</codee> tag that each loan in the output list contains.
+     * @return an <code>ArrayList</code> of <code>Loan</code>s that contains the <code>tag</code>.
+     */
     public ArrayList<Loan> findLoanWithTag(String tag) {
         return tags.findWithTag(tag);
     }
 
+    /**
+     * Reads every tag from every <code>Loan</code> and create respective mappings in the <code>tags</code>
+     *     for easy search. This method should not be called often. Only when reading the storage file, or when
+     *     the tag list is messed up.
+     */
     public void initialiseTags() {
         tags = new TagList<>();
         for (Loan loan : loans) {
@@ -198,7 +208,8 @@ public class LoanManager implements LoanDataManager {
     }
 
     /**
-     * Shows the full list of loans. Only the lenders, borrowers and money are shown.
+     * A method to show the full list of loans. Only the basic information of the loans are shown by calling
+     *     <code>basicInfo()</code> of every <code>Loan</code>.
      * @return a ready-to-print <code>String</code> displaying all loans.
      */
     public String simpleFulList() {
@@ -216,22 +227,7 @@ public class LoanManager implements LoanDataManager {
     }
 
     /**
-     * Convert an <code>ArrayList</code> of <code>Loan</code>s to a ready-to-print <code>String</code>.
-     * @param loans the <code>ArrayList</code> of <code>Loans</code> to be printed.
-     * @return the converted <code>String</code>.
-     */
-    public static String forPrint(ArrayList<Loan> loans) {
-        StringBuilder output = new StringBuilder();
-        int i = 1;
-        for (Loan loan : loans) {
-            output.append("[" + i + "] ").append(loan.basicInfo()).append('\n');
-            i++;
-        }
-        return output.toString();
-    }
-
-    /**
-     * Shows every information of the <code>index</code>th loan.
+     * A method to show every information of the <code>index</code>th loan.
      * @param index the index of the loan in the ArrayList.
      * @return a ready-to-print <code>String</code> containing all information of the loan.
      */
