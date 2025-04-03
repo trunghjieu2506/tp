@@ -5,10 +5,8 @@ import expenseincome.income.Income;
 import expenseincome.income.IncomeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.money.Money;
 
 import java.time.LocalDate;
-import java.util.Currency;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +17,7 @@ public class IncomeManagerTest {
     void setUp() {
         FinanceData data = new FinanceData();
         data.setCurrency("USD");
-        manager = new IncomeManager(data,"USD");
+        manager = new IncomeManager(data, "USD");
     }
 
     @Test
@@ -29,7 +27,7 @@ public class IncomeManagerTest {
         assertEquals(1, manager.getIncomeCount());
         Income i = manager.getIncome(0);
         assertEquals("Salary", i.getSource());
-        assertEquals(2000.00, i.getAmount().getAmount().doubleValue(), 0.01);
+        assertEquals(2000.00, i.getAmount(), 0.01);
         assertEquals(date, i.getDate());
         assertEquals("Job", i.getCategory());
     }
@@ -93,7 +91,7 @@ public class IncomeManagerTest {
         manager.editIncome(1, "Internship", 1000.00, LocalDate.of(2025, 1, 1), "Job");
         Income updated = manager.getIncome(0);
         assertEquals("Internship", updated.getSource());
-        assertEquals(1000.00, updated.getAmount().getAmount().doubleValue(), 0.01);
+        assertEquals(1000.00, updated.getAmount(), 0.01);
         assertEquals(LocalDate.of(2025, 1, 1), updated.getDate());
         assertEquals("Job", updated.getCategory());
     }
