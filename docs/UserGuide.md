@@ -318,9 +318,30 @@ Manage your budgets alongside your expenses and incomes with the following comma
 **Example**:  ```contribute i/1 a/500```
 - this adds $500 to the saving with index 1, now the contribution is last_contribution + 500
 
+---
+
+### List all loans
+
+**Command:** `list`
+
+**Description:** Displays a list of all loans. Only basic information (lender, borrower, balance and return status) is shown.
+
+**Example:** `list`
+```
+Here is the list of all loans:
+
+```
+### Show the details of a specific loan
+
+**Command:** `show X`
+
+**Description:** Shows every detail of the Xth loan in the list. Each detail is shown in a separated line.
+
+**Example:** `show 1`
+```
 
 
-
+```
 
 ## FAQ
 

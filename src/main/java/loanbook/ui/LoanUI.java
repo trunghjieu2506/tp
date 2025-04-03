@@ -6,6 +6,7 @@ import loanbook.loan.Loan;
 import loanbook.parsers.LoanCommandParser;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Scanner;
 
 /**
@@ -18,7 +19,7 @@ public class LoanUI {
      * @param scanner the <code>Scanner</code> that reads inputs.
      * @param currency the currency that the loans are recorded in.
      */
-    public static void handleLoanCommands(LoanManager loanManager, Scanner scanner, String currency) {
+    public static void handleLoanCommands(LoanManager loanManager, Scanner scanner, Currency currency) {
         System.out.println("Loan Mode: Enter commands (type 'exit' to return)");
         while (true) {
             System.out.print("> ");

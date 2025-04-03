@@ -136,16 +136,29 @@ Add filters for purpose, amount, and date/month
 
 Export functionality (e.g., CSV or Excel)
 
-### 3. Qiaozi
+### Loan
 
-Responsible for implementing the **Loan**, **Contact** and **Money** management modules. This includes the `Loan`, `LoanManager`, `Person`, `ContactList`, `Money`, as well as all associated commands and parsers.
+This includes the `Loan`, `Interest`, `LoanManager` and associated commands and parsers.
 
-The goal of these modules is to allow users to accurately and efficiently manage their loans with support for adding, editing, deleting, listing, and finding entries.
+The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, categorizing, sorting and searching entries.
 
 #### Loan Structure
 
-The loans can be classified as either as a Simple Bullet Loan or an Advanced Loan. Each type of loan inherits from an abstract class Loan. All loans are managed by the LoanManager class. 
+Every type of loan inherits from the abstract `Loan` class, which contains universal attributes and methods for all loans. The loans are managed by the manager class `LoanManager`, which stores loans in an `ArrayList`.
 
+#### Interest Structure
+
+Advanced loan types that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+
+#### Command Parsing and Execution
+
+To carry out operations on the loans, the user inputs are read through the `LoanUI` class and parsed by the `LoanCommandParser` class, which generates commands based on the user's inputs.
+
+Each command extends from an abstract `LoanCommand` base class and overrides the `execute()` method.
+
+Due to the large number of attributes in each `Loan` class, the parser would ask for inputs sequentially.
+
+Example:
 
 
 ## Product scope

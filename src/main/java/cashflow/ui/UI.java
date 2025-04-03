@@ -4,7 +4,6 @@ import budgetsaving.budget.BudgetList;
 import cashflow.ui.command.HelpCommand;
 import cashflow.model.FinanceData;
 import budgetsaving.saving.SavingList;
-import cashflow.ui.command.OverviewCommand;
 import cashflow.ui.command.SetUpCommand;
 import expenseincome.expense.ExpenseCommandParser;
 import expenseincome.expense.ExpenseManager;
@@ -29,7 +28,6 @@ public class UI {
     private SavingList savingList;
     private BudgetList budgetList;
     private LoanManager loanManager;
-
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
 
@@ -37,14 +35,7 @@ public class UI {
         this.data = data;
         this.savingList = data.getSavingsManager();
         this.budgetList = data.getBudgetManager();
-        //Can create a username.
-//        try {
-//            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
-//        } catch (FileNotFoundException e) {
-//            this.loanManager = new LoanManager("GeorgeMiao");
-//        }
         this.loanManager = data.getLoanManager();
-
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
     }
@@ -72,9 +63,6 @@ public class UI {
             case "help":
                 new HelpCommand().execute();
                 break;
-            case "overview":
-                new OverviewCommand(data).execute();
-                break;
             case "setup":
                 new SetUpCommand(data).execute();
                 break;
@@ -95,7 +83,7 @@ public class UI {
                 handleIncomeCommands(scanner);
                 break;
             case "loan":
-                LoanUI.handleLoanCommands(loanManager, scanner, "USD");
+                LoanUI.handleLoanCommands(loanManager, scanner, data.getCurrency());
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
