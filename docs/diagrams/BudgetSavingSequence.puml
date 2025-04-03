@@ -1,0 +1,39 @@
+@startuml
+title General Sequence Diagram for Budget and Saving Commands
+
+
+hide circle
+skinparam classAttributeIconSize 0
+
+actor User
+participant LogicManager
+participant BudgetParser
+participant SetBudgetCommand
+participant BudgetManager
+
+
+== "Set" Budget Command ==
+User -> LogicManager: execute("set n/Name a/Amount e/Date c/Category")
+activate LogicManager
+
+LogicManager -> BudgetParser: parseCommand("set n/Name a/Amount e/Date c/Category")
+activate BudgetParser
+BudgetParser -> SetBudgetCommand: create SetBudgetCommand(...)
+deactivate BudgetParser
+
+LogicManager <- BudgetParser: SetBudgetCommand
+LogicManager -> SetBudgetCommand: execute()
+activate SetBudgetCommand
+
+SetBudgetCommand -> BudgetManager: setBudget(name, amount, endDate, category)
+activate BudgetManager
+BudgetManager -> SetBudgetCommand:
+deactivate BudgetManager
+
+SetBudgetCommand -> LogicManager: new CommandResult("Budget set successfully")
+deactivate SetBudgetCommand
+
+LogicManager -> User: CommandResult
+deactivate LogicManager
+
+@enduml

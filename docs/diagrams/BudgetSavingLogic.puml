@@ -1,0 +1,77 @@
+@startuml
+skinparam packageStyle rectangle
+
+hide circle
+skinparam classAttributeIconSize 0
+
+rectangle "Logic" {
+
+  ' An interface (or main entry point) for the logic component
+  interface Logic {
+    + execute(input: String): CommandResult
+  }
+
+  ' A concrete class that implements the Logic interface
+  class LogicManager implements Logic {
+    + execute(input: String): CommandResult
+  }
+
+  ' A package for various parser classes
+  package "Parser Classes" {
+    class BudgetParser {
+      + parseCommand(input: String): Command
+    }
+    ' Additional parser classes can be placed here...
+  }
+
+  ' Represents the result returned by commands
+  class CommandResult {
+    - feedbackToUser: String
+    ' Additional fields and methods
+  }
+
+  ' An abstract base for all commands
+  abstract class Command {
+    + execute(): CommandResult
+  }
+
+  ' Example of a concrete command
+  class SetBudgetCommand extends Command {
+    + execute(): CommandResult
+  }
+}
+
+rectangle "Storage" {
+  ' Handles reading/writing data
+  class Storage {
+    + saveData(...)
+    + loadData(...)
+  }
+}
+
+rectangle "Model" {
+  ' Core business logic or data structures
+  class BudgetManager {
+    + setBudget(...)
+  }
+}
+
+' ---------- Relationships ----------
+
+' LogicManager uses parsers to interpret user input
+LogicManager -> "Parser Classes" : <<call>> parseCommand(input)
+
+' Parser classes create commands
+"Parser Classes" --> Command : <<create>>
+
+' Concrete command classes return a CommandResult when executed
+Command --> CommandResult : <<return>>
+
+' SetBudgetCommand is a concrete implementation of Command
+Command <|-- SetBudgetCommand
+
+' LogicManager may also interact directly with Storage or Model
+LogicManager --> Storage : <<call>>
+LogicManager --> BudgetManager : <<call>>
+
+@enduml

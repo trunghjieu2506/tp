@@ -11,6 +11,8 @@ import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
 
+import java.util.Currency;
+
 public class CashFlowManager {
 
     /** Storage component responsible for reading and writing task data. */
@@ -45,13 +47,17 @@ public class CashFlowManager {
         storageContact = new Storage(contactFile);
 
         data = new FinanceData();
+        String currencyStr = "USD"; //data.getCurrency().getCurrencyCode();
+        Currency currency = Currency.getInstance(currencyStr);
 
         // Initialize integration modules (dummy implementations for now).
-        expenseManager = new ExpenseManager(data, "USD");
-        incomeManager = new IncomeManager(data, "USD");
-        savingManager = new SavingList("USD");
-        budgetManager = new BudgetList(data.getCurrency());
+
+        expenseManager = new ExpenseManager(data, currencyStr);     //need to change this part to accept Currency class
+        incomeManager = new IncomeManager(data, currencyStr);
+        savingManager = new SavingList(currencyStr);
+        budgetManager = new BudgetList(currency);
         this.loanManager = new LoanManager("defaultUser");
+
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);

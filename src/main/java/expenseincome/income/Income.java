@@ -26,8 +26,8 @@ public class Income extends Finance {
         return source;
     }
 
-    public Money getAmount() {
-        return amount;
+    public double getAmount() {
+        return amount.getAmount().doubleValue();
     }
 
     @Override
