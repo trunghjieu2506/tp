@@ -1,5 +1,7 @@
 package expensetest;
 
+import budgetsaving.budget.BudgetList;
+import cashflow.model.interfaces.BudgetManager;
 import expenseincome.expense.Expense;
 import expenseincome.expense.ExpenseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +16,8 @@ public class ExpenseManagerTest {
 
     @BeforeEach
     void setUp() {
-        manager = new ExpenseManager();
+        BudgetManager budgetManager = new BudgetList("USD");
+        manager = new ExpenseManager(budgetManager);
     }
 
     @Test

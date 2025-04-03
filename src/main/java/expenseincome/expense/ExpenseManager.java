@@ -10,19 +10,23 @@ import java.util.HashMap;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.ExpenseDataManager;
 import cashflow.model.interfaces.Finance;
+import cashflow.model.FinanceData;
 
 public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
     private ArrayList<Expense> expenses;
-    private BudgetManager budgetManager;
+    private FinanceData data;
 
-    public ExpenseManager(BudgetManager budgetManager) {
+    public ExpenseManager(FinanceData data) {
         this.expenses = new ArrayList<>();
-        this.budgetManager = budgetManager;
+        this.data = data;
     }
 
     public ArrayList<Finance> getExpenseList() {
         return new ArrayList<>(expenses);
+    }
+    public ArrayList<Expense> getList() {
+        return expenses;
     }
 
     public void addExpense(String description, double amount, LocalDate date, String category) {
@@ -38,6 +42,7 @@ public class ExpenseManager implements ExpenseDataManager {
             }
 
             Expense expense = new Expense(description, amount, date, category);
+            BudgetManager budgetManager = data.getBudgetManager();
 
             if (budgetManager != null) {
                 boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
@@ -132,7 +137,7 @@ public class ExpenseManager implements ExpenseDataManager {
         });
 
         System.out.println("Expenses sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first.");
-        listExpenses();  // Show sorted list
+        listExpenses();
     }
 
     public void listExpensesByCategory(String category) {
@@ -181,6 +186,33 @@ public class ExpenseManager implements ExpenseDataManager {
         }
 
         System.out.printf("Top Spending Category: %s ($%.2f)%n", topCategory, maxAmount);
+    }
+
+    public String getTopCategory() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded.");
+            return "";
+        }
+
+        Map<String, Double> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String category = e.getCategory();
+            double amount = e.getAmount();
+            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        }
+
+        String topCategory = null;
+        double maxAmount = 0.0;
+
+        for (Map.Entry<String, Double> entry : totals.entrySet()) {
+            if (entry.getValue() > maxAmount) {
+                maxAmount = entry.getValue();
+                topCategory = entry.getKey();
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(topCategory).append(" (").append(maxAmount).append(")");
+        return sb.toString();
     }
 
     public void printBottomCategory() {

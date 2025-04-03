@@ -3,10 +3,6 @@ package cashflow.model;
 import budgetsaving.budget.BudgetList;
 import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
-import cashflow.model.interfaces.BudgetManager;
-//import cashflow.dummy.DummyExpense;
-import cashflow.dummy.DummyLoan;
-import cashflow.model.interfaces.SavingManager;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
@@ -35,6 +31,7 @@ public class FinanceData {
     public Currency getCurrency() {
         return currency;
     }
+
     public void setCurrency(String currency) {
         this.currency = Currency.getInstance(currency);
     }
@@ -74,6 +71,10 @@ public class FinanceData {
 
     public void setIncomeManager(IncomeManager incomeManager) {
         this.incomeManager = incomeManager;
+    }
+
+    public BudgetManager getBudgetManager() {
+        return budgetManager;
     }
 
     public ExpenseManager getExpenseManager() {
