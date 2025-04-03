@@ -1,12 +1,10 @@
 package expensetest;
 
-import budgetsaving.budget.BudgetList;
-import cashflow.model.interfaces.BudgetManager;
+import cashflow.model.FinanceData;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.commands.AddExpenseCommand;
 import expenseincome.expense.commands.DeleteExpenseCommand;
 import expenseincome.expense.commands.EditExpenseCommand;
-import expenseincome.expense.commands.ListAllCommand;
 import expenseincome.expense.commands.ListCategoryExpenseCommand;
 import expenseincome.expense.commands.ListExpenseCommand;
 import expenseincome.expense.commands.SortExpenseCommand;
@@ -27,9 +25,9 @@ public class ExpenseCommandTestSuite {
 
     @BeforeEach
     void setUp() {
-        BudgetManager budgetManager = new BudgetList("USD");
-        expenseManager = new ExpenseManager(budgetManager);
-        incomeManager = new IncomeManager();
+        FinanceData data = new FinanceData();
+        data.setCurrency("USD");
+        expenseManager = new ExpenseManager(data, "USD");
     }
 
     @Test
@@ -88,12 +86,6 @@ public class ExpenseCommandTestSuite {
         SortExpenseCommand cmd = new SortExpenseCommand(false);
         cmd.execute(expenseManager);
         assertEquals("Y", expenseManager.getExpense(0).getDescription());
-    }
-
-    @Test
-    void testListAllCommandExecute() {
-        ListAllCommand cmd = new ListAllCommand(incomeManager);
-        cmd.execute(expenseManager); // should not crash even with empty data
     }
 
     @Test
