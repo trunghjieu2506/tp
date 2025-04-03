@@ -56,4 +56,20 @@ public class SimpleBulletLoan extends Loan {
         return super.showDetails()
                 + (isReturned ? "Returned" : "Not Returned");
     }
+
+    @Override
+    public String getType()
+    {
+        return "Overview";
+    }
+    @Override
+    public double getAmount()
+    {
+        return 0;
+    }
+
+    @Override
+    public LocalDate getDate(){
+        return startDate;
+    }
 }
