@@ -19,7 +19,7 @@ public class IOHandler {
         return userInput;
     }
 
-    public void writeOutput(String output){
+    public static void writeOutput(String output){
 
         //add in necessary stuff
         System.out.println(output);

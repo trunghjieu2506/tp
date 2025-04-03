@@ -8,9 +8,9 @@
 
 ## Design & implementation
 
-### 1. Nicholas
+### Expense and Income
 
-Responsible for implementing the **Expense** and **Income** management modules. This includes the `Expense`, `Income`, `ExpenseManager`, `IncomeManager`, as well as all associated commands and parsers.
+This includes the `Expense`, `Income`, `ExpenseManager`, `IncomeManager`, as well as all associated commands and parsers.
 
 The goal of these modules is to allow users to accurately and efficiently manage their expenses and income with support for adding, editing, deleting, listing, categorizing, and sorting entries.
 
@@ -19,7 +19,7 @@ The goal of these modules is to allow users to accurately and efficiently manage
 Each of the two core entities — Expense and Income — is represented by its own class (`Expense`, `Income`) and managed through its own manager class (`ExpenseManager`, `IncomeManager`).
 The below shows the high-level class diagram:
 
-![Expense and Income Structure](img_2.png)
+![Expense and Income Structure](img.png)
 
 #### Command Parsing and Execution
 
@@ -27,7 +27,7 @@ Each command extends from an abstract `ExpenseCommand` or `IncomeCommand` base c
 
 Example sequence diagram for the command `add Lunch 12.5 Food 2025-03-25`:
 
-![Add Expense Command Sequence](img_1.png)
+![Add Expense Command Sequence](img_3.png)
 
 This design simplifies testing, separates concerns clearly, and is extensible to other commands (e.g., filtering by date range in the future).
 
@@ -108,6 +108,9 @@ The UI reflects the update.
 
 ![Saving.png](team/Saving.png)
 
+### Testing
+
+
 #### Key Implementation Choices
 Domain Classes: Having separate Budget and Saving classes allows clearer separation of concerns and future flexibility.
 
@@ -160,10 +163,24 @@ The loans can be classified as either as a Simple Bullet Loan or an Advanced Loa
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ... | I want to ... | So that I can ...|
+|---------|----------|---------------|------------------|
+| v1.0    |new user|see usage instructions|refer to them when I forget how to use the application|
+| v1.0    |user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| v1.0    |university student with limited finances|set a monthly budget|avoid overspending|
+| v1.0    |university student who wants to be secure financially|set savings goals (e.g., $500 for a trip)|motivate myself to save consistently|
+| v1.0    |student with extra budget left|place part of my money into the saving goal|reach my goal and see my progress|
+| v1.0    |university student who often wonders about how much I saved|check regularly my saving goals|get a clearer understanding of my progress|
+| v2.0    |student who completed saving goals|get alert and achievement from the system for completion|be motivated by my progress|
+| v2.0    |student who faces inconsistent income|modify my saving goals|adapt to my current financial situation|
+| v2.0    |student|restrict myself from overspending in a specific category and set a budget on that category|better monitor my expenses and plan my budget more efficiently|
+| v2.0    |student|receive alerts when I am close to exceeding my budget|adjust my spending in time|
+| v2.0    |user|see inline suggestions when typing commands|navigate commands more easily|
+| v2.1    |student who completed saving goals|get a saving summary when I complete my goal|know how long it took and my average saving per day|
+| v2.1    |student who is busy with my work|set recurring budget and saving goal|avoid manually adding them, which I might forget|
+
+
+
 
 ## Non-Functional Requirements
 

@@ -43,7 +43,7 @@ public class Storage {
     /**
      * Saves the current list of tasks to disk.
      *
-     * @param taskList the list of tasks to save to file.
+     * @param financeList the list of tasks to save to file.
      */
     public void saveFile(ArrayList<Finance> financeList) {
         file.getParentFile().mkdirs();

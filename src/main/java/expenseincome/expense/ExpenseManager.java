@@ -1,7 +1,9 @@
 package expenseincome.expense;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Map;
@@ -10,35 +12,52 @@ import java.util.HashMap;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.ExpenseDataManager;
 import cashflow.model.interfaces.Finance;
+import cashflow.model.FinanceData;
+import utils.money.Money;
 
 public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
     private ArrayList<Expense> expenses;
-    private BudgetManager budgetManager;
+    private FinanceData data;
+    private String currency;
 
-    public ExpenseManager(BudgetManager budgetManager) {
+    public ExpenseManager(FinanceData data, String currency) {
         this.expenses = new ArrayList<>();
-        this.budgetManager = budgetManager;
+        this.data = data;
+        assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
+        this.currency = currency;
     }
 
     public ArrayList<Finance> getExpenseList() {
         return new ArrayList<>(expenses);
     }
+    public ArrayList<Expense> getList() {
+        return expenses;
+    }
+
+    public int getExpenseCount() {
+        return expenses.size();
+    }
+
+    public Expense getExpense(int i) {
+        return expenses.get(i);
+    }
 
     public void addExpense(String description, double amount, LocalDate date, String category) {
+        
         try {
             if (description == null || description.trim().isEmpty()) {
                 throw new IllegalArgumentException("Expense description cannot be empty.");
             }
-            if (amount <= 0) {
-                throw new IllegalArgumentException("Expense amount must be greater than zero.");
-            }
             if (category == null || category.trim().isEmpty()) {
                 throw new IllegalArgumentException("Expense category cannot be empty.");
             }
+            Currency currency = data.getCurrency();
+            Money money = new Money(currency, amount);
+            Expense expense = new Expense(description, money, date, category);
+            expenses.add(expense);
 
-            Expense expense = new Expense(description, amount, date, category);
-
+            BudgetManager budgetManager = data.getBudgetManager();
             if (budgetManager != null) {
                 boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
                 if (exceeded) {
@@ -46,9 +65,9 @@ public class ExpenseManager implements ExpenseDataManager {
                 }
             }
 
-            expenses.add(expense);
             logger.log(Level.INFO, "Added expense: {0}", expense);
             System.out.println("Added: " + expense);
+
         } catch (IllegalArgumentException e) {
             logger.log(Level.WARNING, "Failed to add expense", e);
             System.out.println("Failed to add expense. " + e.getMessage());
@@ -85,7 +104,7 @@ public class ExpenseManager implements ExpenseDataManager {
 
     public void editExpense(int index, String newDescription, double newAmount, LocalDate newDate, String newCategory) {
         try {
-            logger.log(Level.INFO, "Editing expense at index {0} to new values: {1}, ${2}, {3}, category={4}",
+            logger.log(Level.INFO, "Editing expense at index {0} to new values: {1}, {2}, {3}, category={4}",
                     new Object[]{index, newDescription, newAmount, newDate, newCategory});
 
             if (index < 1 || index > expenses.size()) {
@@ -102,17 +121,23 @@ public class ExpenseManager implements ExpenseDataManager {
             }
 
             Expense expense = expenses.get(index - 1);
+            Currency currency = data.getCurrency();
+            Money money = new Money(currency, newAmount);
+
             expense.setDescription(newDescription);
-            expense.setAmount(newAmount);
+            expense.setAmount(money);
             expense.setDate(newDate);
             expense.setCategory(newCategory);
+
             logger.log(Level.INFO, "Updated expense: {0}", expense);
             System.out.println("Updated: " + expense);
+
         } catch (IllegalArgumentException e) {
             logger.log(Level.WARNING, "Failed to edit expense at index: " + index, e);
             System.out.println("Failed to edit expense. " + e.getMessage());
         }
     }
+
 
     public void sortExpensesByDate(boolean mostRecentFirst) {
         if (expenses.isEmpty()) {
@@ -132,7 +157,7 @@ public class ExpenseManager implements ExpenseDataManager {
         });
 
         System.out.println("Expenses sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first.");
-        listExpenses();  // Show sorted list
+        listExpenses();
     }
 
     public void listExpensesByCategory(String category) {
@@ -163,24 +188,58 @@ public class ExpenseManager implements ExpenseDataManager {
             return;
         }
 
-        Map<String, Double> totals = new HashMap<>();
+        Map<String, BigDecimal> totals = new HashMap<>();
         for (Expense e : expenses) {
             String category = e.getCategory();
-            double amount = e.getAmount();
-            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+            BigDecimal amount = e.getAmount().getAmount();
+            totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
         String topCategory = null;
-        double maxAmount = 0.0;
+        BigDecimal maxAmount = BigDecimal.ZERO;
 
-        for (Map.Entry<String, Double> entry : totals.entrySet()) {
-            if (entry.getValue() > maxAmount) {
+        for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
+            if (entry.getValue().compareTo(maxAmount) > 0) {
                 maxAmount = entry.getValue();
                 topCategory = entry.getKey();
             }
         }
 
-        System.out.printf("Top Spending Category: %s ($%.2f)%n", topCategory, maxAmount);
+        if (topCategory != null) {
+            System.out.printf("Top Spending Category: %s (%.2f)%n", topCategory, maxAmount);
+        } else {
+            System.out.println("No top category found.");
+        }
+    }
+
+    public String getTopCategory() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded.");
+            return "";
+        }
+
+        Map<String, BigDecimal> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String category = e.getCategory();
+            BigDecimal amount = e.getAmount().getAmount(); // get BigDecimal from Money
+            totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
+        }
+
+        String topCategory = null;
+        BigDecimal maxAmount = BigDecimal.ZERO;
+
+        for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
+            if (entry.getValue().compareTo(maxAmount) > 0) {
+                maxAmount = entry.getValue();
+                topCategory = entry.getKey();
+            }
+        }
+
+        if (topCategory == null) {
+            return "No top category found.";
+        }
+
+        return String.format("%s (%.2f)", topCategory, maxAmount);
     }
 
     public void printBottomCategory() {
@@ -189,32 +248,27 @@ public class ExpenseManager implements ExpenseDataManager {
             return;
         }
 
-        Map<String, Double> totals = new HashMap<>();
+        Map<String, BigDecimal> totals = new HashMap<>();
         for (Expense e : expenses) {
             String category = e.getCategory();
-            double amount = e.getAmount();
-            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+            BigDecimal amount = e.getAmount().getAmount();
+            totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
         String bottomCategory = null;
-        double minAmount = Double.MAX_VALUE;
+        BigDecimal minAmount = null;
 
-        for (Map.Entry<String, Double> entry : totals.entrySet()) {
-            if (entry.getValue() < minAmount) {
+        for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
+            if (minAmount == null || entry.getValue().compareTo(minAmount) < 0) {
                 minAmount = entry.getValue();
                 bottomCategory = entry.getKey();
             }
         }
 
-        System.out.printf("Lowest Spending Category: %s ($%.2f)%n", bottomCategory, minAmount);
-    }
-
-
-    public int getExpenseCount() {
-        return expenses.size();
-    }
-
-    public Expense getExpense(int i) {
-        return expenses.get(i);
+        if (bottomCategory != null) {
+            System.out.printf("Lowest Spending Category: %s (%.2f)%n", bottomCategory, minAmount);
+        } else {
+            System.out.println("No bottom category found.");
+        }
     }
 }
