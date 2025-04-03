@@ -1,5 +1,7 @@
 package expensetest;
 
+import budgetsaving.budget.BudgetList;
+import cashflow.model.interfaces.BudgetManager;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.commands.AddExpenseCommand;
 import expenseincome.expense.commands.DeleteExpenseCommand;
@@ -25,7 +27,8 @@ public class ExpenseCommandTestSuite {
 
     @BeforeEach
     void setUp() {
-        expenseManager = new ExpenseManager();
+        BudgetManager budgetManager = new BudgetList("USD");
+        expenseManager = new ExpenseManager(budgetManager);
         incomeManager = new IncomeManager();
     }
 

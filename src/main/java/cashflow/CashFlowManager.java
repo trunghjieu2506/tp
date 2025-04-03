@@ -1,14 +1,15 @@
 package cashflow;
 
+import budgetsaving.budget.BudgetList;
+import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
-import cashflow.dummy.DummyLoan;
-//import cashflow.dummy.DummySavings;
 import cashflow.model.FinanceData;
 import cashflow.model.storage.Storage;
-import cashflow.ui.SetUp;
 import cashflow.ui.UI;
+import cashflow.ui.command.SetUpCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
+import loanbook.LoanManager;
 
 public class CashFlowManager {
 
@@ -17,6 +18,12 @@ public class CashFlowManager {
     private final Storage storageIncome;
     private final Storage storageSaving;
     private final Storage storageLoan;
+
+    private SavingList savingManager;
+    private BudgetList budgetManager;
+    private LoanManager loanManager;
+    private ExpenseManager expenseManager;
+    private IncomeManager incomeManager;
 
     private FinanceData data;
 
@@ -37,16 +44,25 @@ public class CashFlowManager {
         data = new FinanceData();
 
         // Initialize integration modules (dummy implementations for now).
-        ExpenseManager expenseManager = new ExpenseManager();
-        IncomeManager incomeManager = new IncomeManager();
-        DummySavings savingsManager = new DummySavings();
-        DummyLoan loanDebtManager = new cashflow.dummy.DummyLoan();
+        expenseManager = new ExpenseManager(budgetManager);
+        incomeManager = new IncomeManager();
+        savingManager = new SavingList("USD");
+        budgetManager = new BudgetList("USD");
+//
+//        try {
+//            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
+//        } catch (FileNotFoundException e) {
+//            this.loanManager = new LoanManager("GeorgeMiao");
+//        }
+
+        this.loanManager = new LoanManager("GeorgeMiao");
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);
         data.setIncomeManager(incomeManager);
-        data.setSavingsManager(savingsManager);
-        data.setLoanDebtManager(loanDebtManager);
+        data.setSavingsManager(savingManager);
+        data.setBudgetManager(budgetManager);
+        data.setLoanManager(loanManager);
 
         // Initialize Analytics module.
         AnalyticsManager analyticsManager = new AnalyticsManager(data);
@@ -65,13 +81,12 @@ public class CashFlowManager {
 
         // Display a welcome message with an initial financial summary.
         System.out.println("welcome to cashflow!");
-        System.out.println(data.getAnalyticsManager().getFinancialSummary());
+//        System.out.println(data.getAnalyticsManager().getFinancialSummary());
         System.out.println();
 
         // Run first-time setup.
         if (isFirstTime) {
-            SetUp setup = new SetUp(data);
-            setup.run();
+            new SetUpCommand(data).execute();
             isFirstTime = false;
         }
         // Start the command-line UI loop.
