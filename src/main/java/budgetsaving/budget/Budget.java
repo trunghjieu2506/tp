@@ -9,6 +9,7 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Currency;
 
 
 public class Budget extends Finance {
@@ -138,11 +139,11 @@ public class Budget extends Finance {
         if (expense == null) {
             throw new IllegalArgumentException("Invalid expense.");
         }
-        if (expense.getAmount() < 0) {
+        if (expense.getAmount().compareTo(new Money(totalBudget.getCurrency(), BigDecimal.ZERO)) < 0) {
             throw new IllegalArgumentException("Expense amount cannot be negative.");
         }
         if (expenses.add(expense)) {
-            deduct(expense.getAmount());
+            deduct(expense.getAmount().getAmount().doubleValue());
             BigDecimal remainingAmount = remainingBudget.getAmount();
             double remainingAmountDouble = remainingAmount.doubleValue();
             exceedStatus = remainingAmountDouble > 0 ?
@@ -161,7 +162,7 @@ public class Budget extends Finance {
             throw new IllegalArgumentException("Expense not found in the budget.");
         }
         if (expenses.remove(expense)) {
-            BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
+            BigDecimal amount = BigDecimal.valueOf(expense.getAmount().getAmount().doubleValue());
             remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
         }
     }
@@ -232,9 +233,13 @@ public class Budget extends Finance {
         return this.endDate;
     }
 
+//    public double getAmount() {
+//        return this.totalBudget.getAmount().doubleValue();
+//    }
+
     @Override
-    public double getAmount() {
-        return this.totalBudget.getAmount().doubleValue();
+    public Money getAmount(){
+        return this.totalBudget;
     }
 
     @Override
