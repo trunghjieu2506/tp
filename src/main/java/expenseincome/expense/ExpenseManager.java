@@ -24,6 +24,9 @@ public class ExpenseManager implements ExpenseDataManager {
     public ArrayList<Finance> getExpenseList() {
         return new ArrayList<>(expenses);
     }
+    public ArrayList<Expense> getList() {
+        return expenses;
+    }
 
     public void addExpense(String description, double amount, LocalDate date, String category) {
         try {
