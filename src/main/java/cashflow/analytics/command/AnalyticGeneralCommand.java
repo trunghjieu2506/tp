@@ -2,7 +2,6 @@ package cashflow.analytics.command;
 
 import cashflow.analytics.parser.AnalyticCommandParser;
 import cashflow.model.FinanceData;
-import cashflow.ui.command.Command;
 
 import java.util.Scanner;
 

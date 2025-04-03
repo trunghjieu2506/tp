@@ -1,7 +1,6 @@
 package cashflow.analytics.command;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.model.FinanceData;
-import cashflow.ui.command.Command;
 
 public class OverviewCommand extends AnalyticGeneralCommand {
     private int year;

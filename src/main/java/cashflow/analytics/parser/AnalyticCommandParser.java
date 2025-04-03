@@ -3,7 +3,6 @@ package cashflow.analytics.parser;
 import cashflow.analytics.command.AnalyticGeneralCommand;
 import cashflow.analytics.command.CommandHandler;
 import cashflow.analytics.command.OverviewCommand;
-import cashflow.ui.command.Command;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
