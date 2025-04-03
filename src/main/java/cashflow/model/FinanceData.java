@@ -3,8 +3,6 @@ package cashflow.model;
 import budgetsaving.budget.BudgetList;
 import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
-import cashflow.model.interfaces.BudgetManager;
-import cashflow.model.interfaces.SavingManager;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;

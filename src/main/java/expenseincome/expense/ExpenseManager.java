@@ -24,6 +24,9 @@ public class ExpenseManager implements ExpenseDataManager {
     public ArrayList<Finance> getExpenseList() {
         return new ArrayList<>(expenses);
     }
+    public ArrayList<Expense> getList() {
+        return expenses;
+    }
 
     public void addExpense(String description, double amount, LocalDate date, String category) {
         try {
@@ -181,6 +184,33 @@ public class ExpenseManager implements ExpenseDataManager {
         }
 
         System.out.printf("Top Spending Category: %s ($%.2f)%n", topCategory, maxAmount);
+    }
+
+    public String getTopCategory() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses recorded.");
+            return "";
+        }
+
+        Map<String, Double> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String category = e.getCategory();
+            double amount = e.getAmount();
+            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        }
+
+        String topCategory = null;
+        double maxAmount = 0.0;
+
+        for (Map.Entry<String, Double> entry : totals.entrySet()) {
+            if (entry.getValue() > maxAmount) {
+                maxAmount = entry.getValue();
+                topCategory = entry.getKey();
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(topCategory).append(" (").append(maxAmount).append(")");
+        return sb.toString();
     }
 
     public void printBottomCategory() {
