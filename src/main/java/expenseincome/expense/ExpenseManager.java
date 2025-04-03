@@ -191,7 +191,7 @@ public class ExpenseManager implements ExpenseDataManager {
         Map<String, BigDecimal> totals = new HashMap<>();
         for (Expense e : expenses) {
             String category = e.getCategory();
-            BigDecimal amount = e.getAmount().getAmount();
+            BigDecimal amount = BigDecimal.valueOf(e.getAmount());
             totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
@@ -221,7 +221,7 @@ public class ExpenseManager implements ExpenseDataManager {
         Map<String, BigDecimal> totals = new HashMap<>();
         for (Expense e : expenses) {
             String category = e.getCategory();
-            BigDecimal amount = e.getAmount().getAmount(); // get BigDecimal from Money
+            BigDecimal amount = BigDecimal.valueOf(e.getAmount());// get BigDecimal from Money
             totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
@@ -251,7 +251,7 @@ public class ExpenseManager implements ExpenseDataManager {
         Map<String, BigDecimal> totals = new HashMap<>();
         for (Expense e : expenses) {
             String category = e.getCategory();
-            BigDecimal amount = e.getAmount().getAmount();
+            BigDecimal amount = BigDecimal.valueOf(e.getAmount());
             totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 

@@ -25,8 +25,8 @@ public class Expense extends Finance {
         return description;
     }
 
-    public Money getAmount() {
-        return amount;
+    public double getAmount() {
+        return amount.getAmount().doubleValue();
     }
 
     @Override
