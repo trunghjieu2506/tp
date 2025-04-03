@@ -31,6 +31,7 @@ public class FinanceData {
     public Currency getCurrency() {
         return currency;
     }
+
     public void setCurrency(String currency) {
         this.currency = Currency.getInstance(currency);
     }
@@ -72,6 +73,10 @@ public class FinanceData {
         this.incomeManager = incomeManager;
     }
 
+    public BudgetManager getBudgetManager() {
+        return budgetManager;
+    }
+  
     public ExpenseManager getExpenseManager() {
         return expenseManager;
     }
