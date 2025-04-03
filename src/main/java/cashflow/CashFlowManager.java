@@ -47,7 +47,7 @@ public class CashFlowManager {
         expenseManager = new ExpenseManager(data);
         incomeManager = new IncomeManager();
         savingManager = new SavingList("USD");
-        budgetManager = new BudgetList("USD");
+        budgetManager = new BudgetList(data.getCurrency());
 //
 //        try {
 //            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
