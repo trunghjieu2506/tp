@@ -335,6 +335,8 @@ Manage your budgets alongside your expenses and incomes with the following comma
 
 ## Command Summary
 
+### Expenses and Incomes
+
 | Feature       | Command Format |
 |---------------|----------------|
 | Add Expense   | `add <desc> <amount> <category> [date]` |
@@ -350,6 +352,20 @@ Manage your budgets alongside your expenses and incomes with the following comma
 | Delete Income | `delete <index>` |
 | List Income   | `list` |
 | Help          | `help` |
+
+### Budgets and Savings
+
+| Feature            | Command Format                                               |
+|--------------------|--------------------------------------------------------------|
+| Set Budget         | `set n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY`           |
+| Check Budget       | `check i/INDEX`                                              |
+| List Budgets       | `list`                                                       |
+| Deduct from Budget | `deduct i/INDEX a/AMOUNT`                                      |
+| Add to Budget      | `add i/INDEX a/AMOUNT`                                         |
+| Modify Budget      | `modify i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY`         |
+| Set Saving Goal      | `set n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD`           |
+| Contribute to Saving | `contribute i/INDEX a/AMOUNT`                     |
+| List Saving Goals    | `list`                                           |
 
 ## Coming Soon
 
