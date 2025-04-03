@@ -3,6 +3,7 @@ package budgetsaving.budget;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetExceedStatus;
 import budgetsaving.budget.utils.BudgetSerialiser;
+import cashflow.model.interfaces.Finance;
 import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public class Budget {
+public class Budget extends Finance {
     private String name;
     private Money totalBudget;
     private Money remainingBudget;
@@ -224,5 +225,20 @@ public class Budget {
 
     public String serialiseToString() {
         return BudgetSerialiser.serialise(this);
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return this.endDate;
+    }
+
+    @Override
+    public double getAmount() {
+        return this.totalBudget.getAmount().doubleValue();
+    }
+
+    @Override
+    public String getType() {
+        return this.category;
     }
 }

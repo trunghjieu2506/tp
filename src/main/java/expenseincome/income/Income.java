@@ -1,18 +1,18 @@
 package expenseincome.income;
 
 import cashflow.model.interfaces.Finance;
+import utils.money.Money;
 
 import java.time.LocalDate;
 
 public class Income extends Finance {
     private String source;
-    private double amount;
+    private Money amount;
     private LocalDate date;
     private String category;
 
-    public Income(String source, double amount, LocalDate date, String category) {
+    public Income(String source, Money amount, LocalDate date, String category) {
         assert source != null && !source.trim().isEmpty();
-        assert amount > 0;
         assert date != null;
         assert category != null && !category.trim().isEmpty();
 
@@ -26,7 +26,7 @@ public class Income extends Finance {
         return source;
     }
 
-    public double getAmount() {
+    public Money getAmount() {
         return amount;
     }
 
@@ -48,8 +48,7 @@ public class Income extends Finance {
         this.source = source;
     }
 
-    public void setAmount(double amount) {
-        assert amount > 0;
+    public void setAmount(Money amount) {
         this.amount = amount;
     }
 
@@ -65,6 +64,6 @@ public class Income extends Finance {
 
     @Override
     public String toString() {
-        return source + " - $" + amount + " on " + date + " [Category: " + category + "]";
+        return source + " - " + amount + " on " + date + " [Category: " + category + "]";
     }
 }

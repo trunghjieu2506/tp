@@ -1,5 +1,6 @@
 package incometest;
 
+import cashflow.model.FinanceData;
 import expenseincome.income.IncomeManager;
 import expenseincome.income.commands.AddIncomeCommand;
 import expenseincome.income.commands.DeleteIncomeCommand;
@@ -22,7 +23,9 @@ public class IncomeCommandTestSuite {
 
     @BeforeEach
     void setUp() {
-        incomeManager = new IncomeManager();
+        FinanceData data = new FinanceData();
+        data.setCurrency("USD");
+        incomeManager = new IncomeManager(data,"USD");
     }
 
     @Test

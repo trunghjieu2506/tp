@@ -1,10 +1,14 @@
 package expenseincome.income;
 
+import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.IncomeDataManager;
+import utils.money.Money;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Map;
@@ -14,13 +18,18 @@ import java.util.HashMap;
 public class IncomeManager implements IncomeDataManager {
     private static final Logger logger = Logger.getLogger(IncomeManager.class.getName());
     private ArrayList<Income> incomes;
+    private FinanceData data;
+    private String currency;
 
     public ArrayList<Finance> getIncomeList() {
         return new ArrayList<>(incomes);
     }
 
-    public IncomeManager() {
+    public IncomeManager(FinanceData data, String currency) {
         this.incomes = new ArrayList<>();
+        this.data = data;
+        assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
+        this.currency = currency;
     }
 
     public void addIncome(String source, double amount, LocalDate date, String category) {
@@ -35,7 +44,9 @@ public class IncomeManager implements IncomeDataManager {
                 throw new IllegalArgumentException("Income category cannot be empty.");
             }
 
-            Income income = new Income(source, amount, date, category);
+            Currency currency = data.getCurrency();
+            Money money = new Money(currency, amount);
+            Income income = new Income(source, money, date, category);
             incomes.add(income);
             logger.log(Level.INFO, "Added income: {0}", income);
             System.out.println("Added: " + income);
@@ -92,8 +103,10 @@ public class IncomeManager implements IncomeDataManager {
             }
 
             Income income = incomes.get(index - 1);
+            Currency currency = data.getCurrency();
+            Money money = new Money(currency, newAmount);
             income.setSource(newSource);
-            income.setAmount(newAmount);
+            income.setAmount(money);
             income.setDate(newDate);
             income.setCategory(newCategory);
 
@@ -154,18 +167,18 @@ public class IncomeManager implements IncomeDataManager {
             return;
         }
 
-        Map<String, Double> totals = new HashMap<>();
+        Map<String, BigDecimal> totals = new HashMap<>();
         for (Income income : incomes) {
             String category = income.getCategory();
-            double amount = income.getAmount();
-            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+            BigDecimal amount = income.getAmount().getAmount();
+            totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
         String topCategory = null;
-        double maxAmount = 0.0;
+        BigDecimal maxAmount = BigDecimal.ZERO;
 
-        for (Map.Entry<String, Double> entry : totals.entrySet()) {
-            if (entry.getValue() > maxAmount) {
+        for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
+            if (entry.getValue().compareTo(maxAmount) > 0) {
                 maxAmount = entry.getValue();
                 topCategory = entry.getKey();
             }
@@ -174,24 +187,25 @@ public class IncomeManager implements IncomeDataManager {
         System.out.printf("Top Income Category: %s ($%.2f)%n", topCategory, maxAmount);
     }
 
+
     public void printBottomCategory() {
         if (incomes.isEmpty()) {
             System.out.println("No incomes recorded.");
             return;
         }
 
-        Map<String, Double> totals = new HashMap<>();
-        for (Income i : incomes) {
-            String category = i.getCategory();
-            double amount = i.getAmount();
-            totals.put(category, totals.getOrDefault(category, 0.0) + amount);
+        Map<String, BigDecimal> totals = new HashMap<>();
+        for (Income income : incomes) {
+            String category = income.getCategory();
+            BigDecimal amount = income.getAmount().getAmount();
+            totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
         String bottomCategory = null;
-        double minAmount = Double.MAX_VALUE;
+        BigDecimal minAmount = null;
 
-        for (Map.Entry<String, Double> entry : totals.entrySet()) {
-            if (entry.getValue() < minAmount) {
+        for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
+            if (minAmount == null || entry.getValue().compareTo(minAmount) < 0) {
                 minAmount = entry.getValue();
                 bottomCategory = entry.getKey();
             }
@@ -199,6 +213,7 @@ public class IncomeManager implements IncomeDataManager {
 
         System.out.printf("Lowest Income Category: %s ($%.2f)%n", bottomCategory, minAmount);
     }
+
 
     public int getIncomeCount() {
         return incomes.size();
