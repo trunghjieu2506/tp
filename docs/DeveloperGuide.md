@@ -8,9 +8,9 @@
 
 ## Design & implementation
 
-### 1. Nicholas
+### Expense and Income
 
-Responsible for implementing the **Expense** and **Income** management modules. This includes the `Expense`, `Income`, `ExpenseManager`, `IncomeManager`, as well as all associated commands and parsers.
+This includes the `Expense`, `Income`, `ExpenseManager`, `IncomeManager`, as well as all associated commands and parsers.
 
 The goal of these modules is to allow users to accurately and efficiently manage their expenses and income with support for adding, editing, deleting, listing, categorizing, and sorting entries.
 
@@ -19,7 +19,7 @@ The goal of these modules is to allow users to accurately and efficiently manage
 Each of the two core entities — Expense and Income — is represented by its own class (`Expense`, `Income`) and managed through its own manager class (`ExpenseManager`, `IncomeManager`).
 The below shows the high-level class diagram:
 
-![Expense and Income Structure](img_2.png)
+![Expense and Income Structure](img.png)
 
 #### Command Parsing and Execution
 
@@ -27,7 +27,7 @@ Each command extends from an abstract `ExpenseCommand` or `IncomeCommand` base c
 
 Example sequence diagram for the command `add Lunch 12.5 Food 2025-03-25`:
 
-![Add Expense Command Sequence](img_1.png)
+![Add Expense Command Sequence](img_3.png)
 
 This design simplifies testing, separates concerns clearly, and is extensible to other commands (e.g., filtering by date range in the future).
 
