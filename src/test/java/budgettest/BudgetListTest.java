@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Currency;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,10 +26,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class BudgetListTest {
 
     private BudgetManager budgetManager;
+    private Currency currency;
 
     @BeforeEach
     public void setup() {
-        budgetManager = new BudgetList("USD");
+        currency = Currency.getInstance("USD");
+        budgetManager = new BudgetList(currency);
     }
 
     @Test
@@ -55,7 +58,7 @@ public class BudgetListTest {
 
     @Test
     public void testAddNewBudget() throws BudgetException {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         Money money = new Money("USD", BigDecimal.valueOf(1000));
         LocalDate futureDate = LocalDate.now().plusDays(10);
         Budget budget1 = new Budget("Budget1", money, futureDate, "Category1");
@@ -71,7 +74,7 @@ public class BudgetListTest {
 
     @Test
     public void testSetBudget() {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);
 
         // setBudget => adds a new budget
@@ -86,7 +89,7 @@ public class BudgetListTest {
 
     @Test
     public void testListBudgets() {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
 
         // Capture output with empty list
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -108,7 +111,7 @@ public class BudgetListTest {
 
     @Test
     public void testDeductFromBudget() {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);
         budgetList.setBudget("Budget1", 1000, futureDate, "Category1");
 
@@ -144,7 +147,7 @@ public class BudgetListTest {
 
     @Test
     public void testAddToBudget() {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);
         budgetList.setBudget("Budget1", 1000, futureDate, "Category1");
 
@@ -173,7 +176,7 @@ public class BudgetListTest {
 
     @Test
     public void testGetBudget() {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);
         budgetList.setBudget("Budget1", 1000, futureDate, "Category1");
 
@@ -186,7 +189,7 @@ public class BudgetListTest {
 
     @Test
     public void testModifyBudgetInBudgetList() throws BudgetException {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);
         budgetList.setBudget("Budget1", 1000, futureDate, "Category1");
         budgetList.setBudget("Budget2", 500, futureDate, "Category2");
@@ -216,7 +219,7 @@ public class BudgetListTest {
 
     @Test
     public void testCheckBudget() {
-        BudgetList budgetList = new BudgetList("USD");
+        BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
@@ -237,7 +240,8 @@ public class BudgetListTest {
         outContent.reset();
         // Add an expense, then check again
         Budget budget = budgetList.getBudget(0);
-        Expense expense = new Expense("Expense1", 100, LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1", new Money(currency, 100)
+                , LocalDate.now(), "Food");
         budget.deductFromExpense(expense);
         budgetList.checkBudget(0);
         output = outContent.toString();
@@ -248,9 +252,9 @@ public class BudgetListTest {
 
     @Test
     public void testCurrencyGetterSetter() {
-        BudgetList budgetList = new BudgetList("USD");
-        assertEquals("USD", budgetList.getCurrency());
-        budgetList.setCurrency("EUR");
-        assertEquals("EUR", budgetList.getCurrency());
+        BudgetList budgetList = new BudgetList(currency);
+        assertEquals(Currency.getInstance("USD"), budgetList.getCurrency());
+        budgetList.setCurrency(Currency.getInstance("EUR"));
+        assertEquals(Currency.getInstance("EUR"), budgetList.getCurrency());
     }
 }
