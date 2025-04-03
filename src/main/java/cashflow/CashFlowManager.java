@@ -20,6 +20,7 @@ public class CashFlowManager {
     private final Storage storageIncome;
     private final Storage storageSaving;
     private final Storage storageLoan;
+    private final Storage storageContact;
 
     private SavingList savingManager;
     private BudgetList budgetManager;
@@ -36,30 +37,27 @@ public class CashFlowManager {
         String incomeFile = "src/main/java/cashflow/model/storage/income.dat";
         String savingFile = "src/main/java/cashflow/model/storage/saving.dat";
         String loanFile = "src/main/java/cashflow/model/storage/loan.dat";
+        String contactFile = "src/main/java/cashflow/model/storage/contact.dat";
 
         // take these objects as arguments in your Manager constructor
         storageExpense = new Storage(expenseFile);
         storageIncome = new Storage(incomeFile);
         storageSaving = new Storage(savingFile);
         storageLoan = new Storage(loanFile);
+        storageContact = new Storage(contactFile);
 
         data = new FinanceData();
         String currencyStr = "USD"; //data.getCurrency().getCurrencyCode();
         Currency currency = Currency.getInstance(currencyStr);
 
         // Initialize integration modules (dummy implementations for now).
+
         expenseManager = new ExpenseManager(data, currencyStr);     //need to change this part to accept Currency class
         incomeManager = new IncomeManager(data, currencyStr);
         savingManager = new SavingList(currencyStr);
         budgetManager = new BudgetList(currency);
-//
-//        try {
-//            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
-//        } catch (FileNotFoundException e) {
-//            this.loanManager = new LoanManager("GeorgeMiao");
-//        }
+        this.loanManager = new LoanManager("defaultUser");
 
-        this.loanManager = new LoanManager("GeorgeMiao");
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);
