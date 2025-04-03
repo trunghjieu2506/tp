@@ -9,7 +9,7 @@ public abstract class AnalyticGeneralCommand {
     public abstract void execute(FinanceData data);
 
     public static void handleAnalyticCommand(Scanner scanner, FinanceData data) {
-        System.out.println("Analytic Mode: Enter commands (type 'exit' to return)");
+        System.out.println("Analytic Mode: Enter commands (type 'exit' to return, type 'help' for commands)");
         while (true) {
             System.out.print("> ");
             String input = scanner.nextLine().trim();
