@@ -1,10 +1,12 @@
 package cashflow.ui;
 
 import budgetsaving.budget.BudgetList;
+import cashflow.analytics.parser.AnalyticCommandParser;
+import cashflow.ui.command.Command;
 import cashflow.ui.command.HelpCommand;
-import cashflow.ui.command.OverviewCommand;
 import cashflow.model.FinanceData;
 import budgetsaving.saving.SavingList;
+import cashflow.ui.command.SetUpCommand;
 import expenseincome.expense.ExpenseCommandParser;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.commands.ExpenseCommand;
@@ -16,12 +18,12 @@ import loanbook.LoanUI;
 import loanbook.LoanManager;
 import loanbook.save.LoanSaveManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 import static budgetsaving.budget.command.BudgetGeneralCommand.handleBudgetCommand;
 import static budgetsaving.saving.command.SavingGeneralCommand.handleSavingCommand;
+import static cashflow.analytics.command.AnalyticGeneralCommand.handleAnalyticCommand;
 
 public class UI {
     private FinanceData data;
@@ -34,14 +36,15 @@ public class UI {
 
     public UI(FinanceData data) {
         this.data = data;
-        this.savingList = new SavingList(data.getCurrency());
-        this.budgetList = new BudgetList(data.getCurrency());
+        this.savingList = data.getSavingsManager();
+        this.budgetList = data.getBudgetManager();
         //Can create a username.
-        try {
-            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
-        } catch (FileNotFoundException e) {
-            this.loanManager = new LoanManager("GeorgeMiao");
-        }
+//        try {
+//            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
+//        } catch (FileNotFoundException e) {
+//            this.loanManager = new LoanManager("GeorgeMiao");
+//        }
+        this.loanManager = data.getLoanManager();
 
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
@@ -66,16 +69,15 @@ public class UI {
                 System.out.println("Exiting. Goodbye!");
                 break;
             }
-
             switch (input.toLowerCase()) {
             case "help":
                 new HelpCommand().execute();
                 break;
-            case "overview":
-                new OverviewCommand(data).execute();
-                break;
             case "setup":
-                new SetUp(data).run();
+                new SetUpCommand(data).execute();
+                break;
+            case "analytic":
+                handleAnalyticCommand(scanner, data);
                 break;
             case "saving":
                 //new SavingGeneralCommand(input, savingList).execute();
@@ -91,7 +93,7 @@ public class UI {
                 handleIncomeCommands(scanner);
                 break;
             case "loan":
-                LoanUI.handleLoanCommands(loanManager, scanner, data.getCurrency());
+                LoanUI.handleLoanCommands(loanManager, scanner, "USD");
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");

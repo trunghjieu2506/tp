@@ -36,7 +36,7 @@ public class ExpenseManager implements ExpenseDataManager {
             }
 
             Expense expense = new Expense(description, amount, date, category);
-            BudgetManager.deductBudgetFromExpense(expense);
+//            BudgetManager.deductBudgetFromExpense(expense);
             expenses.add(expense);
             logger.log(Level.INFO, "Added expense: {0}", expense);
             System.out.println("Added: " + expense);

@@ -3,9 +3,7 @@ package cashflow.analytics;
 import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
 
-import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,35 +15,35 @@ public class AnalyticsManager {
     }
 
     // Generate a comprehensive financial summary using integrated modules.
-    public String getFinancialSummary() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Financial Overview:\n");
-        sb.append("-------------------\n");
-
-        // Expense & Income summary.
-        if (data.getExpenseIncomeManager() != null) {
-            sb.append(data.getExpenseIncomeManager().getMonthlyExpenseSummary());
-        } else {
-            sb.append("No expense/income data available.\n");
-        }
-
-        // Savings summary.
-        if (data.getSavingsManager() != null) {
-            sb.append(data.getSavingsManager().getSavingsSummary());
-        } else {
-            sb.append("No savings data available.\n");
-        }
-
-        // Loan & Debt summary.
-        if (data.getLoanDebtManager() != null) {
-            sb.append(data.getLoanDebtManager().getLoanDebtSummary());
-        } else {
-            sb.append("No loan/debt data available.\n");
-        }
-
-        sb.append("-------------------");
-        return sb.toString();
-    }
+//    public String getFinancialSummary() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Financial Overview:\n");
+//        sb.append("-------------------\n");
+//
+//        // Expense & Income summary.
+//        if (data.getExpenseIncomeManager() != null) {
+//            sb.append(data.getExpenseIncomeManager().getMonthlyExpenseSummary());
+//        } else {
+//            sb.append("No expense/income data available.\n");
+//        }
+//
+//        // Savings summary.
+//        if (data.getSavingsManager() != null) {
+//            sb.append(data.getSavingsManager().getSavingsSummary());
+//        } else {
+//            sb.append("No savings data available.\n");
+//        }
+//
+//        // Loan & Debt summary.
+//        if (data.getLoanDebtManager() != null) {
+//            sb.append(data.getLoanDebtManager().getLoanDebtSummary());
+//        } else {
+//            sb.append("No loan/debt data available.\n");
+//        }
+//
+//        sb.append("-------------------");
+//        return sb.toString();
+//    }
 
     // Example suggestion method.
     public void provideSuggestions() {
@@ -61,7 +59,7 @@ public class AnalyticsManager {
         StringBuilder sb = new StringBuilder();
         YearMonth yearMonth = YearMonth.of(year, month);
 
-        ArrayList<Finance> monthlyFinance = retrieveTransactionsForMonth(month, year)
+        ArrayList<Finance> monthlyFinance = retrieveTransactionsForMonth(month, year);
         // 2. Calculate total income vs total expenses for the month.
         double totalIncome = getTotalIncomeForMonth(month, year);
         double totalExpenses = getTotalExpensesForMonth(month, year);
@@ -99,12 +97,12 @@ public class AnalyticsManager {
         sb.append("Net Savings (Income - Expense): ")
                 .append(data.getCurrency()).append(netSavings).append("\n");
 
-        sb.append("Biggest Spending Category: ").append(data.getExpenseManager().printTopCategory());
+        sb.append("Biggest Spending Category: \n");
 
         sb.append("Outstanding Loans (You owe): ").append(data.getCurrency()).append(totalOwed).append("\n");
         sb.append("Outstanding Debts (Others owe you): ").append(data.getCurrency()).append(totalReceivable).append("\n");
-
         // Comparison with last month
+        sb.append("---------------------------------\n");
         sb.append("\nComparison with Last Month (")
                 .append(lastMonth.getMonth())
                 .append(" ")
@@ -160,26 +158,26 @@ public class AnalyticsManager {
         ArrayList<Finance> incomeList = data.getIncomeManager() != null
                 ? data.getIncomeManager().getIncomeList()
                 : new ArrayList<Finance>();
-        ArrayList<Finance> savingsList = data.getSavingsManager() != null
-                ? data.getSavingsManager().getSavingList()
-                : new ArrayList<Finance>();
+//        ArrayList<Finance> savingsList = data.getSavingsManager() != null
+//                ? data.getSavingsManager().getSavingList()
+//                : new ArrayList<Finance>();
 
-        ArrayList<Finance> loanDebtList = data.getLoanDebtManager() != null
-                ? data.getLoanDebtManager().getLoanList()
+        ArrayList<Finance> loanDebtList = data.getLoanManager() != null
+                ? data.getLoanManager().getLoanList()
                 : new ArrayList<Finance>();
 
         // Combine them
         ArrayList<Finance> all = new ArrayList<>();
         all.addAll(expenseList);
         all.addAll(incomeList);
-        all.addAll(savingsList);
+//        all.addAll(savingsList);
         all.addAll(loanDebtList);
 
         // Filter by year/month
         return all.stream()
                 .filter(t -> t.getDate().getYear() == year
                         && t.getDate().getMonthValue() == month)
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }
