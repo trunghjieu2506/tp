@@ -10,15 +10,16 @@ import java.util.HashMap;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.ExpenseDataManager;
 import cashflow.model.interfaces.Finance;
+import cashflow.model.FinanceData;
 
 public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
     private ArrayList<Expense> expenses;
-    private BudgetManager budgetManager;
+    private FinanceData data;
 
-    public ExpenseManager(BudgetManager budgetManager) {
+    public ExpenseManager(FinanceData data) {
         this.expenses = new ArrayList<>();
-        this.budgetManager = budgetManager;
+        this.data = data;
     }
 
     public ArrayList<Finance> getExpenseList() {
@@ -38,6 +39,7 @@ public class ExpenseManager implements ExpenseDataManager {
             }
 
             Expense expense = new Expense(description, amount, date, category);
+            BudgetManager budgetManager = data.getBudgetManager();
 
             if (budgetManager != null) {
                 boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
@@ -132,7 +134,7 @@ public class ExpenseManager implements ExpenseDataManager {
         });
 
         System.out.println("Expenses sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first.");
-        listExpenses();  // Show sorted list
+        listExpenses();
     }
 
     public void listExpensesByCategory(String category) {

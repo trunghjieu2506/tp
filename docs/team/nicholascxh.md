@@ -80,8 +80,8 @@ I was responsible for implementing the core features that manage expense and inc
 
 ### Class Diagram - Expense and Income Manager
 
-![ExpenseManager and IncomeManager](../img_2.png)
+![ExpenseManager and IncomeManager](../img.png)
 
 ### Sequence Diagram - Add Expense Command
 
-![AddExpenseCommand Sequence](../img_1.png)
+![AddExpenseCommand Sequence](../img_3.png)
