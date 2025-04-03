@@ -3,5 +3,5 @@ package cashflow.analytics.command;
 @FunctionalInterface
 public interface CommandHandler {
 
-    AnalyticGeneralCommand handle(String input);
+    AnalyticGeneralCommand handle(String input) throws Exception;
 }

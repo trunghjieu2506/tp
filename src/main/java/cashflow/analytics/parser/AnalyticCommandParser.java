@@ -2,7 +2,9 @@ package cashflow.analytics.parser;
 
 import cashflow.analytics.command.AnalyticGeneralCommand;
 import cashflow.analytics.command.CommandHandler;
+import cashflow.analytics.command.HelpCommand;
 import cashflow.analytics.command.OverviewCommand;
+import cashflow.analytics.command.TrendCommand;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -17,6 +19,7 @@ public class AnalyticCommandParser {
      * Maps command keywords to their respective command handlers for command instantiation.
      */
     static {
+        COMMANDS.put("help", input -> new HelpCommand());
         COMMANDS.put("overview", input -> {
             String[] command = input.split(" ", 2);
             if (command.length < 2) {
@@ -26,15 +29,28 @@ public class AnalyticCommandParser {
                 return new OverviewCommand(yearMonth.getMonthValue(), yearMonth.getYear());
             }
         });
+        COMMANDS.put("trend", input -> {
+            String[] command = input.split(" ");
+            if (command.length < 5) {
+                throw new Exception("Incorrect syntax. Use trend <data-type> <start-date> <end-date> <interval>\n"
+                        + "Example: trend expense 2025-01-24 2025-02-24 monthly");
+            } else {
+                String type = command[1];
+                LocalDate start = LocalDate.parse(command[2]);
+                LocalDate end = LocalDate.parse(command[3]);
+                String interval = command[4];
+                return new TrendCommand(type, start, end, interval);
+            }
+        });
     }
 
-    public static AnalyticGeneralCommand parseCommand(String input) {
+    public static AnalyticGeneralCommand parseCommand(String input) throws Exception {
         String[] command = input.split(" ", 2);
         if (COMMANDS.containsKey(command[0])) {
             //handle method is defined in CommandHandler
             return COMMANDS.get(command[0]).handle(input);
         } else {
-            throw new IllegalArgumentException("Unknown command: " + command[0]);
+            throw new IllegalArgumentException("Unknown command: " + command[0] + "Enter 'help' for available commands");
         }
     }
 }
