@@ -61,7 +61,8 @@ public class ExpenseManager implements ExpenseDataManager {
             if (budgetManager != null) {
                 boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
                 if (exceeded) {
-                    System.out.println("Warning: You have exceeded your budget for category: " + category); // remove if there is already warning
+                    System.out.println("Warning: You have exceeded " +
+                            "your budget for category: " + category); // remove if there is already warning
                 }
             }
 

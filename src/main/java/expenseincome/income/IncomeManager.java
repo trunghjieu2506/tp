@@ -26,9 +26,9 @@ public class IncomeManager implements IncomeDataManager {
     }
 
     public IncomeManager(FinanceData data, String currency) {
+        assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.incomes = new ArrayList<>();
         this.data = data;
-        assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.currency = currency;
     }
 
