@@ -1,9 +1,11 @@
 package cashflow.analytics.parser;
 
 import cashflow.analytics.command.AnalyticGeneralCommand;
+import cashflow.analytics.command.CategoryInsightCommand;
 import cashflow.analytics.command.CommandHandler;
 import cashflow.analytics.command.HelpCommand;
 import cashflow.analytics.command.OverviewCommand;
+import cashflow.analytics.command.SpendingInsightCommand;
 import cashflow.analytics.command.TrendCommand;
 
 import java.time.LocalDate;
@@ -40,6 +42,33 @@ public class AnalyticCommandParser {
                 LocalDate end = LocalDate.parse(command[3]);
                 String interval = command[4];
                 return new TrendCommand(type, start, end, interval);
+            }
+        });
+        COMMANDS.put("category", input -> {
+            String[] command = input.split(" ");
+            if (command.length < 2) {
+                throw new Exception("Syntax");
+            } else {
+                YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
+                return new CategoryInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+            }
+    });
+        COMMANDS.put("spending", input -> {
+        String[] command = input.split(" ");
+        if (command.length < 2) {
+            return new CategoryInsightCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+        } else {
+            YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
+            return new CategoryInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+        }
+    });
+        COMMANDS.put("overview", input -> {
+            String[] command = input.split(" ", 2);
+            if (command.length < 2) {
+                return new OverviewCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+            } else {
+                YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
+                return new OverviewCommand(yearMonth.getMonthValue(), yearMonth.getYear());
             }
         });
     }

@@ -2,6 +2,7 @@ package cashflow.analytics.utils;
 
 import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
+import expenseincome.expense.Expense;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -67,6 +68,15 @@ public class AnalyticDataLoader {
             }
         }
         return total;
+    }
+
+    public ArrayList<Expense> retrieveMonthlyExpenses(int month, int year) {
+        ArrayList<Expense> allExpenses = data.getExpenseManager().getList();
+        // Filter by year/month
+        return allExpenses.stream()
+                .filter(t -> t.getDate().getYear() == year
+                        && t.getDate().getMonthValue() == month)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

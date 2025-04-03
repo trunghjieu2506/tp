@@ -3,6 +3,7 @@ package cashflow.analytics;
 import cashflow.analytics.utils.AnalyticDataLoader;
 import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
+import expenseincome.expense.Expense;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -135,4 +136,130 @@ public class AnalyticsManager {
         int weekOfYear = date.get(java.time.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         return year + "-W" + weekOfYear;
     }
+
+    /**
+     * Displays a category breakdown of expenses for a given month/year.
+     * Shows a bar diagram and percentage share per category.
+     */
+    public void showCategoryBreakdown(int month, int year) {
+        ArrayList<Expense> monthlyExpenses = data.getExpenseManager().getList();
+
+        if (monthlyExpenses.isEmpty()) {
+            System.out.println("No expenses recorded for " + YearMonth.of(year, month) + ".");
+            return;
+        }
+
+        // 2. Sum expenses by category
+        Map<String, Double> categoryTotals = new HashMap<>();
+        double grandTotal = 0.0;
+        for (Expense ex : monthlyExpenses) {
+            String category = ex.getCategory();
+            double amount = ex.getAmount();
+            categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
+            grandTotal += amount;
+        }
+
+        // 3. Print results with an ASCII bar chart
+        System.out.println("Category Breakdown for " + YearMonth.of(year, month) + ":");
+        System.out.println("--------------------------------------------------");
+
+        double maxValue = categoryTotals.values().stream().mapToDouble(Double::doubleValue).max().orElse(0.0);
+
+        for (Map.Entry<String, Double> entry : categoryTotals.entrySet()) {
+            String category = entry.getKey();
+            double total = entry.getValue();
+            // Compute percentage share
+            double percent = (total / grandTotal) * 100.0;
+
+            // Build the bar scaled to e.g. 50 characters wide
+            int barLength = maxValue > 0 ? (int)((total / maxValue) * 50) : 0;
+            String bar = new String(new char[barLength]).replace('\0', '#');
+
+            // Print line: Category | ### (amount) XX%
+            System.out.printf("%-15s | %-50s (%.2f) [%.1f%%]\n", category, bar, total, percent);
+        }
+
+        System.out.printf("Grand Total: %.2f\n", grandTotal);
+        System.out.println("--------------------------------------------------");
+    }
+
+    /**
+     * Provides spending insights and recommendations by comparing the given month
+     * with the previous month. Example: "You spent 30% more on dining this month than last month."
+     */
+    public void showSpendingInsights(int month, int year) {
+        // 1. Identify current and last month
+        YearMonth current = YearMonth.of(year, month);
+        YearMonth last = current.minusMonths(1);
+
+        // 2. Retrieve expense data for both months
+        ArrayList<Expense> thisMonthExpenses = dataLoader.retrieveMonthlyExpenses( month, year);
+        ArrayList<Expense> lastMonthExpenses = dataLoader.retrieveMonthlyExpenses(
+                last.getMonthValue(), last.getYear());
+
+        if (thisMonthExpenses.isEmpty() && lastMonthExpenses.isEmpty()) {
+            System.out.println("No spending data for current or last month.");
+            return;
+        }
+
+        // 3. Sum expenses by category for each month
+        Map<String, Double> currentTotals = sumExpensesByCategory(thisMonthExpenses);
+        Map<String, Double> lastTotals = sumExpensesByCategory(lastMonthExpenses);
+
+        // 4. Compare for categories that exist in either month
+        Set<String> allCategories = new HashSet<>();
+        allCategories.addAll(currentTotals.keySet());
+        allCategories.addAll(lastTotals.keySet());
+
+        System.out.println("Spending Insights for " + current + " vs. " + last + ":");
+        System.out.println("--------------------------------------------------");
+
+        boolean foundSignificantChange = false;
+
+        for (String category : allCategories) {
+            double currentAmount = currentTotals.getOrDefault(category, 0.0);
+            double lastAmount = lastTotals.getOrDefault(category, 0.0);
+
+            // If lastAmount > 0, compute percentage difference
+            if (lastAmount > 0) {
+                double diff = currentAmount - lastAmount;
+                double percentChange = (diff / lastAmount) * 100.0;
+
+                // Only show if there's a notable change, e.g. +/- 20%
+                if (Math.abs(percentChange) >= 20.0) {
+                    foundSignificantChange = true;
+                    if (percentChange > 0) {
+                        System.out.printf("You spent %.1f%% more on %s this month than last month. (%.2f vs. %.2f)\n",
+                                percentChange, category, currentAmount, lastAmount);
+                    } else {
+                        System.out.printf("You spent %.1f%% less on %s this month than last month. (%.2f vs. %.2f)\n",
+                                Math.abs(percentChange), category, currentAmount, lastAmount);
+                    }
+                }
+            } else if (currentAmount > 0 && lastAmount == 0) {
+                // No spending last month, but we have some this month
+                System.out.printf("New spending in category '%s': %.2f (no spending last month)\n",
+                        category, currentAmount);
+            }
+        }
+
+        // 5. Provide general recommendations
+        System.out.println("--------------------------------------------------");
+        if (!foundSignificantChange) {
+            System.out.println("No significant changes detected in spending categories.");
+        }
+    }
+
+    /**
+     * Helper method: Summarizes a list of Finance items by category.
+     */
+    private Map<String, Double> sumExpensesByCategory(List<Expense> expenses) {
+        Map<String, Double> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String cat = e.getCategory();
+            totals.put(cat, totals.getOrDefault(cat, 0.0) + e.getAmount());
+        }
+        return totals;
+    }
+
 }
