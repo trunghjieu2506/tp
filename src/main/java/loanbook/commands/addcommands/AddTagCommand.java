@@ -20,7 +20,7 @@ public class AddTagCommand extends LoanCommand {
     @Override
     public void execute() {
         loanManager.addTag(index, tag);
-        System.out.println("The description of the following loan is updated:");
+        System.out.println("Tag [" + tag + "] has been added to the following loan:");
         System.out.println(loan.showDetails());
     }
 }

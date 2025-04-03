@@ -1,7 +1,7 @@
 package loantests;
 
 import loanbook.LoanManager;
-import loanbook.LoanUI;
+import loanbook.ui.LoanUI;
 import loanbook.commands.DeleteLoanCommand;
 import loanbook.commands.ListLoansCommand;
 import loanbook.commands.LoanCommand;

@@ -1,5 +1,6 @@
-package loanbook;
+package loanbook.ui;
 
+import loanbook.LoanManager;
 import loanbook.commands.LoanCommand;
 import loanbook.loan.Loan;
 import loanbook.parsers.LoanCommandParser;

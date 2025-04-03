@@ -1,7 +1,7 @@
 package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
-import loanbook.LoanUI;
+import loanbook.ui.LoanUI;
 
 public class FindTaggedLoanCommand extends FindLoanCommand {
     protected LoanManager loanManager;

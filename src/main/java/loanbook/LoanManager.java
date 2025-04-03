@@ -6,6 +6,7 @@ import loanbook.loan.Loan;
 import loanbook.save.LoanSaveManager;
 import utils.contacts.ContactsList;
 import utils.contacts.Person;
+import utils.contacts.PersonNotFoundException;
 import utils.tags.TagList;
 
 import java.io.IOException;
@@ -151,15 +152,29 @@ public class LoanManager implements LoanDataManager {
         return found;
     }
 
-    public BigDecimal getTotalLoanFrom(String name) {
+    public double getTotalDebt(String name) throws PersonNotFoundException {
         Person borrower = contactsList.findName(name);
         if (borrower == null) {
-            return null;
+            throw new PersonNotFoundException("Person not found");
         }
-        BigDecimal amount = BigDecimal.valueOf(0);
+        double amount = 0;
         for (Loan loan : loans) {
             if (loan.borrower() == borrower) {
-                amount = amount.add(loan.getBalance().getAmount());
+                amount += loan.getBalance().getAmount().doubleValue();
+            }
+        }
+        return amount;
+    }
+
+    public double getTotalLent(String name) throws PersonNotFoundException {
+        Person lender = contactsList.findName(name);
+        if (lender == null) {
+            throw new PersonNotFoundException("Person not found");
+        }
+        double amount = 0;
+        for (Loan loan : loans) {
+            if (loan.lender() == lender) {
+                amount += loan.getBalance().getAmount().doubleValue();
             }
         }
         return amount;

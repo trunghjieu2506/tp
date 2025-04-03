@@ -1,7 +1,7 @@
 package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
-import loanbook.LoanUI;
+import loanbook.ui.LoanUI;
 import utils.contacts.Person;
 
 public class FindIncomingLoanCommand extends FindLoanCommand {

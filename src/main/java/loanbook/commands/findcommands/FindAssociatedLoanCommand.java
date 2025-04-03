@@ -1,7 +1,7 @@
 package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
-import loanbook.LoanUI;
+import loanbook.ui.LoanUI;
 import loanbook.loan.Loan;
 import utils.contacts.Person;
 

@@ -6,7 +6,7 @@ import cashflow.ui.command.OverviewCommand;
 import cashflow.model.FinanceData;
 import budgetsaving.saving.SavingList;
 
-import loanbook.LoanUI;
+import loanbook.ui.LoanUI;
 import loanbook.LoanManager;
 import loanbook.save.LoanSaveManager;
 
