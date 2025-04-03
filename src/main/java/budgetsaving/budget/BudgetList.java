@@ -194,11 +194,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
 
     @Override
     public ArrayList<Finance> getBudgetList() {
-        ArrayList<Finance> financeList = new ArrayList<>();
-        for (Budget b : this.budgets) {
-            financeList.add(b);  // Upcast happens here
-        }
-        return financeList;
+        return new ArrayList<>(budgets);
     }
 
 }

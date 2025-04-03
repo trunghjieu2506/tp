@@ -19,7 +19,7 @@ public interface BudgetManager {
 
     void deductFromBudget(int index, double amount);
 
-    boolean deductBudgetFromExpense(BudgetManager this, Expense expense);
+    boolean deductBudgetFromExpense(Expense expense);
 
     void addToBudget(int index, double amount);
 

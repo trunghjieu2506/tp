@@ -61,7 +61,7 @@ public class AnalyticsManager {
         StringBuilder sb = new StringBuilder();
         YearMonth yearMonth = YearMonth.of(year, month);
 
-        ArrayList<Finance> monthlyFinance = retrieveTransactionsForMonth(month, year)
+        ArrayList<Finance> monthlyFinance = retrieveTransactionsForMonth(month, year);
         // 2. Calculate total income vs total expenses for the month.
         double totalIncome = getTotalIncomeForMonth(month, year);
         double totalExpenses = getTotalExpensesForMonth(month, year);
