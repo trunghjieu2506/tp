@@ -1,5 +1,7 @@
 package cashflow.ui.command;
 
-public interface Command {
+import cashflow.model.FinanceData;
+
+public interface  Command {
     void execute();
 }

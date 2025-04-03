@@ -119,4 +119,20 @@ public class AdvancedLoan extends Loan {
                 "<Interest>" + interest.forSave() + '\n' +
                 "<AdvancedLoanEnd>";
     }
+
+    @Override
+    public String getType()
+    {
+        return "Overview";
+    }
+    @Override
+    public double getAmount()
+    {
+        return 0;
+    }
+
+    @Override
+    public LocalDate getDate(){
+        return startDate;
+    }
 }
