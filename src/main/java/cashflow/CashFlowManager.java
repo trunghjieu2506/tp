@@ -44,7 +44,7 @@ public class CashFlowManager {
         data = new FinanceData();
 
         // Initialize integration modules (dummy implementations for now).
-        expenseManager = new ExpenseManager(budgetManager);
+        expenseManager = new ExpenseManager(data);
         incomeManager = new IncomeManager();
         savingManager = new SavingList("USD");
         budgetManager = new BudgetList("USD");

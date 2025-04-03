@@ -2,7 +2,9 @@ package budgetsaving.budget;
 
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetAlert;
+import cashflow.model.interfaces.BudgetDataManager;
 import cashflow.model.interfaces.BudgetManager;
+import cashflow.model.interfaces.Finance;
 import expenseincome.expense.Expense;
 import utils.money.Money;
 
@@ -11,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BudgetList implements BudgetManager {
+public class BudgetList implements BudgetManager, BudgetDataManager {
     private ArrayList<Budget> budgets;
     private String currency;
     private HashMap<String, Budget> budgetByCategory;
@@ -189,4 +191,10 @@ public class BudgetList implements BudgetManager {
         }
         System.out.println(budgets.get(index).printExpenses());
     }
+
+    @Override
+    public ArrayList<Finance> getBudgetList() {
+        return new ArrayList<>(budgets);
+    }
+
 }
