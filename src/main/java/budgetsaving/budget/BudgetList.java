@@ -11,27 +11,28 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 
 public class BudgetList implements BudgetManager, BudgetDataManager {
     private ArrayList<Budget> budgets;
-    private String currency;
+    private Currency currency;
     private HashMap<String, Budget> budgetByCategory;
 
     // Modified constructor to accept a currency
-    public BudgetList(String currency) {
-        assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
+    public BudgetList(Currency currency) {
+        assert currency != null : "Currency must not be null or empty.";
         this.currency = currency;
         budgets = new ArrayList<>();
         budgetByCategory = new HashMap<>();
     }
 
     // Added getter (and optionally setter) for currency
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
