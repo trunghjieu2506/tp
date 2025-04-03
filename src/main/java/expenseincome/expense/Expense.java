@@ -1,18 +1,18 @@
 package expenseincome.expense;
 
 import cashflow.model.interfaces.Finance;
+import utils.money.Money;
 
 import java.time.LocalDate;
 
 public class Expense extends Finance {
     private String description;
-    private double amount;
+    private Money amount;
     private LocalDate date;
     private String category;
 
-    public Expense(String description, double amount, LocalDate date, String category) {
+    public Expense(String description, Money amount, LocalDate date, String category) {
         assert description != null && !description.trim().isEmpty();
-        assert amount > 0;
         assert date != null;
         assert category != null && !category.trim().isEmpty();
 
@@ -25,7 +25,7 @@ public class Expense extends Finance {
         return description;
     }
 
-    public double getAmount() {
+    public Money getAmount() {
         return amount;
     }
 
@@ -47,8 +47,7 @@ public class Expense extends Finance {
         this.description = description;
     }
 
-    public void setAmount(double amount) {
-        assert amount > 0 : "Expense amount must be greater than zero.";
+    public void setAmount(Money amount) {
         this.amount = amount;
     }
 
@@ -64,6 +63,6 @@ public class Expense extends Finance {
 
     @Override
     public String toString() {
-        return description + " - $" + amount + " on " + date + " [Category: " + category + "]";
+        return description + " - " + amount + " on " + date + " [Category: " + category + "]";
     }
 }
