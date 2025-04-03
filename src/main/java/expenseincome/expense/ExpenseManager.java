@@ -14,9 +14,11 @@ import cashflow.model.interfaces.Finance;
 public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
     private ArrayList<Expense> expenses;
+    private BudgetManager budgetManager;
 
-    public ExpenseManager() {
+    public ExpenseManager(BudgetManager budgetManager) {
         this.expenses = new ArrayList<>();
+        this.budgetManager = budgetManager;
     }
 
     public ArrayList<Finance> getExpenseList() {
@@ -36,7 +38,14 @@ public class ExpenseManager implements ExpenseDataManager {
             }
 
             Expense expense = new Expense(description, amount, date, category);
-//            BudgetManager.deductBudgetFromExpense(expense);
+
+            if (budgetManager != null) {
+                boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+                if (exceeded) {
+                    System.out.println("Warning: You have exceeded your budget for category: " + category); // remove if there is already warning
+                }
+            }
+
             expenses.add(expense);
             logger.log(Level.INFO, "Added expense: {0}", expense);
             System.out.println("Added: " + expense);
