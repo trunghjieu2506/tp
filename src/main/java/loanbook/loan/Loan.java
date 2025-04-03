@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Stores basic information about a loan.
  */
-public abstract class Loan extends Finance implements Taggable {
+public abstract class Loan extends Finance implements Taggable, Comparable<Loan> {
     protected String description;
     protected final Person lender;
     protected final Person borrower;
@@ -152,6 +152,11 @@ public abstract class Loan extends Finance implements Taggable {
             return false;
         }
         return LocalDate.now().isAfter(returnDate);
+    }
+
+    @Override
+    public int compareTo(Loan loan) {
+        return this.getBalance().compareTo(loan.getBalance());
     }
 
     /**

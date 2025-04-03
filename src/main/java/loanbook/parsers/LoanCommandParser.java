@@ -34,7 +34,7 @@ import java.util.Scanner;
  * This class parses the user input to generate commands. Asks the user for more input if necessary.
  */
 public class LoanCommandParser {
-    public static LoanCommand parse(LoanManager loanManager, Scanner scanner, String defaultCurrency, String input) {
+    public static LoanCommand parse(LoanManager loanManager, Scanner scanner, Currency defaultCurrency, String input) {
         String[] splitFirst = input.split(" ", 2);
         String firstWord = splitFirst[0].trim();
         try {
@@ -45,7 +45,7 @@ public class LoanCommandParser {
                 int deleteIndex = Integer.parseInt(splitFirst[1]);
                 return new DeleteLoanCommand(loanManager, deleteIndex);
             case "add":
-                return handleAddLoanCommand(loanManager, scanner, Currency.getInstance(defaultCurrency.toUpperCase()));
+                return handleAddLoanCommand(loanManager, scanner, defaultCurrency);
             case "show":
                 int showIndex = Integer.parseInt(splitFirst[1]);
                 return new ShowLoanDetailCommand(loanManager, showIndex);
@@ -87,6 +87,10 @@ public class LoanCommandParser {
         } catch (IndexOutOfBoundsException | NullPointerException | NumberFormatException e) {
             return null;
         }
+    }
+
+    public static LoanCommand parse(LoanManager loanManager, Scanner scanner, String defaultCurrency, String input) {
+        return parse(loanManager, scanner, Currency.getInstance(defaultCurrency), input);
     }
 
     private static LoanCommand handleAddLoanCommand(LoanManager loanManager, Scanner scanner, Currency currency) {
@@ -132,7 +136,7 @@ public class LoanCommandParser {
     }
 
     private static LoanCommand handleSetCommand(LoanManager loanManager, Scanner scanner, int index, String attribute,
-                                                String defaultCurrency) {
+                                                Currency defaultCurrency) {
         switch (attribute) {
         case "lender":
         case "borrower":
@@ -153,7 +157,7 @@ public class LoanCommandParser {
         case "principal":
         case "amount":
             String instruction = "Key in the amount" + (attribute.equals("principal") ? "of principal" : "");
-            Money money = MoneyParser.handleMoneyInputUI(scanner, Currency.getInstance(defaultCurrency), instruction);
+            Money money = MoneyParser.handleMoneyInputUI(scanner, defaultCurrency, instruction);
             return new SetPrincipalCommand(loanManager, index, money);
         case "interest":
             if (loanManager.get(index) instanceof SimpleBulletLoan) {
