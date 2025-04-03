@@ -12,22 +12,13 @@ import java.util.Currency;
 //Centralized data hub
 public class FinanceData {
     private Currency currency;
-
-    public FinanceData() {
-    }
-
-    // Integration modules for the other teams.
-    // Nicholas Expense and Income Managers
+    private AnalyticsManager analyticsManager;
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
     private SavingList savingsManager;
     private BudgetList budgetManager;
     private LoanManager loanManager;
 
-    // Your analytics module.
-    private AnalyticsManager analyticsManager;
-
-    // Basic getters and setters.
     public Currency getCurrency() {
         return currency;
     }
@@ -35,6 +26,19 @@ public class FinanceData {
         this.currency = Currency.getInstance(currency);
     }
 
+    public ExpenseManager getExpenseManager() {
+        return expenseManager;
+    }
+    public void setExpenseManager(ExpenseManager expenseManager) {
+        this.expenseManager = expenseManager;
+    }
+
+    public IncomeManager getIncomeManager() {
+        return incomeManager;
+    }
+    public void setIncomeManager(IncomeManager incomeManager) {
+        this.incomeManager = incomeManager;
+    }
 
     public SavingList getSavingsManager() {
         return savingsManager;
@@ -64,19 +68,5 @@ public class FinanceData {
         this.analyticsManager = analyticsManager;
     }
 
-    public void setExpenseManager(ExpenseManager expenseManager) {
-        this.expenseManager = expenseManager;
-    }
 
-    public void setIncomeManager(IncomeManager incomeManager) {
-        this.incomeManager = incomeManager;
-    }
-
-    public ExpenseManager getExpenseManager() {
-        return expenseManager;
-    }
-
-    public IncomeManager getIncomeManager() {
-        return incomeManager;
-    }
 }
