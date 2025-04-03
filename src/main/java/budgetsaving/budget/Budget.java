@@ -139,11 +139,11 @@ public class Budget extends Finance {
         if (expense == null) {
             throw new IllegalArgumentException("Invalid expense.");
         }
-        if (expense.getAmount().compareTo(new Money(totalBudget.getCurrency(), BigDecimal.ZERO)) < 0) {
+        if (expense.getAmount() < 0) {
             throw new IllegalArgumentException("Expense amount cannot be negative.");
         }
         if (expenses.add(expense)) {
-            deduct(expense.getAmount().getAmount().doubleValue());
+            deduct(expense.getAmount());
             BigDecimal remainingAmount = remainingBudget.getAmount();
             double remainingAmountDouble = remainingAmount.doubleValue();
             exceedStatus = remainingAmountDouble > 0 ?
@@ -162,7 +162,7 @@ public class Budget extends Finance {
             throw new IllegalArgumentException("Expense not found in the budget.");
         }
         if (expenses.remove(expense)) {
-            BigDecimal amount = BigDecimal.valueOf(expense.getAmount().getAmount().doubleValue());
+            BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
             remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
         }
     }
@@ -238,8 +238,8 @@ public class Budget extends Finance {
 //    }
 
     @Override
-    public Money getAmount(){
-        return this.totalBudget;
+    public double getAmount(){
+        return this.totalBudget.getAmount().doubleValue();
     }
 
     @Override

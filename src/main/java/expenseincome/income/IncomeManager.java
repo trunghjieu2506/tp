@@ -170,7 +170,7 @@ public class IncomeManager implements IncomeDataManager {
         Map<String, BigDecimal> totals = new HashMap<>();
         for (Income income : incomes) {
             String category = income.getCategory();
-            BigDecimal amount = income.getAmount().getAmount();
+            BigDecimal amount = BigDecimal.valueOf(income.getAmount());
             totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
@@ -197,7 +197,7 @@ public class IncomeManager implements IncomeDataManager {
         Map<String, BigDecimal> totals = new HashMap<>();
         for (Income income : incomes) {
             String category = income.getCategory();
-            BigDecimal amount = income.getAmount().getAmount();
+            BigDecimal amount = BigDecimal.valueOf(income.getAmount());
             totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 

@@ -310,7 +310,7 @@ Manage your budgets alongside your expenses and incomes with the following comma
 
 ### Add Contribution to Saving
 
-**Command:** ```i/INDEX a/AMOUNT```
+**Command:** ```contribute i/INDEX a/AMOUNT```
 
 - `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
 - `AMOUNT`: The amount of budget to be added
