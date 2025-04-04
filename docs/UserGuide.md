@@ -2,7 +2,14 @@
 
 ## Introduction
 
-{Give a product intro}
+**CashFlow** is a personal finance tracking application that helps you manage your **expenses**, **incomes**, **budgets**, **loans**, and **savings** — all in one place. Designed for individuals who want to stay in control of their finances, CashFlow runs in a simple **command-line interface** and supports key features such as:
+
+- Adding, editing, and listing expenses and incomes
+- Adding, editing, and listing budgets and savings
+- Adding, editing, and listing loans
+- Analysing all these trends for better decision makings
+
+CashFlow is ideal for students and working professionals who want a lightweight, intuitive tool to stay financially organized. No fancy UI needed — just meaningful commands that get the job done.
 
 ## Quick Start
 
@@ -17,45 +24,68 @@
 
 ## Features
 
-### 📥 Adding an Expense
+
+## Expense Management Commands
+
+The Expense commands will be available when entering **expense mode**:
+```
+expense
+```
+
+Use help to see the list of available commands:
+```
+help
+```
+
+Track your daily spending using the following commands:
+
+### Add Expense
 
 **Command:**
 ```
-add <desc> <amount> <category> [yyyy-mm-dd]
+add <description> <amount> <category> [yyyy-mm-dd]
 ```
 
-- `desc`: Description (e.g., Lunch)
-- `amount`: Positive number (e.g., 15.50)
-- `category`: Any word (e.g., Food, Transport)
-- `date` (optional): Defaults to today's date if omitted
+- `description`: What the expense is for (e.g., Lunch)
+- `amount`: Expense amount in your preferred currency (e.g., 15.50)
+- `category`: A label for grouping expenses (e.g., Food)
+- `yyyy-mm-dd` *(optional)*: Date of the expense. Defaults to today's date if omitted.
 
 **Example:**
 ```
-add Lunch 15.5 Food 2025-03-31
+add Lunch 12.5 Food 2025-04-01
 ```
 
 ---
 
-### ✏️ Editing an Expense
+### Edit Expense
 
 **Command:**
 ```
-edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]
+edit <index> <newDescription> <newAmount> <newCategory> [yyyy-mm-dd]
 ```
+
+- `index`: The number of the expense you want to edit
+- `newDescription`: Updated description
+- `newAmount`: Updated amount
+- `newCategory`: Updated category
+- `yyyy-mm-dd` *(optional)*: Updated date. Defaults to today if omitted.
 
 **Example:**
 ```
-edit 2 Dinner 18.0 Food 2025-04-01
+edit 1 Dinner 18.0 Food 2025-04-02
 ```
 
 ---
 
-### ❌ Deleting an Expense
+### Delete Expense
 
 **Command:**
 ```
 delete <index>
 ```
+
+- `index`: The number of the expense you want to delete
 
 **Example:**
 ```
@@ -64,7 +94,7 @@ delete 3
 
 ---
 
-### 📋 Listing Expenses
+### List Expenses
 
 **Command:**
 ```
@@ -75,21 +105,23 @@ Displays all recorded expenses.
 
 ---
 
-### 📂 Listing Expenses by Category
+### List Expenses by Category
 
 **Command:**
 ```
-list category <categoryName>
+list category <category>
 ```
+
+- `category`: The category to filter by
 
 **Example:**
 ```
-list category Food
+list category Transport
 ```
 
 ---
 
-### 🔃 Sorting Expenses by Date
+### Sort Expenses by Date
 
 **Command (most recent first):**
 ```
@@ -103,26 +135,49 @@ sort oldest
 
 ---
 
-### 📊 Top/Bottom Expense Category
+### Show Top/Bottom Spending Category
 
-**Top spending category:**
+**Command:**
 ```
 top
 ```
 
-**Bottom spending category:**
+Displays the category with the highest total spending.
+
+**Command:**
 ```
 bottom
 ```
 
+Displays the category with the lowest total spending.
+
 ---
 
-### 📈 Adding an Income
+## Income Management Commands
+
+The Income commands will be available when entering **income mode**:
+```
+income
+```
+
+Use help to see the list of available commands:
+```
+help
+```
+
+Track all income sources and financial gains with the commands below:
+
+### Add Income
 
 **Command:**
 ```
 add <source> <amount> <category> [yyyy-mm-dd]
 ```
+
+- `source`: Where the income is from (e.g., Salary)
+- `amount`: Income amount in your preferred currency (e.g., 3000)
+- `category`: Group label (e.g., Job, Freelance)
+- `yyyy-mm-dd` *(optional)*: Date of the income. Defaults to today if omitted.
 
 **Example:**
 ```
@@ -131,48 +186,70 @@ add Salary 2500 Job 2025-03-31
 
 ---
 
-### ✏️ Editing an Income
+### Edit Income
 
 **Command:**
 ```
 edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]
 ```
 
+- `index`: The number of the income you want to edit
+- `newSource`: Updated income source
+- `newAmount`: Updated amount
+- `newCategory`: Updated category
+- `yyyy-mm-dd` *(optional)*: Updated date
+
 **Example:**
 ```
-edit 1 Bonus 500 Job
+edit 1 Bonus 500 Job 2025-04-01
 ```
 
 ---
 
-### ❌ Deleting an Income
+### Delete Income
 
 **Command:**
 ```
 delete <index>
 ```
 
+- `index`: The number of the income to delete
+
+**Example:**
+```
+delete 2
+```
+
 ---
 
-### 📋 Listing Income
+### List Incomes
 
 **Command:**
 ```
 list
 ```
 
+Lists all recorded incomes.
+
 ---
 
-### 📂 Listing Income by Category
+### List Incomes by Category
 
 **Command:**
 ```
-list category <categoryName>
+list category <category>
+```
+
+- `category`: The category to filter by
+
+**Example:**
+```
+list category Freelance
 ```
 
 ---
 
-### 🔃 Sorting Income by Date
+### Sort Incomes by Date
 
 **Command (most recent first):**
 ```
@@ -186,28 +263,22 @@ sort oldest
 
 ---
 
-### 📊 Top/Bottom Income Category
+### Show Top/Bottom Income Category
 
-**Top income category:**
+**Command:**
 ```
 top
 ```
 
-**Bottom income category:**
+Displays the category with the highest income total.
+
+**Command:**
 ```
 bottom
 ```
 
----
+Displays the category with the lowest income total.
 
-### 🆘 Help
-
-**Command:**
-```
-help
-```
-
-Shows a list of available commands and their usage.
 
 ## Budget Management Commands
 
