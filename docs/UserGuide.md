@@ -391,6 +391,19 @@ Manage your budgets alongside your expenses and incomes with the following comma
 
 ---
 
+### Loan Mode
+
+**Command:** `loan`
+
+**Description:** All commands in this section run in the loan mode. To enter loan mode, simply enter this command.
+
+**Example:** `loan`
+```
+Enter command (type 'help' for commands): loan
+Loan Mode: Enter commands (type 'exit' to return)
+> 
+```
+
 ### List all loans
 
 **Command:** `list`
@@ -399,8 +412,14 @@ Manage your budgets alongside your expenses and incomes with the following comma
 
 **Example:** `list`
 ```
-Here is the list of all loans:
-
+> list
+Here are all recorded loans:
+[1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
+    Not Returned
+[2] Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
+    Interest: Compound Interest 5.0% Per 1 Month
+    Outstanding Balance: USD 500.00
+    Not Returned
 ```
 ### Show the details of a specific loan
 
@@ -410,9 +429,137 @@ Here is the list of all loans:
 
 **Example:** `show 1`
 ```
-
-
+> show 1
+[1] Lender: lender 1
+    Borrower: borrower 1
+    Amount: USD 100.00
+    Start Date: None
+    Return Date: None
+    Description: This is a simple bullet loan.
+    Tags: None
+    Not Returned
 ```
+
+### Adding a simple bullet loan
+
+**Input sequence:** as shown in the code example
+
+**Description:** Adds a simple bullet loan to the list, with optional description and return dates.
+
+**Example:** `add`
+```
+> add
+With or without interest? (y/n)
+> n
+Enter the lender's name:
+> lender 1
+Enter the borrower's name:
+> borrower 1
+Key in the amount of money lent:
+> 100
+Key in the description (Key in "N/A" if not applicable):
+> N/A
+Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+> N/A
+Simple Bullet Loan added: Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
+    Not Returned
+```
+### Adding an advanced loan
+
+**Input sequence:** as shown in the code example
+
+**Description:** Adds an advanced loan to the list, with compulsory start date, optional description and return dates.
+
+**Example:** `add`
+```
+> add
+With or without interest? (y/n)
+> y
+Enter the lender's name:
+> lender 2
+Enter the borrower's name:
+> borrower 1
+Key in the amount of principal:
+> 500
+Key in the start date of the loan (yyyy-mm-dd):
+> 2025-04-03
+Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+> N/A
+Enter the interest (format: [SIMPLE/COMPOUND] [rate] per [X Years/Months/Days]):
+> COMPOUND 5% per month
+Key in the description (Key in "N/A" if not applicable):
+> This is an advanced loan.
+Advanced Loan added: Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
+    Interest: Compound Interest 5.0% Per 1 Month
+    Outstanding Balance: USD 500.00
+    Not Returned
+```
+
+### Editing an attribute of a loan
+
+**Command:** `edit X [attribute]`
+
+**Description:** Edit one attribute of a loan. (The lender and borrower cannot be edited)
+
+**Example:** `edit 1 description`
+```
+> edit 1 description
+Key in the new description:
+> This is a simple bullet loan.
+The description of the following loan is updated:
+Lender: lender 1
+Borrower: borrower 1
+Amount: USD 100.00
+Start Date: None
+Return Date: None
+Description: This is a simple bullet loan.
+Tags: None
+Not Returned
+```
+### Finding outgoing loans from someone
+
+**Command:** `find [name] outgoing loan` or `find outgoing loan [name]`
+
+**Description:** Finds all loans lent by the input name.
+
+**Example:** `find lender 1 outgoing loan`
+```
+> find lender 1 outgoing loan
+Outgoing loans for [lender 1] is:
+[1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
+    Not Returned
+```
+### Finding incoming loans from someone
+
+**Command:** `find [name] incoming loan` or `find incoming loan [name]`
+
+**Description:** Finds all loans borrowed by the input name.
+
+**Example:** `find borrower 1 incoming loan`
+```
+> find borrower 1 incoming loan
+Incoming loans for [borrower 1] are:
+[1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
+    Not Returned
+[2] Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
+    Interest: Compound Interest 5.0% Per 1 Month
+    Outstanding Balance: USD 500.00
+    Not Returned
+```
+### Deleting loans
+
+**Command:** `delete X`
+
+**Description:** Deletes the Xth loan from the list.
+
+**Example:** `delete 1`
+```
+> delete 1
+Successfully deleted the following loan:
+Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
+    Not Returned
+```
+
 
 ## FAQ
 
@@ -458,6 +605,17 @@ Here is the list of all loans:
 | Set Saving Goal      | `set n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD`           |
 | Contribute to Saving | `contribute i/INDEX a/AMOUNT`                     |
 | List Saving Goals    | `list`                                           |
+
+### Loans
+
+| Feature               | Command Format       |
+|-----------------------|----------------------|
+| Add Loan              | `add`                |
+| Edit Loan attribute   | `edit X [attribute]` |
+| List Loans            | `list`               |
+| Delete Loan           | `delete X`           |
+| Show Loan Details     | `show X`             |
+| Find associated loans | `find [name]`        |
 
 ## Coming Soon
 
