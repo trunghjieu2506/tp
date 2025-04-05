@@ -1,8 +1,10 @@
+
 package expenseincome.income;
 
 import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.IncomeDataManager;
+import expenseincome.income.exceptions.IncomeException;
 import utils.money.Money;
 
 import java.math.BigDecimal;
@@ -14,16 +16,11 @@ import java.util.logging.Level;
 import java.util.Map;
 import java.util.HashMap;
 
-
 public class IncomeManager implements IncomeDataManager {
     private static final Logger logger = Logger.getLogger(IncomeManager.class.getName());
-    private ArrayList<Income> incomes;
-    private FinanceData data;
-    private String currency;
-
-    public ArrayList<Finance> getIncomeList() {
-        return new ArrayList<>(incomes);
-    }
+    private final ArrayList<Income> incomes;
+    private final FinanceData data;
+    private final String currency;
 
     public IncomeManager(FinanceData data, String currency) {
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
@@ -32,27 +29,61 @@ public class IncomeManager implements IncomeDataManager {
         this.currency = currency;
     }
 
+    public ArrayList<Finance> getIncomeList() {
+        return new ArrayList<>(incomes);
+    }
+
+    public int getIncomeCount() {
+        return incomes.size();
+    }
+
+    public Income getIncome(int i) {
+        return incomes.get(i);
+    }
+
     public void addIncome(String source, double amount, LocalDate date, String category) {
         try {
-            if (source == null || source.trim().isEmpty()) {
-                throw new IllegalArgumentException("Income source cannot be empty.");
-            }
-            if (amount <= 0) {
-                throw new IllegalArgumentException("Income amount must be greater than zero.");
-            }
-            if (category == null || category.trim().isEmpty()) {
-                throw new IllegalArgumentException("Income category cannot be empty.");
-            }
-
+            validateIncomeDetails(source, amount, category);
             Currency currency = data.getCurrency();
             Money money = new Money(currency, amount);
             Income income = new Income(source, money, date, category);
             incomes.add(income);
             logger.log(Level.INFO, "Added income: {0}", income);
             System.out.println("Added: " + income);
-        } catch (IllegalArgumentException e) {
+        } catch (IncomeException e) {
             logger.log(Level.WARNING, "Failed to add income", e);
             System.out.println("Failed to add income. " + e.getMessage());
+        }
+    }
+
+    public void editIncome(int index, String newSource, double newAmount, LocalDate newDate, String newCategory) {
+        try {
+            validateIndex(index);
+            validateIncomeDetails(newSource, newAmount, newCategory);
+            Income income = incomes.get(index - 1);
+            Currency currency = data.getCurrency();
+            Money money = new Money(currency, newAmount);
+            income.setSource(newSource);
+            income.setAmount(money);
+            income.setDate(newDate);
+            income.setCategory(newCategory);
+            logger.log(Level.INFO, "Updated income: {0}", income);
+            System.out.println("Updated: " + income);
+        } catch (IncomeException e) {
+            logger.log(Level.WARNING, "Failed to edit income", e);
+            System.out.println("Failed to edit income. " + e.getMessage());
+        }
+    }
+
+    public void deleteIncome(int index) {
+        try {
+            validateIndex(index);
+            Income removed = incomes.remove(index - 1);
+            logger.log(Level.INFO, "Deleted income: {0}", removed);
+            System.out.println("Deleted: " + removed);
+        } catch (IncomeException e) {
+            logger.log(Level.WARNING, "Failed to delete income", e);
+            System.out.println("Failed to delete income. " + e.getMessage());
         }
     }
 
@@ -67,87 +98,14 @@ public class IncomeManager implements IncomeDataManager {
         }
     }
 
-    public void deleteIncome(int index) {
-        try {
-            logger.log(Level.INFO, "Attempting to delete income at index: {0}", index);
-
-            if (index < 1 || index > incomes.size()) {
-                throw new IllegalArgumentException("Invalid index: must be between 1 and " + incomes.size());
-            }
-
-            Income removed = incomes.remove(index - 1);
-            logger.log(Level.INFO, "Deleted income: {0}", removed);
-            System.out.println("Deleted: " + removed);
-        } catch (IllegalArgumentException e) {
-            logger.log(Level.WARNING, "Failed to delete income at index: " + index, e);
-            System.out.println("Failed to delete income. " + e.getMessage());
-        }
-    }
-
-    public void editIncome(int index, String newSource, double newAmount, LocalDate newDate, String newCategory) {
-        try {
-            logger.log(Level.INFO, "Editing income at index {0} to new values: {1}, ${2}, {3}, category={4}",
-                    new Object[]{index, newSource, newAmount, newDate, newCategory});
-
-            if (index < 1 || index > incomes.size()) {
-                throw new IllegalArgumentException("Invalid index: must be between 1 and " + incomes.size());
-            }
-            if (newSource == null || newSource.trim().isEmpty()) {
-                throw new IllegalArgumentException("New source cannot be empty.");
-            }
-            if (newAmount <= 0) {
-                throw new IllegalArgumentException("New amount must be greater than zero.");
-            }
-            if (newCategory == null || newCategory.trim().isEmpty()) {
-                throw new IllegalArgumentException("New category cannot be empty.");
-            }
-
-            Income income = incomes.get(index - 1);
-            Currency currency = data.getCurrency();
-            Money money = new Money(currency, newAmount);
-            income.setSource(newSource);
-            income.setAmount(money);
-            income.setDate(newDate);
-            income.setCategory(newCategory);
-
-            logger.log(Level.INFO, "Updated income: {0}", income);
-            System.out.println("Updated: " + income);
-        } catch (IllegalArgumentException e) {
-            logger.log(Level.WARNING, "Failed to edit income at index: " + index, e);
-            System.out.println("Failed to edit income. " + e.getMessage());
-        }
-    }
-
-    public void sortIncomesByDate(boolean mostRecentFirst) {
-        if (incomes.isEmpty()) {
-            System.out.println("No incomes to sort.");
-            return;
-        }
-
-        logger.log(Level.INFO, "Sorting incomes by date. Order: {0}",
-                mostRecentFirst ? "most recent first" : "oldest first");
-
-        incomes.sort((i1, i2) -> {
-            if (mostRecentFirst) {
-                return i2.getDate().compareTo(i1.getDate());
-            } else {
-                return i1.getDate().compareTo(i2.getDate());
-            }
-        });
-
-        System.out.println("Incomes sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first.");
-        listIncomes();
-    }
-
     public void listIncomesByCategory(String category) {
         if (incomes.isEmpty()) {
             System.out.println("No incomes recorded.");
             return;
         }
 
-        System.out.println("Incomes in category: " + category);
         boolean found = false;
-
+        System.out.println("Incomes in category: " + category);
         for (int i = 0; i < incomes.size(); i++) {
             Income income = incomes.get(i);
             if (income.getCategory().equalsIgnoreCase(category)) {
@@ -161,34 +119,27 @@ public class IncomeManager implements IncomeDataManager {
         }
     }
 
-    public void printTopCategory() {
+    public void sortIncomesByDate(boolean mostRecentFirst) {
         if (incomes.isEmpty()) {
-            System.out.println("No incomes recorded.");
+            System.out.println("No incomes to sort.");
             return;
         }
 
-        Map<String, BigDecimal> totals = new HashMap<>();
-        for (Income income : incomes) {
-            String category = income.getCategory();
-            BigDecimal amount = BigDecimal.valueOf(income.getAmount());
-            totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
-        }
+        incomes.sort((i1, i2) -> mostRecentFirst ? i2.getDate().compareTo(i1.getDate())
+                : i1.getDate().compareTo(i2.getDate()));
 
-        String topCategory = null;
-        BigDecimal maxAmount = BigDecimal.ZERO;
-
-        for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
-            if (entry.getValue().compareTo(maxAmount) > 0) {
-                maxAmount = entry.getValue();
-                topCategory = entry.getKey();
-            }
-        }
-
-        System.out.printf("Top Income Category: %s ($%.2f)%n", topCategory, maxAmount);
+        listIncomes();
     }
 
+    public void printTopCategory() {
+        printCategorySummary(true);
+    }
 
     public void printBottomCategory() {
+        printCategorySummary(false);
+    }
+
+    private void printCategorySummary(boolean top) {
         if (incomes.isEmpty()) {
             System.out.println("No incomes recorded.");
             return;
@@ -201,25 +152,39 @@ public class IncomeManager implements IncomeDataManager {
             totals.put(category, totals.getOrDefault(category, BigDecimal.ZERO).add(amount));
         }
 
-        String bottomCategory = null;
-        BigDecimal minAmount = null;
+        String targetCategory = null;
+        BigDecimal targetAmount = null;
 
         for (Map.Entry<String, BigDecimal> entry : totals.entrySet()) {
-            if (minAmount == null || entry.getValue().compareTo(minAmount) < 0) {
-                minAmount = entry.getValue();
-                bottomCategory = entry.getKey();
+            if (targetAmount == null ||
+                    (top && entry.getValue().compareTo(targetAmount) > 0) ||
+                    (!top && entry.getValue().compareTo(targetAmount) < 0)) {
+                targetAmount = entry.getValue();
+                targetCategory = entry.getKey();
             }
         }
 
-        System.out.printf("Lowest Income Category: %s ($%.2f)%n", bottomCategory, minAmount);
+        if (targetCategory != null) {
+            System.out.printf("%s Income Category: %s ($%.2f)%n",
+                    top ? "Top" : "Lowest", targetCategory, targetAmount);
+        }
     }
 
-
-    public int getIncomeCount() {
-        return incomes.size();
+    private void validateIndex(int index) throws IncomeException {
+        if (index < 1 || index > incomes.size()) {
+            throw new IncomeException("Invalid index: must be between 1 and " + incomes.size());
+        }
     }
 
-    public Income getIncome(int i) {
-        return incomes.get(i);
+    private void validateIncomeDetails(String source, double amount, String category) throws IncomeException {
+        if (source == null || source.trim().isEmpty()) {
+            throw new IncomeException("Source cannot be empty.");
+        }
+        if (amount <= 0) {
+            throw new IncomeException("Amount must be greater than zero.");
+        }
+        if (category == null || category.trim().isEmpty()) {
+            throw new IncomeException("Category cannot be empty.");
+        }
     }
 }
