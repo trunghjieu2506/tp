@@ -3,8 +3,6 @@ package budgetsaving.saving;
 import cashflow.model.interfaces.SavingManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import utils.money.Money;
 
 public class SavingList implements SavingManager {
@@ -96,8 +94,12 @@ public class SavingList implements SavingManager {
             System.err.println("No saving goal found.");
             return;
         }
-        if (amount != null) { saving.setNewAmount(amount); }
-        if (deadline != null) { saving.setNewDeadline(deadline); }
+        if (amount != null) {
+            saving.setNewAmount(amount);
+        }
+        if (deadline != null) {
+            saving.setNewDeadline(deadline);
+        }
     }
 
     @Override

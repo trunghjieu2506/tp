@@ -10,6 +10,8 @@ import cashflow.stub.StubIncomeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Currency;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -31,7 +33,7 @@ class AnalyticsManagerTest {
         financeData.setCurrency("USD");
 
         // 2. Create and set stub managers (expense, income, loan, etc.) that return test data
-        BudgetManager budgetManager = new BudgetList("USD");
+        BudgetManager budgetManager = new BudgetList(Currency.getInstance("USD"));
         financeData.setExpenseManager(new StubExpenseManager(budgetManager));
         financeData.setIncomeManager(new StubIncomeManager());
 //        financeData.setLoanManager(new StubLoanManager());

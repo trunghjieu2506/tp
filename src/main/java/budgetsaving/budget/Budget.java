@@ -9,7 +9,6 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Currency;
 
 
 public class Budget extends Finance {
@@ -95,18 +94,12 @@ public class Budget extends Finance {
 
     // Setters now accept a double and convert it to a BigDecimal internally
     public void setTotalBudget(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Total budget cannot be negative.");
-        }
         BigDecimal amt = BigDecimal.valueOf(amount);
         totalBudget.setAmount(amt);
     }
 
 
     public void setRemainingBudget(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Remaining budget cannot be negative.");
-        }
         BigDecimal amt = BigDecimal.valueOf(amount);
         remainingBudget.setAmount(amt);
     }
@@ -124,9 +117,6 @@ public class Budget extends Finance {
 
     // Adds an amount to both the total and remaining budget
     public void add(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Addition amount cannot be negative.");
-        }
         BigDecimal addition = BigDecimal.valueOf(amount);
         remainingBudget.setAmount(remainingBudget.getAmount().add(addition));
         totalBudget.setAmount(totalBudget.getAmount().add(addition));
@@ -203,23 +193,21 @@ public class Budget extends Finance {
 
     @Override
     public String toString() {
-        return "Name: " + name +
-                "\nBudgetCategory: " + category +
-                "\nTotalBudget: " + totalBudget.toString() +
-                "\nRemainingBudget: " + remainingBudget.toString() +
-                "\nBudget starting date: " + startDate +
-                "\nBudget ending date: " + endDate + "\n\n";
+        return "[Name: " + name +
+                ", Category: " + category +
+                ", RemainingBudget: " + remainingBudget.toString() +
+                ", From " + startDate + " to " + endDate + "]\n";
     }
 
     public String printExpenses() {
         StringBuilder sb = new StringBuilder();
         sb.append(this);
         if (expenses.isEmpty()) {
-            System.out.println("There are no expenses in this budget yet");
-            return null;
-        }
-        for (Expense expense : expenses) {
-            sb.append(expense.toString());
+            sb.append("\tThere are no expenses in this budget yet");
+        } else {
+            for (Expense expense : expenses) {
+                sb.append( "\t " + expense.toString());
+            }
         }
         return sb.toString();
     }
@@ -232,10 +220,6 @@ public class Budget extends Finance {
     public LocalDate getDate() {
         return this.endDate;
     }
-
-//    public double getAmount() {
-//        return this.totalBudget.getAmount().doubleValue();
-//    }
 
     @Override
     public double getAmount(){

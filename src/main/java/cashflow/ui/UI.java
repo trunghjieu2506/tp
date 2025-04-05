@@ -13,6 +13,7 @@ import expenseincome.income.IncomeManager;
 import loanbook.ui.LoanUI;
 import loanbook.LoanManager;
 import loanbook.save.LoanSaveManager;
+import utils.io.IOHandler;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -41,20 +42,21 @@ public class UI {
     //printResult(Result result)
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+        IOHandler ioHandler = new IOHandler(scanner);
         String input;
 
         while (true) {
-            System.out.print("Enter command (type 'help' for commands): ");
-            input = scanner.nextLine().trim();
+            IOHandler.writeOutputNoLn("Enter command (type 'help' for commands): ");
+            input = ioHandler.readInput();
 
             if (input.equalsIgnoreCase("exit")) {
                 try {
                     LoanSaveManager.saveLoanList(loanManager);
                 } catch (IOException e) {
-                    System.out.println("Unable to update save file");
+                    IOHandler.writeOutput("Unable to update save file");
                 }
-                System.out.println("Exiting. Goodbye!");
+                IOHandler.writeOutput("Exiting. Goodbye!");
                 break;
             }
             switch (input.toLowerCase()) {
@@ -68,7 +70,6 @@ public class UI {
                 handleAnalyticCommand(scanner, data);
                 break;
             case "saving":
-                //new SavingGeneralCommand(input, savingList).execute();
                 handleSavingCommand(scanner, savingList);
                 break;
             case "budget":

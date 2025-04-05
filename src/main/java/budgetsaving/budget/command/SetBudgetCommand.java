@@ -2,6 +2,7 @@ package budgetsaving.budget.command;
 
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
+import utils.io.IOHandler;
 
 import java.time.LocalDate;
 
@@ -26,7 +27,7 @@ public class SetBudgetCommand implements Command {
         try {
             budgetManager.setBudget(name, amount, endDate, category);
         } catch (Exception e) {
-            System.err.println("Error setting the budget: " + e.getMessage());
+            IOHandler.writeError("Error setting the budget: " + e.getMessage());
         }
     }
 

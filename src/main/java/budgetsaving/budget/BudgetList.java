@@ -1,11 +1,13 @@
 package budgetsaving.budget;
 
+import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetAlert;
 import cashflow.model.interfaces.BudgetDataManager;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.Finance;
 import expenseincome.expense.Expense;
+import utils.io.IOHandler;
 import utils.money.Money;
 
 import java.math.BigDecimal;
@@ -40,7 +42,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     //refresh the status constantly when the user starts the app
     private void updateBudgetCompletionStatus(Budget budget) {
         if (budget == null) {
-            System.out.println("Budget does not exist.");
+            IOHandler.writeOutput("Budget does not exist.");
             return;
         }
         LocalDate currDate = LocalDate.now();
@@ -55,7 +57,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         for (int i = 0; i < budgets.size(); i++) {
             updateBudgetCompletionStatus(budgets.get(i));
         }
-        System.out.println("Budget statuses are refreshed!");
+        IOHandler.writeOutput("Budget statuses are refreshed!");
     }
 
 
@@ -80,9 +82,9 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         int initialSize = budgets.size();
         try {
             addNewBudget(newBudget);
-            System.out.println("New budget added: " + newBudget);
+            IOHandler.writeOutput("New budget added, type 'check i/INDEX' to check the details");
         } catch (BudgetException e) {
-            System.err.println("Error adding new budget: " + e.getMessage());
+            IOHandler.writeOutput("Error adding new budget: " + e.getMessage());
         }
         assert budgets.size() == initialSize + 1 :
                 "Budget list size did not increase.";
@@ -96,12 +98,12 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     @Override
     public void listBudgets() {
         if (budgets.isEmpty()) {
-            System.out.println("No budgets available.");
+            IOHandler.writeOutput("No budgets available.");
         } else {
-            System.out.println("Budget list:");
+            IOHandler.writeOutput("Budget list:");
             for (int i = 0; i < budgets.size(); i++) {
                 Budget b = budgets.get(i);
-                System.out.println("Budget " + (i + 1) + ". " + b.toString());
+                IOHandler.writeOutput("Budget " + (i + 1) + ". " + b.toString());
             }
         }
     }
@@ -109,7 +111,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     @Override
     public void deductFromBudget(int index, double amount) {
         if (index < 0 || index >= budgets.size()) {
-            System.out.println("Budget index out of range.");
+            IOHandler.writeOutput("Budget index out of range.");
             return;
         }
         Budget b = budgets.get(index);
@@ -117,11 +119,11 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         b.deduct(amount);
         Money after = b.getRemainingBudget();
         assert after.getAmount().compareTo(before.getAmount()) <= 0 : "Budget did not decrease after deduction.";
-        System.out.println("Budget deducted.");
+        IOHandler.writeOutput("Budget deducted.");
         if (after.getAmount().compareTo(BigDecimal.ZERO) < 0) {
             BudgetAlert.exceedBudgetAlert();
         }
-        System.out.println(b);
+        IOHandler.writeOutput(b.toString());
     }
 
     public boolean deductBudgetFromExpense(Expense expense) {
@@ -134,18 +136,22 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
                 targetBudget = budgets.get(i);
             }
         }
-        boolean exceedBudget = false;
+        boolean hasExceededBudget = false;
         try{
-            exceedBudget = targetBudget.deductFromExpense(expense);
+            hasExceededBudget = targetBudget.deductFromExpense(expense);
+            Money remainingBudget = targetBudget.getRemainingBudget();
+            if (remainingBudget.compareTo(new Money(currency, 0)) < 0){
+                hasExceededBudget = true;
+            }
         } catch (NullPointerException e) {
-            System.out.println("No budgets found.");
+            IOHandler.writeOutput("No budgets found.");
         }
-        return exceedBudget;
+        return hasExceededBudget;
     }
 
     public void addToBudget(int index, double amount) {
         if (index < 0 || index >= budgets.size()) {
-            System.out.println("Budget index out of range.");
+            IOHandler.writeOutput("Budget index out of range.");
             return;
         }
         Budget b = budgets.get(index);
@@ -153,8 +159,8 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         b.add(amount);
         Money after = b.getRemainingBudget();
         assert after.getAmount().compareTo(before.getAmount()) >= 0 : "Budget did not increase after addition.";
-        System.out.println("Budget added");
-        System.out.println(b.toString());
+        IOHandler.writeOutput("Budget added");
+        IOHandler.writeOutput(b.toString());
     }
 
     public Budget getBudget(int index) {
@@ -166,8 +172,11 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
 
     public void modifyBudget(int index, String name, double amount, LocalDate endDate, String category)
             throws BudgetException {
-        if (index < 0 || index >= budgets.size()) {
-            throw new BudgetException("Index out of range.");
+        if (budgets.isEmpty()){
+            throw new BudgetException("No budgets available.");
+        }
+        if (index >= budgets.size()) {
+            throw new BudgetException("Index must be within 1 to " + budgets.size() + ".");
         }
         Budget b = budgets.get(index);
         String oldCategory = b.getCategory();
@@ -187,10 +196,10 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     //incorporate it in command
     public void checkBudget(int index) {
         if (index < 0 || index >= budgets.size()) {
-            System.out.println("Index out of range.");
+            IOHandler.writeOutput("Index out of range.");
             return;
         }
-        System.out.println(budgets.get(index).printExpenses());
+        IOHandler.writeOutput(budgets.get(index).printExpenses());
     }
 
     @Override
