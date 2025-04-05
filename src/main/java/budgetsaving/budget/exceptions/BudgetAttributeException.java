@@ -1,8 +1,5 @@
 package budgetsaving.budget.exceptions;
 
-import budgetsaving.budget.Budget;
-import utils.io.IOHandler;
-
 public class BudgetAttributeException extends BudgetException {
     private String detailMessage;
 

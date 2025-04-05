@@ -82,7 +82,6 @@ public class UI {
                 handleAnalyticCommand(scanner, data);
                 break;
             case "saving":
-                //new SavingGeneralCommand(input, savingList).execute();
                 handleSavingCommand(scanner, savingList);
                 break;
             case "budget":

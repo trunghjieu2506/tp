@@ -1,7 +1,6 @@
 package budgetsaving.budget.command;
 
 import budgetsaving.budget.exceptions.BudgetException;
-import budgetsaving.budget.exceptions.BudgetParserException;
 import budgetsaving.budget.utils.BudgetParser;
 import budgetsaving.budget.utils.BudgetTextColour;
 import cashflow.ui.command.Command;

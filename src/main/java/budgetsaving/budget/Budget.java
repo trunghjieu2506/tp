@@ -9,7 +9,6 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Currency;
 
 
 public class Budget extends Finance {

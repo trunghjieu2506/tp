@@ -1,7 +1,5 @@
 package budgetsaving.saving.utils;
 
-import utils.money.Money;
-
 import java.time.LocalDate;
 
 import static budgetsaving.budget.utils.BudgetAttributes.findNextIdentifier;
@@ -66,8 +64,16 @@ public class SavingAttributes {
         }
     }
 
-    public int getIndex() { return this.index; }
-    public String getName() { return this.name; }
-    public double getAmount() { return this.amount; }
-    public LocalDate getDeadline() { return this.deadline; }
+    public int getIndex() {
+        return this.index;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public double getAmount() {
+        return this.amount;
+    }
+    public LocalDate getDeadline() {
+        return this.deadline;
+    }
 }

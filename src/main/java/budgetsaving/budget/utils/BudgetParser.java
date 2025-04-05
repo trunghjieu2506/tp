@@ -7,7 +7,6 @@ import budgetsaving.budget.command.DeductFromBudgetCommand;
 import budgetsaving.budget.command.ListBudgetCommand;
 import budgetsaving.budget.command.SetBudgetCommand;
 import budgetsaving.budget.exceptions.BudgetAttributeException;
-import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.exceptions.BudgetParserException;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;

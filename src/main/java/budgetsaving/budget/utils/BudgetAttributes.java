@@ -1,6 +1,5 @@
 package budgetsaving.budget.utils;
 
-import budgetsaving.budget.Budget;
 import budgetsaving.budget.exceptions.BudgetAttributeException;
 
 import java.time.LocalDate;
