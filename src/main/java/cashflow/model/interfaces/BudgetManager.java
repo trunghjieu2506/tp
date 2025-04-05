@@ -1,7 +1,7 @@
 package cashflow.model.interfaces;
 
 import budgetsaving.budget.Budget;
-import budgetsaving.budget.BudgetException;
+import budgetsaving.budget.exceptions.BudgetException;
 import expenseincome.expense.Expense;
 
 import java.time.LocalDate;

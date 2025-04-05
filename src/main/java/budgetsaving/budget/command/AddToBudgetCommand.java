@@ -16,11 +16,8 @@ public class AddToBudgetCommand implements Command {
 
     @Override
     public void execute() {
-        try {
-            budgetManager.addToBudget(index, amount);
-        } catch (Exception e) {
-            System.err.println("Error adding to a budget: " + e.getMessage());
-        }
+        budgetManager.addToBudget(index, amount);
+
     }
 
 }

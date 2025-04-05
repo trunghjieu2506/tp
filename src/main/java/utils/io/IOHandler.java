@@ -24,4 +24,13 @@ public class IOHandler {
         //add in necessary stuff
         System.out.println(output);
     }
+
+    public static void writeError(String error){
+        System.err.println(error);
+        System.err.flush();
+    }
+
+    public static void writeOutputNoLn(String output){
+        System.out.print(output);
+    }
 }
