@@ -66,4 +66,46 @@ public class DateParser {
         }
         return date;
     }
+
+    public static LocalDate handleReturnDateUI(Scanner scanner, String instruction, LocalDate startDate) {
+        LocalDate date;
+        while (true) {
+            System.out.print(instruction + "\n> ");
+            String input = scanner.nextLine();
+            try {
+                date = parse(input);
+                if (startDate != null && date.isBefore(startDate)) {
+                    System.out.println("Return date cannot be before the start date!");
+                } else {
+                    break;
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format!");
+            }
+        }
+        return date;
+    }
+
+    public static LocalDate handleReturnDateUI(Scanner scanner, String instruction, LocalDate startDate,
+                                               boolean allowNull) {
+        if (!allowNull) {
+            return handleReturnDateUI(scanner, instruction, startDate);
+        }
+        LocalDate date;
+        while (true) {
+            System.out.print(instruction + " (Key in \"N/A\" if not applicable):" + "\n> ");
+            String input = scanner.nextLine();
+            try {
+                date = parse(input);
+                if (startDate != null && date.isBefore(startDate)) {
+                    System.out.println("Return date cannot be before the start date!");
+                } else {
+                    break;
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format!");
+            }
+        }
+        return date;
+    }
 }

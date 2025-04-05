@@ -47,7 +47,7 @@ public class ContactsList {
     }
 
     public void addTag(Person person, String tag) throws PersonNotFoundException {
-        if (person == null) {
+        if (person == null || !contacts.containsValue(person)) {
             throw new PersonNotFoundException("Person not found");
         }
         person.addTag(tag);
@@ -71,6 +71,10 @@ public class ContactsList {
         contacts.remove(person.getName());
     }
 
+    public boolean hasPerson(String name) {
+        return contacts.containsKey(name);
+    }
+
     /**
      * @param name the name of the person to be found.
      * @return the <code>Person</code> with the input <code>name</code>. If the name is not in the contact list, return
@@ -83,7 +87,10 @@ public class ContactsList {
         return contacts.get(name);
     }
 
-    public Person findOrAdd(String name) {
+    public Person findOrAdd(String name) throws EmptyNameException {
+        if (name.isBlank()) {
+            throw new EmptyNameException("Name cannot be empty");
+        }
         if (contacts.get(name) == null) {
             Person person = new Person(name);
             contacts.put(name, person);

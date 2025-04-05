@@ -21,7 +21,11 @@ public class MoneyParser {
             String input = scanner.nextLine();
             try {
                 amount = Double.parseDouble(input);
-                break;
+                if (amount < 0) {
+                    System.out.println("Money value cannot be negative!");
+                } else {
+                    break;
+                }
             } catch (NumberFormatException | NullPointerException e) {
                 System.out.println("Invalid input");
             }

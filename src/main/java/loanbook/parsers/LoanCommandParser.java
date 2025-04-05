@@ -6,7 +6,7 @@ import loanbook.commands.PrintMessageCommand;
 import loanbook.commands.ListLoansCommand;
 import loanbook.commands.LoanCommand;
 import loanbook.commands.ShowLoanDetailCommand;
-import loanbook.commands.addcommands.AddAdvancedLoanCommand;
+import loanbook.commands.addcommands.AddAdvancedBulletLoanCommand;
 import loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
 import loanbook.commands.findcommands.FindAssociatedLoanCommand;
 import loanbook.commands.findcommands.FindIncomingLoanCommand;
@@ -19,6 +19,8 @@ import loanbook.commands.setcommands.SetReturnStatusCommand;
 import loanbook.commands.setcommands.SetStartDateCommand;
 import loanbook.interest.Interest;
 import loanbook.loan.SimpleBulletLoan;
+import utils.contacts.ContactsList;
+import utils.contacts.EmptyNameException;
 import utils.datetime.DateParser;
 import utils.money.Money;
 import utils.money.MoneyParser;
@@ -77,7 +79,7 @@ public class LoanCommandParser {
                 return handleFindCommand(loanManager, scanner, splitFirst[1]);
             case "help":
                 if (splitFirst.length == 1) {
-                    return null;
+                    return handleHelpCommand(scanner, null);
                 } else {
                     return handleHelpCommand(scanner, splitFirst[1]);
                 }
@@ -101,10 +103,10 @@ public class LoanCommandParser {
             System.out.print("Input y or n only!\n> ");
             mode = scanner.nextLine();
         }
-        System.out.print("Enter the lender's name:\n> ");
-        Person lender = loanManager.getContactsList().findOrAdd(scanner.nextLine());
-        System.out.print("Enter the borrower's name:\n> ");
-        Person borrower = loanManager.getContactsList().findOrAdd(scanner.nextLine());
+        Person lender = handlePersonInputUI(loanManager.getContactsList(), scanner,
+                "Enter the lender's name:");
+        Person borrower = handleBorrowerInputUI(loanManager.getContactsList(), scanner,
+                "Enter the borrower's name:", lender);
 
         try {
             if (mode.equals("n")) {
@@ -119,12 +121,12 @@ public class LoanCommandParser {
                         "Key in the amount of principal:");
                 LocalDate startDate = DateParser.handleLocalDateUI(scanner,
                         "Key in the start date of the loan (yyyy-mm-dd):");
-                LocalDate returnDate = DateParser.handleLocalDateUI(scanner,
-                        "Key in the return date of the loan (yyyy-mm-dd)", true);
+                LocalDate returnDate = DateParser.handleReturnDateUI(scanner,
+                        "Key in the return date of the loan (yyyy-mm-dd)", startDate, true);
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 assert interest != null;
                 String description = handleDescriptionInputUI(scanner);
-                return new AddAdvancedLoanCommand(loanManager, description, lender, borrower, money, startDate,
+                return new AddAdvancedBulletLoanCommand(loanManager, description, lender, borrower, money, startDate,
                         returnDate, interest);
             }
         } catch (NullPointerException | NumberFormatException e) {
@@ -152,7 +154,9 @@ public class LoanCommandParser {
             LocalDate startDate = DateParser.handleLocalDateUI(scanner, "Key in the new start date:");
             return new SetStartDateCommand(loanManager, index, startDate);
         case "return date":
-            LocalDate returnDate = DateParser.handleLocalDateUI(scanner, "Key in the new return date:");
+            LocalDate startDateReference = loanManager.get(index).startDate();
+            LocalDate returnDate = DateParser.handleReturnDateUI(scanner, "Key in the new return date:",
+                    startDateReference);
             return new SetReturnDateCommand(loanManager, index, returnDate);
         case "principal":
         case "amount":
@@ -161,7 +165,7 @@ public class LoanCommandParser {
             return new SetPrincipalCommand(loanManager, index, money);
         case "interest":
             if (loanManager.get(index) instanceof SimpleBulletLoan) {
-                return new PrintMessageCommand("You cannot edit a simple loan.\n> ");
+                return new PrintMessageCommand("A simple bullet loan does not apply interest.\n> ");
             } else {
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 return new SetInterestCommand(loanManager, index, interest);
@@ -198,7 +202,7 @@ public class LoanCommandParser {
         return null;
     }
 
-    private static ArrayList<String> handleAddTagsUI(Scanner scanner) {
+    private static ArrayList<String> handleAddTags(Scanner scanner) {
         ArrayList<String> output = new ArrayList<>();
         while (true) {
             System.out.print("Key in a tag (Key in \"N/A\" if not applicable");
@@ -213,7 +217,17 @@ public class LoanCommandParser {
 
     private static LoanCommand handleHelpCommand(Scanner scanner, String input) {
         if (input == null) {
-            return null;
+            return new PrintMessageCommand("""
+                    Here are some commands that might be useful to you:
+                    "add": add a loan.
+                    "list": view the list of all loans recorded.
+                    "show X": show the details of the Xth loan in the list.
+                    "edit X [attribute]": edit the specified attribute of the Xth loan.
+                    "delete X": delete the Xth loan.
+                    "return X": set the Xth loan as returned.
+                    "unreturn X": set the Xth loan as not returned.
+                    "find": find loans. Type "help find" for more details.
+                    """);
         }
         switch (input.trim()) {
         case "find":
@@ -227,5 +241,40 @@ public class LoanCommandParser {
         default:
             return null;
         }
+    }
+
+    private static Person handlePersonInputUI(ContactsList contactsList, Scanner scanner, String instruction) {
+        Person person;
+        while (true) {
+            System.out.print(instruction + "\n> ");
+            String input = scanner.nextLine();
+            try {
+                person = contactsList.findOrAdd(input.trim());
+                break;
+            } catch (EmptyNameException e) {
+                System.out.println("Name cannot be empty");
+            }
+        }
+        return person;
+    }
+
+    private static Person handleBorrowerInputUI(ContactsList contactsList, Scanner scanner, String instruction,
+                                                Person lender) {
+        Person borrower;
+        while (true) {
+            System.out.print(instruction + "\n> ");
+            String input = scanner.nextLine().trim();
+            if (input.equals(lender.getName())) {
+                System.out.println("The borrower must be different from the lender");
+            } else {
+                try {
+                    borrower = contactsList.findOrAdd(input);
+                    break;
+                } catch (EmptyNameException e) {
+                    System.out.println("Name cannot be empty");
+                }
+            }
+        }
+        return borrower;
     }
 }

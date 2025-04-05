@@ -1,5 +1,6 @@
 package utils.contacts;
 
+import loanbook.loan.Loan;
 import utils.tags.Taggable;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class Person implements Taggable {
     protected String contactNumber;
     protected String email;
     protected ArrayList<String> myTags;
+    protected ArrayList<Loan> debtList;
+    protected ArrayList<Loan> lentList;
 
     public Person(String name) {
         this.name = name;
@@ -69,12 +72,32 @@ public class Person implements Taggable {
         return myTags;
     }
 
-    public void setContactNumber(String number) {
+    public void setContactNumber(String number) throws IllegalArgumentException {
         if (number.matches("\\d+")) {
             this.contactNumber = number;
         } else {
-            this.contactNumber = null;
+            throw new IllegalArgumentException();
         }
+    }
+
+    public void addDebt(Loan loan) {
+        if (loan.borrower() == this) {
+            debtList.add(loan);
+        }
+    }
+
+    public void addLent(Loan loan) {
+        if (loan.lender() == this) {
+            lentList.add(loan);
+        }
+    }
+
+    public ArrayList<Loan> getDebtList() {
+        return new ArrayList<>(debtList);
+    }
+
+    public ArrayList<Loan> getLentList() {
+        return new ArrayList<>(lentList);
     }
 
     /**

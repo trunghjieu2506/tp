@@ -25,4 +25,9 @@ public class DateParserTest {
         LocalDate expected = LocalDate.of(2025, 1, 1);
         assertEquals(expected, date);
     }
+
+    @Test
+    public void testUI() {
+
+    }
 }

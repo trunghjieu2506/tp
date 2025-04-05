@@ -12,13 +12,13 @@ import static loanbook.interest.InterestType.SIMPLE;
 /**
  * Advanced loans are loans that apply interests.
  */
-public class AdvancedLoan extends Loan {
+public class AdvancedBulletLoan extends Loan {
     protected Money outstandingBalance;
     protected Interest interest;
     protected int incrementCount;
 
-    public AdvancedLoan(String description, Person lender, Person borrower, Money money,
-                        LocalDate startDate, Interest interest) throws DateUndefinedException {
+    public AdvancedBulletLoan(String description, Person lender, Person borrower, Money money,
+                              LocalDate startDate, Interest interest) throws DateUndefinedException {
         super(description, lender, borrower, money);
         if (startDate == null) {
             throw new DateUndefinedException("Start date not defined");
@@ -29,8 +29,8 @@ public class AdvancedLoan extends Loan {
         incrementCount = 0;
     }
 
-    public AdvancedLoan(String description, Person lender, Person borrower, Money money,
-                        LocalDate startDate, LocalDate returnDate, Interest interest) throws DateUndefinedException {
+    public AdvancedBulletLoan(String description, Person lender, Person borrower, Money money,
+                              LocalDate startDate, LocalDate returnDate, Interest interest) throws DateUndefinedException {
         super(description, lender, borrower, money, startDate, returnDate);
         if (startDate == null) {
             throw new DateUndefinedException("Start date not defined");
@@ -125,11 +125,11 @@ public class AdvancedLoan extends Loan {
      */
     @Override
     public String forSave() {
-        return "<AdvancedLoanStart>\n" +
+        return "<AdvancedBulletLoanStart>\n" +
                 super.forSave() +
                 "<IsReturned>" + isReturned + '\n' +
                 "<Interest>" + interest.forSave() + '\n' +
-                "<AdvancedLoanEnd>";
+                "<AdvancedBulletLoanEnd>";
     }
 
     @Override
