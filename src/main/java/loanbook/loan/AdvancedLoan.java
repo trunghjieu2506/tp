@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import static loanbook.interest.InterestType.SIMPLE;
 
 /**
- * Advanced loan type containing interest-related information.
+ * Advanced loans are loans that apply interests.
  */
 public class AdvancedLoan extends Loan {
     protected Money outstandingBalance;
@@ -40,6 +40,10 @@ public class AdvancedLoan extends Loan {
         incrementCount = 0;
     }
 
+    /**
+     * A method to show how much has to be returned.
+     * @return a <code>Money</code> class representing the outstanding balance.
+     */
     @Override
     public Money getBalance() {
         calculateBalance();
@@ -61,6 +65,9 @@ public class AdvancedLoan extends Loan {
         calculateBalance();
     }
 
+    /**
+     * Updates the outstanding balance by the date this method is called.
+     */
     public void calculateBalance() {
         if (startDate == null) {
             throw new DateUndefinedException("Missing start date");
@@ -111,6 +118,11 @@ public class AdvancedLoan extends Loan {
                 + (isReturned ? "Returned" : "Not Returned");
     }
 
+    /**
+     * A method used to create storage files easily.
+     * @return a <code>String</code> that stores every information of this loan and can be read by
+     *     <code>LoanSaveManager</code>.
+     */
     @Override
     public String forSave() {
         return "<AdvancedLoanStart>\n" +

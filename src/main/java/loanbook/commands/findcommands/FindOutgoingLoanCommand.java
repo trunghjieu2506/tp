@@ -1,23 +1,22 @@
 package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
-import loanbook.commands.LoanCommand;
+import loanbook.ui.LoanUI;
 import loanbook.loan.Loan;
 import utils.contacts.Person;
 
 import java.util.ArrayList;
 
-public class FindOutgoingLoanCommand extends LoanCommand {
-    protected LoanManager loanManager;
+public class FindOutgoingLoanCommand extends FindLoanCommand {
     protected Person lender;
 
     public FindOutgoingLoanCommand(LoanManager loanManager, String name) {
-        this.loanManager = loanManager;
+        super(loanManager);
         this.lender = loanManager.getContactsList().findName(name);
     }
 
     public FindOutgoingLoanCommand(LoanManager loanManager, Person person) {
-        this.loanManager = loanManager;
+        super(loanManager);
         this.lender = person;
     }
 
@@ -32,7 +31,7 @@ public class FindOutgoingLoanCommand extends LoanCommand {
             } else {
                 System.out.println("Outgoing loans for [" + lender.getName() +
                         (found.size() == 1 ? "] is:" : "] are:"));
-                System.out.println(LoanManager.forPrint(found));
+                System.out.println(LoanUI.forPrint(found));
             }
         }
     }
