@@ -1,8 +1,15 @@
 package expenseincome.income.commands;
 
 import expenseincome.income.IncomeManager;
-
+/**
+ * Represents a command that prints out help instructions for all available income commands.
+ */
 public class HelpIncomeCommand extends IncomeCommand {
+    /**
+     * Executes the command to show help instructions.
+     *
+     * @param manager The income manager (not used in this case).
+     */
     @Override
     public void execute(IncomeManager manager) {
         System.out.println("Income Command Help:");
