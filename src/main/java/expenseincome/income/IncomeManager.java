@@ -17,7 +17,9 @@ import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 import java.util.Map;
 import java.util.HashMap;
-
+/**
+ * Handles business logic for income entries. Supports add, edit, delete, list, sort, and analytics.
+ */
 public class IncomeManager implements IncomeDataManager {
     private static final Logger logger = Logger.getLogger(IncomeManager.class.getName());
     private final ArrayList<Income> incomes;
@@ -51,7 +53,12 @@ public class IncomeManager implements IncomeDataManager {
             System.err.println("Failed to initialize logging: " + e.getMessage());
         }
     }
-
+    /**
+     * Constructs an IncomeManager.
+     *
+     * @param data     The FinanceData model containing shared application state.
+     * @param currency The preferred currency code (e.g., USD, SGD).
+     */
     public IncomeManager(FinanceData data, String currency) {
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.incomes = new ArrayList<>();
@@ -70,7 +77,14 @@ public class IncomeManager implements IncomeDataManager {
     public Income getIncome(int i) {
         return incomes.get(i);
     }
-
+    /**
+     * Adds a new income entry to the list.
+     *
+     * @param source   The source of income.
+     * @param amount   The monetary value.
+     * @param date     The date received.
+     * @param category The income category.
+     */
     public void addIncome(String source, double amount, LocalDate date, String category) {
         try {
             validateIncomeDetails(source, amount, category);
@@ -85,7 +99,15 @@ public class IncomeManager implements IncomeDataManager {
             System.out.println("Failed to add income. " + e.getMessage());
         }
     }
-
+    /**
+     * Edits an existing income entry.
+     *
+     * @param index        Index of income in list (1-based).
+     * @param newSource    New source value.
+     * @param newAmount    New amount.
+     * @param newDate      New date.
+     * @param newCategory  New category.
+     */
     public void editIncome(int index, String newSource, double newAmount, LocalDate newDate, String newCategory) {
         try {
             validateIndex(index);
@@ -104,7 +126,11 @@ public class IncomeManager implements IncomeDataManager {
             System.out.println("Failed to edit income. " + e.getMessage());
         }
     }
-
+    /**
+     * Deletes an income entry.
+     *
+     * @param index Index of income in list (1-based).
+     */
     public void deleteIncome(int index) {
         try {
             validateIndex(index);
@@ -116,7 +142,9 @@ public class IncomeManager implements IncomeDataManager {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Lists all income entries to stdout.
+     */
     public void listIncomes() {
         if (incomes.isEmpty()) {
             System.out.println("No incomes recorded.");
@@ -127,7 +155,11 @@ public class IncomeManager implements IncomeDataManager {
             System.out.println((i + 1) + ". " + incomes.get(i));
         }
     }
-
+    /**
+     * Lists incomes by matching category.
+     *
+     * @param category Category filter (case-insensitive).
+     */
     public void listIncomesByCategory(String category) {
         if (incomes.isEmpty()) {
             System.out.println("No incomes recorded.");
@@ -148,7 +180,11 @@ public class IncomeManager implements IncomeDataManager {
             System.out.println("No incomes found in this category.");
         }
     }
-
+    /**
+     * Sorts incomes by date, either most recent first or oldest first.
+     *
+     * @param mostRecentFirst True for descending order.
+     */
     public void sortIncomesByDate(boolean mostRecentFirst) {
         if (incomes.isEmpty()) {
             System.out.println("No incomes to sort.");
@@ -160,15 +196,23 @@ public class IncomeManager implements IncomeDataManager {
 
         listIncomes();
     }
-
+    /**
+     * Prints the category with the highest total income.
+     */
     public void printTopCategory() {
         printCategorySummary(true);
     }
-
+    /**
+     * Prints the category with the lowest total income.
+     */
     public void printBottomCategory() {
         printCategorySummary(false);
     }
-
+    /**
+     * Helper function to compute and print category summary.
+     *
+     * @param top True for max, false for min.
+     */
     private void printCategorySummary(boolean top) {
         if (incomes.isEmpty()) {
             System.out.println("No incomes recorded.");
