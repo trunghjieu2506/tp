@@ -110,7 +110,7 @@ public class Budget extends Finance {
         BigDecimal deduction = BigDecimal.valueOf(amount);
         BigDecimal current = remainingBudget.getAmount();
         remainingBudget.setAmount(current.subtract(deduction));
-        if (remainingBudget.getAmount().compareTo(deduction) < 0) {
+        if (remainingBudget.getAmount().doubleValue() < 0) {
             this.exceedStatus = BudgetExceedStatus.EXCEEDED_BUDGET;
         }
     }
@@ -161,15 +161,6 @@ public class Budget extends Finance {
     //If do not modify one of the attributes, call the method with
     //totalAmount = 0, and name = null
     public void modifyBudget(double totalAmount, String name, LocalDate endDate, String category) {
-        if (name != null && name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Budget name cannot be empty.");
-        }
-        if (endDate != null && endDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("End date must be in the future.");
-        }
-        if (category != null && category.trim().isEmpty()) {
-            throw new IllegalArgumentException("Category cannot be empty.");
-        }
         if (totalAmount > 0) {
             BigDecimal spent = getMoneySpent();
             if (BigDecimal.valueOf(totalAmount).compareTo(spent) < 0) {
@@ -178,6 +169,9 @@ public class Budget extends Finance {
             setTotalBudget(totalAmount);
             double updatedRemaining = totalAmount - spent.doubleValue();
             setRemainingBudget(updatedRemaining);
+            if (updatedRemaining > 0) {
+                updateBudgetExceedStatus(BudgetExceedStatus.HAS_REMAINING_BUDGET);
+            }
         }
         if (name != null) {
             this.name = name;
@@ -193,10 +187,10 @@ public class Budget extends Finance {
 
     @Override
     public String toString() {
-        return "[Name: " + name +
+        return  "[" + activeStatus + "]" + "[" + exceedStatus + "]" + "{Name: " + name +
                 ", Category: " + category +
                 ", RemainingBudget: " + remainingBudget.toString() +
-                ", From " + startDate + " to " + endDate + "]\n";
+                ", From " + startDate + " to " + endDate + "}\n";
     }
 
     public String printExpenses() {

@@ -7,7 +7,7 @@ import utils.money.Money;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class SetGoalCommand implements Command {
+public class SetSavingCommand implements Command {
     public static final String DATE_FORMAT_ERROR = "Invalid date format, the correct format is: yyyy-MM-dd";
 
     private SavingManager savingList;
@@ -15,7 +15,7 @@ public class SetGoalCommand implements Command {
     private Money amount;
     private LocalDate deadline;
 
-    public SetGoalCommand(SavingManager savingList, String goalName, Money amount, LocalDate deadline) {
+    public SetSavingCommand(SavingManager savingList, String goalName, Money amount, LocalDate deadline) {
         this.savingList = savingList;
         this.goalName = goalName;
         this.amount = amount;

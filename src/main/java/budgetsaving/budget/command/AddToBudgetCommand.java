@@ -17,7 +17,6 @@ public class AddToBudgetCommand implements Command {
     @Override
     public void execute() {
         budgetManager.addToBudget(index, amount);
-
     }
 
 }

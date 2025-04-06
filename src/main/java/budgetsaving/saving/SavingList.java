@@ -1,8 +1,11 @@
 package budgetsaving.saving;
 
+import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.model.interfaces.SavingManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import utils.io.IOHandler;
 import utils.money.Money;
 
 public class SavingList implements SavingManager {
@@ -60,27 +63,46 @@ public class SavingList implements SavingManager {
      * Format: check-goal
      */
     @Override
-    public String listGoals() {
+    public String listSavings() {
         if (savings.isEmpty()) {
             return "No savings goals set.";
         }
         StringBuilder sb = new StringBuilder();
-        for (Saving goal : savings) {
-            sb.append(String.format("Name: %s\nTotal Amount: %s\nSaved: %s\nBy: %s\n\n",
-                    goal.getName(), goal.getGoalAmount().toString(),
-                    goal.getCurrentAmount().toString(), goal.getDeadline()));
+        for (int i = 1; i <= savings.size(); i++) {
+            sb.append("Saving " + i + ". ");
+            Saving saving = savings.get(i);
+            sb.append(saving.toString());
         }
         return sb.toString();
     }
 
     @Override
-    public void checkOneGoal(int index) {
+    public void checkSaving(int index) {
         Saving saving = savings.get(index);
         if (saving == null){
             System.err.println("No saving goal found.");
             return;
         }
         System.out.println(saving.toStringWithContributions());
+    }
+
+    @Override
+    public void deleteSaving(int index) throws SavingRuntimeException {
+        if (index < 0 || index >= savings.size()) {
+            throw new SavingRuntimeException("The index you put is invalid or out of range.");
+        }
+        try {
+            Saving saving = savings.get(index);
+            savings.remove(saving);
+            IOHandler.writeOutput("Saving deleted.");
+        } catch (Exception e) {
+            throw new SavingRuntimeException("Error occured when removing the saving.");
+        }
+    }
+
+    @Override
+    public void deleteContribution(int SavingIndex, int ContributionIndex) {
+
     }
 
     @Override

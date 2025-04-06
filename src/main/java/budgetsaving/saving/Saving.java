@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import budgetsaving.saving.utils.SavingStatus;
+import utils.io.IOHandler;
 import utils.money.Money;
 
 public class Saving {
@@ -79,14 +80,14 @@ public class Saving {
         //double check currency and restrict amount
         SavingContribution newContribution = new SavingContribution(contribution, LocalDate.now());
         addNewContribution(newContribution);
-        System.out.println("Saving contribution added.\n" + this);
+        IOHandler.writeOutput("Saving contribution added.");
         updateAmount(currentAmount);
     }
 
     @Override
     public String toString() {
-        return "Saving: { name=" + name + ", goalAmount=" + goalAmount
-                + ", currentAmount=" + currentAmount + ", deadline=" + deadline + " }";
+        return "[" + status + "] " + "{Name: " + name + ", Goal: " + goalAmount
+                + ", Current Progress: " + currentAmount + ", By: " + deadline + "}";
     }
 
     public String toStringWithContributions() {

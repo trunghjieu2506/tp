@@ -1,6 +1,6 @@
 package budgetsaving.budget.exceptions;
 
-public class BudgetRuntimeException {
+public class BudgetRuntimeException extends BudgetException {
 
     private String detailMessage;
 

@@ -25,7 +25,7 @@ public class BudgetParser {
     }
 
     private static LocalDate isFutureDate(LocalDate endDate) throws BudgetParserException {
-        if (endDate.isBefore(LocalDate.now())) {
+        if (endDate != null && endDate.isBefore(LocalDate.now())) {
             throw new BudgetParserException("The end date you have entered cannot be before the start date.");
         }
         return endDate;

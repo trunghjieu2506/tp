@@ -2,7 +2,7 @@ package budgetsaving.budget.command;
 
 import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.utils.BudgetParser;
-import budgetsaving.budget.utils.BudgetTextColour;
+import utils.textcolour.TextColour;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 import utils.io.IOHandler;
@@ -29,14 +29,14 @@ public class BudgetGeneralCommand implements Command {
 
     static final String BUDGET_COMMANDS =
             LINE_SEPARATOR + '\n'
-        + BudgetTextColour.RED    + DASH + SET_BUDGET
-                  + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + BudgetTextColour.RESET
-        + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + BudgetTextColour.RESET
-        + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + BudgetTextColour.RESET
-        + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
-        + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
-        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET
-                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + BudgetTextColour.RESET
+        + TextColour.RED    + DASH + SET_BUDGET
+                  + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + TextColour.RESET
+        + TextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + TextColour.RESET
+        + TextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + TextColour.RESET
+        + TextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + TextColour.RESET
+        + TextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"        + TextColour.RESET
+        + TextColour.CYAN   + DASH + MODIFY_BUDGET
+                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + TextColour.RESET
         + DASH + HELP_COMMAND + " to check all possible commands\n"
         + DASH + EXIT_COMMAND + " to exit to the main menu\n"
         + LINE_SEPARATOR;

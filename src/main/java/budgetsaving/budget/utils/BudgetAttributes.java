@@ -3,6 +3,9 @@ package budgetsaving.budget.utils;
 import budgetsaving.budget.exceptions.BudgetAttributeException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BudgetAttributes {
     public static final String INDEX_IDENTIFIER = "i/";
@@ -18,6 +21,25 @@ public class BudgetAttributes {
     private LocalDate endDate;
     private String category;
 
+
+    private boolean identifierIsInOrder(int iPos, int nPos, int aPos, int ePos, int cPos){
+        // Check order of identifiers
+        List<Map.Entry<String, Integer>> orderedIdentifiers = new ArrayList<>();
+        if (iPos != -1) orderedIdentifiers.add(Map.entry("i/", iPos));
+        if (nPos != -1) orderedIdentifiers.add(Map.entry("n/", nPos));
+        if (aPos != -1) orderedIdentifiers.add(Map.entry("a/", aPos));
+        if (ePos != -1) orderedIdentifiers.add(Map.entry("e/", ePos));
+        if (cPos != -1) orderedIdentifiers.add(Map.entry("c/", cPos));
+
+        for (int i = 0; i < orderedIdentifiers.size() - 1; i++) {
+            int currentPos = orderedIdentifiers.get(i).getValue();
+            int nextPos = orderedIdentifiers.get(i + 1).getValue();
+            if (currentPos >= nextPos) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     //this constructor needs to ensure that:
     //INDEX is an int
@@ -40,6 +62,9 @@ public class BudgetAttributes {
         int aPos = input.indexOf(AMOUNT_IDENTIFIER);
         int ePos = input.indexOf(END_DATE_IDENTIFIER);
         int cPos = input.indexOf(CATEGORY_IDENTIFIER);
+        if (!identifierIsInOrder(iPos, nPos, aPos, ePos, cPos)) {
+            throw new BudgetAttributeException("Identifiers are not in the correct order.");
+        }
 
         // Extract index (convert to 0-index)
         if (iPos != -1) {
@@ -84,8 +109,12 @@ public class BudgetAttributes {
             String endDateStr = input.substring(ePos + IDENTIFIER_OFFSET, end).trim();
             try {
                 this.endDate = LocalDate.parse(endDateStr);
-            } catch(Exception ex) {
+            } catch(Exception e) {
                 throw new BudgetAttributeException("Your date input is not a valid format of YYYY-MM-DD.");
+            }
+            if (endDate.isAfter(LocalDate.of(2049, 12, 31))) {
+                throw new BudgetAttributeException(
+                        "You budget has a very long duration, which is not supported.");
             }
         } else {
             this.endDate = null;
