@@ -1,13 +1,16 @@
 package budgetsaving.saving.command;
 
+import budgetsaving.saving.exceptions.SavingException;
+import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.SavingManager;
+import utils.io.IOHandler;
 import utils.money.Money;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class SetGoalCommand implements Command {
+public class SetSavingCommand implements Command {
     public static final String DATE_FORMAT_ERROR = "Invalid date format, the correct format is: yyyy-MM-dd";
 
     private SavingManager savingList;
@@ -15,7 +18,7 @@ public class SetGoalCommand implements Command {
     private Money amount;
     private LocalDate deadline;
 
-    public SetGoalCommand(SavingManager savingList, String goalName, Money amount, LocalDate deadline) {
+    public SetSavingCommand(SavingManager savingList, String goalName, Money amount, LocalDate deadline) {
         this.savingList = savingList;
         this.goalName = goalName;
         this.amount = amount;
@@ -23,8 +26,12 @@ public class SetGoalCommand implements Command {
     }
 
     @Override
-    public void execute() throws DateTimeParseException {
-        String message = savingList.setNewSaving(goalName, amount, deadline);
-        System.out.println(message);
+    public void execute() {
+        try {
+            String message = savingList.setNewSaving(goalName, amount, deadline);
+            IOHandler.writeOutput(message);
+        } catch (SavingException e) {
+            SavingException.writeException(e);
+        }
     }
 }

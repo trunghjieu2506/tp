@@ -21,8 +21,6 @@ public interface BudgetManager {
 
     boolean deductBudgetFromExpense(Expense expense);
 
-    void addToBudget(int index, double amount);
-
     void checkBudget(int index);
 
     void modifyBudget(int index, String name, double amount, LocalDate endDate, String category)

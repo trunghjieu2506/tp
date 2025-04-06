@@ -1,6 +1,7 @@
 package budgetsaving.budget;
 
 import budgetsaving.budget.exceptions.BudgetException;
+import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetAlert;
 import cashflow.model.interfaces.BudgetDataManager;
@@ -67,7 +68,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         }
         String category = budget.getCategory();
         if (budgetByCategory.containsKey(category)) {
-            throw new BudgetException("Budget in category " + category + " already exists.");
+            throw new BudgetRuntimeException("Budget in category '" + category + "' already exists.");
         }
         assert !budgets.contains(budget) : "Budget already exists before addition.";
         budgets.add(budget);
@@ -83,15 +84,15 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         try {
             addNewBudget(newBudget);
             IOHandler.writeOutput("New budget added, type 'check i/INDEX' to check the details");
+            assert budgets.size() == initialSize + 1 :
+                    "Budget list size did not increase.";
+            assert budgets.get(budgets.size() - 1).equals(newBudget) :
+                    "Last budget is not the newly added one.";
+            assert budgetByCategory.get(newBudget.getCategory()).equals(newBudget) :
+                    "Budget hash mapping not updated properly.";
         } catch (BudgetException e) {
-            IOHandler.writeOutput("Error adding new budget: " + e.getMessage());
+            IOHandler.writeError(e.getMessage());
         }
-        assert budgets.size() == initialSize + 1 :
-                "Budget list size did not increase.";
-        assert budgets.get(budgets.size() - 1).equals(newBudget) :
-                "Last budget is not the newly added one.";
-        assert budgetByCategory.get(newBudget.getCategory()).equals(newBudget) :
-                "Budget hash mapping not updated properly.";
     }
 
 
@@ -120,7 +121,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         Money after = b.getRemainingBudget();
         assert after.getAmount().compareTo(before.getAmount()) <= 0 : "Budget did not decrease after deduction.";
         IOHandler.writeOutput("Budget deducted.");
-        if (after.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        if (after.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
             BudgetAlert.exceedBudgetAlert();
         }
         IOHandler.writeOutput(b.toString());
@@ -149,20 +150,6 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         return hasExceededBudget;
     }
 
-    public void addToBudget(int index, double amount) {
-        if (index < 0 || index >= budgets.size()) {
-            IOHandler.writeOutput("Budget index out of range.");
-            return;
-        }
-        Budget b = budgets.get(index);
-        Money before = b.getRemainingBudget(); // assuming getRemaining returns a Money object
-        b.add(amount);
-        Money after = b.getRemainingBudget();
-        assert after.getAmount().compareTo(before.getAmount()) >= 0 : "Budget did not increase after addition.";
-        IOHandler.writeOutput("Budget added");
-        IOHandler.writeOutput(b.toString());
-    }
-
     public Budget getBudget(int index) {
         if (index < 0 || index >= budgets.size()) {
             throw new IndexOutOfBoundsException("Index out of range.");
@@ -171,25 +158,20 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     }
 
     public void modifyBudget(int index, String name, double amount, LocalDate endDate, String category)
-            throws BudgetException {
-        if (budgets.isEmpty()){
-            throw new BudgetException("No budgets available.");
-        }
-        if (index >= budgets.size()) {
-            throw new BudgetException("Index must be within 1 to " + budgets.size() + ".");
+            throws BudgetRuntimeException {
+        if (index < 0 || index >= budgets.size()) {
+            throw new BudgetRuntimeException("You have entered an invalid index. Please try again");
         }
         Budget b = budgets.get(index);
         String oldCategory = b.getCategory();
-        if (!oldCategory.equals(category)) {
+        if (category != null && !oldCategory.equals(category)) {
             if (budgetByCategory.containsKey(category)) {
-                throw new BudgetException("Budget in category " + category + " already exists.");
+                throw new BudgetRuntimeException("Budget in category " + category + " already exists.");
             }
-            b.modifyBudget(amount, name, endDate, category);
             budgetByCategory.remove(oldCategory);
             budgetByCategory.put(category, b);
-        } else {
-            b.modifyBudget(amount, name, endDate, category);
         }
+        b.modifyBudget(amount, name, endDate, category);
     }
 
     //to list out all the expenses within the budget

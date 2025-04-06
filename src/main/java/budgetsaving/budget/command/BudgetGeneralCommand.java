@@ -2,7 +2,7 @@ package budgetsaving.budget.command;
 
 import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.utils.BudgetParser;
-import budgetsaving.budget.utils.BudgetTextColour;
+import utils.textcolour.TextColour;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
 import utils.io.IOHandler;
@@ -19,7 +19,6 @@ public class BudgetGeneralCommand implements Command {
     public static final String SET_BUDGET = "set";
     public static final String CHECK_BUDGET = "check";
     public static final String DEDUCT_BUDGET = "deduct";
-    public static final String ADD_BUDGET = "add";
     public static final String MODIFY_BUDGET = "modify";
     public static final String HELP_COMMAND = "help";
     public static final String EXIT_COMMAND = "exit";
@@ -29,14 +28,13 @@ public class BudgetGeneralCommand implements Command {
 
     static final String BUDGET_COMMANDS =
             LINE_SEPARATOR + '\n'
-        + BudgetTextColour.RED    + DASH + SET_BUDGET
-                  + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + BudgetTextColour.RESET
-        + BudgetTextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + BudgetTextColour.RESET
-        + BudgetTextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + BudgetTextColour.RESET
-        + BudgetTextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
-        + BudgetTextColour.PURPLE + DASH + ADD_BUDGET    + " i/INDEX a/AMOUNT\n"        + BudgetTextColour.RESET
-        + BudgetTextColour.CYAN   + DASH + MODIFY_BUDGET
-                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + BudgetTextColour.RESET
+        + TextColour.PURPLE    + DASH + SET_BUDGET
+                  + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + TextColour.RESET
+        + TextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + TextColour.RESET
+        + TextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + TextColour.RESET
+        + TextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + TextColour.RESET
+        + TextColour.CYAN   + DASH + MODIFY_BUDGET
+                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + TextColour.RESET
         + DASH + HELP_COMMAND + " to check all possible commands\n"
         + DASH + EXIT_COMMAND + " to exit to the main menu\n"
         + LINE_SEPARATOR;
@@ -55,8 +53,6 @@ public class BudgetGeneralCommand implements Command {
                 command = BudgetParser.parseSetBudgetCommand(input, budgetManager);
             } else if (input.startsWith(DEDUCT_BUDGET)) {
                 command = BudgetParser.parseDeductBudgetCommand(input, budgetManager);
-            } else if (input.startsWith(ADD_BUDGET)) {
-                command = BudgetParser.parseAddBudgetCommand(input, budgetManager);
             } else if (input.startsWith(LIST_BUDGET)) {
                 command = BudgetParser.parseListBudgetCommand(budgetManager);
             } else if (input.startsWith(CHECK_BUDGET)) {
