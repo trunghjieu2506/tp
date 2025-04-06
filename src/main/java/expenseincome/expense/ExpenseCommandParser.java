@@ -31,15 +31,15 @@ public class ExpenseCommandParser {
         String commandType = parts[0].toLowerCase();
 
         return switch (commandType) {
-            case "add" -> parseAdd(parts);
-            case "edit" -> parseEdit(parts);
-            case "delete" -> parseDelete(parts);
-            case "list" -> parseList(parts);
-            case "sort" -> parseSort(parts);
-            case "top" -> new ExpenseParserResult(new TopCategoryExpenseCommand(), null);
-            case "bottom" -> new ExpenseParserResult(new BottomCategoryExpenseCommand(), null);
-            case "help" -> new ExpenseParserResult(new HelpExpenseCommand(), null);
-            default -> new ExpenseParserResult(null, "Unknown command: " + commandType);
+        case "add" -> parseAdd(parts);
+        case "edit" -> parseEdit(parts);
+        case "delete" -> parseDelete(parts);
+        case "list" -> parseList(parts);
+        case "sort" -> parseSort(parts);
+        case "top" -> new ExpenseParserResult(new TopCategoryExpenseCommand(), null);
+        case "bottom" -> new ExpenseParserResult(new BottomCategoryExpenseCommand(), null);
+        case "help" -> new ExpenseParserResult(new HelpExpenseCommand(), null);
+        default -> new ExpenseParserResult(null, "Unknown command: " + commandType);
         };
     }
 
@@ -75,7 +75,8 @@ public class ExpenseCommandParser {
 
     private static ExpenseParserResult parseEdit(String[] parts) {
         if (parts.length < 3) {
-            return new ExpenseParserResult(null, "Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+            return new ExpenseParserResult(null, "Usage: edit <index> " +
+                    "<newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
         }
 
         try {
@@ -94,7 +95,8 @@ public class ExpenseCommandParser {
             String newCategory = capitalize(args[2].trim());
             LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
 
-            return new ExpenseParserResult(new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory), null);
+            return new ExpenseParserResult(new EditExpenseCommand(index, newDesc,
+                    newAmount, newDate, newCategory), null);
         } catch (ExpenseException e) {
             return new ExpenseParserResult(null, e.getMessage());
         } catch (NumberFormatException e) {
@@ -140,9 +142,9 @@ public class ExpenseCommandParser {
 
         String sortType = parts[1].toLowerCase();
         return switch (sortType) {
-            case "recent" -> new ExpenseParserResult(new SortExpenseCommand(true), null);
-            case "oldest" -> new ExpenseParserResult(new SortExpenseCommand(false), null);
-            default -> new ExpenseParserResult(null, "Unknown sort type. Use 'recent' or 'oldest'.");
+        case "recent" -> new ExpenseParserResult(new SortExpenseCommand(true), null);
+        case "oldest" -> new ExpenseParserResult(new SortExpenseCommand(false), null);
+        default -> new ExpenseParserResult(null, "Unknown sort type. Use 'recent' or 'oldest'.");
         };
     }
 }
