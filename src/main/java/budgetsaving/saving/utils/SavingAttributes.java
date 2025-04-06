@@ -118,7 +118,7 @@ public class SavingAttributes {
         if (cPos != -1) {
             String contribStr = input.substring(cPos + IDENTIFIER_OFFSET).trim();
             try {
-                this.contributionIndex = Integer.parseInt(contribStr);
+                this.contributionIndex = Integer.parseInt(contribStr) - 1;  //0-index
             } catch(NumberFormatException ex) {
                 throw new SavingAttributeException("Invalid contribution index value: " + contribStr);
             }

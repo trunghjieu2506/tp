@@ -34,7 +34,7 @@ public class SavingGeneralCommand implements Command {
             + TextColour.YELLOW + DASH + CONTRIBUTE_COMMAND + " i/INDEX a/AMOUNT\n"
             + TextColour.BLUE   + DASH + LIST_SAVING_COMMAND + " \n"
             + TextColour.CYAN   + DASH + DELETE_SAVING_COMMAND + " i/INDEX\n"
-            //+ TextColour.PURPLE   + DASH + DELETE_CONTRIBUTION_COMMAND + " i/INDEX_S c/INDEX_C\n"
+            + TextColour.PURPLE   + DASH + DELETE_CONTRIBUTION_COMMAND + " i/INDEX_S c/INDEX_C\n"
             + TextColour.RED  + DASH + CHECK_SAVING_COMMAND + " i/INDEX\n"
             + TextColour.RESET
             + DASH + HELP_COMMAND + " to check all the saving commands\n"
@@ -85,6 +85,7 @@ public class SavingGeneralCommand implements Command {
             }
         } catch (SavingException e) {
             SavingException.writeException(e);
+            IOHandler.flushError();
         }
     }
 
@@ -109,6 +110,8 @@ public class SavingGeneralCommand implements Command {
     public static void handleSavingCommand(Scanner scanner, SavingManager savingManager) {
         IOHandler.writeOutputNoLn("Here's a list of saving commands: \n" + SAVING_COMMANDS);
         while (true){
+            IOHandler.flushError();
+            IOHandler.flushOutput();
             IOHandler.writeOutputNoLn("> ");
             String input = scanner.nextLine().trim();
             if (input.startsWith("exit")) {

@@ -40,4 +40,12 @@ public class IOHandler {
         String colouredString = colour + output + TextColour.RESET;
         System.out.println(colouredString);
     }
+
+    public static void flushOutput(){
+        System.out.flush();
+    }
+
+    public static void flushError(){
+        System.err.flush();
+    }
 }

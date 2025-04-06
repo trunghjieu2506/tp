@@ -150,7 +150,11 @@ public class Saving {
 
     public void removeContribution(SavingContribution cont) throws SavingRuntimeException {
         try{
+            Money contributedAmount = cont.getAmount();
+            double amount = contributedAmount.getAmount().doubleValue();
+            double newAmount = currentAmount.getAmount().doubleValue() - amount;
             contributions.remove(cont);
+            currentAmount.setAmount(BigDecimal.valueOf(newAmount));
         } catch (Exception e){
             throw new SavingRuntimeException(e.getMessage());
         }
