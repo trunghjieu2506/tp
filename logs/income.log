@@ -117,3 +117,31 @@ INFO: Updated income: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
 信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
 4月 06, 2025 6:45:16 下午 expenseincome.expense.ExpenseManager addExpense
 信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
+Apr 06, 2025 7:43:19 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: food - USD 2.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:43:32 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: cookie - USD 180.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:44:08 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: food - USD 100.00 on 2025-12-12 [Category: Food]
+Apr 06, 2025 7:53:35 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: 1]
+Apr 06, 2025 7:56:07 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: 1]
+Apr 06, 2025 7:56:12 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:56:24 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:56:27 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:56:32 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:56:39 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-12-31 [Category: Food]
+Apr 06, 2025 7:57:38 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:57:43 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 7:57:54 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-12-12 [Category: Food]
+Apr 06, 2025 7:58:00 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
