@@ -14,16 +14,29 @@ public class ContactsList {
     protected HashMap<String, Person> contacts;
     protected TagList<Person> tags;
 
+    public ContactsList() {
+        contacts = new HashMap<>();
+        tags = new TagList<>();
+    }
+
     public ContactsList(String user) {
         this.user = user;
         contacts = new HashMap<>();
         tags = new TagList<>();
+        addPerson(new Person(user));
     }
 
     public ContactsList(String user, HashMap<String, Person> people) {
         this.user = user;
         contacts = people;
         initialiseTags();
+    }
+
+    public void setUser(String name) {
+        this.user = name;
+        if (!hasPerson(name)) {
+            addPerson(new Person(name));
+        }
     }
 
     public void addPerson(Person person) throws SameNameException {

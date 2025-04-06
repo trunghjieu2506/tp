@@ -51,7 +51,9 @@ public class Person implements Taggable {
     }
 
     public void addTag(String tag) {
-        myTags.add(tag);
+        if (!myTags.contains(tag)) {
+            myTags.add(tag);
+        }
     }
 
     public void addTags(ArrayList<String> tags) {
@@ -72,12 +74,8 @@ public class Person implements Taggable {
         return myTags;
     }
 
-    public void setContactNumber(String number) throws IllegalArgumentException {
-        if (number.matches("\\d+")) {
-            this.contactNumber = number;
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public void setContactNumber(String number) {
+        this.contactNumber = number;
     }
 
     public void addDebt(Loan loan) {
@@ -103,12 +101,8 @@ public class Person implements Taggable {
     /**
      * Sets the person's <code>email</code>.
      * @param email the email set to the person's details.
-     * @throws IllegalArgumentException if the input <code>String</code> does not contain "@".
      */
-    public void setEmail(String email) throws IllegalArgumentException {
-        if (email != null && !email.contains("@")) {
-            throw new IllegalArgumentException("Incorrect E-Mail format");
-        }
+    public void setEmail(String email) {
         this.email = email;
     }
 

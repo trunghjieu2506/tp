@@ -3,8 +3,11 @@ package loanbook.parsers;
 import loanbook.interest.Interest;
 import loanbook.interest.InterestType;
 import utils.exceptions.NegativeValueException;
+import utils.io.IOHandler;
 
 import java.util.Scanner;
+
+import static utils.textcolour.TextColour.RED;
 
 public class InterestParser {
     public static Interest parseInterest(String input) throws NegativeValueException {
@@ -30,7 +33,7 @@ public class InterestParser {
         System.out.print("Enter the interest (format: [SIMPLE/COMPOUND] [rate] per [X Years/Months/Days]):\n> ");
         interest = parseInterest(scanner.nextLine());
         while (interest == null) {
-            System.out.println("Invalid interest input!");
+            IOHandler.writeOutputWithColour("Invalid interest input!", RED);
             System.out.print("Enter the interest (format: [SIMPLE/COMPOUND] [rate] per [X Years/Months/Days]):\n> ");
             interest = parseInterest(scanner.nextLine());
         }

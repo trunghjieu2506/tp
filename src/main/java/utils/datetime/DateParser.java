@@ -1,8 +1,13 @@
 package utils.datetime;
 
+import utils.io.IOHandler;
+import utils.textcolour.TextColour;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+
+import static utils.textcolour.TextColour.RED;
 
 /**
  * Contains a method to parse the date of a given input.
@@ -31,43 +36,7 @@ public class DateParser {
         }
     }
 
-    public static LocalDate handleLocalDateUI(Scanner scanner, String instruction) {
-        LocalDate date;
-        while (true) {
-            System.out.print(instruction + "\n> ");
-            String input = scanner.nextLine();
-            try {
-                date = parse(input);
-                break;
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format!");
-            }
-        }
-        return date;
-    }
-
-    public static LocalDate handleLocalDateUI(Scanner scanner, String instruction, boolean allowNull) {
-        if (!allowNull) {
-            return handleLocalDateUI(scanner, instruction);
-        }
-        LocalDate date;
-        while (true) {
-            System.out.print(instruction + " (Key in \"N/A\" if not applicable):" + "\n> ");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("N/A")) {
-                return null;
-            }
-            try {
-                date = parse(input);
-                break;
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format!");
-            }
-        }
-        return date;
-    }
-
-    public static LocalDate handleReturnDateUI(Scanner scanner, String instruction, LocalDate startDate) {
+    public static LocalDate handleLocalDateUI(Scanner scanner, String instruction, LocalDate startDate) {
         LocalDate date;
         while (true) {
             System.out.print(instruction + "\n> ");
@@ -75,35 +44,38 @@ public class DateParser {
             try {
                 date = parse(input);
                 if (startDate != null && date.isBefore(startDate)) {
-                    System.out.println("Return date cannot be before the start date!");
+                    IOHandler.writeOutputWithColour("Return date cannot be before the start date!", RED);
                 } else {
                     break;
                 }
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format!");
+                IOHandler.writeOutputWithColour("Invalid date format!", RED);
             }
         }
         return date;
     }
 
-    public static LocalDate handleReturnDateUI(Scanner scanner, String instruction, LocalDate startDate,
+    public static LocalDate handleLocalDateUI(Scanner scanner, String instruction, LocalDate startDate,
                                                boolean allowNull) {
         if (!allowNull) {
-            return handleReturnDateUI(scanner, instruction, startDate);
+            return handleLocalDateUI(scanner, instruction, startDate);
         }
         LocalDate date;
         while (true) {
             System.out.print(instruction + " (Key in \"N/A\" if not applicable):" + "\n> ");
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
             try {
+                if (input.equals("N/A")) {
+                    return null;
+                }
                 date = parse(input);
                 if (startDate != null && date.isBefore(startDate)) {
-                    System.out.println("Return date cannot be before the start date!");
+                    IOHandler.writeOutputWithColour("Return date cannot be before the start date!", RED);
                 } else {
                     break;
                 }
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format!");
+                IOHandler.writeOutputWithColour("Invalid date format!", RED);
             }
         }
         return date;

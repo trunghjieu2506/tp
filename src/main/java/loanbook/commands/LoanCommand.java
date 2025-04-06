@@ -1,6 +1,6 @@
 package loanbook.commands;
 
-public abstract class LoanCommand {
-    public void execute() {
-    }
+import cashflow.ui.command.Command;
+
+public abstract class LoanCommand implements Command {
 }

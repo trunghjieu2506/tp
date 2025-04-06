@@ -1,5 +1,8 @@
 package utils.money;
 
+import utils.io.IOHandler;
+import utils.textcolour.TextColour;
+
 import java.util.Currency;
 import java.util.Scanner;
 
@@ -22,12 +25,12 @@ public class MoneyParser {
             try {
                 amount = Double.parseDouble(input);
                 if (amount < 0) {
-                    System.out.println("Money value cannot be negative!");
+                    IOHandler.writeOutputWithColour("Negative money? It doesn't make sense.", TextColour.RED);
                 } else {
                     break;
                 }
             } catch (NumberFormatException | NullPointerException e) {
-                System.out.println("Invalid input");
+                IOHandler.writeOutputWithColour("Invalid input", TextColour.RED);
             }
         }
         return new Money(currency, amount);

@@ -1,4 +1,6 @@
-package loanbook.commands;
+package loanbook.commands.printcommands;
+
+import loanbook.commands.LoanCommand;
 
 public class PrintMessageCommand extends LoanCommand {
     protected String message;

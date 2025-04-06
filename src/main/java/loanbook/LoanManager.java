@@ -21,6 +21,12 @@ public class LoanManager implements LoanDataManager {
     protected ContactsList contactsList;
     protected TagList<Loan> tags;
 
+    public LoanManager() {
+        loans = new ArrayList<>();
+        contactsList = new ContactsList();
+        tags = new TagList<>();
+    }
+
     public LoanManager(String user) {
         this.username = user;
         loans = new ArrayList<>();
@@ -41,6 +47,11 @@ public class LoanManager implements LoanDataManager {
             }
         }
         initialiseTags();
+    }
+
+    public void setUsername(String name) {
+        this.username = name;
+        contactsList.setUser(name);
     }
 
     public ContactsList getContactsList() {

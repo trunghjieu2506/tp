@@ -20,7 +20,7 @@ public class DateParserTest {
                 2025-03-26
                 """;
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
-        LocalDate date = DateParser.handleLocalDateUI(scanner, "Enter the date");
+        LocalDate date = DateParser.handleLocalDateUI(scanner, "Enter the date", null);
         System.out.println("Date parsed is: " + date);
         LocalDate expected = LocalDate.of(2025, 1, 1);
         assertEquals(expected, date);

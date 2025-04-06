@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Stores basic information about a loan.
  */
-public abstract class Loan extends Finance implements Taggable, Comparable<Loan> {
+public abstract class Loan extends Finance implements Taggable {
     protected String description;
     protected final Person lender;
     protected final Person borrower;
@@ -107,7 +107,9 @@ public abstract class Loan extends Finance implements Taggable, Comparable<Loan>
     }
 
     public void addTag(String tag) {
-        tags.add(tag);
+        if (!tags.contains(tag)) {
+            tags.add(tag);
+        }
     }
 
     public void addTags(ArrayList<String> tags) {
@@ -131,7 +133,7 @@ public abstract class Loan extends Finance implements Taggable, Comparable<Loan>
         return new ArrayList<>(tags);
     }
 
-    public String getTags() {
+    public String getTagsString() {
         if (tags == null || tags.isEmpty()) {
             return "None";
         }
@@ -152,11 +154,6 @@ public abstract class Loan extends Finance implements Taggable, Comparable<Loan>
             return false;
         }
         return LocalDate.now().isAfter(returnDate);
-    }
-
-    @Override
-    public int compareTo(Loan loan) {
-        return this.getBalance().compareTo(loan.getBalance());
     }
 
     /**
@@ -181,7 +178,7 @@ public abstract class Loan extends Finance implements Taggable, Comparable<Loan>
                 + "Start Date: " + (startDate == null ? "None" : startDate) + '\n'
                 + "Return Date: " + (returnDate == null ? "None" : returnDate) + '\n'
                 + "Description: " + (description == null ? "None" : description) + '\n'
-                + "Tags: " + getTags() + '\n';
+                + "Tags: " + getTagsString() + '\n';
     }
 
     public String forSave() {
@@ -191,6 +188,6 @@ public abstract class Loan extends Finance implements Taggable, Comparable<Loan>
                 "<StartDate>" + (startDate == null ? "None" : startDate) + '\n' +
                 "<ReturnDate>" + (returnDate == null ? "None" : returnDate) + '\n' +
                 "<Description>" + (description == null ? "None" : description) + '\n' +
-                "<Tags>" + getTags() + '\n';
+                "<Tags>" + getTagsString() + '\n';
     }
 }
