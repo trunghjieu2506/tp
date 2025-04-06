@@ -1,5 +1,7 @@
 package budgetsaving.saving.command;
 
+import budgetsaving.saving.exceptions.SavingException;
+import budgetsaving.saving.exceptions.SavingRuntimeException;
 import budgetsaving.saving.utils.SavingParser;
 import cashflow.ui.command.Command;
 
@@ -7,18 +9,37 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import cashflow.model.interfaces.SavingManager;
+import utils.io.IOHandler;
+import utils.textcolour.TextColour;
+
+import static budgetsaving.budget.command.BudgetGeneralCommand.EXIT_COMMAND;
+import static budgetsaving.budget.command.BudgetGeneralCommand.HELP_COMMAND;
 
 public class SavingGeneralCommand implements Command {
-    private static final String SET_GOAL_COMMAND = "set";
+    private static final String SET_SAVING_COMMAND = "set";
     private static final String CONTRIBUTE_COMMAND = "contribute";
-    private static final String LIST_GOAL_COMMAND = "list";
+    private static final String LIST_SAVING_COMMAND = "list";
+    private static final String CHECK_SAVING_COMMAND = "check";
+    private static final String DELETE_SAVING_COMMAND = "delete-s";
+    private static final String DELETE_CONTRIBUTION_COMMAND = "delete-c";
+
+
     //just reuse it because it might be more confusing to read to import from budget side
     public static final String DASH = "- ";
 
-    private static final String SAVING_COMMANDS =
-                      DASH + SET_GOAL_COMMAND + " n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD\n"
-                    + DASH + CONTRIBUTE_COMMAND + " i/INDEX a/AMOUNT\n"
-                    + DASH + LIST_GOAL_COMMAND + " \n";
+    private static final String LINE_SEPARATOR = "-".repeat(70);
+    static final String SAVING_COMMANDS =
+                    LINE_SEPARATOR + '\n'
+            + TextColour.GREEN  + DASH + SET_SAVING_COMMAND + " n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD\n"
+            + TextColour.YELLOW + DASH + CONTRIBUTE_COMMAND + " i/INDEX a/AMOUNT\n"
+            + TextColour.BLUE   + DASH + LIST_SAVING_COMMAND + " \n"
+            + TextColour.CYAN   + DASH + DELETE_SAVING_COMMAND + " i/INDEX\n"
+            + TextColour.PURPLE   + DASH + DELETE_CONTRIBUTION_COMMAND + " i/INDEX_S c/INDEX_C\n"
+            + TextColour.RED  + DASH + CHECK_SAVING_COMMAND + " i/INDEX\n"
+            + TextColour.RESET
+            + DASH + HELP_COMMAND + " to check all the saving commands\n"
+            + DASH + EXIT_COMMAND + " to exit from saving mode\n"
+            + LINE_SEPARATOR + '\n';
 
     private Command command;
 
@@ -38,42 +59,60 @@ public class SavingGeneralCommand implements Command {
         // If the command is exactly "saving", prompt the user for the specific saving subcommand.
         if (input.trim().equalsIgnoreCase("saving")) {
             Scanner scanner = new Scanner(System.in);
-            System.out.print(SAVING_COMMANDS + "Enter saving command: ");
+            IOHandler.writeOutput(SAVING_COMMANDS + "Enter saving command: ");
             input = scanner.nextLine().trim();
         }
         input = input.trim();
         String lowerInput = input.toLowerCase();
         try{
-            if (lowerInput.startsWith(SET_GOAL_COMMAND)) {
+            if (lowerInput.startsWith(SET_SAVING_COMMAND)) {
                 command = SavingParser.parseSetGoalCommand(input, savingList);
             } else if (lowerInput.startsWith(CONTRIBUTE_COMMAND)) {
                 command = SavingParser.parseContributeGoalCommand(input, savingList);
-            } else if (lowerInput.startsWith(LIST_GOAL_COMMAND)) {
-                command = SavingParser.parseCheckGoalCommand(savingList);
-            } else {
-                System.out.println("Unknown saving command.");
+            } else if (lowerInput.startsWith(LIST_SAVING_COMMAND)) {
+                command = SavingParser.parseListGoalCommand(savingList);
+            } else if (lowerInput.startsWith(HELP_COMMAND)){
+                command = new SavingHelpCommand();
+            } else if (lowerInput.startsWith(DELETE_SAVING_COMMAND)) {
+                command = SavingParser.parseDeleteSavingCommand(input, savingList);
+            } else if (lowerInput.startsWith(DELETE_CONTRIBUTION_COMMAND)) {
+                command = SavingParser.parseDeleteContributionCommand(input, savingList);
+            } else if (lowerInput.startsWith(CHECK_SAVING_COMMAND)) {
+                command = SavingParser.parseCheckGoalCommand(input, savingList);
             }
-        } catch (NumberFormatException e) {
-            System.err.println("Invalid currency/amount entered.");
+            else {
+                IOHandler.writeError("Unknown saving command.");
+            }
+        } catch (SavingException e) {
+            SavingException.writeException(e);
+            IOHandler.flushError();
         }
     }
 
     @Override
     public void execute() {
         try {
+            if (command == null) {
+                throw new SavingRuntimeException("");
+            }
             command.execute();
         } catch (DateTimeParseException e) {
-            System.err.println(SetGoalCommand.DATE_FORMAT_ERROR);
-        } catch (Exception e) {
-            System.err.println("An error has occurred when executing the command.");
+            IOHandler.writeError(SetSavingCommand.DATE_FORMAT_ERROR);
+        } catch (SavingException e) {
+            //error is definitely handled at earlier part, so we dont need to print anything
+            //IOHandler.writeError(e.getMessage());
         }
     }
+
 
     //public Result excute()
 
     public static void handleSavingCommand(Scanner scanner, SavingManager savingManager) {
+        IOHandler.writeOutputNoLn("Here's a list of saving commands: \n" + SAVING_COMMANDS);
         while (true){
-            System.out.print("Here's a list of saving commands: \n" + SAVING_COMMANDS + "Enter saving command: ");
+            IOHandler.flushError();
+            IOHandler.flushOutput();
+            IOHandler.writeOutputNoLn("> ");
             String input = scanner.nextLine().trim();
             if (input.startsWith("exit")) {
                 break;

@@ -1,9 +1,10 @@
 package budgetsaving.budget.command;
 
 import budgetsaving.budget.Budget;
-import budgetsaving.budget.BudgetException;
+import budgetsaving.budget.exceptions.BudgetException;
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.BudgetManager;
+import utils.io.IOHandler;
 
 import java.time.LocalDate;
 
@@ -40,9 +41,7 @@ public class ModifyBudgetCommand implements Command {
             budgetManager.modifyBudget(index, name, amount, endDate, category);
             printSuccess(budgetManager.getBudget(index));
         } catch (BudgetException e) {
-            System.err.println(e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Error modifying the budget: " + e.getMessage());
+            IOHandler.writeError(e.getMessage());
         }
     }
 

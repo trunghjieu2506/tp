@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import budgetsaving.budget.Budget;
 import budgetsaving.budget.BudgetList;
-import budgetsaving.budget.BudgetException;
+import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.command.BudgetGeneralCommand;
 import cashflow.model.interfaces.BudgetManager;
 import expenseincome.expense.Expense;

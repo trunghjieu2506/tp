@@ -1,254 +1,404 @@
 # Developer Guide
 
-## Acknowledgements
+## Table of Contents
 
-- The command parsing design is inspired by the Command Pattern described in the SE-EDU AddressBook-Level3.
-- Parts of the error-handling and assertion patterns were referenced from Oracle’s Java tutorials.
-- Logger setup referenced from standard Java logging documentation.
+- [Design](#design)
+   - [Expense Management](#expense-management)
+   - [Income Management](#income-management)
+   - [Budget Management](#budget-management)
+   - [Saving Management](#saving-management)
+   - [Loan Management](#loan-management)
+- [Implementation](#implementation)
+   - [Expense](#expense-)
+   - [Income](#income)
+   - [Saving](#saving-)
+   - [Budget](#budget-)
+   - [Loan](#loan)
+- [Appendix A: Product Scope](#appendix-a-product-scope)
+- [Appendix B: User Stories](#appendix-b-user-stories)
+- [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
+- [Appendix D: Glossary](#appendix-d-glossary)
+- [Appendix E: Instructions for Manual Testing](#appendix-e-instructions-for-manual-testing)
+- [Acknowledgements](#acknowledgements)
 
-## Design & implementation
+---
 
-### Expense and Income
+## Design
 
-This includes the `Expense`, `Income`, `ExpenseManager`, `IncomeManager`, as well as all associated commands and parsers.
+### Expense Management
 
-The goal of these modules is to allow users to accurately and efficiently manage their expenses and income with support for adding, editing, deleting, listing, categorizing, and sorting entries.
+The **Expense** modules is designed to provide full support for managing user expenses within the CashFlow application. It includes classes for command parsing, command execution, business logic, and error handling.
 
-#### Expense and Income Structure
+This module follows the **Command Pattern** for extensibility, the **Separation of Concerns** principle for maintainability, and includes robust user feedback mechanisms.
 
-Each of the two core entities — Expense and Income — is represented by its own class (`Expense`, `Income`) and managed through its own manager class (`ExpenseManager`, `IncomeManager`).
-The below shows the high-level class diagram:
+### Key Classes and Relationships
 
-![Expense and Income Structure](img.png)
+The diagram shows the how different classes within the expense package interacts with one another:
 
-#### Command Parsing and Execution
+![ExpensePackageClassDiagram](img_6.png)
 
-Each command extends from an abstract `ExpenseCommand` or `IncomeCommand` base class and overrides the `execute(...)` method.
+---
 
-Example sequence diagram for the command `add Lunch 12.5 Food 2025-03-25`:
+### Income Management
 
-![Add Expense Command Sequence](img_3.png)
+The **Income** module is responsible for managing user incomes within the CashFlow application. It mirrors the structure and principles of the Expense module, supporting features like adding, editing, deleting, listing, sorting, and category analysis for income entries.
 
-This design simplifies testing, separates concerns clearly, and is extensible to other commands (e.g., filtering by date range in the future).
+This module follows the Command Pattern to organize operations, promotes Separation of Concerns, and ensures user-friendly parsing and error reporting.
 
-#### Key Implementation Choices
+---
 
-- **Command Pattern:** Each command is encapsulated in its own class with a single `execute(...)` method. This makes it easier to test and extend in the future.
-- **Category Normalization:** Category strings are capitalized by the parser to ensure consistent matching.
-- **Robust Input Parsing:** The parser uses defensive programming to avoid crashing on invalid user input, providing feedback when inputs are incomplete or incorrect.
+### Key Classes and Relationships
 
-#### Alternatives Considered
+The diagram below shows how different classes in the income package interact:
 
-- Instead of a separate command class for each operation, we considered a generic `Command` with a type string and arguments. However, this would reduce readability and make each command's logic more error-prone.
-- We considered storing all entries in a shared superclass like `FinancialEntry`, but this was not implemented as Expenses and Incomes may diverge in fields and behavior later.
+![IncomePackageClassDiagram](img_5.png)
+---
 
-#### Future Enhancements
+### Design Principles for both Expense and Income
 
-- Support for recurring entries.
-- Advanced search and filtering (e.g., date ranges).
-- UI display of graphs or trends.
+- **Modularity**: Each command is encapsulated in its own class.
+- **Single Responsibility**: Parsing, validation, and execution are delegated to separate classes.
+- **Feedback-Oriented**: Parsers return structured results to inform users of errors without crashing the program.
+- **Logging**: Uses `java.util.logging` to trace important events, hidden from the user interface.
 
+---
 
-### 2. Hongheng
+### Budget Management
+
+---
+
+### Saving Management
    Responsible for implementing the Budget and Saving management modules. This includes the Budget, Saving, BudgetList, SavingList, and the associated commands and parsers.
 
 The goal of these modules is to allow users to manage budgets and track savings efficiently, with support for adding, editing, deleting, listing, and viewing summary data.
 
-#### Budget and Saving Structure
+#### Budget and Saving Logic
 Each of the two entities — Budget and Saving — is represented by its own class and managed through its own container class (BudgetList, SavingList).
 
 The diagram below shows the high-level class structure:
 
 ![BudgetManager.png](team/BudgetManager.png)
-
-
-Budget: Represents a budget allocation for a specific month, storing:
-
-month: YearMonth
-
-amount: double
-
-description: String (optional)
-
-Saving: Represents a saved fund entry, storing:
-
-date: LocalDate
-
-amount: double
-
-purpose: String
-
-BudgetList and SavingList: Handle collections of budgets and savings, providing utilities like filtering and summarizing.
-
-#### Command Parsing and Execution
-Each command related to Budget or Saving extends from a common Command base class and overrides the execute(Model model) method.
-
-#### Example sequence diagram for the command:
-add-budget m/2025-04 a/1000 d/April allowance
-
-
-Note: Replace with actual PNG exported from your PlantUML diagram.
-
-#### Flow:
-
-The user inputs the add-budget command.
-
-LogicManager passes it to AddBudgetCommandParser.
-
-A Budget object is created.
-
-AddBudgetCommand is constructed with the budget.
-
-execute(model) adds the budget to the model.
-
-The UI reflects the update.
-
-#### Savings commands like add-saving follow a similar pattern.
-
-
 ![Saving.png](team/Saving.png)
 
-### Testing
 
+Budget: Represents a budget allocation for a specific month, storing variables as follows:
+- name: String
+- totalAmount: Money
+- RemainingAmount: Money
+- expenses: ArrayList<Expense>
+- deadline: LocalDate
+- category: String
+- and BudgetCompletionStatus, BudgetExceedStatus
 
-#### Key Implementation Choices
-Domain Classes: Having separate Budget and Saving classes allows clearer separation of concerns and future flexibility.
+---
 
-JavaFX Bindings: Changes to ObservableList are reflected live in the UI.
+### Loan Management
+This includes the `Loan`, `Interest`, `LoanManager` and associated commands and parsers.
 
-Date Parsing: Uses YearMonth and LocalDate to ensure correct input validation and display formatting.
-
-#### Alternatives Considered
-Using a shared superclass like FinancialEntry to generalize Budget and Saving.
-
-- Rejected to avoid premature generalization and preserve domain-specific logic.
-
-Managing budget/saving lists directly inside ModelManager.
-
-- Rejected in favor of separate BudgetList and SavingList classes to improve modularity and unit testing.
-
-#### Future Enhancements
-Support for recurring budgets (e.g., auto-renewing monthly budgets)
-
-Budget vs actual visualization using bar/line graphs
-
-Add filters for purpose, amount, and date/month
-
-Export functionality (e.g., CSV or Excel)
-
-### 3. Qiaozi
-
-Responsible for implementing the **Loan**, **Contact** and **Money** management modules. This includes the `Loan`, `LoanManager`, `Person`, `ContactList`, `Money`, as well as all associated commands and parsers.
-
-The goal of these modules is to allow users to accurately and efficiently manage their loans with support for adding, editing, deleting, listing, and finding entries.
+The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, categorizing, sorting and searching entries.
 
 #### Loan Structure
 
-The loans can be classified as either as a Simple Bullet Loan or an Advanced Loan. Each type of loan inherits from an abstract class Loan. All loans are managed by the LoanManager class. 
+Every type of loan inherits from the abstract `Loan` class, which contains universal attributes and methods for all loans. The loans are managed by the manager class `LoanManager`, which stores loans in an `ArrayList`.
+
+#### Interest Structure
+
+Advanced loan types that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+
+#### Command Parsing and Execution
+
+To carry out operations on the loans, the user inputs are read through the `LoanUI` class and parsed by the `LoanCommandParser` class, which generates commands based on the user's inputs.
+
+Each command extends from an abstract `LoanCommand` base class and overrides the `execute()` method.
+
+Due to the large number of attributes in each `Loan` class, the parser would ask for inputs sequentially.
+
+Example:
+
+--- 
+## Implementation
+
+### Expense 
+
+Represents a single expense entry with attributes:
+- `desc`: What the expense is.
+- `amount`: A `Money` object representing the amount.
+- `date`: When the expense was added.
+- `category`: A tag to group the expense.
+
+### ExpenseCommandParser
+
+- Responsible for parsing and validating commands entered in **expense mode**.
+- Produces `ExpenseParserResult` containing either a valid command or a user-friendly error message.
+- Supports commands:
+   - `add <description> <amount> <category> [yyyy-mm-dd]`
+   - `edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]`
+   - `delete <index>`
+   - `list` / `list category <category>`
+   - `sort recent` / `sort oldest`
+   - `top` / `bottom`
+   - `help`
+
+### ExpenseParserResult
+
+- Contains two fields:
+   - `command`: an `ExpenseCommand` object (if parsed successfully).
+   - `feedback`: a `String` containing an error message (if any issue occurs).
+
+### ExpenseManager
+
+- Stores the list of expenses and manages business logic.
+- Methods include:
+   - `addExpense(...)`: Validates and adds new expense.
+   - `editExpense(...)`: Updates an existing expense by index.
+   - `deleteExpense(...)`: Removes expense by index.
+   - `listExpenses()` and `listExpensesByCategory(...)`: Lists all or filtered expenses.
+   - `sortExpensesByDate(...)`: Sorts by date.
+   - `printTopCategory()` / `printBottomCategory()`: Computes category statistics.
+
+### ExpenseCommand and Subclasses
+
+Each command like `AddExpenseCommand`, `EditExpenseCommand`, `DeleteExpenseCommand` extends `ExpenseCommand` and overrides `execute(ExpenseManager manager)`.
+
+For example, `AddExpenseCommand`:
+```java
+public void execute(ExpenseManager manager) {
+    manager.addExpense(description, amount, date, category);
+}
+```
+
+This makes testing and future enhancements (e.g. undo/redo) straightforward.
+
+An example of the sequence diagram for Add Expense Command is as shown:
+![Add Expense Command Sequence](img_7.png)
+
+### Error Handling
+
+- Custom exceptions via `ExpenseException` to handle user input validation.
+- Example validations:
+   - Description must not be empty.
+   - Amount must be positive.
+   - Index must be within list bounds.
+- Parser handles syntax and structure validation; Manager handles business rule validation.
+
+### Logging
+
+- Internally uses Java’s `Logger` to log all state-changing operations.
+- Warnings are logged but not shown to users unless necessary.
+
+---
+
+### Income
+
+Represents a single income entry with attributes:
+- `source`: Where the income came from.
+- `amount`: A `Money` object representing the amount.
+- `date`: When the income was received.
+- `category`: A tag to group the income.
+
+### IncomeCommandParser
+
+- Responsible for parsing commands entered in **income mode**.
+- Returns an `IncomeParserResult` object containing a valid command or an error message.
+- Supports commands:
+   - `add <source> <amount> <category> [yyyy-mm-dd]`
+   - `edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]`
+   - `delete <index>`
+   - `list` / `list category <category>`
+   - `sort recent` / `sort oldest`
+   - `top` / `bottom`
+   - `help`
+
+### IncomeParserResult
+
+- Acts as a structured container for parsing outcomes:
+   - `command`: The valid `IncomeCommand` if parsing succeeds.
+   - `feedback`: Error message string to show user if parsing fails.
+
+### IncomeManager
+
+- Maintains an `ArrayList<Income>` and implements business logic:
+   - `addIncome(...)`: Adds new income after validation.
+   - `editIncome(...)`: Updates an income entry by index.
+   - `deleteIncome(...)`: Removes income at specified index.
+   - `listIncomes()` / `listIncomesByCategory(...)`: Lists all or filtered incomes.
+   - `sortIncomesByDate(...)`: Sorts by recent or oldest.
+   - `printTopCategory()` / `printBottomCategory()`: Computes income statistics.
+
+### IncomeCommand and Subclasses
+
+Each specific income action is encapsulated in its own class, extending `IncomeCommand`. For example, `AddIncomeCommand`, `EditIncomeCommand`, `DeleteIncomeCommand` implement their own `execute(IncomeManager manager)` method.
+
+Example from `EditIncomeCommand`:
+```java
+public void execute(IncomeManager manager) {
+   manager.editIncome(index, newSource, newAmount, newDate, newCategory);
+}
+```
+
+This makes the logic modular, testable, and easily extendable.
+
+An example of the sequence diagram for Edit Income Command is as shown:
+![Edit Income Command Sequence](img_8.png)
+
+### Error Handling for Expense and Income
+
+- Custom exceptions via `ExpenseException` and `IncomeException` to handle user input validation.
+- Example validations:
+   - Description must not be empty.
+   - Amount must be positive.
+   - Index must be within list bounds.
+- Parser handles syntax and structure validation; Manager handles business rule validation.
+
+### Logging for Expense and Income
+
+- Internally uses Java’s `Logger` to log all state-changing operations.
+- Warnings are logged but not shown to users unless necessary.
+
+---
+
+### Budget 
+
+---
+
+### Saving 
+This is an example of the implementation of the Budget and Saving command: `Set Budget`,
+which can represent the generic flow of the Budget and Saving management's execution flow.
+
+1. The user inputs the set-budget command.
+
+2. LogicManager (`BudgetGeneralCommand`) passes it to SetBudgetCommandParser.
+
+3. A Budget object is created.
+
+4. SetBudgetCommand is constructed with the budget.
+
+5. Execute(`BudgetList`) adds the budget to the model.
+
+6. The UI reflects the update by printing a success message and the attributes of the `Budget`.
+
+
+#### General Logic For Budget and Saving in sequence diagram:
+![BudgetSavingSequence.png](BudgetSavingSequence.png)
+
+---
+
+### Loan
 
 
 
-## Product scope
+---
+## Appendix A: Product Scope
+
 ### Target user profile
 
 - CLI users who prefer keyboard-based interactions.
 - Budget-conscious individuals tracking daily spending.
-- Students or working professionals managing personal finances.
+- Students, young adults or working professionals managing personal finances.
 
 ### Value proposition
 
-- Easy and fast recording of transactions.
+- Easy and fast, keyboard-based way of recording transactions.
 - No setup or signup — works locally and offline.
 - Lightweight and highly customizable.
+- Centralizes expenses, incomes, budgets, savings, and loans.
 
-## User Stories
+## Appendix B: User Stories
 
-| Version | As a ... | I want to ... | So that I can ...|
-|---------|----------|---------------|------------------|
-| v1.0    |new user|see usage instructions|refer to them when I forget how to use the application|
-| v1.0    |user|find a to-do item by name|locate a to-do without having to go through the entire list|
-| v1.0    |university student with limited finances|set a monthly budget|avoid overspending|
-| v1.0    |university student who wants to be secure financially|set savings goals (e.g., $500 for a trip)|motivate myself to save consistently|
-| v1.0    |student with extra budget left|place part of my money into the saving goal|reach my goal and see my progress|
-| v1.0    |university student who often wonders about how much I saved|check regularly my saving goals|get a clearer understanding of my progress|
-| v2.0    |student who completed saving goals|get alert and achievement from the system for completion|be motivated by my progress|
-| v2.0    |student who faces inconsistent income|modify my saving goals|adapt to my current financial situation|
-| v2.0    |student|restrict myself from overspending in a specific category and set a budget on that category|better monitor my expenses and plan my budget more efficiently|
-| v2.0    |student|receive alerts when I am close to exceeding my budget|adjust my spending in time|
-| v2.0    |user|see inline suggestions when typing commands|navigate commands more easily|
-| v2.1    |student who completed saving goals|get a saving summary when I complete my goal|know how long it took and my average saving per day|
-| v2.1    |student who is busy with my work|set recurring budget and saving goal|avoid manually adding them, which I might forget|
+| Priority | As a ... | I want to ... | So that I can ... |
+|----------|-----------|----------------|-------------------|
+| High | User | Add expenses | Track spending |
+| High | User | Edit/delete expenses | Fix mistakes |
+| Medium | User | Sort expenses | View spending trends |
+| Medium | User | See top category | Analyze major expenses |
+| High | User | Add income sources | Record earnings |
+| Medium | User | Manage budgets | Stay within limits |
+| Medium | User | Save for goals | Reach financial milestones |
+| Low | User | Track loans | Manage borrowings and lending |
 
+---
 
+## Appendix C: Non-Functional Requirements
 
+- Should work on Windows, MacOS, and Linux with Java 17+.
+- Must handle 100+ records without performance drop.
+- CLI should respond within 1 second per command.
 
-## Non-Functional Requirements
+---
 
-- Runs on any OS with Java 17+.
-- Handles up to 1000 entries without noticeable lag.
-- Should respond to commands within 1 second.
-- CLI-based, with no need for internet connection.
+## Appendix D: Glossary
 
-## Glossary
+- **CLI**: Command Line Interface
+- **Index**: The number shown when listing items; used to refer to entries.
+- **Expense**: Money spent.
+- **Income**: Money received.
+- **Budget**: Limit set on specific categories.
+- **Loan**: Money lent or borrowed, optionally with interest.
+- **Category**: A label such as "Food", "Job", "Transport".
+---
 
-| Term | Definition |
-|------|------------|
-| CLI | Command-Line Interface |
-| Command Pattern | A design pattern in which each action is encapsulated in its own class |
-| Category | A label like Food, Transport, Job, etc., used to group entries |
+## Appendix E: Instructions for Manual Testing
 
+### Expense Module
 
-## Instructions for manual testing
-
-The following steps help a tester verify the correctness of features:
-
-1. **Add an expense:**
+1. Run `expense` to enter expense mode.
+2. Try:
    ```
-   add Coffee 4.5 Drink 2025-04-01
-   ```
-    - Expected: "Added: Coffee - $4.5 on 2025-04-01 [Category: Drink]"
-   
-
-2. **List expenses:**
-   ```
+   add Lunch 10 Food 2025-04-01
    list
-   ```
-    - Expected: Display list with the added expense.
-   
-
-3. **Edit an expense:**
-   ```
-   edit 1 Tea 3.0 Drink 2025-04-02
-   ```
-    - Expected: Entry should be updated to "Tea - $3.0 ..."
-   
-
-4. **Delete an expense:**
-   ```
+   edit 1 Dinner 20 Food
    delete 1
-   ```
-    - Expected: Entry is removed.
-   
-
-5. **Add income:**
-   ```
-   add Salary 2000 Job
-   ```
-
-6. **List incomes:**
-   ```
-   list
-   ```
-
-7. **Sort income by date:**
-   ```
    sort recent
    ```
 
-8. **Test top/bottom category analysis:**
+### Income Module
+
+1. Run `income` mode.
+2. Try:
    ```
-   top
-   bottom
+   add Salary 3000 Job 2025-04-01
+   edit 1 Bonus 500 Job
+   list
+   delete 1
    ```
+
+### Budget Module
+
+```
+budget
+set n/Trip a/1000 e/2025-12-31 c/Travel
+check i/1
+add i/1 a/500
+deduct i/1 a/200
+modify i/1 n/Holiday
+```
+
+### Saving Module
+
+```
+saving
+set n/Laptop a/2000 b/2025-10-01
+contribute i/1 a/500
+list
+```
+
+### Loan Module
+
+```
+loan
+add
+list
+show 1
+edit 1 description
+find John outgoing loan
+delete 1
+```
+
+---
+
+## Acknowledgements
+
+- This project reused some ideas and interfaces from the [AddressBook-Level3](https://github.com/se-edu/addressbook-level3) project.
+- Structure and format of the Developer Guide closely follow AB3’s conventions.
 
 Note: Manual testing does not persist data unless storage is implemented. Re-adding entries is required after restarting the app.

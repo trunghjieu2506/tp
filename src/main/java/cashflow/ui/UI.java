@@ -1,22 +1,19 @@
 package cashflow.ui;
 
 import budgetsaving.budget.BudgetList;
-import cashflow.model.interfaces.BudgetManager;
-import cashflow.model.interfaces.SavingManager;
 import cashflow.ui.command.HelpCommand;
 import cashflow.model.FinanceData;
 import budgetsaving.saving.SavingList;
 import cashflow.ui.command.SetUpCommand;
-import expenseincome.expense.ExpenseCommandParser;
 import expenseincome.expense.ExpenseManager;
-import expenseincome.expense.commands.ExpenseCommand;
-import expenseincome.income.IncomeCommandParser;
+import expenseincome.expense.HandleExpenseCommand;
+import expenseincome.income.HandleIncomeCommand;
 import expenseincome.income.IncomeManager;
 
-import expenseincome.income.commands.IncomeCommand;
-import loanbook.LoanUI;
+import loanbook.ui.LoanUI;
 import loanbook.LoanManager;
 import loanbook.save.LoanSaveManager;
+import utils.io.IOHandler;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,7 +27,6 @@ public class UI {
     private SavingList savingList;
     private BudgetList budgetList;
     private LoanManager loanManager;
-
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
 
@@ -38,14 +34,7 @@ public class UI {
         this.data = data;
         this.savingList = data.getSavingsManager();
         this.budgetList = data.getBudgetManager();
-        //Can create a username.
-//        try {
-//            this.loanManager = LoanSaveManager.readLoanList("GeorgeMiao");
-//        } catch (FileNotFoundException e) {
-//            this.loanManager = new LoanManager("GeorgeMiao");
-//        }
         this.loanManager = data.getLoanManager();
-
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
     }
@@ -53,20 +42,21 @@ public class UI {
     //printResult(Result result)
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, "UTF-8");
+        IOHandler ioHandler = new IOHandler(scanner);
         String input;
 
         while (true) {
-            System.out.print("Enter command (type 'help' for commands): ");
-            input = scanner.nextLine().trim();
+            IOHandler.writeOutputNoLn("Enter command (type 'help' for commands): ");
+            input = ioHandler.readInput();
 
             if (input.equalsIgnoreCase("exit")) {
                 try {
                     LoanSaveManager.saveLoanList(loanManager);
                 } catch (IOException e) {
-                    System.out.println("Unable to update save file");
+                    IOHandler.writeOutput("Unable to update save file");
                 }
-                System.out.println("Exiting. Goodbye!");
+                IOHandler.writeOutput("Exiting. Goodbye!");
                 break;
             }
             switch (input.toLowerCase()) {
@@ -80,63 +70,22 @@ public class UI {
                 handleAnalyticCommand(scanner, data);
                 break;
             case "saving":
-                //new SavingGeneralCommand(input, savingList).execute();
                 handleSavingCommand(scanner, savingList);
                 break;
             case "budget":
                 handleBudgetCommand(scanner, budgetList);
                 break;
             case "expense":
-                handleExpenseCommands(scanner);
+                HandleExpenseCommand.handle(scanner, expenseManager);
                 break;
             case "income":
-                handleIncomeCommands(scanner);
+                HandleIncomeCommand.handle(scanner, incomeManager);
                 break;
             case "loan":
-                LoanUI.handleLoanCommands(loanManager, scanner, "USD");
+                LoanUI.handleLoanCommands(loanManager, scanner, data.getCurrency());
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
-            }
-        }
-    }
-
-    private void handleExpenseCommands(Scanner scanner) {
-        System.out.println("Expense Mode: Enter commands (type 'exit' to return)");
-        while (true) {
-            System.out.print("> ");
-            String command = scanner.nextLine().trim();
-
-            if (command.equalsIgnoreCase("exit")) {
-                System.out.println("Exiting Expense Mode.");
-                break;
-            }
-
-            ExpenseCommand expenseCommand = ExpenseCommandParser.parseCommand(command);
-            if (expenseCommand != null) {
-                expenseCommand.execute(expenseManager);
-            } else {
-                System.out.println("Invalid expense command.");
-            }
-        }
-    }
-
-    private void handleIncomeCommands(Scanner scanner) {
-        System.out.println("Income Mode: Enter commands (type 'exit' to return)");
-        while (true) {
-            System.out.print("> ");
-            String command = scanner.nextLine().trim();
-
-            if (command.equalsIgnoreCase("exit")) {
-                System.out.println("Exiting Income Mode.");
-                break;
-            }
-
-            IncomeCommand incomeCommand = IncomeCommandParser.parseCommand(command);
-            if (incomeCommand != null) {
-                incomeCommand.execute(incomeManager);
-            } else {
-                System.out.println("Invalid income command.");
             }
         }
     }

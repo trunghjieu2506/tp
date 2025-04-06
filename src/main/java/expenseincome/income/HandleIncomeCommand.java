@@ -1,7 +1,5 @@
 package expenseincome.income;
 
-import expenseincome.income.commands.IncomeCommand;
-
 import java.util.Scanner;
 
 public class HandleIncomeCommand {
@@ -17,11 +15,14 @@ public class HandleIncomeCommand {
                 break;
             }
 
-            IncomeCommand incomeCommand = IncomeCommandParser.parseCommand(command);
-            if (incomeCommand != null) {
-                incomeCommand.execute(incomeManager);
-            } else {
-                System.out.println("Invalid income command.");
+            IncomeParserResult result = IncomeCommandParser.parseCommand(command);
+
+            if (result.hasFeedback()) {
+                System.out.println(result.getFeedback());
+            }
+
+            if (result.hasCommand()) {
+                result.getCommand().execute(incomeManager);
             }
         }
     }

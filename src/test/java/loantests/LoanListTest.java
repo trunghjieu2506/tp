@@ -1,6 +1,7 @@
 package loantests;
 
 import loanbook.LoanManager;
+import loanbook.ui.LoanUI;
 import loanbook.commands.DeleteLoanCommand;
 import loanbook.commands.ListLoansCommand;
 import loanbook.commands.LoanCommand;
@@ -164,9 +165,9 @@ public class LoanListTest {
         ShowLoanDetailCommand command_7 = new ShowLoanDetailCommand(loanManager, 1);
         command_7.execute();
         System.out.println("Outgoing loans of George");
-        System.out.println(LoanManager.forPrint(loanManager.findOutgoingLoan(George)));
+        System.out.println(LoanUI.forPrint(loanManager.findOutgoingLoan(George)));
         System.out.println("Outgoing loans of Miao");
-        System.out.println(LoanManager.forPrint(loanManager.findOutgoingLoan(Miao)));
+        System.out.println(LoanUI.forPrint(loanManager.findOutgoingLoan(Miao)));
         System.out.println("Remove loans[5]");
         DeleteLoanCommand command_8= new DeleteLoanCommand(loanManager, 5);
         command_8.execute();

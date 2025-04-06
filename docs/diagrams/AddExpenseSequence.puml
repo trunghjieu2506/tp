@@ -2,17 +2,29 @@
 actor User
 participant ":UI"
 participant ":ExpenseCommandParser"
+participant ":ExpenseParserResult"
 participant ":AddExpenseCommand"
 participant ":ExpenseManager"
 hide footbox
 
-User -> ":UI" : "add Lunch 12.5 Food 2025-03-25"
+User -> ":UI" : enters "add Lunch 12.5 Food 2025-03-25"
 activate ":UI"
 
 ":UI" -> ":ExpenseCommandParser": parseCommand(input)
 activate ":ExpenseCommandParser"
-":ExpenseCommandParser" --> ":UI": AddExpenseCommand instance
+
+":ExpenseCommandParser" -> ":ExpenseParserResult": construct result (AddExpenseCommand, null)
+activate ":ExpenseParserResult"
+":ExpenseParserResult" --> ":ExpenseCommandParser"
+deactivate ":ExpenseParserResult"
+
+":ExpenseCommandParser" --> ":UI": ExpenseParserResult instance
 deactivate ":ExpenseCommandParser"
+
+":UI" -> ":ExpenseParserResult": getCommand()
+activate ":ExpenseParserResult"
+":ExpenseParserResult" --> ":UI": AddExpenseCommand instance
+deactivate ":ExpenseParserResult"
 
 ":UI" -> ":AddExpenseCommand": execute(expenseManager)
 activate ":AddExpenseCommand"

@@ -1,7 +1,7 @@
 package budgettest;
 
 import budgetsaving.budget.Budget;
-import budgetsaving.budget.BudgetException;
+import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.BudgetList;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +10,7 @@ import utils.money.Money;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Currency;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +22,7 @@ public class BudgetStatusTest {
 
     @BeforeEach
     public void setup() {
-        budgetList = new BudgetList("SGD");
+        budgetList = new BudgetList(Currency.getInstance("SGD"));
     }
 
     @Test

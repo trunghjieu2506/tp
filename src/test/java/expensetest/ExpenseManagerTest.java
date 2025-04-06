@@ -5,11 +5,8 @@ import expenseincome.expense.Expense;
 import expenseincome.expense.ExpenseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.money.Money;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Currency;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,7 +27,7 @@ public class ExpenseManagerTest {
         assertEquals(1, manager.getExpenseCount());
         Expense e = manager.getExpense(0);
         assertEquals("Lunch", e.getDescription());
-        assertEquals(BigDecimal.valueOf(10.50).setScale(2), e.getAmount().getAmount());
+        assertEquals(10.50, e.getAmount(), 0.01);
         assertEquals(date, e.getDate());
         assertEquals("Food", e.getCategory());
     }
@@ -90,7 +87,7 @@ public class ExpenseManagerTest {
         manager.editExpense(1, "Dinner", 15.00, newDate, "Dinner");
         Expense edited = manager.getExpense(0);
         assertEquals("Dinner", edited.getDescription());
-        assertEquals(BigDecimal.valueOf(10.50).setScale(2), edited.getAmount().getAmount());
+        assertEquals(15.00, edited.getAmount(), 0.01);
         assertEquals(newDate, edited.getDate());
         assertEquals("Dinner", edited.getCategory());
     }
@@ -126,20 +123,4 @@ public class ExpenseManagerTest {
         assertEquals("Z", manager.getExpense(1).getDescription());
         assertEquals("X", manager.getExpense(2).getDescription());
     }
-
-    @Test
-    void testAddExpense_WithDate_UsingMoney() {
-        LocalDate date = LocalDate.of(2025, 3, 20);
-        Currency currency = Currency.getInstance("SGD");
-        Money money = new Money(currency, 10.50);
-        Expense expense = new Expense("Lunch", money, date, "Food");
-        manager.getList().add(expense);
-        assertEquals(1, manager.getExpenseCount());
-        Expense e = manager.getExpense(0);
-        assertEquals("Lunch", e.getDescription());
-        assertEquals(money.getAmount(), e.getAmount().getAmount());
-        assertEquals(date, e.getDate());
-        assertEquals("Food", e.getCategory());
-    }
-
 }

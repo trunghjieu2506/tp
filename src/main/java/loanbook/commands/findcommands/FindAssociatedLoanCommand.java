@@ -1,23 +1,22 @@
 package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
-import loanbook.commands.LoanCommand;
+import loanbook.ui.LoanUI;
 import loanbook.loan.Loan;
 import utils.contacts.Person;
 
 import java.util.ArrayList;
 
-public class FindAssociatedLoanCommand extends LoanCommand {
-    protected LoanManager loanManager;
+public class FindAssociatedLoanCommand extends FindLoanCommand {
     protected Person person;
 
     public FindAssociatedLoanCommand(LoanManager loanManager, String name) {
-        this.loanManager = loanManager;
+        super(loanManager);
         this.person = loanManager.getContactsList().findName(name);
     }
 
     public FindAssociatedLoanCommand(LoanManager loanManager, Person person) {
-        this.loanManager = loanManager;
+        super(loanManager);
         this.person = person;
     }
 
@@ -32,7 +31,7 @@ public class FindAssociatedLoanCommand extends LoanCommand {
             } else {
                 System.out.println("Associated loans for [" + person.getName() +
                         (found.size() == 1 ? "] is:" : "] are:"));
-                System.out.println(LoanManager.forPrint(found));
+                System.out.println(LoanUI.forPrint(found));
             }
         }
     }
