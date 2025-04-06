@@ -105,3 +105,15 @@ Apr 06, 2025 1:25:47 PM expenseincome.income.IncomeManager addIncome
 INFO: Added income: Salary - USD 2500.00 on 2025-03-31 [Category: Job]
 Apr 06, 2025 1:25:52 PM expenseincome.income.IncomeManager editIncome
 INFO: Updated income: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
+4月 06, 2025 5:39:03 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
+4月 06, 2025 5:39:15 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
+4月 06, 2025 5:42:52 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 200.00 on 2025-04-06 [Category: Trip]
+4月 06, 2025 5:48:14 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
+4月 06, 2025 5:49:10 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
+4月 06, 2025 6:45:16 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 300.00 on 2025-04-06 [Category: Trip]
