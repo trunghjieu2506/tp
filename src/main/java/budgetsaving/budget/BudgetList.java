@@ -153,9 +153,9 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         boolean hasExceededBudget = Boolean.FALSE;
         try{
             hasExceededBudget = targetBudget.deductFromExpense(expense);
+            IOHandler.writeOutput("Budget deducted: " + targetBudget);
             Money remainingBudget = targetBudget.getRemainingBudget();
             double remainingAmount = remainingBudget.getAmount().doubleValue();
-            Money zeroReference = new Money(currency, 0);
             if (remainingAmount < 0){
                 hasExceededBudget = true;
             } else{

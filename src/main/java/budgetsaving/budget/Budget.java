@@ -192,7 +192,7 @@ public class Budget extends Finance {
         return  "[" + activeStatus + "]" + "[" + exceedStatus + "]" + "{Name: " + name +
                 ", Category: " + category +
                 ", RemainingBudget: " + remainingBudget.toString() +
-                ", From " + startDate + " to " + endDate + "}\n";
+                ", From " + startDate + " to " + endDate + "}";
     }
 
     public String printExpenses() {
