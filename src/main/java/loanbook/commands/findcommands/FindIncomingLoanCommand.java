@@ -26,7 +26,7 @@ public class FindIncomingLoanCommand extends FindLoanCommand {
             if (found.isEmpty()) {
                 System.out.println("No results found");
             } else {
-                System.out.println("Incoming loans for [" + borrower.getName() +
+                System.out.println("Incoming loan" + (found.size() == 1 ? "" : "s") + " for [" + borrower.getName() +
                         (found.size() == 1 ? "] is:" : "] are:"));
                 System.out.println(LoanUI.forPrint(found));
             }

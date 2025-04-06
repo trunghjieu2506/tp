@@ -18,6 +18,7 @@ public class FindTaggedLoanCommand extends FindLoanCommand {
         if (found.isEmpty()) {
             System.out.println("No results found");
         } else {
+            System.out.println("Here are the list of loans with \"" + tag + "\" tag:");
             System.out.println(LoanUI.forPrint(loanManager.findLoanWithTag(tag)));
         }
     }
