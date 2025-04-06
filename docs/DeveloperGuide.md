@@ -358,6 +358,23 @@ as illustrated by the sequence diagram below:
 Deleting a budget is an upcoming feature that is still under development, but it is important to let user
 to have the freedom of deleting redundant or no longer used budgets.
 
+#### Budget Expense Integration
+
+This integration between two major classes is to allow users to know the status of their budgets after adding their expenses.
+
+It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. A warning will be displayed if budget has been exceeded.
+
+```
+BudgetManager budgetManager = data.getBudgetManager();
+if (budgetManager != null) {
+   boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+   if (exceeded) {
+       System.out.println("Warning: You have exceeded your budget for category: " + category);
+   }
+}
+```
+
+
 ---
 
 ### Saving 

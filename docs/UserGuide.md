@@ -496,6 +496,31 @@ delete-c i/1 c/1
 - Note that the rest of the contribution will be shifted after deletion, just like deleting a saving.
 ---
 
+### Budget Expense Integration
+
+This feature allows expenses added to be deducted from budget automatically. The deduction is based on the same category set by user.
+
+**Example of not exceeding budget:** 
+```
+> set n/Food a/200 e/2025-12-12 c/Food
+> add cookie 3 food
+Budget deducted: [ACTIVE][HAS_REMAINING_BUDGET]{Name: Food, Category: Food, RemainingBudget: USD 197.00, From 2025-04-06 to 2025-12-12}
+Added: cookie - USD 3.00 on 2025-04-06 [Category: Food]
+```
+
+When the expenses added exceeds the budget set, a warning message will be printed to let the users know.
+
+**Example of exceeding budget (continued):**
+```
+> add Fine-Dining 200 Food
+Budget deducted: [ACTIVE][EXCEEDED_BUDGET]{Name: Food, Category: Food, RemainingBudget: USD -3.00, From 2025-04-06 to 2025-12-12}
+Warning: You have exceeded your budget for category: Food
+Added: Fine-Dining - USD 200.00 on 2025-04-06 [Category: Food]
+```
+
+**Note**: Calculation of available budget left after expense is added only works for existing budget. It does not account for new budget set after the expenses are already recorded.
+
+---
 ### Loan Management Commands
 
 The Loan commands will be available when entering loan mode:
@@ -685,37 +710,37 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 **Q:** Can my desc have multiple words for expense and income?  
 **A:** Yes, however do use hyphen '-' to replace the spaces.
 
-**Q:** Do I need to follow the date formate exactly in Budget and Saving managements?
+**Q:** Do I need to follow the date format exactly in Budget and Saving managements?
 **A:** Yes! Please use the exact date format `YYYY-MM-DD`
 
 ## Command Summary
 
 ### Expenses
 
-| Feature           | Command Format |
-|-------------------|----------------|
-| Add Expense       | `add <desc> <amount> <category> [date]` |
+| Feature           | Command Format                                            |
+|-------------------|-----------------------------------------------------------|
+| Add Expense       | `add <desc> <amount> <category> [date]`                   |
 | Edit Expense      | `edit <index> <newDesc> <newAmount> <newCategory> [date]` |
-| Delete Expense    | `delete <index>` |
-| List Expenses     | `list` |
-| List by Category  | `list category <name>` |
-| Sort by Date      | `sort recent` / `sort oldest` |
-| Top Category      | `top` |
-| Bottom Category   | `bottom` |
-| List all commands | `help` |
+| Delete Expense    | `delete <index>`                                          |
+| List Expenses     | `list`                                                    |
+| List by Category  | `list category <name>`                                    |
+| Sort by Date      | `sort recent` / `sort oldest`                             |
+| Top Category      | `top`                                                     |
+| Bottom Category   | `bottom`                                                  |
+| List all commands | `help`                                                    |
 
 ### Incomes
-| Feature           | Command Format |
-|-------------------|----------------|
-| Add Income        | `add <source> <amount> <category> [date]` |
+| Feature           | Command Format                                              |
+|-------------------|-------------------------------------------------------------|
+| Add Income        | `add <source> <amount> <category> [date]`                   |
 | Edit Income       | `edit <index> <newSource> <newAmount> <newCategory> [date]` |
-| Delete Income     | `delete <index>` |
-| List Income       | `list` |
-| List by Category  | `list category <name>` |
-| Sort by Date      | `sort recent` / `sort oldest` |
-| Top Category      | `top` |
-| Bottom Category   | `bottom` |
-| List all commands | `help` |
+| Delete Income     | `delete <index>`                                            |
+| List Income       | `list`                                                      |
+| List by Category  | `list category <name>`                                      |
+| Sort by Date      | `sort recent` / `sort oldest`                               |
+| Top Category      | `top`                                                       |
+| Bottom Category   | `bottom`                                                    |
+| List all commands | `help`                                                      |
 
 ### Budget
 
