@@ -32,7 +32,7 @@ The Expense commands will be available when entering **expense mode**:
 expense
 ```
 
-Use help to see the list of available commands:
+After entering **expense mode**, use help to see the list of available commands:
 ```
 help
 ```
@@ -40,25 +40,28 @@ help
 Track your daily spending using the following commands:
 
 ### Add Expense
+Adds a new expense entry with a description, amount, category, and optional date.
 
 **Command:**
 ```
 add <description> <amount> <category> [yyyy-mm-dd]
 ```
 
-- `description`: What the expense is for (e.g., Lunch)
-- `amount`: Expense amount in your preferred currency (e.g., 15.50)
-- `category`: A label for grouping expenses (e.g., Food)
+- `description`: What the expense is for (e.g. Lunch)
+- `amount`: Expense amount in your preferred currency (e.g. 15.50)
+- `category`: A label for grouping expenses (e.g. Food)
 - `yyyy-mm-dd` *(optional)*: Date of the expense. Defaults to today's date if omitted.
 
-**Example:**
-```
-add Lunch 12.5 Food 2025-04-01
-```
+**Example:** `add Lunch 12.5 Food 2025-04-01`
 
+```
+> add Lunch 12.5 Food 2025-04-01
+Added: Lunch - USD 12.50 on 2025-04-01 [Category: Food]
+```
 ---
 
 ### Edit Expense
+Updates details of an existing expense.
 
 **Command:**
 ```
@@ -71,14 +74,16 @@ edit <index> <newDescription> <newAmount> <newCategory> [yyyy-mm-dd]
 - `newCategory`: Updated category
 - `yyyy-mm-dd` *(optional)*: Updated date. Defaults to today if omitted.
 
-**Example:**
+**Example:** `edit 1 Dinner 18.0 Food 2025-04-02`
 ```
-edit 1 Dinner 18.0 Food 2025-04-02
+> edit 1 Dinner 18.0 Food 2025-04-02
+Updated: Dinner - USD 18.00 on 2025-04-02 [Category: Food]
 ```
 
 ---
 
 ### Delete Expense
+Removes an expense by its list index.
 
 **Command:**
 ```
@@ -87,25 +92,26 @@ delete <index>
 
 - `index`: The number of the expense you want to delete
 
-**Example:**
+**Example:** `delete 1`
 ```
-delete 3
+> delete 1
+Deleted: Dinner - USD 18.00 on 2025-04-02 [Category: Food]
 ```
 
 ---
 
 ### List Expenses
+Displays all recorded expenses.
 
 **Command:**
 ```
 list
 ```
 
-Displays all recorded expenses.
-
 ---
 
 ### List Expenses by Category
+Filters expenses by a specified category.
 
 **Command:**
 ```
@@ -114,16 +120,20 @@ list category <category>
 
 - `category`: The category to filter by
 
-**Example:**
+**Example:** `list category Transport`
 ```
-list category Transport
+> list category Transport
+Expenses in category: Transport
+1. Bus - USD 2.00 on 2025-04-06 [Category: Transport]
+2. Train - USD 4.00 on 2025-04-06 [Category: Transport]
 ```
 
 ---
 
 ### Sort Expenses by Date
+Orders expenses either by most recent or oldest date.
 
-**Command (most recent first):**
+**Command (recent first):**
 ```
 sort recent
 ```
@@ -135,21 +145,20 @@ sort oldest
 
 ---
 
-### Show Top/Bottom Spending Category
+### Top/Bottom Spending Category
+Identifies the category with the highest or lowest spending.
 
-**Command:**
+**Command (highest spending):**
+
 ```
 top
 ```
 
-Displays the category with the highest total spending.
+**Command (lowest spending):**
 
-**Command:**
 ```
 bottom
 ```
-
-Displays the category with the lowest total spending.
 
 ---
 
@@ -160,14 +169,15 @@ The Income commands will be available when entering **income mode**:
 income
 ```
 
-Use help to see the list of available commands:
+After entering **income mode**, use help to see the list of available commands:
 ```
 help
 ```
 
-Track all income sources and financial gains with the commands below:
+Track all income sources with the commands below:
 
 ### Add Income
+Adds a new income entry with a description, amount, category, and optional date.
 
 **Command:**
 ```
@@ -179,14 +189,16 @@ add <source> <amount> <category> [yyyy-mm-dd]
 - `category`: Group label (e.g., Job, Freelance)
 - `yyyy-mm-dd` *(optional)*: Date of the income. Defaults to today if omitted.
 
-**Example:**
+**Example:** `add Salary 2500 Job 2025-03-31`
 ```
-add Salary 2500 Job 2025-03-31
+> add Salary 2500 Job 2025-03-31
+Added: Salary - USD 2500.00 on 2025-03-31 [Category: Job]
 ```
 
 ---
 
 ### Edit Income
+Updates details of an existing income.
 
 **Command:**
 ```
@@ -199,14 +211,16 @@ edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]
 - `newCategory`: Updated category
 - `yyyy-mm-dd` *(optional)*: Updated date
 
-**Example:**
+**Example:** `edit 1 Bonus 500 Job 2025-04-01`
 ```
-edit 1 Bonus 500 Job 2025-04-01
+> edit 1 Bonus 500 Job 2025-04-01
+Updated: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
 ```
 
 ---
 
 ### Delete Income
+Removes an income by its list index.
 
 **Command:**
 ```
@@ -215,25 +229,26 @@ delete <index>
 
 - `index`: The number of the income to delete
 
-**Example:**
+**Example:** `delete 1`
 ```
-delete 2
+> delete 1
+Deleted: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
 ```
 
 ---
 
 ### List Incomes
+Displays all recorded incomes.
 
 **Command:**
 ```
 list
 ```
 
-Lists all recorded incomes.
-
 ---
 
 ### List Incomes by Category
+Filters incomes by a specified category.
 
 **Command:**
 ```
@@ -242,16 +257,20 @@ list category <category>
 
 - `category`: The category to filter by
 
-**Example:**
+**Example:** `list category Job`
 ```
-list category Freelance
+> list category Job
+Incomes in category: Job
+1. Bonus - USD 500.00 on 2025-04-01 [Category: Job]
+2. Salary - USD 2500.00 on 2025-03-31 [Category: Job]
 ```
 
 ---
 
 ### Sort Incomes by Date
+Orders incomes either by most recent or oldest.
 
-**Command (most recent first):**
+**Command (recent first):**
 ```
 sort recent
 ```
@@ -264,80 +283,113 @@ sort oldest
 ---
 
 ### Show Top/Bottom Income Category
+Identifies the category with the highest or lowest spending.
 
-**Command:**
+**Command (highest spending):**
 ```
 top
 ```
 
-Displays the category with the highest income total.
-
-**Command:**
+**Command (lowest spending):**
 ```
 bottom
 ```
 
-Displays the category with the lowest income total.
-
-
+---
 ## Budget Management Commands
 
-The Budget commands will be available when entering budget mode: ```budget```
+The Budget commands will be available when entering budget mode.
+```
+budget
+```
 
 Manage your budgets alongside your expenses and incomes with the following commands:
 
 ### Set Budget
 
-**Command:** ```set n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY```
+**Command:** 
+
+```
+set n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
+```
 
 - `NAME`: The name for your budget.
 - `AMOUNT`: The total budget amount.
 - `YYYY-MM-DD`: The end date for the budget period.
 - `CATEGORY`: The category for this budget.
 
-**Example:** set n/Entertainment a/500 e/2025-12-31 c/Leisure
+**Example:** 
+```
+set n/Entertainment a/500 e/2025-12-31 c/Leisure
+```
 
 ---
 
 ### List Budget
+Lists out all the budgets available
 
-**Command:** ```list```
-- Lists out all the budgets available
+**Command:** 
+```
+list
+```
+
 ---
 
 ### Check Budget
 
-**Command:** ```check i/INDEX```
+**Command:** 
+```
+check i/INDEX
+```
 
 - `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
 
-**Example**:  ```check i/1```
+**Example**:  
+```
+check i/1
+```
 
 ---
 
 ### Add to Budget
 
-**Command:** add i/INDEX a/AMOUNT
+**Command:** 
+
+```
+add i/INDEX a/AMOUNT
+```
 
 - `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
 - `AMOUNT`: The amount of budget to be added
 
-**Example**:  ```add i/1 a/500```
-- this adds $500 to budget with index 1, on top of the current budget limit
+**Example**:  
+```
+add i/1 a/500
+```
+- This adds $500 to budget with index 1, on top of the current budget limit
 
 ### Deduct from Budget
 
-**Command:** deduct i/INDEX a/AMOUNT
+**Command:** 
+```
+deduct i/INDEX a/AMOUNT
+```
 
 - `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
 - `AMOUNT`: The amount of budget to be deducted
 
-**Example**:  ```deduct i/1 a/500```
-- this deducts $500 to budget with index 1, so the new remaining budget will be last_remaining_budget - 500
+**Example**:  
+```
+deduct i/1 a/500
+```
+- This deducts $500 to budget with index 1, so the new remaining budget will be last_remaining_budget - 500
 
 ### Modify Budget
 
-**Command:** ```i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY```
+**Command:** 
+```
+i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
+```
 
 **You can skip any of the attributes if you are not changing them, but must include the index**
 
@@ -351,64 +403,79 @@ Manage your budgets alongside your expenses and incomes with the following comma
 - ```modify i/1 n/trip a/5000 e/2025-04-30 c/trips```
 - ```modify i/1 n/trip c/trip123```
 - ```modify i/1 a/5000```
-- this adds $500 to budget with index 1, on top of the current budget limit
+- This adds $500 to budget with index 1, on top of the current budget limit
 
 
 ## Saving Management Commands
 
-The Saving commands will be available when entering saving mode: ```saving```
+The Saving commands will be available when entering saving mode: 
+```
+saving
+```
 
 Manage your budgets alongside your expenses and incomes with the following commands:
 
 ### Set Saving
 
-**Command:** ```n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD```
+**Command:** 
+```
+n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD
+```
 
 - `GOAL_NAME`: The name for your budget.
 - `AMOUNT`: The total budget amount.
 - `YYYY-MM-DD`: The end date for the budget period.
 
-**Example:** set n/Entertainment a/500 e/2025-12-31
+**Example:** 
+```
+set n/Entertainment a/500 e/2025-12-31
+```
 - This sets a new saving of $500 to be completed by 31 Dec 2025
 
 ---
 
 ### List Saving
+Lists out all the savings
 
-**Command:** ```list```
-- Lists out all the savings
+**Command:** 
+```
+list
+```
 ---
 
 ### Add Contribution to Saving
 
-**Command:** ```contribute i/INDEX a/AMOUNT```
+**Command:** 
+```
+contribute i/INDEX a/AMOUNT
+```
 
 - `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
 - `AMOUNT`: The amount of budget to be added
 
-**Example**:  ```contribute i/1 a/500```
-- this adds $500 to the saving with index 1, now the contribution is last_contribution + 500
+**Example**:  
+```
+contribute i/1 a/500
+```
+- This adds $500 to the saving with index 1, now the contribution is last_contribution + 500
 
 ---
 
-### Loan Mode
+### Loan Management Commands
 
-**Command:** `loan`
-
-**Description:** All commands in this section run in the loan mode. To enter loan mode, simply enter this command.
-
-**Example:** `loan`
+The Loan commands will be available when entering loan mode:
 ```
-Enter command (type 'help' for commands): loan
-Loan Mode: Enter commands (type 'exit' to return)
-> 
+loan
 ```
 
 ### List all loans
+Displays a list of all loans. Only basic information (lender, borrower, balance and return status) is shown.
 
-**Command:** `list`
+**Command:** 
+```
+list
+```
 
-**Description:** Displays a list of all loans. Only basic information (lender, borrower, balance and return status) is shown.
 
 **Example:** `list`
 ```
@@ -422,10 +489,12 @@ Here are all recorded loans:
     Not Returned
 ```
 ### Show the details of a specific loan
+Shows every detail of the Xth loan in the list. Each detail is shown in a separated line.
 
-**Command:** `show X`
-
-**Description:** Shows every detail of the Xth loan in the list. Each detail is shown in a separated line.
+**Command:** 
+```
+show X
+```
 
 **Example:** `show 1`
 ```
@@ -441,10 +510,11 @@ Here are all recorded loans:
 ```
 
 ### Adding a simple bullet loan
+Adds a simple bullet loan to the list, with optional description and return dates.
+
 
 **Input sequence:** as shown in the code example
 
-**Description:** Adds a simple bullet loan to the list, with optional description and return dates.
 
 **Example:** `add`
 ```
@@ -465,10 +535,10 @@ Simple Bullet Loan added: Lender: [lender 1]    Borrower: [borrower 1]    Amount
     Not Returned
 ```
 ### Adding an advanced loan
+Adds an advanced loan to the list, with compulsory start date, optional description and return dates.
 
 **Input sequence:** as shown in the code example
 
-**Description:** Adds an advanced loan to the list, with compulsory start date, optional description and return dates.
 
 **Example:** `add`
 ```
@@ -496,10 +566,12 @@ Advanced Loan added: Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD
 ```
 
 ### Editing an attribute of a loan
+Edit one attribute of a loan. (The lender and borrower cannot be edited)
 
-**Command:** `edit X [attribute]`
-
-**Description:** Edit one attribute of a loan. (The lender and borrower cannot be edited)
+**Command:** 
+```
+edit X [attribute]
+```
 
 **Example:** `edit 1 description`
 ```
@@ -517,10 +589,12 @@ Tags: None
 Not Returned
 ```
 ### Finding outgoing loans from someone
+Finds all loans lent by the input name.
 
-**Command:** `find [name] outgoing loan` or `find outgoing loan [name]`
-
-**Description:** Finds all loans lent by the input name.
+**Command:** 
+```
+find [name] outgoing loan` or `find outgoing loan [name]
+```
 
 **Example:** `find lender 1 outgoing loan`
 ```
@@ -530,10 +604,12 @@ Outgoing loans for [lender 1] is:
     Not Returned
 ```
 ### Finding incoming loans from someone
+Finds all loans borrowed by the input name.
 
-**Command:** `find [name] incoming loan` or `find incoming loan [name]`
-
-**Description:** Finds all loans borrowed by the input name.
+**Command:** 
+```
+find [name] incoming loan` or `find incoming loan [name]
+```
 
 **Example:** `find borrower 1 incoming loan`
 ```
@@ -547,10 +623,12 @@ Incoming loans for [borrower 1] are:
     Not Returned
 ```
 ### Deleting loans
+Deletes the Xth loan from the list.
 
-**Command:** `delete X`
-
-**Description:** Deletes the Xth loan from the list.
+**Command:** 
+```
+delete X
+```
 
 **Example:** `delete 1`
 ```
@@ -563,34 +641,46 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 
 ## FAQ
 
-**Q:** What happens if I forget to type the date?  
-**A:** The system automatically uses today’s date.
+**Q:** What happens if I forget to type the date for expense and income?  
+**A:** The system automatically uses today’s date for expense and income.
 
-**Q:** Can I use lowercase for category names?  
-**A:** Yes. The system normalizes category casing.
+**Q:** Can I use lowercase for category names for expense and income?  
+**A:** Yes. The system normalizes category casing for expense and income inputs.
+
+**Q:** Can my desc have multiple words for expense and income?  
+**A:** Yes, however do use hyphen '-' to replace the spaces.
 
 **Q:** Do I need to follow the date formate exactly in Budget and Saving managements?
 **A:** Yes! Please use the exact date format `YYYY-MM-DD`
 
 ## Command Summary
 
-### Expenses and Incomes
+### Expenses
 
-| Feature       | Command Format |
-|---------------|----------------|
-| Add Expense   | `add <desc> <amount> <category> [date]` |
-| Edit Expense  | `edit <index> <newDesc> <newAmount> <newCategory> [date]` |
-| Delete Expense| `delete <index>` |
-| List Expenses | `list` |
-| List by Category | `list category <name>` |
-| Sort by Date  | `sort recent` / `sort oldest` |
-| Top Category  | `top` |
-| Bottom Category | `bottom` |
-| Add Income    | `add <source> <amount> <category> [date]` |
-| Edit Income   | `edit <index> <newSource> <newAmount> <newCategory> [date]` |
-| Delete Income | `delete <index>` |
-| List Income   | `list` |
-| Help          | `help` |
+| Feature           | Command Format |
+|-------------------|----------------|
+| Add Expense       | `add <desc> <amount> <category> [date]` |
+| Edit Expense      | `edit <index> <newDesc> <newAmount> <newCategory> [date]` |
+| Delete Expense    | `delete <index>` |
+| List Expenses     | `list` |
+| List by Category  | `list category <name>` |
+| Sort by Date      | `sort recent` / `sort oldest` |
+| Top Category      | `top` |
+| Bottom Category   | `bottom` |
+| List all commands | `help` |
+
+### Incomes
+| Feature           | Command Format |
+|-------------------|----------------|
+| Add Income        | `add <source> <amount> <category> [date]` |
+| Edit Income       | `edit <index> <newSource> <newAmount> <newCategory> [date]` |
+| Delete Income     | `delete <index>` |
+| List Income       | `list` |
+| List by Category  | `list category <name>` |
+| Sort by Date      | `sort recent` / `sort oldest` |
+| Top Category      | `top` |
+| Bottom Category   | `bottom` |
+| List all commands | `help` |
 
 ### Budgets and Savings
 
@@ -617,9 +707,9 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 | Show Loan Details     | `show X`             |
 | Find associated loans | `find [name]`        |
 
-## Coming Soon
+## Possible Enhancements
 
-- Recurring entries (e.g., monthly salary)
+- Recurring entries for expense and income (e.g., monthly salary)
 - Exporting to CSV
 - Search by keyword or date range
 - Gives a saving summary upon completing a saving goal
