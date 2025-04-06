@@ -172,20 +172,6 @@ This makes testing and future enhancements (e.g. undo/redo) straightforward.
 An example of the sequence diagram for Add Expense Command is as shown:
 ![Add Expense Command Sequence](img_7.png)
 
-### Error Handling
-
-- Custom exceptions via `ExpenseException` to handle user input validation.
-- Example validations:
-   - Description must not be empty.
-   - Amount must be positive.
-   - Index must be within list bounds.
-- Parser handles syntax and structure validation; Manager handles business rule validation.
-
-### Logging
-
-- Internally uses Java’s `Logger` to log all state-changing operations.
-- Warnings are logged but not shown to users unless necessary.
-
 ---
 
 ### Income
@@ -240,7 +226,7 @@ This makes the logic modular, testable, and easily extendable.
 
 An example of the sequence diagram for Edit Income Command is as shown:
 ![Edit Income Command Sequence](img_8.png)
-
+---
 ### Error Handling for Expense and Income
 
 - Custom exceptions via `ExpenseException` and `IncomeException` to handle user input validation.

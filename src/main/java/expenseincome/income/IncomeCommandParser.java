@@ -13,7 +13,9 @@ import expenseincome.income.exceptions.IncomeException;
 
 
 import java.time.LocalDate;
-
+/**
+ * Parses user input entered in income mode and returns corresponding commands.
+ */
 public class IncomeCommandParser {
 
     private static String capitalize(String input) {
@@ -22,7 +24,12 @@ public class IncomeCommandParser {
         }
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
-
+    /**
+     * Parses the command string and returns a result containing the command or feedback.
+     *
+     * @param input The raw user input from the CLI.
+     * @return IncomeParserResult with parsed command or error message.
+     */
     public static IncomeParserResult parseCommand(String input) {
         if (input == null || input.trim().isEmpty()) {
             return new IncomeParserResult(null, "Please enter a command.");
