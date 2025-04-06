@@ -108,7 +108,7 @@ public class SavingGeneralCommand implements Command {
     //public Result excute()
 
     public static void handleSavingCommand(Scanner scanner, SavingManager savingManager) {
-        IOHandler.writeOutputNoLn("Here's a list of saving commands: \n" + SAVING_COMMANDS);
+        IOHandler.writeOutputNoLn("Saving Mode: Enter commands (type 'exit' to return)");
         while (true){
             IOHandler.flushError();
             IOHandler.flushOutput();

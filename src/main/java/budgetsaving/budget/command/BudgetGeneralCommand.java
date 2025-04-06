@@ -82,7 +82,7 @@ public class BudgetGeneralCommand implements Command {
 
     //the 'main' function to all budget commands
     public static void handleBudgetCommand(Scanner scanner, BudgetManager budgetManager) {
-        IOHandler.writeOutput("Here's a list of budget commands: \n" + BUDGET_COMMANDS);
+        IOHandler.writeOutput("Budget Mode: Enter commands (type 'exit' to return)");
         while (true){
             IOHandler.writeOutputNoLn("> ");
             String input = scanner.nextLine().trim();
