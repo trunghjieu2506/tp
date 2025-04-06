@@ -11,7 +11,6 @@ import expenseincome.expense.commands.SortExpenseCommand;
 import expenseincome.expense.commands.HelpExpenseCommand;
 import expenseincome.expense.commands.TopCategoryExpenseCommand;
 import expenseincome.expense.commands.BottomCategoryExpenseCommand;
-import expenseincome.income.IncomeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpenseCommandTestSuite {
     private ExpenseManager expenseManager;
-    private IncomeManager incomeManager;
 
     @BeforeEach
     void setUp() {

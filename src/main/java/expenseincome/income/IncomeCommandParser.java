@@ -32,15 +32,15 @@ public class IncomeCommandParser {
         String commandType = parts[0].toLowerCase();
 
         return switch (commandType) {
-            case "add" -> parseAdd(parts);
-            case "edit" -> parseEdit(parts);
-            case "delete" -> parseDelete(parts);
-            case "list" -> parseList(parts);
-            case "sort" -> parseSort(parts);
-            case "top" -> new IncomeParserResult(new TopCategoryIncomeCommand(), null);
-            case "bottom" -> new IncomeParserResult(new BottomCategoryIncomeCommand(), null);
-            case "help" -> new IncomeParserResult(new HelpIncomeCommand(), null);
-            default -> new IncomeParserResult(null, "Unknown command: " + commandType);
+        case "add" -> parseAdd(parts);
+        case "edit" -> parseEdit(parts);
+        case "delete" -> parseDelete(parts);
+        case "list" -> parseList(parts);
+        case "sort" -> parseSort(parts);
+        case "top" -> new IncomeParserResult(new TopCategoryIncomeCommand(), null);
+        case "bottom" -> new IncomeParserResult(new BottomCategoryIncomeCommand(), null);
+        case "help" -> new IncomeParserResult(new HelpIncomeCommand(), null);
+        default -> new IncomeParserResult(null, "Unknown command: " + commandType);
         };
     }
 
@@ -76,7 +76,8 @@ public class IncomeCommandParser {
 
     private static IncomeParserResult parseEdit(String[] parts) {
         if (parts.length < 3) {
-            return new IncomeParserResult(null, "Usage: edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
+            return new IncomeParserResult(null, "Usage: edit <index> " +
+                    "<newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
         }
 
         try {
@@ -95,7 +96,8 @@ public class IncomeCommandParser {
             String newCategory = capitalize(args[2].trim());
             LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
 
-            return new IncomeParserResult(new EditIncomeCommand(index, newSource, newAmount, newDate, newCategory), null);
+            return new IncomeParserResult(new EditIncomeCommand(index, newSource,
+                    newAmount, newDate, newCategory), null);
         } catch (IncomeException e) {
             return new IncomeParserResult(null, e.getMessage());
         } catch (NumberFormatException e) {
@@ -112,7 +114,12 @@ public class IncomeCommandParser {
 
         try {
             int index = Integer.parseInt(parts[1]);
+            if (index < 1) {
+                throw new IncomeException("Index must be a positive integer.");
+            }
             return new IncomeParserResult(new DeleteIncomeCommand(index), null);
+        } catch (IncomeException e) {
+            return new IncomeParserResult(null, e.getMessage());
         } catch (NumberFormatException e) {
             return new IncomeParserResult(null, "Invalid index. Please enter a number.");
         }
@@ -136,9 +143,9 @@ public class IncomeCommandParser {
 
         String sortType = parts[1].toLowerCase();
         return switch (sortType) {
-            case "recent" -> new IncomeParserResult(new SortIncomeCommand(true), null);
-            case "oldest" -> new IncomeParserResult(new SortIncomeCommand(false), null);
-            default -> new IncomeParserResult(null, "Unknown sort type. Use 'recent' or 'oldest'.");
+        case "recent" -> new IncomeParserResult(new SortIncomeCommand(true), null);
+        case "oldest" -> new IncomeParserResult(new SortIncomeCommand(false), null);
+        default -> new IncomeParserResult(null, "Unknown sort type. Use 'recent' or 'oldest'.");
         };
     }
 }

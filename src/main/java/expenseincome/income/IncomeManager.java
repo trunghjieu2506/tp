@@ -1,4 +1,3 @@
-
 package expenseincome.income;
 
 import cashflow.model.FinanceData;
@@ -13,6 +12,9 @@ import java.time.LocalDate;
 import java.util.Currency;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Handler;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -21,6 +23,34 @@ public class IncomeManager implements IncomeDataManager {
     private final ArrayList<Income> incomes;
     private final FinanceData data;
     private final String currency;
+
+    static {
+        try {
+            // Ensure logs directory exists
+            java.io.File logDir = new java.io.File("logs");
+            if (!logDir.exists()) {
+                boolean created = logDir.mkdirs();
+                if (!created) {
+                    System.err.println("Failed to create log directory.");
+                }
+            }
+
+            // Remove default console handlers
+            Logger rootLogger = Logger.getLogger("");
+            for (Handler handler : rootLogger.getHandlers()) {
+                rootLogger.removeHandler(handler);
+            }
+
+            // Set up file handler for logging
+            FileHandler fileHandler = new FileHandler("logs/income.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            rootLogger.addHandler(fileHandler);
+            rootLogger.setLevel(Level.ALL);
+
+        } catch (Exception e) {
+            System.err.println("Failed to initialize logging: " + e.getMessage());
+        }
+    }
 
     public IncomeManager(FinanceData data, String currency) {
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
@@ -83,7 +113,7 @@ public class IncomeManager implements IncomeDataManager {
             System.out.println("Deleted: " + removed);
         } catch (IncomeException e) {
             logger.log(Level.WARNING, "Failed to delete income", e);
-            System.out.println("Failed to delete income. " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -171,6 +201,9 @@ public class IncomeManager implements IncomeDataManager {
     }
 
     private void validateIndex(int index) throws IncomeException {
+        if (incomes.isEmpty()) {
+            throw new IncomeException("No incomes to delete. Your list is empty.");
+        }
         if (index < 1 || index > incomes.size()) {
             throw new IncomeException("Invalid index: must be between 1 and " + incomes.size());
         }

@@ -1,0 +1,41 @@
+@startuml
+actor User
+participant ":UI"
+participant ":IncomeCommandParser"
+participant ":IncomeParserResult"
+participant ":EditIncomeCommand"
+participant ":IncomeManager"
+hide footbox
+
+User -> ":UI" : enters "edit 1 Bonus 500 Job 2025-04-01"
+activate ":UI"
+
+":UI" -> ":IncomeCommandParser": parseCommand(input)
+activate ":IncomeCommandParser"
+
+":IncomeCommandParser" -> ":IncomeParserResult": construct result (EditIncomeCommand, null)
+activate ":IncomeParserResult"
+":IncomeParserResult" --> ":IncomeCommandParser"
+deactivate ":IncomeParserResult"
+
+":IncomeCommandParser" --> ":UI": IncomeParserResult instance
+deactivate ":IncomeCommandParser"
+
+":UI" -> ":IncomeParserResult": getCommand()
+activate ":IncomeParserResult"
+":IncomeParserResult" --> ":UI": EditIncomeCommand instance
+deactivate ":IncomeParserResult"
+
+":UI" -> ":EditIncomeCommand": execute(incomeManager)
+activate ":EditIncomeCommand"
+
+":EditIncomeCommand" -> ":IncomeManager": editIncome(index, newSource, newAmount, newDate, newCategory)
+activate ":IncomeManager"
+":IncomeManager" --> ":EditIncomeCommand"
+deactivate ":IncomeManager"
+
+":EditIncomeCommand" --> ":UI"
+deactivate ":EditIncomeCommand"
+
+deactivate ":UI"
+@enduml

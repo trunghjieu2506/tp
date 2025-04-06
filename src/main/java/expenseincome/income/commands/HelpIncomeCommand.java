@@ -46,5 +46,8 @@ public class HelpIncomeCommand extends IncomeCommand {
 
         System.out.println("  help");
         System.out.println("    - Displays this help message.");
+
+        System.out.println("  exit");
+        System.out.println("    - Exit income mode.");
     }
 }

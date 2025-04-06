@@ -2,9 +2,9 @@
 
 ## Overview
 
-Our product, **Cashflow**, is a CLI-based application that allows users to record, categorize, and analyze their personal expenses and income. It supports commands to add, edit, delete, sort, and list financial transactions by date and category. The app is optimized for fast and lightweight usage, ideal for users who prefer a non-GUI financial tracking tool.
+Our product, **CashFlow**, is a Command Line Interface (CLI) application that empowers users to record, categorize, and analyze their personal expenses and income efficiently. It supports intuitive commands to add, edit, delete, sort, and list transactions, with optional category and date filtering. Designed for speed and minimalism, it caters to users who prefer productivity over graphical interfaces.
 
-I was responsible for implementing the core features that manage expense and income entries, including command parsing, logic execution, and unit testing. My work emphasized clean separation of concerns and extensibility.
+I was in charge of the entire **Expense and Income** modules. This included end-to-end development from design, implementation, and testing, to documentation. I also played a key leadership role in coordinating the team’s workflow, ensuring standardization, and guiding team progress throughout the project lifecycle.
 
 ---
 
@@ -13,75 +13,107 @@ I was responsible for implementing the core features that manage expense and inc
 ### 🧑‍💻 Code Contributed
 - [My code on Code Dashboard](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=nicholascxh&breakdown=true)
 - Core logic for:
-    - `Expense`, `Income`
-    - `ExpenseManager`, `IncomeManager`
-- Parser and command execution classes:
-    - `ExpenseCommandParser.java`, `IncomeCommandParser.java`
-    - All `Add/Edit/Delete/List/Sort/Top/BottomCategory` command classes for both Expense and Income
-- Integrated category and date support for all entries
+  - `Expense`, `Income` classes
+  - `ExpenseManager`, `IncomeManager` logic classes
+- Full command architecture including:
+  - `ExpenseCommandParser`, `IncomeCommandParser`
+  - All `Add`, `Edit`, `Delete`, `List`, `Sort`, `TopCategory`, `BottomCategory`, `Help`, and `ListCategory` command classes for Expense and Income
+- Introduced `ExpenseParserResult` and `IncomeParserResult` for better user feedback separation
 
 ---
 
 ### ✨ Enhancements Implemented
 
-- Expense & income object models with category and date fields
-- Expense and income managers with full CRUD support and category analysis
-- Command parsing and validation for CLI commands with graceful error handling
-- Top and bottom category analysis logic (aggregated spending/earning by category)
-- Full command pattern implementation to support extensibility
+- Built the entire **Expense and Income subsystems**, including:
+  - Command pattern infrastructure to separate parsing and execution
+  - Comprehensive validation with meaningful user feedback
+  - Structured parser result logic to cleanly separate command execution from user interface errors
+- Implemented **category-based analytics**, including:
+  - Aggregation of entries to determine top and bottom spending/earning categories
+- Built extensible command execution framework for expense and income
+- Applied **logging architecture** using Java’s `Logger`, ensuring internal visibility without cluttering CLI
+- Implemented custom error handling via `ExpenseException` and `IncomeException`
+- Designed and implemented CLI parser that converts user input into command classes
+- Refactored command execution to support testability, SOC (Separation of Concerns), and SRP (Single Responsibility Principle)
 
 ---
 
-### 📘 Contributions to the UG
+### 📘 Contributions to the User Guide (UG)
 
-- Wrote all sections related to:
-    - Expense and income commands (`add`, `edit`, `delete`, `list`, `sort`, `top`, `bottom`, `list category`)
-    - Summary table and command format explanations
-    - FAQ and Quick Start section
+- Added the following UG sections:
+  - Expense commands: `add`, `edit`, `delete`, `list`, `list category`, `sort recent|oldest`, `top`, `bottom`, `help`
+  - Income commands: same structure mirrored for income
+  - FAQ section, command summary, quick start, and examples
+- Drafted a standardized UG template for the team to ease their workload
 
 ---
 
-### 📗 Contributions to the DG
+### 📗 Contributions to the Developer Guide (DG)
 
-- Wrote the implementation section for:
-    - Expense and Income modules
-    - ExpenseManager and IncomeManager
-    - Command parsing and execution architecture
-- Created and documented:
-    - Class diagram for Expense and Income managers
-    - Sequence diagram for `AddExpenseCommand` (with activation bars and return control)
+- Wrote DG sections for:
+  - Expense Management Design and Implementation
+  - Income Management Design and Implementation
+  - ExpenseCommandParser and IncomeCommandParser
+  - Parser Result logic (`ExpenseParserResult`, `IncomeParserResult`)
+  - Error handling with exceptions
+  - Logging with Java’s logger
+- Diagrams contributed:
+  - Class Diagrams for Expense and Income packages (PlantUML)
+  - Sequence Diagrams for `AddExpenseCommand`, `EditIncomeCommand`
+- Drafted a standardized DG template for the team to ease their workload
 
 ---
 
 ### 👥 Contributions to Team-based Tasks
 
-- Setting up the GitHub team org/repo
-- Necessary general code enhancements
-- Setting up tools e.g., GitHub, Gradle
-- Maintaining the issue tracker
-- Release management
-- Participated in design meetings and issue triaging
-- Reminded teammates on deliverables
+- **Leadership & Coordination**:
+  - Proactively set **reminders and internal deadlines** when team engagement was low
+  - Frequently updated and **kept the team accountable** for milestones and deliverables
+  - **Standardized documentation** formats for both UG and DG to ensure consistency
+  - Initiated a **round-robin review workflow**, where each PR must be reviewed by another team member before merging
+  - **Chaired internal meetings** and design syncs to align on implementation priorities
+
+- **Project Setup & Admin**:
+  - Set up the GitHub repository, issue tracker, project board, and milestones
+  - Configured repository access, PR templates, and default GitHub branch protection
+  - Maintained a clean commit history and release tagging
 
 ---
 
 ### 🤝 Review / Mentoring Contributions
 
-- [PRs Reviewed By Me](https://github.com/AY2425S2-CS2113-W11-2/tp/pulls?q=is%3Apr+is%3Aclosed+reviewed-by%3A%40me)
-- Reviewed PRs related to UI cleanup, input parsing, and error handling
-
+- Reviewed multiple pull requests related to:
+  - Input validation, CLI parsing, command execution logic, and UI consistency
+- Shared tutorials with teammates on:
+  - How to write PlantUML diagrams
+  - Proper Java logging practices
+- Helped resolve merge conflicts during final week integration
+- 
 ---
 
 ### 🌐 Contributions Beyond the Team
 
-- Raised GitHub issues on bugs discovered in peer teams during PE dry runs
+- Filed 15 bug reports for other tP groups during PE dry run testing
+- Scheduled a consultation session with the teaching team and encouraged the team to join in
 
 ---
 
-### Class Diagram - Expense and Income Manager
+## Diagrams
 
-![ExpenseManager and IncomeManager](../img.png)
+These are the class and sequence diagrams I have created according to the project.
+
+### Class Diagram - Expense Package
+
+![Expense Class Diagram](../img_6.png)
+
+### Class Diagram - Income Package
+
+![Income Class Diagram](../img_5.png)
 
 ### Sequence Diagram - Add Expense Command
 
-![AddExpenseCommand Sequence](../img_3.png)
+![AddExpenseCommand Sequence](../img_7.png)
+
+### Sequence Diagram - Edit Income Command
+
+![EditIncomeCommand Sequence](../img_8.png)
