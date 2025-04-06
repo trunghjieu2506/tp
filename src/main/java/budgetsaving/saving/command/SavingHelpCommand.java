@@ -10,6 +10,6 @@ public class SavingHelpCommand implements Command {
 
     @Override
     public void execute() {
-        IOHandler.writeOutput(SAVING_COMMANDS);
+        IOHandler.writeOutputNoLn(SAVING_COMMANDS);
     }
 }
