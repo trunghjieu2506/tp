@@ -83,3 +83,25 @@ Apr 06, 2025 12:41:48 PM expenseincome.income.IncomeManager addIncome
 INFO: Added income: 1 - USD 1.00 on 2025-04-06 [Category: 1]
 Apr 06, 2025 12:41:50 PM expenseincome.income.IncomeManager deleteIncome
 INFO: Deleted income: 1 - USD 1.00 on 2025-04-06 [Category: 1]
+Apr 06, 2025 1:20:01 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: Lunch - USD 12.50 on 2025-04-01 [Category: Food]
+Apr 06, 2025 1:21:23 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: Dinner - USD 18.00 on 2025-04-02 [Category: Food]
+Apr 06, 2025 1:21:58 PM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: Dinner - USD 18.00 on 2025-04-02 [Category: Food]
+Apr 06, 2025 1:22:47 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: Bus - USD 2.00 on 2025-04-06 [Category: Transport]
+Apr 06, 2025 1:22:55 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: Train - USD 4.00 on 2025-04-06 [Category: Transport]
+Apr 06, 2025 1:24:04 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Salary - USD 2500.00 on 2025-03-31 [Category: Job]
+Apr 06, 2025 1:24:16 PM expenseincome.income.IncomeManager editIncome
+INFO: Updated income: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
+Apr 06, 2025 1:24:32 PM expenseincome.income.IncomeManager deleteIncome
+INFO: Deleted income: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
+Apr 06, 2025 1:25:06 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Salary - USD 2500.00 on 2025-03-31 [Category: Job]
+Apr 06, 2025 1:25:47 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Salary - USD 2500.00 on 2025-03-31 [Category: Job]
+Apr 06, 2025 1:25:52 PM expenseincome.income.IncomeManager editIncome
+INFO: Updated income: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
