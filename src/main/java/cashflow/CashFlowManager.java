@@ -44,8 +44,8 @@ public class CashFlowManager {
         data = new FinanceData();
 
         // Initialize integration modules (dummy implementations for now).
-        expenseManager = new ExpenseManager(data);
-        incomeManager = new IncomeManager();
+        expenseManager = new ExpenseManager(data, "USD");
+        incomeManager = new IncomeManager(data, "USD");
         savingManager = new SavingList("USD");
         budgetManager = new BudgetList(data.getCurrency());
 //
