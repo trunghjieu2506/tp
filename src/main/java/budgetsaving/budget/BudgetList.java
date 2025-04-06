@@ -145,8 +145,8 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             }
             if (expense.getDate().isBefore(targetBudget.getStartDate())
                     || expense.getDate().isAfter(targetBudget.getEndDate())) {
-                throw new BudgetRuntimeException(
-                        "The expense you wish to deduct from budget is not in the time frame of the budget.");
+                IOHandler.writeWarning(
+                        "Notice: The expense you wish to deduct from budget is not in the time frame of the budget.");
             }
             hasExceededBudget = targetBudget.deductFromExpense(expense);
             IOHandler.writeOutput("Budget deducted: " + targetBudget);
