@@ -1,111 +1,148 @@
 package incometest;
 
 import expenseincome.income.IncomeCommandParser;
+import expenseincome.income.IncomeParserResult;
 import expenseincome.income.commands.AddIncomeCommand;
 import expenseincome.income.commands.DeleteIncomeCommand;
 import expenseincome.income.commands.EditIncomeCommand;
-import expenseincome.income.commands.IncomeCommand;
 import expenseincome.income.commands.ListCategoryIncomeCommand;
 import expenseincome.income.commands.ListIncomeCommand;
 import expenseincome.income.commands.SortIncomeCommand;
+import expenseincome.income.commands.HelpIncomeCommand;
+import expenseincome.income.commands.TopCategoryIncomeCommand;
+import expenseincome.income.commands.BottomCategoryIncomeCommand;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IncomeCommandParserTest {
 
     @Test
     void testParseAddCommandWithDate() {
-        IncomeCommand command = IncomeCommandParser.parseCommand(
-                "add Salary 5000 Job 2025-03-25");
-        assertTrue(command instanceof AddIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("add Salary 5000 Job 2025-03-25");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(AddIncomeCommand.class, result.getCommand());
+        assertFalse(result.hasFeedback());
     }
 
     @Test
     void testParseAddCommandWithoutDate() {
-        IncomeCommand command = IncomeCommandParser.parseCommand(
-                "add Bonus 1000 Extra");
-        assertTrue(command instanceof AddIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("add Bonus 1000 Extra");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(AddIncomeCommand.class, result.getCommand());
+        assertFalse(result.hasFeedback());
     }
 
     @Test
-    void testParseInvalidAddCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("add Bonus");
-        assertNull(command);
+    void testParseInvalidAddCommandMissingAmount() {
+        IncomeParserResult result = IncomeCommandParser.parseCommand("add Bonus");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
+    }
+
+    @Test
+    void testParseAddCommandNegativeAmount() {
+        IncomeParserResult result = IncomeCommandParser.parseCommand("add Bonus -1000 Extra");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
     }
 
     @Test
     void testParseListCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("list");
-        assertTrue(command instanceof ListIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("list");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(ListIncomeCommand.class, result.getCommand());
     }
 
     @Test
     void testParseListCategoryCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("list category Job");
-        assertTrue(command instanceof ListCategoryIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("list category Job");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(ListCategoryIncomeCommand.class, result.getCommand());
     }
 
     @Test
-    void testParseInvalidListCategoryCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("list category");
-        assertNull(command);
+    void testParseListCategoryMissingName() {
+        IncomeParserResult result = IncomeCommandParser.parseCommand("list category");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
     }
 
     @Test
     void testParseDeleteCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("delete 1");
-        assertTrue(command instanceof DeleteIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("delete 1");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(DeleteIncomeCommand.class, result.getCommand());
     }
 
     @Test
-    void testParseInvalidDeleteCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("delete abc");
-        assertNull(command);
+    void testParseDeleteInvalidIndex() {
+        IncomeParserResult result = IncomeCommandParser.parseCommand("delete abc");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
     }
 
     @Test
     void testParseEditCommandWithDate() {
-        IncomeCommand command = IncomeCommandParser.parseCommand(
-                "edit 1 Bonus 750 Extra 2025-03-30");
-        assertTrue(command instanceof EditIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("edit 1 Bonus 750 Extra 2025-03-30");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(EditIncomeCommand.class, result.getCommand());
     }
 
     @Test
     void testParseEditCommandWithoutDate() {
-        IncomeCommand command = IncomeCommandParser.parseCommand(
-                "edit 1 Bonus 750 Extra");
-        assertTrue(command instanceof EditIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("edit 1 Bonus 750 Extra");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(EditIncomeCommand.class, result.getCommand());
     }
 
     @Test
-    void testParseInvalidEditCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("edit 1 Bonus");
-        assertNull(command);
+    void testParseEditMissingFields() {
+        IncomeParserResult result = IncomeCommandParser.parseCommand("edit 1 Bonus");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
     }
 
     @Test
     void testParseSortRecentCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("sort recent");
-        assertTrue(command instanceof SortIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("sort recent");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(SortIncomeCommand.class, result.getCommand());
     }
 
     @Test
     void testParseSortOldestCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("sort oldest");
-        assertTrue(command instanceof SortIncomeCommand);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("sort oldest");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(SortIncomeCommand.class, result.getCommand());
     }
 
     @Test
     void testParseSortInvalidType() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("sort random");
-        assertNull(command);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("sort random");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
+    }
+
+    @Test
+    void testParseTopAndBottomCommand() {
+        IncomeParserResult top = IncomeCommandParser.parseCommand("top");
+        IncomeParserResult bottom = IncomeCommandParser.parseCommand("bottom");
+        assertInstanceOf(TopCategoryIncomeCommand.class, top.getCommand());
+        assertInstanceOf(BottomCategoryIncomeCommand.class, bottom.getCommand());
+    }
+
+    @Test
+    void testParseHelpCommand() {
+        IncomeParserResult result = IncomeCommandParser.parseCommand("help");
+        assertTrue(result.hasCommand());
+        assertInstanceOf(HelpIncomeCommand.class, result.getCommand());
     }
 
     @Test
     void testParseUnknownCommand() {
-        IncomeCommand command = IncomeCommandParser.parseCommand("dance now");
-        assertNull(command);
+        IncomeParserResult result = IncomeCommandParser.parseCommand("fly away");
+        assertFalse(result.hasCommand());
+        assertTrue(result.hasFeedback());
     }
 }

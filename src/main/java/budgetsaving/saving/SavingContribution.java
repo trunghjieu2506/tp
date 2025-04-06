@@ -29,6 +29,6 @@ public class SavingContribution {
     }
 
     public String toString() {
-        return "[ Amount: " + amount.toString() + ", Date=" + date + " ]";
+        return "[Amount: " + amount.toString() + ", Date: " + date + "]";
     }
 }
