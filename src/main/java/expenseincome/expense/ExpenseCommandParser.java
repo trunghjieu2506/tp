@@ -2,7 +2,6 @@ package expenseincome.expense;
 
 import expenseincome.expense.commands.AddExpenseCommand;
 import expenseincome.expense.commands.DeleteExpenseCommand;
-import expenseincome.expense.commands.ExpenseCommand;
 import expenseincome.expense.commands.ListExpenseCommand;
 import expenseincome.expense.commands.EditExpenseCommand;
 import expenseincome.expense.commands.SortExpenseCommand;
@@ -10,7 +9,7 @@ import expenseincome.expense.commands.ListCategoryExpenseCommand;
 import expenseincome.expense.commands.TopCategoryExpenseCommand;
 import expenseincome.expense.commands.BottomCategoryExpenseCommand;
 import expenseincome.expense.commands.HelpExpenseCommand;
-
+import expenseincome.expense.exceptions.ExpenseException;
 
 import java.time.LocalDate;
 
@@ -23,119 +22,127 @@ public class ExpenseCommandParser {
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
-    public static ExpenseCommand parseCommand(String input) {
-        String[] parts = input.split(" ", 3);
-        if (parts.length == 0) {
-            return null;
+    public static ExpenseParserResult parseCommand(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            return new ExpenseParserResult(null, "Please enter a command.");
         }
 
-        String commandType = parts[0];
+        String[] parts = input.trim().split(" ", 3);
+        String commandType = parts[0].toLowerCase();
 
-        switch (commandType) {
-        case "add":
-            if (parts.length < 3) {
-                System.out.println("Usage: add <desc> <amount> <category> [yyyy-mm-dd]");
-                return null;
-            }
+        return switch (commandType) {
+            case "add" -> parseAdd(parts);
+            case "edit" -> parseEdit(parts);
+            case "delete" -> parseDelete(parts);
+            case "list" -> parseList(parts);
+            case "sort" -> parseSort(parts);
+            case "top" -> new ExpenseParserResult(new TopCategoryExpenseCommand(), null);
+            case "bottom" -> new ExpenseParserResult(new BottomCategoryExpenseCommand(), null);
+            case "help" -> new ExpenseParserResult(new HelpExpenseCommand(), null);
+            default -> new ExpenseParserResult(null, "Unknown command: " + commandType);
+        };
+    }
 
-            try {
-                String[] args = parts[2].split(" ");
-
-                if (args.length < 2) {
-                    System.out.println("Usage: add <desc> <amount> <category> [yyyy-mm-dd]");
-                    return null;
-                }
-
-                String description = parts[1];
-                double amount = Double.parseDouble(args[0]);
-                String rawCategory = args[1];
-                String category = capitalize(rawCategory.trim());
-                LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
-
-                return new AddExpenseCommand(description, amount, date, category);
-            } catch (Exception e) {
-                System.out.println("Invalid input. Format: add <desc> <amount> <category> [yyyy-mm-dd]");
-                return null;
-            }
-
-        case "list":
-            if (parts.length >= 2 && parts[1].equalsIgnoreCase("category")) {
-                if (parts.length < 3) {
-                    System.out.println("Usage: list category <categoryName>");
-                    return null;
-                }
-                String category = capitalize(parts[2].trim());
-                return new ListCategoryExpenseCommand(category);
-            }
-            return new ListExpenseCommand();
-
-        case "delete":
-            if (parts.length < 2) {
-                System.out.println("Usage: delete <number>");
-                return null;
-            }
-            try {
-                int index = Integer.parseInt(parts[1]);
-                return new DeleteExpenseCommand(index);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid index. Please enter a number.");
-                return null;
-            }
-
-        case "edit":
-            if (parts.length < 3) {
-                System.out.println("Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
-                return null;
-            }
-
-            try {
-                int index = Integer.parseInt(parts[1]);
-                String[] args = parts[2].split(" ");
-
-                if (args.length < 3) {
-                    System.out.println("Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
-                    return null;
-                }
-
-                String newDesc = args[0];
-                double newAmount = Double.parseDouble(args[1]);
-                String rawCategory = args[2];
-                String newCategory = capitalize(rawCategory.trim());
-                LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
-
-                return new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory);
-            } catch (Exception e) {
-                System.out.println("Invalid input. Format: edit <index> " +
-                        "<newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
-                return null;
-            }
-
-        case "sort":
-            if (parts.length < 2) {
-                System.out.println("Usage: sort <recent|oldest>");
-                return null;
-            }
-            String sortType = parts[1].toLowerCase();
-            if (sortType.equals("recent")) {
-                return new SortExpenseCommand(true);
-            } else if (sortType.equals("oldest")) {
-                return new SortExpenseCommand(false);
-            } else {
-                System.out.println("Unknown sort type. Use 'recent' or 'oldest'.");
-                return null;
-            }
-
-        case "top":
-            return new TopCategoryExpenseCommand();
-
-        case "bottom":
-            return new BottomCategoryExpenseCommand();
-
-        case "help":
-            return new HelpExpenseCommand();
-
-        default:
-            return null;
+    private static ExpenseParserResult parseAdd(String[] parts) {
+        if (parts.length < 3) {
+            return new ExpenseParserResult(null, "Usage: add <description> <amount> <category> [yyyy-mm-dd]");
         }
+
+        try {
+            String description = parts[1];
+            String[] args = parts[2].split(" ");
+            if (args.length < 2) {
+                throw new ExpenseException("Please provide both amount and category.");
+            }
+
+            double amount = Double.parseDouble(args[0]);
+            if (amount <= 0) {
+                throw new ExpenseException("Amount must be greater than zero.");
+            }
+
+            String category = capitalize(args[1].trim());
+            LocalDate date = (args.length >= 3) ? LocalDate.parse(args[2]) : LocalDate.now();
+
+            return new ExpenseParserResult(new AddExpenseCommand(description, amount, date, category), null);
+        } catch (ExpenseException e) {
+            return new ExpenseParserResult(null, e.getMessage());
+        } catch (NumberFormatException e) {
+            return new ExpenseParserResult(null, "Invalid amount. Please enter a number.");
+        } catch (Exception e) {
+            return new ExpenseParserResult(null, "Invalid date or command format.");
+        }
+    }
+
+    private static ExpenseParserResult parseEdit(String[] parts) {
+        if (parts.length < 3) {
+            return new ExpenseParserResult(null, "Usage: edit <index> <newDesc> <newAmount> <newCategory> [yyyy-mm-dd]");
+        }
+
+        try {
+            int index = Integer.parseInt(parts[1]);
+            String[] args = parts[2].split(" ");
+            if (args.length < 3) {
+                throw new ExpenseException("Please provide all required fields for editing.");
+            }
+
+            String newDesc = args[0];
+            double newAmount = Double.parseDouble(args[1]);
+            if (newAmount <= 0) {
+                throw new ExpenseException("Amount must be greater than zero.");
+            }
+
+            String newCategory = capitalize(args[2].trim());
+            LocalDate newDate = (args.length >= 4) ? LocalDate.parse(args[3]) : LocalDate.now();
+
+            return new ExpenseParserResult(new EditExpenseCommand(index, newDesc, newAmount, newDate, newCategory), null);
+        } catch (ExpenseException e) {
+            return new ExpenseParserResult(null, e.getMessage());
+        } catch (NumberFormatException e) {
+            return new ExpenseParserResult(null, "Invalid number format in edit command.");
+        } catch (Exception e) {
+            return new ExpenseParserResult(null, "Invalid date or edit command format.");
+        }
+    }
+
+    private static ExpenseParserResult parseDelete(String[] parts) {
+        if (parts.length < 2) {
+            return new ExpenseParserResult(null, "Usage: delete <index>");
+        }
+
+        try {
+            int index = Integer.parseInt(parts[1]);
+            if (index < 1) {
+                throw new ExpenseException("Index must be a positive integer.");
+            }
+            return new ExpenseParserResult(new DeleteExpenseCommand(index), null);
+        } catch (ExpenseException e) {
+            return new ExpenseParserResult(null, e.getMessage());
+        } catch (NumberFormatException e) {
+            return new ExpenseParserResult(null, "Invalid index. Please enter a number.");
+        }
+    }
+
+    private static ExpenseParserResult parseList(String[] parts) {
+        if (parts.length >= 2 && parts[1].equalsIgnoreCase("category")) {
+            if (parts.length < 3) {
+                return new ExpenseParserResult(null, "Usage: list category <categoryName>");
+            }
+            String category = capitalize(parts[2].trim());
+            return new ExpenseParserResult(new ListCategoryExpenseCommand(category), null);
+        }
+        return new ExpenseParserResult(new ListExpenseCommand(), null);
+    }
+
+    private static ExpenseParserResult parseSort(String[] parts) {
+        if (parts.length < 2) {
+            return new ExpenseParserResult(null, "Usage: sort <recent|oldest>");
+        }
+
+        String sortType = parts[1].toLowerCase();
+        return switch (sortType) {
+            case "recent" -> new ExpenseParserResult(new SortExpenseCommand(true), null);
+            case "oldest" -> new ExpenseParserResult(new SortExpenseCommand(false), null);
+            default -> new ExpenseParserResult(null, "Unknown sort type. Use 'recent' or 'oldest'.");
+        };
     }
 }

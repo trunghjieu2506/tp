@@ -3,41 +3,48 @@ package expenseincome.income.commands;
 import expenseincome.income.IncomeManager;
 
 public class HelpIncomeCommand extends IncomeCommand {
-
-    // ANSI color codes (works in most terminals)
-    private static final String CYAN = "\u001B[36m";
-    private static final String YELLOW = "\u001B[33m";
-    private static final String RESET = "\u001B[0m";
-
     @Override
     public void execute(IncomeManager manager) {
-        System.out.println(CYAN + "Income Commands:" + RESET);
+        System.out.println("Income Command Help:");
+        System.out.println("  add <source> <amount> <category> [yyyy-mm-dd]");
+        System.out.println("    - Adds a new income.");
+        System.out.println("    - Source must be ONE word (use '-' for spacing).");
+        System.out.println("    - Example: add Part-Time 1500 Freelance 2025-04-01");
+        System.out.println();
 
-        System.out.println(YELLOW + "- add <source> <amount> <category> [yyyy-mm-dd]" + RESET);
-        System.out.println("    Adds a new income with source, amount, category, and optional date.");
+        System.out.println("  edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]");
+        System.out.println("    - Edits an existing income at the given index.");
+        System.out.println("    - Use '-' for spaces in newSource.");
+        System.out.println("    - Example: edit 1 Bonus-Pay 500 Job 2025-04-02");
+        System.out.println();
 
-        System.out.println(YELLOW + "- list" + RESET);
-        System.out.println("    Lists all recorded incomes.");
+        System.out.println("  delete <index>");
+        System.out.println("    - Deletes the income at the given index.");
+        System.out.println("    - Example: delete 2");
+        System.out.println();
 
-        System.out.println(YELLOW + "- list category <categoryName>" + RESET);
-        System.out.println("    Lists all incomes in the specified category.");
+        System.out.println("  list");
+        System.out.println("    - Lists all recorded incomes.");
+        System.out.println();
 
-        System.out.println(YELLOW + "- delete <index>" + RESET);
-        System.out.println("    Deletes the income at the given index.");
+        System.out.println("  list category <categoryName>");
+        System.out.println("    - Lists incomes for the specified category.");
+        System.out.println("    - Example: list category Job");
+        System.out.println();
 
-        System.out.println(YELLOW + "- edit <index> <newSource> <newAmount> <newCategory> [yyyy-mm-dd]" + RESET);
-        System.out.println("    Edits an existing income at the given index.");
+        System.out.println("  sort recent");
+        System.out.println("    - Sorts incomes from most recent to oldest.");
+        System.out.println("  sort oldest");
+        System.out.println("    - Sorts incomes from oldest to most recent.");
+        System.out.println();
 
-        System.out.println(YELLOW + "- sort recent | oldest" + RESET);
-        System.out.println("    Sorts incomes by date, either most recent or oldest first.");
+        System.out.println("  top");
+        System.out.println("    - Displays the category with the highest income.");
+        System.out.println("  bottom");
+        System.out.println("    - Displays the category with the lowest income.");
+        System.out.println();
 
-        System.out.println(YELLOW + "- top" + RESET);
-        System.out.println("    Shows the category with the highest total income.");
-
-        System.out.println(YELLOW + "- bottom" + RESET);
-        System.out.println("    Shows the category with the lowest total income.");
-
-        System.out.println(YELLOW + "- help" + RESET);
-        System.out.println("    Displays this list of income commands.");
+        System.out.println("  help");
+        System.out.println("    - Displays this help message.");
     }
 }

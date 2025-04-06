@@ -1,26 +1,28 @@
 package expenseincome.expense;
 
-import expenseincome.expense.commands.ExpenseCommand;
 import java.util.Scanner;
 
 public class HandleExpenseCommand {
 
-    public static void handle(Scanner scanner, ExpenseManager expenseManager) {
+    public static void handle(Scanner scanner, ExpenseManager manager) {
         System.out.println("Expense Mode: Enter commands (type 'exit' to return)");
         while (true) {
             System.out.print("> ");
-            String command = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
 
-            if (command.equalsIgnoreCase("exit")) {
+            if (input.equalsIgnoreCase("exit")) {
                 System.out.println("Exiting Expense Mode.");
                 break;
             }
 
-            ExpenseCommand expenseCommand = ExpenseCommandParser.parseCommand(command);
-            if (expenseCommand != null) {
-                expenseCommand.execute(expenseManager);
-            } else {
-                System.out.println("Invalid expense command.");
+            ExpenseParserResult result = ExpenseCommandParser.parseCommand(input);
+
+            if (result.hasFeedback()) {
+                System.out.println(result.getFeedback());
+            }
+
+            if (result.hasCommand()) {
+                result.getCommand().execute(manager);
             }
         }
     }
