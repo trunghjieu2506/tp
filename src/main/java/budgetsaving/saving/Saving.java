@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import budgetsaving.saving.exceptions.SavingRuntimeException;
 import budgetsaving.saving.utils.SavingStatus;
 import utils.io.IOHandler;
 import utils.money.Money;
+import utils.textcolour.TextColour;
 
 public class Saving {
     private String name;
@@ -17,7 +19,25 @@ public class Saving {
 
     private ArrayList<SavingContribution> contributions;
 
-    public Saving(String name, Money goalAmount, LocalDate deadline) {
+    public Saving(String name, Money goalAmount, LocalDate deadline) throws SavingRuntimeException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new SavingRuntimeException("Saving name cannot be null or empty.");
+        }
+        if (goalAmount == null) {
+            throw new SavingRuntimeException("Total amount cannot be null.");
+        }
+        if (goalAmount.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            throw new SavingRuntimeException("Total amount cannot be negative.");
+        }
+        if (goalAmount.getCurrency() == null) {
+            throw new SavingRuntimeException("Saving currency cannot be null or empty.");
+        }
+        if (deadline == null) {
+            throw new SavingRuntimeException("End date cannot be null.");
+        }
+        if (deadline.isBefore(LocalDate.now())) {
+            throw new SavingRuntimeException("End date must be in the future.");
+        }
         this.name = name;
         this.goalAmount = goalAmount;
         this.deadline = deadline;
@@ -47,9 +67,16 @@ public class Saving {
         return status;
     }
 
+    public SavingContribution getContribution(int index) {
+        return contributions.get(index);
+    }
+    public int getContributionCount() {
+        return contributions.size();
+    }
+
     private void updateStatus(SavingStatus status) {
         this.status = status;
-        System.out.println("Saving status updated to: " + status);
+        printCompletionMessage();
     }
 
     private void updateAmount(Money newAmount) {
@@ -59,7 +86,7 @@ public class Saving {
                     + goalAmount.getCurrency() + " but got " + newAmount.getCurrency());
         }
         //restrict the saving amount to be 0 < curr < goal
-        if (newAmount.getAmount().compareTo(goalAmount.getAmount()) > 0) {
+        if (newAmount.getAmount().compareTo(goalAmount.getAmount()) >= 0) {
             newAmount = goalAmount;
             updateStatus(SavingStatus.COMPLETED);
         } else if (newAmount.getAmount().compareTo(BigDecimal.ZERO) < 0) {
@@ -93,21 +120,24 @@ public class Saving {
     public String toStringWithContributions() {
         StringBuilder sb = new StringBuilder();
         sb.append(this + "\n");
-        sb.append("Saving contributions: \n");
+        sb.append("\tSaving contributions: \n");
+        if (contributions.isEmpty()){
+            sb.append("\tNo contributions found.\n");
+            return sb.toString();
+        }
         for (int i = 0; i < contributions.size(); i++) {
             SavingContribution contribution = contributions.get(i);
             if (contribution == null) {
                 throw new RuntimeException("Saving contribution is null");
             }
-            sb.append("Contribution " + i + ". " + contributions.get(i).toString());
+            sb.append("\tContribution " + i + 1 + ". " + contributions.get(i).toString());
         }
         return sb.toString();
     }
 
     public void printCompletionMessage(){
-        System.out.println("Congratulations! You have completed the saving goal!");
-        System.out.println("Here is a quick look at your saving progress: ");
-        System.out.println(toStringWithContributions());
+        IOHandler.writeOutputWithColour(
+                "Congratulations! You have completed the saving goal!", TextColour.GREEN);
     }
 
     public void setNewAmount(Money amount) {
@@ -116,5 +146,13 @@ public class Saving {
 
     public void setNewDeadline(LocalDate deadline){
         this.deadline = deadline;
+    }
+
+    public void removeContribution(SavingContribution cont) throws SavingRuntimeException {
+        try{
+            contributions.remove(cont);
+        } catch (Exception e){
+            throw new SavingRuntimeException(e.getMessage());
+        }
     }
 }

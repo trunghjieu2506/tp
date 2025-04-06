@@ -3,6 +3,7 @@ package savingtest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import budgetsaving.saving.exceptions.SavingAttributeException;
+import budgetsaving.saving.exceptions.SavingRuntimeException; // <-- new import for runtime exception
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.math.BigDecimal;
@@ -41,15 +42,31 @@ public class SavingModuleTest {
         SavingList savingList = new SavingList("USD");
         LocalDate deadline = LocalDate.of(2025, 12, 31);
         Money amount = new Money("USD", new BigDecimal("100.0"));
-        String response = savingList.setNewSaving("Goal1", amount, deadline);
+        // Expect no runtime exception when valid data is provided.
+        String response = assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", amount, deadline));
 
         assertTrue(response.contains("Goal1"));
         assertTrue(response.contains("100.0"));
         assertTrue(response.contains("2025-12-31"));
 
-        // Verify that listGoals returns the new goal
+        // Verify that listSavings returns the new goal
         String listResponse = savingList.listSavings();
         assertTrue(listResponse.contains("Goal1"));
+    }
+
+    // New test for handling SavingRuntimeException in setNewSaving
+    @Test
+    public void testSetNewSavingThrowsSavingRuntimeException() {
+        SavingList savingList = new SavingList("USD");
+        // Here, using a negative amount (or any other invalid scenario) should trigger a SavingRuntimeException.
+        Money negativeAmount = new Money("USD", new BigDecimal("-100.0"));
+        LocalDate deadline = LocalDate.of(2025, 12, 31);
+        Exception exception = assertThrows(SavingRuntimeException.class, () ->
+                savingList.setNewSaving("GoalInvalid", negativeAmount, deadline)
+        );
+        // Optionally, verify that the exception message contains a specific text.
+        String expectedMessage = "Invalid saving amount";
+        assertTrue(exception.getMessage().contains(expectedMessage));
     }
 
     @Test
@@ -57,7 +74,8 @@ public class SavingModuleTest {
         SavingList savingList = new SavingList("USD");
         LocalDate deadline = LocalDate.of(2025, 12, 31);
         Money goalAmount = new Money("USD", new BigDecimal("100.0"));
-        savingList.setNewSaving("Goal1", goalAmount, deadline);
+        // Using assertDoesNotThrow to ensure no unexpected runtime exception.
+        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", goalAmount, deadline));
 
         // Contribute less than the goal amount.
         Money contribution = new Money("USD", new BigDecimal("30.0"));
@@ -183,7 +201,7 @@ public class SavingModuleTest {
     public void testParseCheckGoalCommand() {
         SavingList savingList = new SavingList("USD");
         try {
-            Object command = SavingParser.parseCheckGoalCommand(savingList);
+            Object command = SavingParser.parseListGoalCommand(savingList);
             assertTrue(command instanceof ListSavingsCommand);
         } catch (Exception e) {
             fail("Unexpected exception thrown in parseCheckGoalCommand: " + e.getMessage());
@@ -196,7 +214,7 @@ public class SavingModuleTest {
     public void testContributeGoalCommandExecute() {
         SavingList savingList = new SavingList("USD");
         LocalDate deadline = LocalDate.of(2025, 12, 31);
-        savingList.setNewSaving("Goal1", new Money("USD", new BigDecimal("100.0")), deadline);
+        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", new Money("USD", new BigDecimal("100.0")), deadline));
         ContributeGoalCommand command = new ContributeGoalCommand(savingList, 0, new Money("USD", new BigDecimal("50.0")));
         command.execute();
         String outStr = outContent.toString();
@@ -206,7 +224,7 @@ public class SavingModuleTest {
     @Test
     public void testListGoalCommandExecute() {
         SavingList savingList = new SavingList("USD");
-        savingList.setNewSaving("Goal1", new Money("USD", new BigDecimal("100.0")), LocalDate.of(2025, 12, 31));
+        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", new Money("USD", new BigDecimal("100.0")), LocalDate.of(2025, 12, 31)));
         ListSavingsCommand command = new ListSavingsCommand(savingList);
         command.execute();
         String outStr = outContent.toString();
@@ -216,9 +234,10 @@ public class SavingModuleTest {
     @Test
     public void testSetGoalCommandExecute() {
         SavingList savingList = new SavingList("USD");
+        // Using assertDoesNotThrow to ensure setNewSaving does not unexpectedly throw
         SetSavingCommand command = new SetSavingCommand(savingList, "Goal1",
                 new Money("USD", new BigDecimal("100.0")), LocalDate.of(2025, 12, 31));
-        command.execute();
+        assertDoesNotThrow(() -> command.execute());
         String outStr = outContent.toString();
         assertTrue(outStr.contains("Goal1"));
     }

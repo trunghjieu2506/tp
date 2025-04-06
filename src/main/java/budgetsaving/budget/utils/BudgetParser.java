@@ -1,6 +1,5 @@
 package budgetsaving.budget.utils;
 
-import budgetsaving.budget.command.AddToBudgetCommand;
 import budgetsaving.budget.command.ModifyBudgetCommand;
 import budgetsaving.budget.command.CheckBudgetCommand;
 import budgetsaving.budget.command.DeductFromBudgetCommand;
@@ -20,6 +19,9 @@ public class BudgetParser {
     private static double isPositiveAmount(double amount) throws BudgetParserException {
         if (amount < 0) {
             throw new BudgetParserException("The amount you have entered is negative.");
+        }
+        if (amount < 0.01){
+            throw new BudgetParserException("Minimum amount is 0.01.");
         }
         return amount;
     }
@@ -68,14 +70,6 @@ public class BudgetParser {
         return new DeductFromBudgetCommand(budgetManager, index, amount);
     }
 
-    public static Command parseAddBudgetCommand(String input, BudgetManager budgetManager)
-            throws NumberFormatException, BudgetAttributeException {
-        // Expected format: add-budget n/BUDGET_NAME a/AMOUNT
-        BudgetAttributes attributes = new BudgetAttributes(input);
-        int index = attributes.getIndex();
-        double amount = attributes.getAmount();
-        return new AddToBudgetCommand(budgetManager, index, amount);
-    }
 
     public static Command parseModifyBudgetCommand(String input, BudgetManager budgetManager)
             throws BudgetParserException, BudgetAttributeException {

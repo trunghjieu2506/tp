@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import utils.io.IOHandler;
 import utils.money.Money;
 
+import javax.security.sasl.SaslClientFactory;
+
 public class SavingList implements SavingManager {
     private ArrayList<Saving> savings;
     private String currency;
@@ -36,11 +38,16 @@ public class SavingList implements SavingManager {
      * Format: set-goal n/GOAL_NAME a/AMOUNT b/BY
      */
     @Override
-    public String setNewSaving(String name, Money amount, LocalDate deadline) {
-        Saving goal = new Saving(name, amount, deadline);
-        savings.add(goal);
-        return String.format("You have set a new saving goal with \nName: %s\nAmount: %s\nBy: %s",
-                name, amount, deadline);
+    public String setNewSaving(String name, Money amount, LocalDate deadline) throws SavingRuntimeException{
+        try {
+            Saving goal = new Saving(name, amount, deadline);
+            savings.add(goal);
+            return "Saving set: " + goal;
+        } catch (SavingRuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new SavingRuntimeException(e.getMessage());
+        }
     }
 
 
@@ -68,8 +75,8 @@ public class SavingList implements SavingManager {
             return "No savings goals set.";
         }
         StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= savings.size(); i++) {
-            sb.append("Saving " + i + ". ");
+        for (int i = 0; i < savings.size(); i++) {
+            sb.append("Saving " + i + 1 + ". ");
             Saving saving = savings.get(i);
             sb.append(saving.toString());
         }
@@ -77,13 +84,12 @@ public class SavingList implements SavingManager {
     }
 
     @Override
-    public void checkSaving(int index) {
+    public void checkSaving(int index) throws SavingRuntimeException{
         Saving saving = savings.get(index);
         if (saving == null){
-            System.err.println("No saving goal found.");
-            return;
+            throw new SavingRuntimeException("No saving goal found.");
         }
-        System.out.println(saving.toStringWithContributions());
+        IOHandler.writeOutput(saving.toStringWithContributions());
     }
 
     @Override
@@ -101,8 +107,17 @@ public class SavingList implements SavingManager {
     }
 
     @Override
-    public void deleteContribution(int SavingIndex, int ContributionIndex) {
-
+    public void deleteContribution(int savingIndex, int contributionIndex) throws SavingRuntimeException{
+        if (savingIndex < 0 || savingIndex >= savings.size()) {
+            throw new SavingRuntimeException("The index for saving is invalid or out of range.");
+        }
+        Saving saving = savings.get(savingIndex);
+        int cSize = saving.getContributionCount();
+        if (contributionIndex < 0 || contributionIndex >= cSize) {
+            throw new SavingRuntimeException("The index for contribution is invalid or out of range.");
+        }
+        SavingContribution cont = saving.getContribution(contributionIndex);
+        saving.removeContribution(cont);
     }
 
     @Override

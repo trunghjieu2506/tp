@@ -150,20 +150,6 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         return hasExceededBudget;
     }
 
-    public void addToBudget(int index, double amount) {
-        if (index < 0 || index >= budgets.size()) {
-            IOHandler.writeOutput("Budget index out of range.");
-            return;
-        }
-        Budget b = budgets.get(index);
-        Money before = b.getRemainingBudget(); // assuming getRemaining returns a Money object
-        b.add(amount);
-        Money after = b.getRemainingBudget();
-        assert after.getAmount().compareTo(before.getAmount()) >= 0 : "Budget did not increase after addition.";
-        IOHandler.writeOutput("Budget added");
-        IOHandler.writeOutput(b.toString());
-    }
-
     public Budget getBudget(int index) {
         if (index < 0 || index >= budgets.size()) {
             throw new IndexOutOfBoundsException("Index out of range.");

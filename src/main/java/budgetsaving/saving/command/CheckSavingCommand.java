@@ -1,5 +1,6 @@
 package budgetsaving.saving.command;
 
+import budgetsaving.saving.exceptions.SavingException;
 import cashflow.model.interfaces.SavingManager;
 import cashflow.ui.command.Command;
 
@@ -14,6 +15,10 @@ public class CheckSavingCommand implements Command {
 
     @Override
     public void execute() {
-        savingManager.checkSaving(index);
+        try {
+            savingManager.checkSaving(index);
+        } catch (SavingException e) {
+            SavingException.writeException(e);
+        }
     }
 }

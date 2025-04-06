@@ -1,5 +1,7 @@
 package utils.io;
 
+import utils.textcolour.TextColour;
+
 import java.util.Scanner;
 
 //this is a class that handles all the input and output
@@ -32,5 +34,10 @@ public class IOHandler {
 
     public static void writeOutputNoLn(String output){
         System.out.print(output);
+    }
+
+    public static void writeOutputWithColour(String output, String colour){
+        String colouredString = colour + output + TextColour.RESET;
+        System.out.println(colouredString);
     }
 }

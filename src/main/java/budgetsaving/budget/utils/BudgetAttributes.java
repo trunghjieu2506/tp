@@ -73,7 +73,7 @@ public class BudgetAttributes {
             try {
                 this.index = Integer.parseInt(indexStr) - 1;
             } catch(NumberFormatException ex) {
-                throw new BudgetAttributeException("Index input is not a number.");
+                throw new BudgetAttributeException("Index input is not an integer.");
             }
         } else {
             this.index = -1;

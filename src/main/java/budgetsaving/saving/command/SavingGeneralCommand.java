@@ -1,6 +1,7 @@
 package budgetsaving.saving.command;
 
 import budgetsaving.saving.exceptions.SavingException;
+import budgetsaving.saving.exceptions.SavingRuntimeException;
 import budgetsaving.saving.utils.SavingParser;
 import cashflow.ui.command.Command;
 
@@ -18,6 +19,7 @@ public class SavingGeneralCommand implements Command {
     private static final String SET_SAVING_COMMAND = "set";
     private static final String CONTRIBUTE_COMMAND = "contribute";
     private static final String LIST_SAVING_COMMAND = "list";
+    private static final String CHECK_SAVING_COMMAND = "check";
     private static final String DELETE_SAVING_COMMAND = "delete-s";
     private static final String DELETE_CONTRIBUTION_COMMAND = "delete-c";
 
@@ -33,6 +35,7 @@ public class SavingGeneralCommand implements Command {
             + TextColour.BLUE   + DASH + LIST_SAVING_COMMAND + " \n"
             + TextColour.CYAN   + DASH + DELETE_SAVING_COMMAND + " i/INDEX\n"
             //+ TextColour.PURPLE   + DASH + DELETE_CONTRIBUTION_COMMAND + " i/INDEX_S c/INDEX_C\n"
+            + TextColour.RED  + DASH + CHECK_SAVING_COMMAND + " i/INDEX\n"
             + TextColour.RESET
             + DASH + HELP_COMMAND + " to check all the saving commands\n"
             + DASH + EXIT_COMMAND + " to exit from saving mode\n"
@@ -67,31 +70,39 @@ public class SavingGeneralCommand implements Command {
             } else if (lowerInput.startsWith(CONTRIBUTE_COMMAND)) {
                 command = SavingParser.parseContributeGoalCommand(input, savingList);
             } else if (lowerInput.startsWith(LIST_SAVING_COMMAND)) {
-                command = SavingParser.parseCheckGoalCommand(savingList);
+                command = SavingParser.parseListGoalCommand(savingList);
             } else if (lowerInput.startsWith(HELP_COMMAND)){
                 command = new SavingHelpCommand();
             } else if (lowerInput.startsWith(DELETE_SAVING_COMMAND)) {
                 command = SavingParser.parseDeleteSavingCommand(input, savingList);
+            } else if (lowerInput.startsWith(DELETE_CONTRIBUTION_COMMAND)) {
+                command = SavingParser.parseDeleteContributionCommand(input, savingList);
+            } else if (lowerInput.startsWith(CHECK_SAVING_COMMAND)) {
+                command = SavingParser.parseCheckGoalCommand(input, savingList);
             }
             else {
                 IOHandler.writeError("Unknown saving command.");
             }
         } catch (SavingException e) {
-            IOHandler.writeError(e.getMessage());
-            IOHandler.writeError("Type 'help' for help");
+            SavingException.writeException(e);
         }
     }
 
     @Override
     public void execute() {
         try {
+            if (command == null) {
+                throw new SavingRuntimeException("");
+            }
             command.execute();
         } catch (DateTimeParseException e) {
             IOHandler.writeError(SetSavingCommand.DATE_FORMAT_ERROR);
-        } catch (Exception e) {
-            IOHandler.writeError("An error has occurred when executing the command.");
+        } catch (SavingException e) {
+            //error is definitely handled at earlier part, so we dont need to print anything
+            //IOHandler.writeError(e.getMessage());
         }
     }
+
 
     //public Result excute()
 

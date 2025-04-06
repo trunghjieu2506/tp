@@ -2,6 +2,7 @@ package budgetsaving.saving.command;
 
 import cashflow.ui.command.Command;
 import cashflow.model.interfaces.SavingManager;
+import utils.io.IOHandler;
 
 public class ListSavingsCommand implements Command {
     private SavingManager savingList;
@@ -12,7 +13,7 @@ public class ListSavingsCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println(savingList.listSavings());
+        IOHandler.writeOutput(savingList.listSavings());
     }
 }
 
