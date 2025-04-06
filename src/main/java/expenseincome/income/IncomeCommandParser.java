@@ -1,5 +1,7 @@
 package expenseincome.income;
 
+import expenseincome.expense.ExpenseParserResult;
+import expenseincome.expense.exceptions.ExpenseException;
 import expenseincome.income.commands.AddIncomeCommand;
 import expenseincome.income.commands.DeleteIncomeCommand;
 import expenseincome.income.commands.ListIncomeCommand;
@@ -112,8 +114,14 @@ public class IncomeCommandParser {
 
         try {
             int index = Integer.parseInt(parts[1]);
+            if (index < 1) {
+                throw new IncomeException("Index must be a positive integer.");
+            }
             return new IncomeParserResult(new DeleteIncomeCommand(index), null);
-        } catch (NumberFormatException e) {
+        } catch (IncomeException e) {
+            return new IncomeParserResult(null, e.getMessage());
+        }
+        catch (NumberFormatException e) {
             return new IncomeParserResult(null, "Invalid index. Please enter a number.");
         }
     }
