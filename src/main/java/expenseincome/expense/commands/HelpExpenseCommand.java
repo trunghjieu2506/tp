@@ -1,60 +1,56 @@
 package expenseincome.expense.commands;
 
+import utils.io.IOHandler;
+import utils.textcolour.TextColour;
 import expenseincome.expense.ExpenseManager;
+
 /**
- * Represents the help command in expense mode.
+ * HelpExpenseCommand displays all the available expense commands in a user-friendly format.
  */
 public class HelpExpenseCommand extends ExpenseCommand {
+
+    public static final String ADD_COMMAND = "add";
+    public static final String EDIT_COMMAND = "edit";
+    public static final String DELETE_COMMAND = "delete";
+    public static final String LIST_COMMAND = "list";
+    public static final String SORT_COMMAND = "sort";
+    public static final String TOP_COMMAND = "top";
+    public static final String BOTTOM_COMMAND = "bottom";
+    public static final String HELP_COMMAND = "help";
+    public static final String EXIT_COMMAND = "exit";
+
+    public static final String LINE_SEPARATOR = "-".repeat(70);
+    public static final String DASH = "- ";
+
+    static final String EXPENSE_COMMANDS =
+            LINE_SEPARATOR + '\n'
+                    + TextColour.PURPLE + DASH + ADD_COMMAND
+                    + " <description> <amount> <category> [yyyy-mm-dd]\n" + TextColour.RESET
+                    + TextColour.GREEN + DASH + EDIT_COMMAND
+                    + " <index> <newDescription> <newAmount> <newCategory> [yyyy-mm-dd]\n" + TextColour.RESET
+                    + TextColour.YELLOW + DASH + DELETE_COMMAND
+                    + " <index>\n" + TextColour.RESET
+                    + TextColour.CYAN + DASH + LIST_COMMAND
+                    + " / list category <categoryName>\n" + TextColour.RESET
+                    + TextColour.BLUE + DASH + SORT_COMMAND
+                    + " recent | oldest\n" + TextColour.RESET
+                    + TextColour.RED + DASH + TOP_COMMAND
+                    + " (shows category with highest spending)\n" + TextColour.RESET
+                    + TextColour.RED + DASH + BOTTOM_COMMAND
+                    + " (shows category with lowest spending)\n" + TextColour.RESET
+                    + DASH + HELP_COMMAND
+                    + " to check all available expense commands\n"
+                    + DASH + EXIT_COMMAND
+                    + " to return to the main menu\n"
+                    + LINE_SEPARATOR;
+
     /**
-     * Executes the help command.
+     * Executes the help command by printing available expense-related commands.
      *
-     * @param manager the ExpenseManager instance (not used)
+     * @param manager The ExpenseManager context, unused in this command.
      */
     @Override
     public void execute(ExpenseManager manager) {
-        System.out.println("Expense Command Help:");
-        System.out.println("  add <description> <amount> <category> [yyyy-mm-dd]");
-        System.out.println("    - Adds a new expense.");
-        System.out.println("    - Description must be ONE word (use '-' for spacing).");
-        System.out.println("    - Example: add Lunch 12.5 Food 2025-04-01");
-        System.out.println();
-
-        System.out.println("  edit <index> <newDescription> <newAmount> <newCategory> [yyyy-mm-dd]");
-        System.out.println("    - Edits an existing expense at the given index.");
-        System.out.println("    - Use '-' for spaces in newDescription.");
-        System.out.println("    - Example: edit 1 Dinner-At-Home 20.0 Food 2025-04-01");
-        System.out.println();
-
-        System.out.println("  delete <index>");
-        System.out.println("    - Deletes the expense at the given index.");
-        System.out.println("    - Example: delete 3");
-        System.out.println();
-
-        System.out.println("  list");
-        System.out.println("    - Lists all recorded expenses.");
-        System.out.println();
-
-        System.out.println("  list category <categoryName>");
-        System.out.println("    - Lists expenses for the specified category.");
-        System.out.println("    - Example: list category Food");
-        System.out.println();
-
-        System.out.println("  sort recent");
-        System.out.println("    - Sorts expenses from most recent to oldest.");
-        System.out.println("  sort oldest");
-        System.out.println("    - Sorts expenses from oldest to most recent.");
-        System.out.println();
-
-        System.out.println("  top");
-        System.out.println("    - Displays the top spending category.");
-        System.out.println("  bottom");
-        System.out.println("    - Displays the lowest spending category.");
-        System.out.println();
-
-        System.out.println("  help");
-        System.out.println("    - Displays this help message.");
-
-        System.out.println("  exit");
-        System.out.println("    - Exit expense mode.");
+        IOHandler.writeOutput("Here's a list of expense commands:\n" + EXPENSE_COMMANDS);
     }
 }
