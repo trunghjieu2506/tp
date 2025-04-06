@@ -1,0 +1,118 @@
+@startuml ExpensePackageClassDiagram
+hide circle
+skinparam classAttributeIconSize 0
+
+package "expense" {
+    class Expense {
+        - description : String
+        - amount : Money
+        - date : LocalDate
+        - category : String
+        + getDescription() : String
+        + getAmount() : double
+        + getDate() : LocalDate
+        + getCategory() : String
+        + setDescription(String)
+        + setAmount(Money)
+        + setDate(LocalDate)
+        + setCategory(String)
+    }
+
+    class ExpenseManager {
+        - expenses : ArrayList<Expense>
+        - data : FinanceData
+        - currency : String
+        + addExpense(String, double, LocalDate, String)
+        + editExpense(int, String, double, LocalDate, String)
+        + deleteExpense(int)
+        + listExpenses()
+        + listExpensesByCategory(String)
+        + sortExpensesByDate(boolean)
+        + printTopCategory()
+        + printBottomCategory()
+    }
+
+    abstract class ExpenseCommand {
+        + execute(ExpenseManager)
+    }
+
+    class AddExpenseCommand {
+        - description : String
+        - amount : double
+        - date : LocalDate
+        - category : String
+        + execute(ExpenseManager)
+    }
+
+    class EditExpenseCommand {
+        - index : int
+        - newDescription : String
+        - newAmount : double
+        - newDate : LocalDate
+        - newCategory : String
+        + execute(ExpenseManager)
+    }
+
+    class DeleteExpenseCommand {
+        - index : int
+        + execute(ExpenseManager)
+    }
+
+    class ListExpenseCommand {
+        + execute(ExpenseManager)
+    }
+
+    class ListCategoryExpenseCommand {
+        - category : String
+        + execute(ExpenseManager)
+    }
+
+    class SortExpenseCommand {
+        - mostRecentFirst : boolean
+        + execute(ExpenseManager)
+    }
+
+    class TopCategoryExpenseCommand {
+        + execute(ExpenseManager)
+    }
+
+    class BottomCategoryExpenseCommand {
+        + execute(ExpenseManager)
+    }
+
+    class HelpExpenseCommand {
+        + execute(ExpenseManager)
+    }
+
+    class ExpenseCommandParser {
+        + parseCommand(String) : ExpenseParserResult
+    }
+
+    class ExpenseParserResult {
+        - command : ExpenseCommand
+        - feedback : String
+        + getCommand() : ExpenseCommand
+        + getFeedback() : String
+        + hasCommand() : boolean
+        + hasFeedback() : boolean
+    }
+
+    class ExpenseException extends Exception
+
+    ' Relationships
+    ExpenseManager --> Expense
+    ExpenseCommand <|-- AddExpenseCommand
+    ExpenseCommand <|-- EditExpenseCommand
+    ExpenseCommand <|-- DeleteExpenseCommand
+    ExpenseCommand <|-- ListExpenseCommand
+    ExpenseCommand <|-- ListCategoryExpenseCommand
+    ExpenseCommand <|-- SortExpenseCommand
+    ExpenseCommand <|-- TopCategoryExpenseCommand
+    ExpenseCommand <|-- BottomCategoryExpenseCommand
+    ExpenseCommand <|-- HelpExpenseCommand
+
+    ExpenseCommandParser --> ExpenseParserResult
+    ExpenseParserResult --> ExpenseCommand
+}
+
+@enduml
