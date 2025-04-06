@@ -1,0 +1,24 @@
+Apr 06, 2025 12:32:59 PM expenseincome.expense.ExpenseManager deleteExpense
+WARNING: Failed to delete expense at index: 1
+expenseincome.expense.exceptions.ExpenseException: No expenses to delete. Your list is empty.
+	at expenseincome.expense.ExpenseManager.validateIndex(ExpenseManager.java:232)
+	at expenseincome.expense.ExpenseManager.deleteExpense(ExpenseManager.java:110)
+	at expenseincome.expense.commands.DeleteExpenseCommand.execute(DeleteExpenseCommand.java:17)
+	at expenseincome.expense.HandleExpenseCommand.handle(HandleExpenseCommand.java:25)
+	at cashflow.ui.UI.run(UI.java:79)
+	at cashflow.CashFlowManager.run(CashFlowManager.java:95)
+	at cashflow.Main.main(Main.java:5)
+
+Apr 06, 2025 12:33:24 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: 1]
+Apr 06, 2025 12:33:43 PM expenseincome.expense.ExpenseManager deleteExpense
+WARNING: Failed to delete expense at index: 2
+expenseincome.expense.exceptions.ExpenseException: Invalid index: must be between 1 and 1
+	at expenseincome.expense.ExpenseManager.validateIndex(ExpenseManager.java:235)
+	at expenseincome.expense.ExpenseManager.deleteExpense(ExpenseManager.java:110)
+	at expenseincome.expense.commands.DeleteExpenseCommand.execute(DeleteExpenseCommand.java:17)
+	at expenseincome.expense.HandleExpenseCommand.handle(HandleExpenseCommand.java:25)
+	at cashflow.ui.UI.run(UI.java:79)
+	at cashflow.CashFlowManager.run(CashFlowManager.java:95)
+	at cashflow.Main.main(Main.java:5)
+
