@@ -1,11 +1,122 @@
-@startuml
-'https://plantuml.com/sequence-diagram
+@startuml IncomePackageClassDiagram
+hide circle
+skinparam classAttributeIconSize 0
 
-autonumber
+package "income" {
+    class Income {
+        - source : String
+        - amount : Money
+        - date : LocalDate
+        - category : String
+        + getSource() : String
+        + getAmount() : double
+        + getDate() : LocalDate
+        + getCategory() : String
+        + setSource(String)
+        + setAmount(Money)
+        + setDate(LocalDate)
+        + setCategory(String)
+    }
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+    class IncomeManager {
+        - incomes : ArrayList<Income>
+        - data : FinanceData
+        - currency : String
+        + addIncome(String, double, LocalDate, String)
+        + editIncome(int, String, double, LocalDate, String)
+        + deleteIncome(int)
+        + listIncomes()
+        + listIncomesByCategory(String)
+        + sortIncomesByDate(boolean)
+        + printTopCategory()
+        + printBottomCategory()
+    }
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+    abstract class IncomeCommand {
+        + execute(IncomeManager)
+    }
+
+    class AddIncomeCommand {
+        - source : String
+        - amount : double
+        - date : LocalDate
+        - category : String
+        + execute(IncomeManager)
+    }
+
+    class EditIncomeCommand {
+        - index : int
+        - newSource : String
+        - newAmount : double
+        - newDate : LocalDate
+        - newCategory : String
+        + execute(IncomeManager)
+    }
+
+    class DeleteIncomeCommand {
+        - index : int
+        + execute(IncomeManager)
+    }
+
+    class ListIncomeCommand {
+        + execute(IncomeManager)
+    }
+
+    class ListCategoryIncomeCommand {
+        - category : String
+        + execute(IncomeManager)
+    }
+
+    class SortIncomeCommand {
+        - mostRecentFirst : boolean
+        + execute(IncomeManager)
+    }
+
+    class TopCategoryIncomeCommand {
+        + execute(IncomeManager)
+    }
+
+    class BottomCategoryIncomeCommand {
+        + execute(IncomeManager)
+    }
+
+    class HelpIncomeCommand {
+        + execute(IncomeManager)
+    }
+
+    class IncomeCommandParser {
+        + parseCommand(String) : IncomeParserResult
+    }
+
+    class IncomeParserResult {
+        - command : IncomeCommand
+        - feedback : String
+        + getCommand() : IncomeCommand
+        + getFeedback() : String
+        + hasCommand() : boolean
+        + hasFeedback() : boolean
+    }
+
+    class IncomeException extends Exception
+
+    ' Relationships
+    IncomeManager --> Income
+    IncomeCommand <|-- AddIncomeCommand
+    IncomeCommand <|-- EditIncomeCommand
+    IncomeCommand <|-- DeleteIncomeCommand
+    IncomeCommand <|-- ListIncomeCommand
+    IncomeCommand <|-- ListCategoryIncomeCommand
+    IncomeCommand <|-- SortIncomeCommand
+    IncomeCommand <|-- TopCategoryIncomeCommand
+    IncomeCommand <|-- BottomCategoryIncomeCommand
+    IncomeCommand <|-- HelpIncomeCommand
+
+    IncomeCommandParser --> IncomeParserResult
+    IncomeParserResult --> IncomeCommand
+
+}
+
+@enduml
+
+
 @enduml
