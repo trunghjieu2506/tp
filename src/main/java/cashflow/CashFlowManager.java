@@ -56,7 +56,7 @@ public class CashFlowManager {
         incomeManager = new IncomeManager(data, currencyStr);
         savingManager = new SavingList(currencyStr);
         budgetManager = new BudgetList(currency);
-        this.loanManager = new LoanManager("defaultUser");
+        this.loanManager = new LoanManager("CashFlow");
 
 
         // Set integration points in FinanceData.

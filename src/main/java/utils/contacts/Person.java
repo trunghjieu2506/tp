@@ -1,5 +1,6 @@
 package utils.contacts;
 
+import loanbook.loan.Loan;
 import utils.tags.Taggable;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class Person implements Taggable {
     protected String contactNumber;
     protected String email;
     protected ArrayList<String> myTags;
+    protected ArrayList<Loan> debtList;
+    protected ArrayList<Loan> lentList;
 
     public Person(String name) {
         this.name = name;
@@ -48,7 +51,9 @@ public class Person implements Taggable {
     }
 
     public void addTag(String tag) {
-        myTags.add(tag);
+        if (!myTags.contains(tag)) {
+            myTags.add(tag);
+        }
     }
 
     public void addTags(ArrayList<String> tags) {
@@ -70,22 +75,34 @@ public class Person implements Taggable {
     }
 
     public void setContactNumber(String number) {
-        if (number.matches("\\d+")) {
-            this.contactNumber = number;
-        } else {
-            this.contactNumber = null;
+        this.contactNumber = number;
+    }
+
+    public void addDebt(Loan loan) {
+        if (loan.borrower() == this) {
+            debtList.add(loan);
         }
+    }
+
+    public void addLent(Loan loan) {
+        if (loan.lender() == this) {
+            lentList.add(loan);
+        }
+    }
+
+    public ArrayList<Loan> getDebtList() {
+        return new ArrayList<>(debtList);
+    }
+
+    public ArrayList<Loan> getLentList() {
+        return new ArrayList<>(lentList);
     }
 
     /**
      * Sets the person's <code>email</code>.
      * @param email the email set to the person's details.
-     * @throws IllegalArgumentException if the input <code>String</code> does not contain "@".
      */
-    public void setEmail(String email) throws IllegalArgumentException {
-        if (email != null && !email.contains("@")) {
-            throw new IllegalArgumentException("Incorrect E-Mail format");
-        }
+    public void setEmail(String email) {
         this.email = email;
     }
 

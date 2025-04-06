@@ -34,7 +34,7 @@ public class LoanUI {
             if (loanCommand != null) {
                 loanCommand.execute();
             } else {
-                System.out.println("Invalid loan command.");
+                System.out.println("Invalid loan command. Type \"help\" to view available commands.");
             }
         }
     }

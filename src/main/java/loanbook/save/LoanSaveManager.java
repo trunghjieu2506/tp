@@ -2,7 +2,7 @@ package loanbook.save;
 
 import loanbook.LoanManager;
 import loanbook.interest.Interest;
-import loanbook.loan.AdvancedLoan;
+import loanbook.loan.AdvancedBulletLoan;
 import loanbook.loan.DateUndefinedException;
 import loanbook.loan.Loan;
 import loanbook.loan.SimpleBulletLoan;
@@ -86,11 +86,11 @@ public class LoanSaveManager extends SaveManager {
             loan.setReturnStatus(isReturned);
             loan.addTags(tagList);
             return loan;
-        } else if (save.startsWith("<AdvancedLoanStart>")) {
+        } else if (save.startsWith("<AdvancedBulletLoanStart>")) {
             Interest interest = InterestParser.parseInterest(splitLine[9].replace("<Interest>", "").trim());
             Loan loan;
             try {
-                loan = new AdvancedLoan(description, lender, borrower, principal, startDate, returnDate, interest);
+                loan = new AdvancedBulletLoan(description, lender, borrower, principal, startDate, returnDate, interest);
             } catch (DateUndefinedException e) {
                 return null;
             }
@@ -109,9 +109,9 @@ public class LoanSaveManager extends SaveManager {
      *     cannot be created, or cannot be opened for any other reason
      */
     public static void saveLoanList(LoanManager loanManager) throws IOException {
-        if (loanManager.getUser() != null) {
+        if (loanManager.getUsername() != null) {
             ContactsSaveManager.savePeopleList(loanManager.getContactsList());
-            writeTextFile(LOANS_SAVE_FOLDER, savePath(loanManager.getUser()), loanManager.toSave());
+            writeTextFile(LOANS_SAVE_FOLDER, savePath(loanManager.getUsername()), loanManager.toSave());
         }
     }
 
