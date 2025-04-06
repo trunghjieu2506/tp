@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import java.util.Currency;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Handler;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -18,6 +22,36 @@ import expenseincome.expense.exceptions.ExpenseException;
 
 public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
+
+    static {
+        try {
+            // Create logs directory if it doesn't exist
+            java.io.File logDir = new java.io.File("logs");
+            if (!logDir.exists()) {
+                boolean created = logDir.mkdirs();
+                if (!created) {
+                    System.err.println("Failed to create log directory.");
+                }
+            }
+
+            // Remove default console handlers
+            Logger rootLogger = Logger.getLogger("");
+            for (Handler handler : rootLogger.getHandlers()) {
+                rootLogger.removeHandler(handler);
+            }
+
+            // Set up file handler to log into logs/expense.log
+            FileHandler fileHandler = new FileHandler("logs/expense.log", true); // append mode
+            fileHandler.setFormatter(new SimpleFormatter());
+            rootLogger.addHandler(fileHandler);
+            rootLogger.setLevel(Level.ALL);
+
+        } catch (IOException e) {
+            System.err.println("Failed to initialize log file handler: " + e.getMessage());
+        }
+    }
+
+
     private final ArrayList<Expense> expenses;
     private final FinanceData data;
     private String currency;
@@ -194,6 +228,9 @@ public class ExpenseManager implements ExpenseDataManager {
     }
 
     private void validateIndex(int index) throws ExpenseException {
+        if (expenses.isEmpty()) {
+            throw new ExpenseException("No expenses to delete. Your list is empty.");
+        }
         if (index < 1 || index > expenses.size()) {
             throw new ExpenseException("Invalid index: must be between 1 and " + expenses.size());
         }
@@ -241,5 +278,4 @@ public class ExpenseManager implements ExpenseDataManager {
 
         return topCategory;
     }
-
 }
