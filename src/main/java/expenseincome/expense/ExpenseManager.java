@@ -180,6 +180,14 @@ public class ExpenseManager implements ExpenseDataManager {
             expense.setDate(newDate);
             expense.setCategory(newCategory);
 
+            BudgetManager budgetManager = data.getBudgetManager();
+            if (budgetManager != null) {
+                boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+                if (exceeded) {
+                    System.out.println("Warning: You have exceeded your budget for category: " + newCategory);
+                }
+            }
+
             logger.log(Level.INFO, "Updated expense: {0}", expense);
             System.out.println("Updated: " + expense);
         } catch (ExpenseException e) {

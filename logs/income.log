@@ -131,3 +131,21 @@ INFO: Updated income: Bonus - USD 500.00 on 2025-04-01 [Category: Job]
 信息: Added expense: trip - USD 300.00 on 2024-12-12 [Category: Trip]
 4月 06, 2025 10:16:06 下午 expenseincome.expense.ExpenseManager addExpense
 信息: Added expense: trip - USD 300.00 on 2025-12-30 [Category: Trip]
+Apr 06, 2025 10:29:03 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:31:24 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Foo]
+Apr 06, 2025 10:31:31 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 1.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:40:25 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: cookie - USD 3.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:41:26 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: Fine-Dining - USD 200.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:49:36 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: Hawker - USD 10.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:49:46 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: drinks - USD 2.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:51:29 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: cookie - USD 2.00 on 2025-04-06 [Category: Food]
+Apr 06, 2025 10:51:37 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: hawker - USD 3.00 on 2025-04-06 [Category: Food]
