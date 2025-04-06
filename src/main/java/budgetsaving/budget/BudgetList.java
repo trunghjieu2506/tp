@@ -4,6 +4,7 @@ import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetAlert;
+import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.model.interfaces.BudgetDataManager;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.Finance;
@@ -133,16 +134,32 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         //its done on expense side
         Budget targetBudget = null;
         for (int i = 0; i < budgets.size(); i++) {
-            if (budgets.get(i).getCategory().equals(category)) {
+            if (budgets.get(i).getCategory().equalsIgnoreCase(category)) {
                 targetBudget = budgets.get(i);
             }
         }
-        boolean hasExceededBudget = false;
+        try {
+            if (targetBudget == null) {
+                throw new BudgetRuntimeException("Expense is not in any of the budget category");
+            }
+            if (expense.getDate().isBefore(targetBudget.getStartDate())
+                    || expense.getDate().isAfter(targetBudget.getEndDate())) {
+                throw new BudgetRuntimeException("The expense you wish to deduct from budget" + targetBudget +
+                        "is not in the time frame of the budget.");
+            }
+        } catch (BudgetRuntimeException e){
+            IOHandler.writeError(e.getMessage());
+        }
+        boolean hasExceededBudget = Boolean.FALSE;
         try{
             hasExceededBudget = targetBudget.deductFromExpense(expense);
             Money remainingBudget = targetBudget.getRemainingBudget();
-            if (remainingBudget.compareTo(new Money(currency, 0)) < 0){
+            double remainingAmount = remainingBudget.getAmount().doubleValue();
+            Money zeroReference = new Money(currency, 0);
+            if (remainingAmount < 0){
                 hasExceededBudget = true;
+            } else{
+                hasExceededBudget = false;
             }
         } catch (NullPointerException e) {
             IOHandler.writeOutput("No budgets found.");
