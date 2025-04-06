@@ -29,7 +29,7 @@ public class FindOutgoingLoanCommand extends FindLoanCommand {
             if (found.isEmpty()) {
                 System.out.println("No results found");
             } else {
-                System.out.println("Outgoing loans for [" + lender.getName() +
+                System.out.println("Outgoing loan" + (found.size() == 1 ? "" : "s") + " for [" + lender.getName() +
                         (found.size() == 1 ? "] is:" : "] are:"));
                 System.out.println(LoanUI.forPrint(found));
             }

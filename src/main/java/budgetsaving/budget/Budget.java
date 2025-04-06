@@ -192,14 +192,14 @@ public class Budget extends Finance {
         return  "[" + activeStatus + "]" + "[" + exceedStatus + "]" + "{Name: " + name +
                 ", Category: " + category +
                 ", RemainingBudget: " + remainingBudget.toString() +
-                ", From " + startDate + " to " + endDate + "}\n";
+                ", From " + startDate + " to " + endDate + "}";
     }
 
     public String printExpenses() {
         StringBuilder sb = new StringBuilder();
         sb.append(this);
         if (expenses.isEmpty()) {
-            sb.append("\tThere are no expenses in this budget yet");
+            sb.append("\n\tThere are no expenses in this budget yet");
         } else {
             for (Expense expense : expenses) {
                 sb.append( "\t " + expense.toString());

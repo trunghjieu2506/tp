@@ -14,16 +14,29 @@ public class ContactsList {
     protected HashMap<String, Person> contacts;
     protected TagList<Person> tags;
 
+    public ContactsList() {
+        contacts = new HashMap<>();
+        tags = new TagList<>();
+    }
+
     public ContactsList(String user) {
         this.user = user;
         contacts = new HashMap<>();
         tags = new TagList<>();
+        addPerson(new Person(user));
     }
 
     public ContactsList(String user, HashMap<String, Person> people) {
         this.user = user;
         contacts = people;
         initialiseTags();
+    }
+
+    public void setUser(String name) {
+        this.user = name;
+        if (!hasPerson(name)) {
+            addPerson(new Person(name));
+        }
     }
 
     public void addPerson(Person person) throws SameNameException {
@@ -47,7 +60,7 @@ public class ContactsList {
     }
 
     public void addTag(Person person, String tag) throws PersonNotFoundException {
-        if (person == null) {
+        if (person == null || !contacts.containsValue(person)) {
             throw new PersonNotFoundException("Person not found");
         }
         person.addTag(tag);
@@ -71,6 +84,10 @@ public class ContactsList {
         contacts.remove(person.getName());
     }
 
+    public boolean hasPerson(String name) {
+        return contacts.containsKey(name);
+    }
+
     /**
      * @param name the name of the person to be found.
      * @return the <code>Person</code> with the input <code>name</code>. If the name is not in the contact list, return
@@ -83,7 +100,10 @@ public class ContactsList {
         return contacts.get(name);
     }
 
-    public Person findOrAdd(String name) {
+    public Person findOrAdd(String name) throws EmptyNameException {
+        if (name.isBlank()) {
+            throw new EmptyNameException("Name cannot be empty");
+        }
         if (contacts.get(name) == null) {
             Person person = new Person(name);
             contacts.put(name, person);

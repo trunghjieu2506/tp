@@ -1,6 +1,6 @@
 package utils.contacts.commands;
 
-public class PeopleCommand {
+public abstract class ContactCommand {
     public void execute() {
     }
 }

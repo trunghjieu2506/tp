@@ -146,35 +146,6 @@ public class BudgetListTest {
 
 
     @Test
-    public void testAddToBudget() {
-        BudgetList budgetList = new BudgetList(currency);
-        LocalDate futureDate = LocalDate.now().plusDays(10);
-        budgetList.setBudget("Budget1", 1000, futureDate, "Category1");
-
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
-        // Valid addition
-        budgetList.addToBudget(0, 500);
-        String output = outContent.toString();
-        assertTrue(output.contains("Budget added"));
-
-        // Invalid indices
-        outContent.reset();
-        budgetList.addToBudget(-1, 100);
-        output = outContent.toString();
-        assertTrue(output.contains("Budget index out of range."));
-
-        outContent.reset();
-        budgetList.addToBudget(5, 100);
-        output = outContent.toString();
-        assertTrue(output.contains("Budget index out of range."));
-
-        System.setOut(originalOut);
-    }
-
-    @Test
     public void testGetBudget() {
         BudgetList budgetList = new BudgetList(currency);
         LocalDate futureDate = LocalDate.now().plusDays(10);

@@ -6,11 +6,11 @@ import loanbook.commands.DeleteLoanCommand;
 import loanbook.commands.ListLoansCommand;
 import loanbook.commands.LoanCommand;
 import loanbook.commands.ShowLoanDetailCommand;
-import loanbook.commands.addcommands.AddAdvancedLoanCommand;
+import loanbook.commands.addcommands.AddAdvancedBulletLoanCommand;
 import loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
 import loanbook.interest.Interest;
 import loanbook.interest.InterestType;
-import loanbook.loan.AdvancedLoan;
+import loanbook.loan.AdvancedBulletLoan;
 import loanbook.loan.Loan;
 import loanbook.loan.SimpleBulletLoan;
 import loanbook.parsers.LoanCommandParser;
@@ -89,17 +89,17 @@ public class LoanListTest {
         Person friend = contactsList.findOrAdd("freundin");
 
         ArrayList<Loan> existingLoans = new ArrayList<>();
-        existingLoans.add(new AdvancedLoan(null, George, Miao,
+        existingLoans.add(new AdvancedBulletLoan(null, George, Miao,
                 money1, LocalDate.of(2025, 1, 1), interest1));
-        existingLoans.add(new AdvancedLoan(null, George, Miao,
+        existingLoans.add(new AdvancedBulletLoan(null, George, Miao,
                 money2, LocalDate.of(2022, 11, 1), interest2));
-        existingLoans.add(new AdvancedLoan(null, friend, George,
+        existingLoans.add(new AdvancedBulletLoan(null, friend, George,
                 money3, LocalDate.of(2023, 3, 1), interest3));
-        existingLoans.add(new AdvancedLoan("testOne", Miao, George,
+        existingLoans.add(new AdvancedBulletLoan("testOne", Miao, George,
                 money4, LocalDate.of(2020, 5, 1), interest4));
-        existingLoans.add(new AdvancedLoan("testOne", DBS, Miao,
+        existingLoans.add(new AdvancedBulletLoan("testOne", DBS, Miao,
                 money5, LocalDate.of(2019, 6, 1), interest5));
-        existingLoans.add(new AdvancedLoan("testOne", DBS, friend,
+        existingLoans.add(new AdvancedBulletLoan("testOne", DBS, friend,
                 money6, LocalDate.of(2001, 12, 1), interest6));
         existingLoans.add(new SimpleBulletLoan("testOne", George, Miao,
                 money2, LocalDate.of(1975, 3, 1)));
@@ -133,27 +133,27 @@ public class LoanListTest {
         Person George = contactsList.findName("George");
         Person Miao = contactsList.findName("Miao");
 
-        LoanCommand command_one = new AddAdvancedLoanCommand(loanManager, "testOne", George, Miao,
+        LoanCommand command_one = new AddAdvancedBulletLoanCommand(loanManager, "testOne", George, Miao,
                 moneyOne, LocalDate.of(2025, 1, 1), interest_one);
         command_one.execute();
 
-        LoanCommand command_two = new AddAdvancedLoanCommand(loanManager, "testTwo", Miao, George,
+        LoanCommand command_two = new AddAdvancedBulletLoanCommand(loanManager, "testTwo", Miao, George,
                 moneyTwo, LocalDate.of(2023, 2, 20), interest_two);
         command_two.execute();
 
-        LoanCommand command_3 = new AddAdvancedLoanCommand(loanManager, "testTwo", George, Miao,
+        LoanCommand command_3 = new AddAdvancedBulletLoanCommand(loanManager, "testTwo", George, Miao,
                 money3, LocalDate.of(2021, 12, 25), interest_3);
         command_3.execute();
 
-        LoanCommand command_4 = new AddAdvancedLoanCommand(loanManager, "testTwo", Miao, George,
+        LoanCommand command_4 = new AddAdvancedBulletLoanCommand(loanManager, "testTwo", Miao, George,
                 money4, LocalDate.of(2001, 1, 30), interest_4);
         command_4.execute();
 
-        LoanCommand command_5 = new AddAdvancedLoanCommand(loanManager, "testTwo", Miao, George,
+        LoanCommand command_5 = new AddAdvancedBulletLoanCommand(loanManager, "testTwo", Miao, George,
                 money5, LocalDate.of(2016, 5, 15), interest_5);
         command_5.execute();
 
-        LoanCommand command_6 = new AddAdvancedLoanCommand(loanManager, "testTwo", Miao, George,
+        LoanCommand command_6 = new AddAdvancedBulletLoanCommand(loanManager, "testTwo", Miao, George,
                 money6, LocalDate.of(2024, 2, 20), interest_6);
         command_6.execute();
 
