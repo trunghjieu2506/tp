@@ -100,7 +100,6 @@ public class SavingGeneralCommand implements Command {
             IOHandler.writeError(SetSavingCommand.DATE_FORMAT_ERROR);
         } catch (SavingException e) {
             //error is definitely handled at earlier part, so we dont need to print anything
-            //IOHandler.writeError(e.getMessage());
         }
     }
 
