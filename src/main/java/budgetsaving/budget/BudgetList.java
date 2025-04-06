@@ -133,6 +133,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         //dont need to check if category is null
         //its done on expense side
         Budget targetBudget = null;
+        boolean hasExceededBudget = Boolean.FALSE;
         for (int i = 0; i < budgets.size(); i++) {
             if (budgets.get(i).getCategory().equalsIgnoreCase(category)) {
                 targetBudget = budgets.get(i);
@@ -144,14 +145,9 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             }
             if (expense.getDate().isBefore(targetBudget.getStartDate())
                     || expense.getDate().isAfter(targetBudget.getEndDate())) {
-                throw new BudgetRuntimeException("The expense you wish to deduct from budget" + targetBudget +
-                        "is not in the time frame of the budget.");
+                throw new BudgetRuntimeException(
+                        "The expense you wish to deduct from budget is not in the time frame of the budget.");
             }
-        } catch (BudgetRuntimeException e){
-            IOHandler.writeError(e.getMessage());
-        }
-        boolean hasExceededBudget = Boolean.FALSE;
-        try{
             hasExceededBudget = targetBudget.deductFromExpense(expense);
             IOHandler.writeOutput("Budget deducted: " + targetBudget);
             Money remainingBudget = targetBudget.getRemainingBudget();
@@ -161,6 +157,8 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             } else{
                 hasExceededBudget = false;
             }
+        } catch (BudgetRuntimeException e){
+            IOHandler.writeError(e.getMessage());
         } catch (NullPointerException e) {
             IOHandler.writeOutput("No budgets found.");
         }
