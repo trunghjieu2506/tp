@@ -193,22 +193,36 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         }
     }
 
-    public void removeExpenseFromBudget(Expense expense) {
-        // Find the budget that matches the expense category.
-        Budget targetBudget;
-        try {
-            targetBudget = getBudgetForCategory(expense.getCategory())
-                    .orElseThrow(() -> new BudgetRuntimeException("Expense is not in any of the budget category"));
-            targetBudget.removeExpenseFromBudget(expense);
-            budgetStorage.saveFile(new ArrayList<>(budgets));
-        } catch (BudgetRuntimeException e) {
-            IOHandler.writeError(e.getMessage());
+    public boolean modifyExpenseInBudget(Expense oldExpense, Expense newExpense) {
+        // Only remove from budget if a matching budget exists for the old expense's category.
+        Optional<Budget> oldBudgetOpt = getBudgetForCategory(oldExpense.getCategory());
+        if (oldBudgetOpt.isPresent()) {
+            try {
+                oldBudgetOpt.get().removeExpenseFromBudget(oldExpense, newExpense);
+                budgetStorage.saveFile(new ArrayList<>(budgets));
+            } catch (BudgetRuntimeException e) {
+                // Instead of treating this as an error, log a warning if needed.
+                IOHandler.writeWarning(e.getMessage());
+            }
         }
-    }
 
-    public boolean modifyExpenseInBudget(Expense oldExpense, Expense newExpense){
-        removeExpenseFromBudget(oldExpense);
-        return deductBudgetFromExpense(newExpense);
+        // Only deduct from budget if a matching budget exists for the new expense's category.
+        Optional<Budget> newBudgetOpt = getBudgetForCategory(newExpense.getCategory());
+        if (newBudgetOpt.isPresent()) {
+            try {
+                boolean exceeded = newBudgetOpt.get().deductFromExpense(newExpense);
+                budgetStorage.saveFile(new ArrayList<>(budgets));
+                IOHandler.writeOutput("Budget deducted: " + newBudgetOpt.get());
+                if (newBudgetOpt.get().getRemainingBudget().getAmount().doubleValue() < 0) {
+                    return true;
+                }
+                return exceeded;
+            } catch (Exception e) {
+                IOHandler.writeWarning(e.getMessage());
+            }
+        }
+        // If no budget exists for the new expense category, simply return false.
+        return false;
     }
 
     public Budget getBudget(int index) {

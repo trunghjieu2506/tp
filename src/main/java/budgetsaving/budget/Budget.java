@@ -10,7 +10,6 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static budgetsaving.budget.BudgetList.capitalize;
 
@@ -167,14 +166,14 @@ public class Budget extends Finance {
     }
 
 
-    public void removeExpenseFromBudget(Expense expense) throws BudgetRuntimeException {
+    public void removeExpenseFromBudget(Expense oldExpense, Expense expense) throws BudgetRuntimeException {
         if (expense == null) {
             throw new BudgetRuntimeException("Invalid expense.");
         }
         for (Expense e : expenses) {
             if (isSameExpense(e, expense)){
                 expenses.remove(e);
-                BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
+                BigDecimal amount = BigDecimal.valueOf(oldExpense.getAmount());
                 remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
                 return;
             }

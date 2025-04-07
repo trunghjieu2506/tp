@@ -42,3 +42,125 @@ Apr 08, 2025 1:21:17 AM cashflow.CashFlowManager run
 SEVERE: Exception occurred during run: No line found
 Apr 08, 2025 1:21:17 AM cashflow.CashFlowManager run
 SEVERE: Exception occurred during run: No line found
+4月 08, 2025 2:01:17 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:01:17 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:01:17 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:01:52 上午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: abc - USD 200.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:01:58 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: cba - USD 500.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:02:31 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:02:32 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:02:32 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:02:32 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:04:00 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:04:00 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:04:01 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:04:01 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:04:01 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:06:24 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: abc - USD 50.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:06:40 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: cba - USD 300.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:23:37 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:23:37 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:23:37 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:23:54 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:23:54 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:23:54 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:24:04 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:24:04 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:24:04 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:24:33 上午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 20.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:24:39 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: trip123 - USD 40.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:27:35 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:27:46 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:27:46 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:27:46 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:28:05 上午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 20.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:30:44 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:30:44 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:30:44 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:31:05 上午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 30.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:33:08 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:33:08 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:33:08 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:33:41 上午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 30.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:33:46 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: trip123 - USD 45.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:36:13 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: food - USD 50.00 on 2025-04-08 [Category: Food]
+4月 08, 2025 2:38:13 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:38:14 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:38:14 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:38:14 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:38:25 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:38:25 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:38:26 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:38:26 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:38:26 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:38:30 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:38:30 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 2:38:39 上午 cashflow.analytics.AnalyticsManager <init>
+信息: AnalyticsManager created with parameter FinanceData.
+4月 08, 2025 2:38:39 上午 cashflow.CashFlowManager <init>
+信息: CashFlowManager initialization complete.
+4月 08, 2025 2:38:39 上午 cashflow.CashFlowManager run
+信息: Running CashFlowManager main loop.
+4月 08, 2025 2:39:20 上午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: trip - USD 50.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:39:29 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: food - USD 60.00 on 2025-04-08 [Category: Food]
+4月 08, 2025 2:39:53 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: trip - USD 600.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 2:40:11 上午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: food - USD 300.00 on 2025-04-08 [Category: Food]
+4月 08, 2025 2:43:55 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
