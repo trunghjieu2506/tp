@@ -23,7 +23,6 @@ public abstract class AnalyticGeneralCommand {
             } catch (Exception e){
                 System.out.println(e.getMessage());
             }
-
         }
     }
 }

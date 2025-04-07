@@ -1,0 +1,50 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class FinanceData {
+  -expenseManager: ExpenseManager
+  -incomeManager: IncomeManager
+  -savingsManager: SavingList
+  -budgetManager: BudgetList
+  -loanManager: LoanManager
+  +getCurrency(): Currency
+  +setCurrency(): void
+  +getExpenseManager(): ExpenseManager
+  +setExpenseManager(expenseManager: ExpenseManager): void
+  +getIncomeManager(): IncomeManager
+  +setIncomeManager(incomeManager: IncomeManager): void
+  +getSavingManager(): SavingManager
+  +setSavingManager(savingManager: SavingManager): void
+  +getBudgetManager(): BudgetManager
+  +setBudgetManager(BudgetManager: BudgetManager): void
+  +getLoanManager(): LoanManager
+  +setLoanManager(loanManager: LoanManager): void
+  +getAnalyticManager(): AnalyticManager
+  +setAnalyticManager(analyticManager: AnalyticManager): void
+}
+
+class AnalyticDataLoader {
+  -data: FinanceData
+  +AnalyticDataLoader(data: FinanceData)
+  +getTotalIncomeForMonth(month: int, year: int): double
+  +getTotalExpenseForMonth(month: int, year: int): double
+  +getNetSavingsForMonth(month: int, year: int): double
+  +getTotalLoanForMonth(month: int, year: int): double
+  +getTotalDebtForMonth(month: int, year: int): double
+  +retrieveMonthlyExpenses(month: int, year: int): ArrayList<Expense>
+  +retrieveTransactionsForMonth(month: int, year: int): ArrayList<Finance>
+  +retrieveTransactionsFromRange(start: LocalDate, end: LocalDate): ArrayList<Finance>
+  +retrieveAllTransactions(): ArrayList<Finance>
+}
+
+class AnalyticManager {
+  -data: FinanceData
+  -dataLoader: AnalyticDataLoader
+  +getMonthlySummary(month: int, year: int): String
+  +showTrendOverTime(dataType: String, start: LocalDate, end: LocalDate, interval: String): void
+  +showCategoryBreakDown(month: int, year: int): void
+  +showSpendingInsights(month: int, year: int): void
+}
+
+@enduml

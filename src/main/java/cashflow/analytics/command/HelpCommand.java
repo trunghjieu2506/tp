@@ -8,6 +8,8 @@ public class HelpCommand extends AnalyticGeneralCommand {
         System.out.println("Available commands:");
         System.out.println("  help         - Display available commands and usage");
         System.out.println("  overview     - Display monthly financial summary");
+        System.out.println("  spending     - Display spending insights & suggestions");
+        System.out.println("  category     - Display spending insights in terms of categories");
         System.out.println("  exit         - Exit the analytic program");
     }
 
