@@ -1,11 +1,10 @@
-# CashFlow's Project Portfolio Page
+# Hu Hongheng's Project Portfolio Page
 
 ## Project: CashFlow v2.0
 
 **CashFlow** is a desktop financial tracking application used by university students who are fluent with CLI. 
 It comes with a few features including Budget, Savings, Income, Expenses, Loan and Analytics.
-User is able to easily navigate through different feature manager, and input commands with minimum command lines
-required.
+User is able to easily navigate through different feature manager, and input commands with minimum command lines.
 
 The application also integrated for Budget and Expense Management system for an automated expense recording in Budget,
 when the user adds a new expense with conditions (see Developer Guide).
@@ -75,6 +74,7 @@ they have contributed to the saving
 
 #### User Guide
 - Listed all features, and command details for Budget and Saving Management
+- Written FAQs, Notes, and reminders to users
 
 #### Developer Guide
 - Added design architecture for the Budget and Saving Management system

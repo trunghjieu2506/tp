@@ -7,10 +7,12 @@ import budgetsaving.budget.utils.BudgetAlert;
 import cashflow.model.interfaces.BudgetDataManager;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.Finance;
+import cashflow.model.storage.Storage;
 import expenseincome.expense.Expense;
 import utils.io.IOHandler;
 import utils.money.Money;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,13 +24,38 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     private ArrayList<Budget> budgets;
     private Currency currency;
     private HashMap<String, Budget> budgetByCategory;
+    private Storage budgetStorage;
 
-    // Modified constructor to accept a currency
     public BudgetList(Currency currency) {
         assert currency != null : "Currency must not be null or empty.";
         this.currency = currency;
         budgets = new ArrayList<>();
         budgetByCategory = new HashMap<>();
+    }
+
+    // Modified constructor to accept a currency
+    public BudgetList(Currency currency, Storage budgetStorage) throws FileNotFoundException {
+        assert currency != null : "Currency must not be null or empty.";
+        this.currency = currency;
+        budgets = new ArrayList<>();
+        budgetByCategory = new HashMap<>();
+        this.budgetStorage = budgetStorage;
+        ArrayList<Finance> loadedFile = budgetStorage.loadFile();
+        if (loadedFile != null){
+            for (Finance f : loadedFile) {
+                if (f instanceof Budget) {
+                    budgets.add((Budget) f);
+                    budgetByCategory.put(capitalize(((Budget) f).getCategory()), (Budget)f);
+                }
+            }
+        }
+    }
+
+    public static String capitalize(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
     // Added getter (and optionally setter) for currency
@@ -67,13 +94,13 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         if (budget == null) {
             throw new BudgetException("Cannot add a null budget.");
         }
-        String category = budget.getCategory();
+        String category = capitalize(budget.getCategory());
         if (budgetByCategory.containsKey(category)) {
             throw new BudgetRuntimeException("Budget in category '" + category + "' already exists.");
         }
         assert !budgets.contains(budget) : "Budget already exists before addition.";
         budgets.add(budget);
-        budgetByCategory.put(category, budget);
+        budgetByCategory.put(capitalize(category), budget);
         assert budgets.contains(budget) : "Budget not added properly.";
     }
 
@@ -84,6 +111,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         int initialSize = budgets.size();
         try {
             addNewBudget(newBudget);
+            budgetStorage.saveFile(new ArrayList<>(budgets));
             IOHandler.writeOutput("New budget added, type 'check i/INDEX' to check the details");
             assert budgets.size() == initialSize + 1 :
                     "Budget list size did not increase.";
@@ -120,6 +148,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         Money before = b.getRemainingBudget(); // assuming this exists
         b.deduct(amount);
         Money after = b.getRemainingBudget();
+        budgetStorage.saveFile(new ArrayList<>(budgets));
         assert after.getAmount().compareTo(before.getAmount()) <= 0 : "Budget did not decrease after deduction.";
         IOHandler.writeOutput("Budget deducted.");
         if (after.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
@@ -138,6 +167,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             checkExpenseDateWithinBudget(expense, targetBudget);
 
             boolean hasExceededBudget = targetBudget.deductFromExpense(expense);
+            budgetStorage.saveFile(new ArrayList<>(budgets));
             IOHandler.writeOutput("Budget deducted: " + targetBudget);
             if (targetBudget.getRemainingBudget().getAmount().doubleValue() < 0) {
                 return true;
@@ -170,6 +200,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             targetBudget = getBudgetForCategory(expense.getCategory())
                     .orElseThrow(() -> new BudgetRuntimeException("Expense is not in any of the budget category"));
             targetBudget.removeExpenseFromBudget(expense);
+            budgetStorage.saveFile(new ArrayList<>(budgets));
         } catch (BudgetRuntimeException e) {
             IOHandler.writeError(e.getMessage());
         }
@@ -202,6 +233,7 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             budgetByCategory.put(category, b);
         }
         b.modifyBudget(amount, name, endDate, category);
+        budgetStorage.saveFile(new ArrayList<>(budgets));
     }
 
     //to list out all the expenses within the budget
