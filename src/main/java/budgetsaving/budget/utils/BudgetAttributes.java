@@ -29,7 +29,7 @@ public class BudgetAttributes {
     public BudgetAttributes(String input) throws BudgetAttributeException {
         // Additional check for repeated identifiers.
         String[] identifiers = { INDEX_IDENTIFIER, NAME_IDENTIFIER,
-                AMOUNT_IDENTIFIER, END_DATE_IDENTIFIER, CATEGORY_IDENTIFIER };
+            AMOUNT_IDENTIFIER, END_DATE_IDENTIFIER, CATEGORY_IDENTIFIER };
         for (String id : identifiers) {
             int firstOccurrence = input.indexOf(id);
             int lastOccurrence = input.lastIndexOf(id);

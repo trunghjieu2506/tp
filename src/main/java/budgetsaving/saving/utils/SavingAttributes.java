@@ -25,7 +25,7 @@ public class SavingAttributes {
 
     public SavingAttributes(String input) throws SavingAttributeException {
         String[] identifiers = { INDEX_IDENTIFIER, NAME_IDENTIFIER, AMOUNT_IDENTIFIER,
-                DEADLINE_IDENTIFIER, CONTRIBUTION_IDENTIFIER };
+            DEADLINE_IDENTIFIER, CONTRIBUTION_IDENTIFIER };
         for (String id : identifiers) {
             int firstOccurrence = input.indexOf(id);
             int lastOccurrence = input.lastIndexOf(id);

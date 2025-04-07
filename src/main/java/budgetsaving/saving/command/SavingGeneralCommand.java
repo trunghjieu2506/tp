@@ -24,7 +24,6 @@ public class SavingGeneralCommand implements Command {
     private static final String DELETE_CONTRIBUTION_COMMAND = "delete-c";
 
     private static final String LINE_SEPARATOR = "-".repeat(70);
-    private Command command;
     public static final String DASH = "- ";
     public static final String SAVING_COMMANDS =
                     LINE_SEPARATOR + '\n'
@@ -39,8 +38,7 @@ public class SavingGeneralCommand implements Command {
             + DASH + EXIT_COMMAND + " to exit from saving mode\n"
             + LINE_SEPARATOR + '\n';
 
-
-
+    private Command command;
 
     /**
      * Constructs a SavingGeneralCommand by parsing the user input and initializing the corresponding command.
