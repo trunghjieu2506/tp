@@ -13,7 +13,10 @@ import expenseincome.income.commands.TopCategoryIncomeCommand;
 import expenseincome.income.commands.BottomCategoryIncomeCommand;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class IncomeCommandParserTest {
 

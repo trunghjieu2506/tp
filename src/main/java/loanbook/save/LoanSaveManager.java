@@ -26,7 +26,7 @@ import java.util.Arrays;
  */
 public class LoanSaveManager extends SaveManager {
     public static final String LOAN_SEPARATOR = "<LoanSaveSeparator>\n";
-    public static final String LOANS_SAVE_FOLDER = "save/loans";
+    public static final String LOANS_SAVE_FOLDER = "save/loanManager";
     public static final String SAVE_FILE_SUFFIX = "_loans.txt";
 
     /**
@@ -35,7 +35,7 @@ public class LoanSaveManager extends SaveManager {
      *     <code>readLoan()</code> method.
      * @param save the fill save String.
      * @param contactsList the <code>ContactList</code> that stores information of every known person. Should be read
-     *                     before reading the loans save.
+     *                     before reading the loanManager save.
      * @return an <code>ArrayList</code> of <code>Loan</code>s.
      */
     public static ArrayList<Loan> readSaveString(String save, ContactsList contactsList) {
@@ -54,7 +54,7 @@ public class LoanSaveManager extends SaveManager {
      * Parses every information of a <code>Loan</code> from a save String segment.
      * @param save the <code>String</code> that stores every information of one <code>Loan</code>.
      * @param contactsList the <code>ContactList</code> that stores information of every known person. Should be read
-     *                     before reading the loans save.
+     *                     before reading the loanManager save.
      * @return a <code>Loan</code> class containing the parsed information.
      */
     private static Loan readLoan(String save, ContactsList contactsList) {
@@ -87,10 +87,12 @@ public class LoanSaveManager extends SaveManager {
             loan.addTags(tagList);
             return loan;
         } else if (save.startsWith("<AdvancedBulletLoanStart>")) {
-            Interest interest = InterestParser.parseInterest(splitLine[9].replace("<Interest>", "").trim());
+            Interest interest = InterestParser.parseInterest(splitLine[9].replace("<Interest>", "")
+                    .trim());
             Loan loan;
             try {
-                loan = new AdvancedBulletLoan(description, lender, borrower, principal, startDate, returnDate, interest);
+                loan = new AdvancedBulletLoan(description, lender, borrower, principal, startDate, returnDate,
+                        interest);
             } catch (DateUndefinedException e) {
                 return null;
             }

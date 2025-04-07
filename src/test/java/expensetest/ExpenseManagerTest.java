@@ -1,7 +1,7 @@
 package expensetest;
 
 import cashflow.model.FinanceData;
-import cashflow.model.storage.Storage;
+import cashflow.model.storage.DummyStorage;
 import expenseincome.expense.Expense;
 import expenseincome.expense.ExpenseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,8 @@ public class ExpenseManagerTest {
     void setUp() throws FileNotFoundException {
         FinanceData data = new FinanceData();
         data.setCurrency("USD");
-        Storage expenseStorage = new Storage("test.dat");
-        manager = new ExpenseManager(data, "USD", expenseStorage);
+        DummyStorage dummyStorage = new DummyStorage();
+        manager = new ExpenseManager(data, "USD", dummyStorage);
     }
 
     @Test

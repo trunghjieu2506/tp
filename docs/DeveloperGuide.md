@@ -130,7 +130,7 @@ Therefore please refer to the diagrams in Budget above. Details will be explaine
 ### Loan Management
 This includes the `Loan`, `Interest`, `LoanManager` and associated commands and parsers.
 
-The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, categorizing, sorting and searching entries.
+The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, tagging, sorting and searching entries.
 
 #### Loan Structure
 
@@ -138,7 +138,11 @@ Every type of loan inherits from the abstract `Loan` class, which contains unive
 
 #### Interest Structure
 
-Advanced loan types that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+Advanced Bullet Loans that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+
+The diagram below shows the high-level structure of core classes:
+
+![LoanManager.png](images/LoanManager.png)
 
 #### Command Parsing and Execution
 
@@ -148,8 +152,21 @@ Each command extends from an abstract `LoanCommand` base class and overrides the
 
 Due to the large number of attributes in each `Loan` class, the parser would ask for inputs sequentially.
 
-Example:
+The diagram below shows the high-level structure of loan commands:
 
+![LoanCommands.png](images/LoanCommands.png)
+
+--- 
+
+### Other utilities
+
+#### Money
+A `Money` class is created to standardise the management of each unit of money. The Currency class for 
+
+![Money.png](images/Money.png)
+#### Tags
+![TagList.png](images/TagList.png)
+---
 ### Application Management
 CashFlowManager is the central coordinator for initializing and running the core features of the CashFlow application. It sets up data persistence, managers for different financial modules (e.g., expense, income, savings), and launches the CLI-based UI loop.
 
@@ -400,24 +417,16 @@ LocalDate end = attributes.getEndDate();     // 2025-12-31
 String category = attributes.getCategory();  // "Travel"
 ```
 #### Integrating Budget with Expense
-A key feature to our application is that it can automatically deduct an expense from a budget, provided that
-both the expense and the budget are in the same category. 
+A key feature to our application is that it can automatically deduct an expense from a budget. 
+This integration between two major classes is to allow users to know the status of their budgets 
+after adding their expenses. This is provided that
+both the expense and the budget are in the same category, and the expense is within the time frame of the budget.
 
 After the expense is added, the constructor will call the BudgetManager to execute the method `deductBudgetFromExpense()`
 as illustrated by the sequence diagram below:
 
-![DeductBudgetFromExpense](DeductBudgetFromExpense.png)
-
-
-#### [Future Features] Deleting a Budget 
-Deleting a budget is an upcoming feature that is still under development, but it is important to let user
-to have the freedom of deleting redundant or no longer used budgets.
-
-#### Budget Expense Integration
-
-This integration between two major classes is to allow users to know the status of their budgets after adding their expenses.
-
-It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. A warning will be displayed if budget has been exceeded.
+It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. 
+A warning will be displayed if budget has been exceeded.
 
 ```
 BudgetManager budgetManager = data.getBudgetManager();
@@ -429,13 +438,16 @@ if (budgetManager != null) {
 }
 ```
 
+![DeductBudgetFromExpense](DeductBudgetFromExpense.png)
+
+
+#### [Future Features] Deleting a Budget 
+Deleting a budget is an upcoming feature that is still under development, but it is important to let user
+to have the freedom of deleting redundant or no longer used budgets.
 
 ---
 
-### Saving 
-
-The implementation of Saving Management system is very similar to the Budget Management System, and only a number of 
-the method calls will be shown here.
+### Saving
 
 This is an example of the implementation of the Budget and Saving command: `Set Budget`,
 which can represent the generic flow of the Budget and Saving management's execution flow.
@@ -518,20 +530,20 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 - Easy and fast, keyboard-based way of recording transactions.
 - No setup or signup — works locally and offline.
 - Lightweight and highly customizable.
-- Centralizes expenses, incomes, budgets, savings, and loans.
+- Centralizes expenses, incomes, budgets, savings, and loanManager.
 
 ## Appendix B: User Stories
 
-| Priority | As a ... | I want to ...                  | So that I can ...                              |
-|----------|-----------|--------------------------------|------------------------------------------------|
-| High     | User | Add expenses                   | Track spending                                 |
-| High     | User | Edit/delete expenses           | Fix mistakes                                   |
-| Medium   | User | Sort expenses                  | View spending trends                           |
-| Medium   | User | See top category               | Analyze major expenses                         |
-| High     | User | Add income sources             | Record earnings                                |
-| Medium   | User | Manage budgets                 | Stay within limits                             |
-| Medium   | User | Save for goals                 | Reach financial milestones                     |
-| Low      | User | Track loans                    | Manage borrowings and lending                  |
+| Priority | As a ... | I want to ... | So that I can ... |
+|----------|-----------|----------------|-------------------|
+| High | User | Add expenses | Track spending |
+| High | User | Edit/delete expenses | Fix mistakes |
+| Medium | User | Sort expenses | View spending trends |
+| Medium | User | See top category | Analyze major expenses |
+| High | User | Add income sources | Record earnings |
+| Medium | User | Manage budgets | Stay within limits |
+| Medium | User | Save for goals | Reach financial milestones |
+| Low | User | Track loanManager | Manage borrowings and lending |
 | High     | User | See monthly financial summary  | Manage my finances better                      |
 | Medium   | User | See financial trends over time | Understand my financial habits and plan wisely |
 | Medium   | User | See spending insights          | Make wiser spending decisions                  |

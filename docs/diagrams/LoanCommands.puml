@@ -1,0 +1,95 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+package "loanbook" {
+    class parsers.LoanCommandParser {
+        + parse(LoanManager, Scanner, Currency, String)
+    }
+
+    class ui.LoanUI {
+        + handleLoanCommands(LoanManager, Scanner, Currency)
+    }
+
+    package "commands" {
+
+        abstract class LoanCommand {
+            - loanManager : LoanManager
+            + execute()
+        }
+
+        class PrintMessageCommand extends LoanCommand {
+            - message: String
+            + execute()
+        }
+
+        class LoanHelpCommand extends PrintMessageCommand {
+            + execute()
+        }
+
+        class ListLoansCommand extends LoanCommand {
+            + execute()
+        }
+
+        class ShowLoanDetailCommand extends LoanCommand {
+            - index : int
+            + execute()
+        }
+
+        class DeleteLoanCommand extends LoanCommand {
+            - index : int
+            + execute()
+        }
+
+        class ShowDebtCommand extends LoanCommand {
+            - name : String
+            + execute()
+        }
+
+        class ShowLentCommand extends LoanCommand {
+            - name : String
+            + execute()
+        }
+
+        class addcommands.AddSimpleBulletLoanCommand extends LoanCommand {
+            - description : String
+            - lender : Person
+            - borrower : person
+            - money : Money
+            - startDate : LocalDate
+            - returnDate : returnDate
+            - tags : ArrayList<String>
+            + execute()
+        }
+
+        class addcommands.AddAdvancedBulletLoanCommand extends addcommands.AddSimpleBulletLoanCommand {
+            - interest : Interest
+            + execute()
+        }
+
+        abstract class findcommands.FindLoanCommand extends LoanCommand {
+            - found : ArrayList<Loan>
+            + execute()
+        }
+
+        class findcommands.ExampleFindCommand extends findcommands.FindLoanCommand {
+            - lender : Person
+            + execute()
+        }
+
+        abstract class setcommands.SetCommand extends LoanCommand {
+            - index : int
+            + execute()
+        }
+
+        class setcommands.ExampleSetCommand extends setcommands.SetCommand {
+            - description : String
+            + execute()
+        }
+    }
+
+    LoanCommandParser --> LoanCommand
+    LoanUI --> LoanCommandParser
+
+}
+@enduml

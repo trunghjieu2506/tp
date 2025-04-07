@@ -1,5 +1,6 @@
 package budgetsaving.budget;
 
+import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetExceedStatus;
 import budgetsaving.budget.utils.BudgetSerialiser;
@@ -8,7 +9,6 @@ import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 
 
@@ -50,10 +50,17 @@ public class Budget extends Finance {
         this.expenses = new ArrayList<>();
         this.startDate = LocalDate.now();
         this.endDate = endDate;
-        this.category = category;
+        this.category = capitalize(category);
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
         this.activeStatus = BudgetActiveStatus.ACTIVE;
         this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
+    }
+
+    private static String capitalize(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
     // Getter for budget name
@@ -140,18 +147,18 @@ public class Budget extends Finance {
             double remainingAmountDouble = remainingAmount.doubleValue();
             exceedStatus = remainingAmountDouble > 0 ?
                     BudgetExceedStatus.HAS_REMAINING_BUDGET : exceedStatus;
-            return remainingAmountDouble > 0;
+            return remainingAmountDouble < 0;
         }
         throw new IllegalStateException("Error adding the expense to the budget.");
     }
 
 
-    public void removeExpenseFromBudget(Expense expense) {
+    public void removeExpenseFromBudget(Expense expense) throws BudgetRuntimeException {
         if (expense == null) {
-            throw new IllegalArgumentException("Invalid expense.");
+            throw new BudgetRuntimeException("Invalid expense.");
         }
         if (!expenses.contains(expense)) {
-            throw new IllegalArgumentException("Expense not found in the budget.");
+            throw new BudgetRuntimeException("Expense not found in the budget.");
         }
         if (expenses.remove(expense)) {
             BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
@@ -182,7 +189,7 @@ public class Budget extends Finance {
             this.endDate = endDate;
         }
         if (category != null) {
-            this.category = category;
+            this.category = capitalize(category);
         }
     }
 

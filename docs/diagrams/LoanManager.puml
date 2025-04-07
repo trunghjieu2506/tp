@@ -1,0 +1,114 @@
+@startuml
+' Global diagram settings
+hide circle
+skinparam classAttributeIconSize 0
+
+'---------------------------
+' Package: Loanbook Domain
+'---------------------------
+package "loanbook" {
+
+    class LoanManager {
+        - username : String
+        - loans : ArrayList<Loan>
+        - contactsList : ContactsList
+        - tags : TagList<Loan>
+        --
+        + add(loan: Loan): void
+        + delete(index: int): void
+        + addTag(index: int, tag: String): void
+        + deleteTag(index: int, tag: String): void
+        + get(index: int): Loan
+        + findIncomingLoan(borrower: Person): ArrayList<Loan>
+        + findOutgoingLoan(lender: Person): ArrayList<Loan>
+        + findAssociatedLoan(person: Person): ArrayList<Loan>
+        + findOverdueLoan(): ArrayList<Loan>
+        + findUrgentLoan(count: int): ArrayList<Loan>
+        + findLargestLoans(count: int): ArrayList<Loan>
+        + findLoan(lender: Person, borrower: Person): ArrayList<Loan>
+        + findLoanWithTag(tag: String): ArrayList<Loan>
+        + getTotalDebt(name: String): HashMap<Currency, BigDecimal>
+        + getTotalLent(name: String): HashMap<Currency, BigDecimal>
+        + initialiseTags(): void
+        + simpleFulList(): String
+        + showDetail(index: int): String
+        + toSave(): String
+        + getLoanList(): ArrayList<Finance>
+    }
+
+    class loans.SimpleBulletLoan extends loans.Loan {
+        + getBalance() : Money
+        + forSave() : String
+        + basicInfo() : String
+        + showDetails() : String
+        + getType() : String
+        + getAmount() : double
+        + getDate() : LocalDate
+    }
+
+    class loans.AdvancedBulletLoan extends loans.Loan {
+        - outstandingBalance : Money
+        - interest : Interest
+        - incrementCount : int
+        --
+        + getBalance() : Money
+        + incrementCount() : int
+        + setStart(date: LocalDate) : void
+        + setInterest(interest: Interest) : void
+        + calculateBalance() : void
+        + basicInfo() : String
+        + showDetails() : String
+        + forSave() : String
+        + getType() : String
+        + getAmount() : double
+        + getDate() : LocalDate
+    }
+
+    class interest.Interest {
+        - description : String
+        - rate : double
+        - type : InterestType
+        - period : Period
+        + toString() : String
+        + forSave() : String
+    }
+
+    enum InterestType {
+        SIMPLE
+        COMPOUND
+    }
+
+    LoanManager --> loans.Loan : loans
+    AdvancedBulletLoan --> Interest : interest
+    Interest --> InterestType : type
+}
+
+abstract class loanbook.loans.Loan implements utils.tags.Taggable {
+    - description : String
+    - lender : Person {final}
+    - borrower : Person {final}
+    - principal : Money
+    - isReturned : boolean
+    - startDate : LocalDate
+    - returnDate : LocalDate
+    - tags : ArrayList<String>
+    --
+    + getBalance() : Money {abstract}
+    + hasTag(tag: String) : boolean
+    + addTag(tag: String) : void
+    + addTags(tags: ArrayList<String>) : void
+    + removeTag(tag: String) : void
+    + removeAllTags() : void
+    + getTagList() : ArrayList<String>
+    + getTagsString() : String
+    + isOverdue() : boolean
+    + basicInfo() : String
+    + showDetails() : String
+    + forSave() : String
+}
+
+
+
+loanbook.LoanManager --> utils.tags.TagList : tags
+
+@enduml

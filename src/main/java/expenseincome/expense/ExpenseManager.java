@@ -2,7 +2,6 @@ package expenseincome.expense;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Currency;
@@ -162,6 +161,7 @@ public class ExpenseManager implements ExpenseDataManager {
         try {
             validateIndex(index);
             Expense removed = expenses.remove(index - 1);
+            expenseStorage.saveFile(new ArrayList<>(expenses));
             logger.log(Level.INFO, "Deleted expense: {0}", removed);
             System.out.println("Deleted: " + removed);
         } catch (ExpenseException e) {
@@ -189,6 +189,15 @@ public class ExpenseManager implements ExpenseDataManager {
             Currency currency = data.getCurrency();
             Money money = new Money(currency, newAmount);
 
+            Money oldMoney = new Money(currency, expense.getAmount());
+            Expense oldExpense = new Expense(
+                    expense.getDescription(),
+                    oldMoney,
+                    expense.getDate(),
+                    expense.getCategory()
+            );
+
+
             expense.setDescription(newDescription);
             expense.setAmount(money);
             expense.setDate(newDate);
@@ -197,7 +206,7 @@ public class ExpenseManager implements ExpenseDataManager {
 
             BudgetManager budgetManager = data.getBudgetManager();
             if (budgetManager != null) {
-                boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+                boolean exceeded = budgetManager.modifyExpenseInBudget(oldExpense, expense);
                 if (exceeded) {
                     System.out.println("Warning: You have exceeded your budget for category: " + newCategory);
                 }
@@ -267,6 +276,7 @@ public class ExpenseManager implements ExpenseDataManager {
         expenses.sort((e1, e2) -> mostRecentFirst
                 ? e2.getDate().compareTo(e1.getDate())
                 : e1.getDate().compareTo(e2.getDate()));
+        expenseStorage.saveFile(new ArrayList<>(expenses));
 
         System.out.println("Expenses sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first:");
         listExpenses();

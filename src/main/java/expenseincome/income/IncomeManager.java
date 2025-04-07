@@ -4,7 +4,6 @@ import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.IncomeDataManager;
 import cashflow.model.storage.Storage;
-import expenseincome.expense.Expense;
 import expenseincome.income.exceptions.IncomeException;
 import utils.money.Money;
 
@@ -133,6 +132,8 @@ public class IncomeManager implements IncomeDataManager {
             income.setAmount(money);
             income.setDate(newDate);
             income.setCategory(newCategory);
+
+            incomeStorage.saveFile(new ArrayList<>(incomes));
             logger.log(Level.INFO, "Updated income: {0}", income);
             System.out.println("Updated: " + income);
         } catch (IncomeException e) {
@@ -149,6 +150,7 @@ public class IncomeManager implements IncomeDataManager {
         try {
             validateIndex(index);
             Income removed = incomes.remove(index - 1);
+            incomeStorage.saveFile(new ArrayList<>(incomes));
             logger.log(Level.INFO, "Deleted income: {0}", removed);
             System.out.println("Deleted: " + removed);
         } catch (IncomeException e) {

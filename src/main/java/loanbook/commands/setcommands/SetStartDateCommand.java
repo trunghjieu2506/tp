@@ -14,7 +14,7 @@ public class SetStartDateCommand extends SetCommand {
 
     @Override
     public void execute() {
-        loan.setStart(newStartDate);
+        loan.setStartDate(newStartDate);
         System.out.println("The start date of the following loan is updated:");
         System.out.println(loan.showDetails());
     }

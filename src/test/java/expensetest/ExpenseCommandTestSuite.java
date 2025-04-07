@@ -1,6 +1,7 @@
 package expensetest;
 
 import cashflow.model.FinanceData;
+import cashflow.model.storage.DummyStorage;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.commands.AddExpenseCommand;
 import expenseincome.expense.commands.DeleteExpenseCommand;
@@ -14,6 +15,7 @@ import expenseincome.expense.commands.BottomCategoryExpenseCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,10 +24,11 @@ public class ExpenseCommandTestSuite {
     private ExpenseManager expenseManager;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws FileNotFoundException {
         FinanceData data = new FinanceData();
         data.setCurrency("USD");
-        expenseManager = new ExpenseManager(data, "USD");
+        DummyStorage dummyStorage = new DummyStorage();
+        expenseManager = new ExpenseManager(data, "USD", dummyStorage);
     }
 
     @Test

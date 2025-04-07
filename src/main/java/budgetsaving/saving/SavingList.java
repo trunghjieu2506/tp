@@ -4,11 +4,8 @@ import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.model.interfaces.SavingManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import utils.io.IOHandler;
 import utils.money.Money;
-
-import javax.security.sasl.SaslClientFactory;
 
 public class SavingList implements SavingManager {
     private ArrayList<Saving> savings;

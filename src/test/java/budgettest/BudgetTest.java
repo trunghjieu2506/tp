@@ -1,7 +1,9 @@
 package budgettest;
 
+import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import org.junit.jupiter.api.Test;
 import budgetsaving.budget.Budget;
+import utils.io.IOHandler;
 import utils.money.Money;
 import expenseincome.expense.Expense;
 
@@ -103,13 +105,15 @@ public class BudgetTest {
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
         // Valid expense deduction
-        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1",
+                new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
         boolean result = budget.deductFromExpense(expense);
         assertTrue(result);
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(800)));
 
         // Deduct expense that exactly depletes the remaining budget
-        Expense expenseExact = new Expense("Expense2", new Money("USD", BigDecimal.valueOf(800)), LocalDate.now(), "Groceries");
+        Expense expenseExact = new Expense("Expense2",
+                new Money("USD", BigDecimal.valueOf(800)), LocalDate.now(), "Groceries");
         result = budget.deductFromExpense(expenseExact);
         // If remaining goes to 0, method returns false
         assertFalse(result);
@@ -121,7 +125,8 @@ public class BudgetTest {
         // Negative or zero amount won't be possible at runtime unless assertions are off;
         // but we can test that the constructor itself triggers AssertionError
         assertThrows(AssertionError.class, () ->
-                new Expense("InvalidExpense", new Money("USD", BigDecimal.valueOf(-50)), LocalDate.now(), "Utilities")
+                new Expense("InvalidExpense", new Money("USD",
+                        BigDecimal.valueOf(-50)), LocalDate.now(), "Utilities")
         );
     }
 
@@ -131,21 +136,29 @@ public class BudgetTest {
         LocalDate futureDate = LocalDate.now().plusDays(10);
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
-        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
+        // Ensure expense's category matches the budget's category.
+        Expense expense = new Expense("Expense1", new Money("USD",
+                BigDecimal.valueOf(200)), LocalDate.now(), "Category1");
         budget.deductFromExpense(expense);
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(800)));
 
-        // Remove expense => remaining budget should increase back
-        budget.removeExpenseFromBudget(expense);
+        // Removing the expense should restore the remaining budget.
+        try {
+            budget.removeExpenseFromBudget(expense);
+        } catch (BudgetRuntimeException e) {
+            IOHandler.writeOutput("Error");
+        }
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(1000)));
 
-        // Removing an expense that is not in the list => throws IllegalArgumentException
-        Expense notAddedExpense = new Expense("NotAdded", new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Misc");
-        assertThrows(IllegalArgumentException.class, () -> budget.removeExpenseFromBudget(notAddedExpense));
+        // Attempting to remove an expense that is not in the budget should throw BudgetRuntimeException.
+        Expense notAddedExpense = new Expense("NotAdded", new Money("USD",
+                BigDecimal.valueOf(100)), LocalDate.now(), "Category1");
+        assertThrows(BudgetRuntimeException.class, () -> budget.removeExpenseFromBudget(notAddedExpense));
 
-        // Null expense => IllegalArgumentException
-        assertThrows(IllegalArgumentException.class, () -> budget.removeExpenseFromBudget(null));
+        // Passing a null expense should also throw BudgetRuntimeException.
+        assertThrows(BudgetRuntimeException.class, () -> budget.removeExpenseFromBudget(null));
     }
+
 
     @Test
     public void testModifyBudget() {
@@ -154,20 +167,24 @@ public class BudgetTest {
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
         // Add an expense so money spent is 200
-        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1", new Money("USD",
+                BigDecimal.valueOf(200)), LocalDate.now(), "Food");
         budget.deductFromExpense(expense);
 
         // Trying to set total amount below money spent => IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () ->
-                budget.modifyBudget(100, "NewName", futureDate.plusDays(5), "NewCategory")
+                budget.modifyBudget(100, "NewName",
+                        futureDate.plusDays(5), "NewCategory")
         );
 
         // Invalid modifications: empty name, past end date, empty category => IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () ->
-                budget.modifyBudget(0, "", futureDate.plusDays(5), "NewCategory")
+                budget.modifyBudget(0, "",
+                        futureDate.plusDays(5), "NewCategory")
         );
         assertThrows(IllegalArgumentException.class, () ->
-                budget.modifyBudget(0, "NewName", LocalDate.now().minusDays(1), "NewCategory")
+                budget.modifyBudget(0, "NewName",
+                        LocalDate.now().minusDays(1), "NewCategory")
         );
         assertThrows(IllegalArgumentException.class, () ->
                 budget.modifyBudget(0, "NewName", futureDate.plusDays(5), "   ")
@@ -204,7 +221,8 @@ public class BudgetTest {
 
         // Reset output and add an expense
         outContent.reset();
-        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1",
+                new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Food");
         budget.deductFromExpense(expense);
         result = budget.printExpenses();
         assertNotNull(result);
