@@ -167,14 +167,14 @@ public class Budget extends Finance {
     }
 
 
-    public void removeExpenseFromBudget(Expense expense) throws BudgetRuntimeException {
+    public void removeExpenseFromBudget(Expense oldExpense, Expense expense) throws BudgetRuntimeException {
         if (expense == null) {
             throw new BudgetRuntimeException("Invalid expense.");
         }
         for (Expense e : expenses) {
             if (isSameExpense(e, expense)){
                 expenses.remove(e);
-                BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
+                BigDecimal amount = BigDecimal.valueOf(oldExpense.getAmount());
                 remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
                 return;
             }

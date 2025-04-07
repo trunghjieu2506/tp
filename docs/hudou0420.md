@@ -15,16 +15,15 @@ when the user adds a new expense with conditions (see Developer Guide).
 
 ### 1. Budget Management Features
 - **Set Budget**: Set a new budget with a deadline, name, amount and category
-- **Add to Budget**
 - **Deduct from Budget**
 - **List Budget**: List out all budgets and their remaining money
 - **Budget Exceed Alerts**: Alert user when budget exceeds, but do not restrict user from spending
 - **Check Detail Expenses of a Budget**: List out all expense histories in the budget
 - **Utils, Commands and Parsers**: Helper class which helps to execute the programs
 
+**What it does**: Manage multiple budgets with basic commands
 
-- **What it does**: Manage multiple budgets with basic commands
-- **Highlights**: Added more colourful commands in CLI, for clearer text identification
+**Highlights**: Added more colourful commands in CLI, for clearer text identification
 Integrates with expense for auto budget deduction upon adding an expense
 
 
@@ -33,10 +32,8 @@ Integrates with expense for auto budget deduction upon adding an expense
 - **Add Contributions**: Add a contribution to a saving by depositing money into the saving
 - **List Savings**: List out all savings and their remaining money to contribute
 - **Check Savings**: Check on the details of a saving, including all contributions
-- **Saving Completion Alerts**: Alert user when budget completes
 - **Delete Saving**: The user is able to delete a saving
-- **Delete Contribution**: The user is able to delete a contribution within a saving. This will remove the amount 
-they have contributed to the saving
+- **Delete Contribution**: The user is able to delete a contribution within a saving.
 - **Utils, Commands and Parsers**: Helper class which helps to execute the programs
 - **Contributions**: A subclass of Saving to record each contribution to a saving, with amount and date
 - **What it does**: Manage multiple savings with basic commands
@@ -64,39 +61,38 @@ they have contributed to the saving
 ---
 
 ### Enhancements to Existing Features
-- Updated CLI text color palette
-- Updated to a more user friendly prompt, so that user can navigate more easily in the budget and saving component
-- Added tests to increase coverage from **39%** to **60%**
+Updated CLI text color palette,
+Updated to a more user friendly prompt, so that user can navigate more easily in the budget and saving component
+Added tests to increase coverage
 
 ---
 
 ### Documentation
 
 #### User Guide
-- Listed all features, and command details for Budget and Saving Management
-- Written FAQs, Notes, and reminders to users
+Listed all features, and command details for Budget and Saving Management
+, Written FAQs, Notes, and reminders to users
 
 #### Developer Guide
-- Added design architecture for the Budget and Saving Management system
-- Added implementation details for Budget and Saving Management
-- Added UML diagrams for illustrating the Budget and Saving classes
-- Added test implementations for Budget and Saving methods
-- Added User stories for the Budget and Saving part
+Design architecture for the Budget and Saving Management system,
+Implementation details for Budget and Saving Management,
+UML diagrams for illustrating the Budget and Saving classes,
+Test implementations for Budget and Saving methods,
+User stories for the Budget and Saving part
 
 ---
 
 ### Contributions to Team Based Tasks
-- Reviewed and approved PRs with meaningful feedbacks
-- Collaborate with team mates to integrate between features
-- Managed the milestone and issue creations
-- Resolve Merge Conflicts from any PRs
-- Managed team deadlines and remind team about the deliverables
-- Tested other team members code for robustness of the application
+Reviewed and approved PRs with meaningful feedbacks, 
+Collaborate with team mates to integrate Budget Expense features,
+Managed the milestone and issue creations,
+Resolve Merge Conflicts from any PRs,
+Managed team deadlines and remind team about the deliverables,
+Tested other team members code for robustness of the application
 
 ---
 ### Contributions Beyond the Project Team
-- Give peer reviews to other teams regarding their DG
-- Explains file structures to other team on minimising conflicts
+Give peer reviews to other teams regarding their DG. Explains file structures to other team on minimising conflicts
 
 
 ---

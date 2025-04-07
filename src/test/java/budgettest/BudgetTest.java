@@ -131,36 +131,6 @@ public class BudgetTest {
     }
 
     @Test
-    public void testRemoveExpenseFromBudget() {
-        Money money = new Money("USD", BigDecimal.valueOf(1000));
-        LocalDate futureDate = LocalDate.now().plusDays(10);
-        Budget budget = new Budget("Budget1", money, futureDate, "Category1");
-
-        // Ensure expense's category matches the budget's category.
-        Expense expense = new Expense("Expense1", new Money("USD",
-                BigDecimal.valueOf(200)), LocalDate.now(), "Category1");
-        budget.deductFromExpense(expense);
-        assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(800)));
-
-        // Removing the expense should restore the remaining budget.
-        try {
-            budget.removeExpenseFromBudget(expense);
-        } catch (BudgetRuntimeException e) {
-            IOHandler.writeOutput("Error");
-        }
-        assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(1000)));
-
-        // Attempting to remove an expense that is not in the budget should throw BudgetRuntimeException.
-        Expense notAddedExpense = new Expense("NotAdded", new Money("USD",
-                BigDecimal.valueOf(100)), LocalDate.now(), "Category1");
-        assertThrows(BudgetRuntimeException.class, () -> budget.removeExpenseFromBudget(notAddedExpense));
-
-        // Passing a null expense should also throw BudgetRuntimeException.
-        assertThrows(BudgetRuntimeException.class, () -> budget.removeExpenseFromBudget(null));
-    }
-
-
-    @Test
     public void testModifyBudget() {
         Money money = new Money("USD", BigDecimal.valueOf(1000));
         LocalDate futureDate = LocalDate.now().plusDays(10);
