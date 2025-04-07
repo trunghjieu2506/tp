@@ -36,11 +36,10 @@ Below are the summary to my contributions.
 - Wrote DG sections for:
   - Expense and Income Management Design and Implementation
   - Error handling with exceptions and Logging with Java’s logger
-  - Table of contents for ease of viewing
   - All appendixes' content and Acknowledgments
 - Diagrams contributed:
   - Class Diagrams for Expense and Income packages, Sequence Diagrams for `AddExpenseCommand`, `EditIncomeCommand` (PlantUML)
-- Drafted a standardized DG template for the team to ease their workload
+- Drafted a standardized DG template with **Table of Contents** for the team to ease their workload
 
 ### 👥 Contributions to Team-based Tasks
 
