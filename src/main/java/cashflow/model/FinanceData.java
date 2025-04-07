@@ -4,23 +4,30 @@ import budgetsaving.budget.BudgetList;
 import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.model.interfaces.BudgetManager;
+import cashflow.model.setup.SetUpManager;
+import cashflow.model.storage.Storage;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
 
+import java.io.FileNotFoundException;
 import java.util.Currency;
 
 //Centralized data hub
 public class FinanceData {
     private Currency currency;
+    private boolean isFirstTime;
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
     private SavingList savingsManager;
     private BudgetList budgetManager;
     private LoanManager loanManager;
-
-    // Your analytics module.
     private AnalyticsManager analyticsManager;
+    private SetUpManager setUpManager;
+
+//    public FinanceData(Storage setupStorage) throws FileNotFoundException {
+//        currency = setupStorage.loadFile();
+//    }
 
     // Basic getters and setters.
     public Currency getCurrency() {
@@ -28,9 +35,26 @@ public class FinanceData {
     }
 
     public void setCurrency(String currency) {
-        this.currency = Currency.getInstance(currency);
+        try{
+            this.currency = Currency.getInstance(currency);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Currency code is invalid. " +
+                    "Currency should follow ISO 4271 standard: three uppercase letters");
+        }
     }
 
+    public boolean isFirstTime() {
+        return isFirstTime;
+    }
+    public void setFirstTime(boolean firstTime) {
+        isFirstTime = firstTime;
+    }
+    public SetUpManager getSetUpManager() {
+        return setUpManager;
+    }
+    public void setSetUpManager(SetUpManager setUpManager) {
+        this.setUpManager = setUpManager;
+    }
 
     public SavingList getSavingsManager() {
         return savingsManager;

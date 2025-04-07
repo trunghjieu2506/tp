@@ -1,10 +1,11 @@
 package cashflow.ui;
 
 import budgetsaving.budget.BudgetList;
+import cashflow.model.setup.SetUpManager;
 import cashflow.ui.command.HelpCommand;
 import cashflow.model.FinanceData;
 import budgetsaving.saving.SavingList;
-import cashflow.ui.command.SetUpCommand;
+import cashflow.model.setup.SetUpCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.HandleExpenseCommand;
 import expenseincome.income.HandleIncomeCommand;
@@ -29,6 +30,8 @@ public class UI {
     private LoanManager loanManager;
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
+    private SetUpManager setUpManager;
+    private boolean isExit = false;
 
     public UI(FinanceData data) {
         this.data = data;
@@ -37,9 +40,12 @@ public class UI {
         this.loanManager = data.getLoanManager();
         this.expenseManager = data.getExpenseManager();
         this.incomeManager = data.getIncomeManager();
+        this.setUpManager = data.getSetUpManager();
     }
 
-    //printResult(Result result)
+    public boolean isExit() {
+        return isExit;
+    }
 
     public void run() {
         Scanner scanner = new Scanner(System.in, "UTF-8");
@@ -57,14 +63,15 @@ public class UI {
                     IOHandler.writeOutput("Unable to update save file");
                 }
                 IOHandler.writeOutput("Exiting. Goodbye!");
+                this.isExit = true;
                 break;
             }
-            switch (input.toLowerCase()) {
+            switch (input.toLowerCase().trim()) {
             case "help":
                 new HelpCommand().execute();
                 break;
             case "setup":
-                new SetUpCommand(data).execute();
+                new SetUpCommand(data, setUpManager.getSetupStorage()).execute();
                 break;
             case "analytic":
                 handleAnalyticCommand(scanner, data);

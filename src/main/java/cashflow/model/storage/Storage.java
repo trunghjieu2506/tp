@@ -1,6 +1,7 @@
 package cashflow.model.storage;
 
 import cashflow.model.interfaces.Finance;
+import cashflow.model.setup.SetupConfig;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,26 +19,19 @@ public class Storage {
         file = new File(filePath);
     }
 
-    /**
-     * Loads the task data from the specified file location. If the file does not exist,
-     * a FileNotFoundException is thrown.
-     *
-     * @return An ArrayList of objects loaded from storage.
-     * @throws FileNotFoundException if the task data file does not exist.
-     */
     @SuppressWarnings("unchecked")
     public ArrayList<Finance> loadFile() throws FileNotFoundException {
         file.getParentFile().mkdirs();
         if (!file.exists()) {
-            throw new FileNotFoundException();
+            return null;
         }
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             System.out.println("Storage loaded successfully");
             return (ArrayList<Finance>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error loading tasks: " + e.getMessage());
+            return null;
         }
-        return new ArrayList<Finance>();
     }
 
     /**
@@ -54,5 +48,32 @@ public class Storage {
             System.err.println("Error saving tasks: " + e.getMessage());
         }
     }
+
+    @SuppressWarnings("unchecked")
+    public SetupConfig loadSetupConfig() {
+        file.getParentFile().mkdirs();
+        if (!file.exists()) {
+            System.out.println("No setup config file found at " + file.getPath());
+            return null;
+        }
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            System.out.println("SetupConfig loaded successfully");
+            return (SetupConfig) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading SetupConfig: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void saveSetupConfig(SetupConfig config) {
+        file.getParentFile().mkdirs();
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(config);
+            System.out.println("SetupConfig saved successfully!");
+        } catch (IOException e) {
+            System.err.println("Error saving SetupConfig: " + e.getMessage());
+        }
+    }
+
 }
 
