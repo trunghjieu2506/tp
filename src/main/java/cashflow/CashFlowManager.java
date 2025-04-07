@@ -4,60 +4,126 @@ import budgetsaving.budget.BudgetList;
 import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.model.FinanceData;
+import cashflow.model.setup.SetUpManager;
+import cashflow.model.setup.SetupConfig;
 import cashflow.model.storage.Storage;
 import cashflow.ui.UI;
-import cashflow.ui.command.SetUpCommand;
+import cashflow.model.setup.SetUpCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Currency;
+import java.util.logging.*;
 
 public class CashFlowManager {
 
+    private static final Logger logger = Logger.getLogger(CashFlowManager.class.getName());
+
+    static {
+        try {
+            File logDir = new File("logs");
+            if (!logDir.exists()) {
+                logDir.mkdirs();
+            }
+
+            Logger rootLogger = Logger.getLogger("");
+            for (Handler h : rootLogger.getHandlers()) {
+                rootLogger.removeHandler(h);
+            }
+
+            FileHandler fileHandler = new FileHandler("logs/cashflow.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            rootLogger.addHandler(fileHandler);
+            rootLogger.setLevel(Level.ALL);
+            logger.setLevel(Level.ALL);
+        } catch (Exception e) {
+            System.err.println("Failed to set up logger for CashFlowManager: " + e.getMessage());
+        }
+    }
+
+
     /** Storage component responsible for reading and writing task data. */
-    private final Storage storageExpense;
-    private final Storage storageIncome;
-    private final Storage storageSaving;
-    private final Storage storageLoan;
-    private final Storage storageContact;
+    private final Storage expenseStorage;
+    private final Storage incomeStorage;
+    private final Storage savingStorage;
+    private final Storage loanStorage;
+    private final Storage contactStorage;
+    private final Storage setupStorage;
 
     private SavingList savingManager;
     private BudgetList budgetManager;
     private LoanManager loanManager;
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
+    private SetUpManager setUpManager;
 
     private FinanceData data;
 
-    //Initialization
-    public CashFlowManager(){
+    private static boolean isFirstTime;
+    private boolean isExit = false;
 
-        String expenseFile = "src/main/java/cashflow/model/storage/expense.dat";
-        String incomeFile = "src/main/java/cashflow/model/storage/income.dat";
-        String savingFile = "src/main/java/cashflow/model/storage/saving.dat";
-        String loanFile = "src/main/java/cashflow/model/storage/loan.dat";
-        String contactFile = "src/main/java/cashflow/model/storage/contact.dat";
+    //Initialization
+    public CashFlowManager() throws FileNotFoundException {
+        logger.info("Initializing CashFlowManager...");
+
+        String expenseFile = "data/expense.dat";
+        String incomeFile = "data/income.dat";
+        String savingFile = "data/saving.dat";
+        String loanFile = "data/loan.dat";
+        String contactFile = "data/contact.dat";
+        String setupFile = "data/setup.dat";
 
         // take these objects as arguments in your Manager constructor
-        storageExpense = new Storage(expenseFile);
-        storageIncome = new Storage(incomeFile);
-        storageSaving = new Storage(savingFile);
-        storageLoan = new Storage(loanFile);
-        storageContact = new Storage(contactFile);
+        expenseStorage = new Storage(expenseFile);
+        incomeStorage = new Storage(incomeFile);
+        savingStorage = new Storage(savingFile);
+        loanStorage = new Storage(loanFile);
+        contactStorage = new Storage(contactFile);
+        setupStorage = new Storage(setupFile);
 
-        data = new FinanceData();
-        String currencyStr = "USD"; //data.getCurrency().getCurrencyCode();
+        // Attempt to load existing config
+        SetupConfig setupConfig = setupStorage.loadSetupConfig();
+
+        if (setupConfig != null) {
+
+            // If the config exists, read its fields
+            isFirstTime = setupConfig.isFirstTime();
+            String currencyStr = setupConfig.getCurrencyCode();
+
+            assert currencyStr != null && !currencyStr.trim().isEmpty()
+                    : "Loaded currency code from setup config is null or empty.";
+            logger.info("Loaded setup config: isFirstTime=" + isFirstTime + ", currency=" + currencyStr);
+
+            System.out.println("Loaded config: isFirstTime=" + isFirstTime
+                    + ", currency=" + currencyStr);
+            data = new FinanceData();
+            assert data != null : "FinanceData failed to initialize after loading config.";
+            data.setCurrency(currencyStr);
+        } else {
+            logger.warning("No setup config found. Defaulting to isFirstTime=true and currency=USD.");
+            // If file not found or load failed, default to your existing approach
+            System.out.println("No setup config found, default to isFirstTime=true, currency=USD");
+            isFirstTime = true;
+            data = new FinanceData();
+            assert data != null : "FinanceData failed to initialize with default settings.";
+            data.setCurrency("USD");
+        }
+
+        String currencyStr = data.getCurrency().getCurrencyCode();
         Currency currency = Currency.getInstance(currencyStr);
 
-        // Initialize integration modules (dummy implementations for now).
+        logger.info("Initializing managers...");
 
-        expenseManager = new ExpenseManager(data, currencyStr);     //need to change this part to accept Currency class
-        incomeManager = new IncomeManager(data, currencyStr);
+        expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
+        incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
         savingManager = new SavingList(currencyStr);
         budgetManager = new BudgetList(currency);
-        this.loanManager = new LoanManager("CashFlow");
-
+        loanManager = new LoanManager("defaultUser");
+        setUpManager = new SetUpManager(setupStorage);
+        assert setupStorage != null : "setupStorage failed to initialize.";
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);
@@ -65,38 +131,46 @@ public class CashFlowManager {
         data.setSavingsManager(savingManager);
         data.setBudgetManager(budgetManager);
         data.setLoanManager(loanManager);
-
+        data.setSetUpManager(setUpManager);
         // Initialize Analytics module.
         AnalyticsManager analyticsManager = new AnalyticsManager(data);
         data.setAnalyticsManager(analyticsManager);
+
+        logger.info("CashFlowManager initialization complete.");
     }
 
-
-    private static boolean isFirstTime = true;
     /**
      * Runs the main application loop.
      * Continuously reads user commands, parses them, and executes the corresponding actions
      * until the ExitCommand is issued.
      */
     public void run() {
+        logger.info("Running CashFlowManager main loop.");
+
         UI ui = new UI(data);
-
-        // Display a welcome message with an initial financial summary.
         System.out.println("welcome to cashflow!");
-//        System.out.println(data.getAnalyticsManager().getFinancialSummary());
         System.out.println();
-
         // Run first-time setup.
-        if (isFirstTime) {
-            new SetUpCommand(data).execute();
-            isFirstTime = false;
+
+        while (!isExit) {
+            try {
+                if (isFirstTime) {
+                    System.out.println("First-time user setup:"
+                            + "\n---------------------------------");
+                    logger.info("First-time setup triggered.");
+
+                    new SetUpCommand(data, setupStorage).execute();
+                    isFirstTime = false;
+                    data.setFirstTime(isFirstTime);
+                }
+                // Start the command-line UI loop.
+                ui.run();
+                isExit = ui.isExit();
+            } catch (Exception e) {
+                logger.severe("Exception occurred during run: " + e.getMessage());
+                System.err.println(e.getMessage());
+            }
         }
-        // Start the command-line UI loop.
-        ui.run();
+        logger.info("Exiting CashFlowManager.");
     }
-    /**
-     * Default path for storing the task list file.
-     * Creates a hidden directory named '.corgimanager' in the user's home folder
-     * and stores tasks in 'tasks.dat'.
-     */
 }

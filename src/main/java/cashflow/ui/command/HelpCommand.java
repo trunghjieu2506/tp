@@ -5,7 +5,7 @@ public class HelpCommand implements Command {
     public void execute() {
         System.out.println("Available commands:");
         System.out.println("  help     - Display available commands and usage");
-        System.out.println("  setup    - Interactive first-time setup");
+        System.out.println("  setup    - Program Configuration");
         System.out.println("  analytic - Enter analytic program");
         System.out.println("  saving   - Enter saving program");
         System.out.println("  budget   - Enter budget program");

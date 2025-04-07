@@ -1,0 +1,40 @@
+@startuml
+actor User
+
+User -> Expense : new(description, amount, date, category)
+activate Expense
+
+Expense -> BudgetList : deductBudgetFromExpense(this)
+activate BudgetList
+
+BudgetList -> BudgetList : search for budget by category
+
+alt budget found
+    BudgetList -> Budget : deductFromExpense(expense)
+    activate Budget
+    Budget -> Budget : deduct(amount)
+    Budget -> Budget : check if exceeded
+    Budget --> BudgetList : return true/false
+    deactivate Budget
+
+    BudgetList -> IOHandler : writeOutput("Budget deducted...")
+    activate IOHandler
+    deactivate IOHandler
+    BudgetList -> Budget : getRemainingBudget()
+    Budget -> Money : getAmount()
+    activate Money
+    Money --> Budget : BigDecimal
+    deactivate Money
+    Budget --> BudgetList : remainingAmount
+    BudgetList -> BudgetList : check if < 0
+else budget not found
+    BudgetList -> BudgetRuntimeException : new(...)
+    BudgetRuntimeException --> BudgetList
+    BudgetList -> IOHandler : writeError("not in any of the budget category")
+end
+
+BudgetList --> Expense : return hasExceededBudget
+deactivate BudgetList
+deactivate Expense
+
+@enduml

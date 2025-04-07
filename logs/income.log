@@ -149,3 +149,101 @@ Apr 06, 2025 10:51:29 PM expenseincome.expense.ExpenseManager addExpense
 INFO: Added expense: cookie - USD 2.00 on 2025-04-06 [Category: Food]
 Apr 06, 2025 10:51:37 PM expenseincome.expense.ExpenseManager editExpense
 INFO: Updated expense: hawker - USD 3.00 on 2025-04-06 [Category: Food]
+Apr 07, 2025 1:14:17 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 1:18:34 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: school - EUR 1500.00 on 2025-04-05 [Category: Research]
+Apr 07, 2025 1:18:42 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 1:20:23 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 1:23:05 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 1:24:20 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 2:51:31 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 2:52:05 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: bungeejump - EUR 111.00 on 2025-04-07 [Category: Lifestyle]
+Apr 07, 2025 3:00:58 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 3:03:40 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 3:04:26 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 3:08:10 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: bungeejump - EUR 111.00 on 2025-04-07 [Category: Lifestyle]
+Apr 07, 2025 3:09:41 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 3:10:03 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: bungeejump - EUR 111.00 on 2025-04-07 [Category: Lifestyle]
+Apr 07, 2025 3:10:12 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 3:10:29 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:01:49 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:02:18 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:04:21 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:06:15 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:09:30 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:12:10 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: coffee - EUR 50.00 on 2025-04-07 [Category: Food]
+Apr 07, 2025 4:14:34 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:36:48 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:42:32 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:47:01 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:51:34 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:54:53 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:55:37 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:55:45 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:59:44 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 4:59:59 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:04:06 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:32:39 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:37:31 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:45:36 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:51:38 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:53:10 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 5:54:31 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: ballet - EUR 50.00 on 2025-03-02 [Category: Education]
+Apr 07, 2025 5:54:41 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: ballet - EUR 50.00 on 2025-04-02 [Category: Education]
+Apr 07, 2025 5:57:48 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 8:04:22 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 8:15:17 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 8:16:12 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 8:17:08 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 8:18:37 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: shooting - EUR 100.00 on 2025-02-15 [Category: Education]
+Apr 07, 2025 8:19:03 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: haidilao - EUR 150.00 on 2025-02-20 [Category: Food]
+Apr 07, 2025 8:36:47 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 07, 2025 8:50:46 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null

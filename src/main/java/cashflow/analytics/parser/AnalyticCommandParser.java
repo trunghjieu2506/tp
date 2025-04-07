@@ -11,6 +11,7 @@ import cashflow.analytics.command.TrendCommand;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,59 +28,86 @@ public class AnalyticCommandParser {
             if (command.length < 2) {
                 return new OverviewCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
             } else {
-                YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
-                return new OverviewCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+                try {
+                    YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
+                    return new OverviewCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+                }  catch(DateTimeParseException e){
+                    throw new DateTimeParseException("Incorrect DateTime Format.\n"
+                            +"Follow this syntax: overview [yyyy-mm]", command[1], 0);
+                }
             }
         });
         COMMANDS.put("trend", input -> {
-            String[] command = input.split(" ");
+            String[] command = input.split(" ", 5);
+
             if (command.length < 5) {
                 throw new Exception("Incorrect syntax. Use trend <data-type> <start-date> <end-date> <interval>\n"
                         + "Example: trend expense 2025-01-24 2025-02-24 monthly");
-            } else {
-                String type = command[1];
-                LocalDate start = LocalDate.parse(command[2]);
-                LocalDate end = LocalDate.parse(command[3]);
-                String interval = command[4];
-                return new TrendCommand(type, start, end, interval);
             }
+
+            if (!command[1].equalsIgnoreCase("expense")
+                    && !command[1].equalsIgnoreCase("income")) {
+                throw new Exception("Incorrect data-type. Use trend expense or trend income");
+            }
+            String type = command[1];
+
+            LocalDate start;
+            LocalDate end;
+            try {
+                start = LocalDate.parse(command[2]);
+                end = LocalDate.parse(command[3]);
+            } catch (DateTimeParseException e) {
+                throw new DateTimeParseException("Incorrect Date Format. Please use [yyyy-mm-dd].", command[2], 0);
+            }
+
+            if (!end.isAfter(start)) {
+                throw new Exception("End date (" + end + ") must be after start date (" + start + ").");
+            }
+
+            String interval = command[4];
+            if (!interval.equalsIgnoreCase("weekly")
+                    && !interval.equalsIgnoreCase("monthly")) {
+                throw new Exception("Invalid interval. Use 'weekly' or 'monthly'.");
+            }
+
+            return new TrendCommand(type, start, end, interval);
         });
-        COMMANDS.put("category", input -> {
+
+        COMMANDS.put("insight", input -> {
             String[] command = input.split(" ");
             if (command.length < 2) {
-                throw new Exception("Syntax");
+                return new SpendingInsightCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
             } else {
-                YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
-                return new CategoryInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+                try {
+                    YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
+                    return new SpendingInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+                }  catch(DateTimeParseException e){
+                    throw new DateTimeParseException("Incorrect DateTime Format.\n"
+                            +"Follow this syntax: insight [yyyy-mm]", command[1], 0);
+                }
             }
     });
-        COMMANDS.put("spending", input -> {
+        COMMANDS.put("spending-breakdown", input -> {
         String[] command = input.split(" ");
         if (command.length < 2) {
             return new CategoryInsightCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
         } else {
-            YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
-            return new CategoryInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+            try {
+                YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
+                return new CategoryInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+            }  catch(DateTimeParseException e){
+                throw new DateTimeParseException("Incorrect DateTime Format.\n"
+                        +"Follow this syntax: spending-breakdown [yyyy-mm]", command[1], 0);
+            }
         }
     });
-        COMMANDS.put("overview", input -> {
-            String[] command = input.split(" ", 2);
-            if (command.length < 2) {
-                return new OverviewCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
-            } else {
-                YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
-                return new OverviewCommand(yearMonth.getMonthValue(), yearMonth.getYear());
-            }
-        });
     }
-
     public static AnalyticGeneralCommand parseCommand(String input) throws Exception {
         String[] command = input.split(" ", 2);
         if (COMMANDS.containsKey(command[0])) {
-            //handle method is defined in CommandHandler
             return COMMANDS.get(command[0]).handle(input);
         } else {
-            throw new IllegalArgumentException("Unknown command: " + command[0] + "Enter 'help' for available commands");
+            throw new IllegalArgumentException("Unknown command. Enter 'help' for available commands");
         }
     }
 }

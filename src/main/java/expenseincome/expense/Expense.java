@@ -3,12 +3,16 @@ package expenseincome.expense;
 import cashflow.model.interfaces.Finance;
 import utils.money.Money;
 
+import java.io.Serial;
 import java.time.LocalDate;
 /**
  * Represents a single expense entry with description, amount, date, and category.
  * Used as a model for storing financial records in the ExpenseManager.
  */
 public class Expense extends Finance {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String description;
     private Money amount;
     private LocalDate date;

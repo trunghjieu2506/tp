@@ -3,11 +3,15 @@ package expenseincome.income;
 import cashflow.model.interfaces.Finance;
 import utils.money.Money;
 
+import java.io.Serial;
 import java.time.LocalDate;
 /**
  * Represents a single income record with source, amount, date, and category.
  */
 public class Income extends Finance {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String source;
     private Money amount;
     private LocalDate date;
