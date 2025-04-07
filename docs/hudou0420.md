@@ -38,8 +38,7 @@ Delete Contribution, Utils, Commands and Parsers, Contributions**
 
 ---
 
-### Code Contributed
-- View my contributions via [RepoSense](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21&tabOpen=true&tabType=authorship&tabAuthor=Hudou0420&tabRepo=AY2425S2-CS2113-W11-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
+### Code Contributed : [RepoSense](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21&tabOpen=true&tabType=authorship&tabAuthor=Hudou0420&tabRepo=AY2425S2-CS2113-W11-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
 
 ---
 
@@ -48,16 +47,9 @@ Delete Contribution, Utils, Commands and Parsers, Contributions**
 - Created and maintained GitHub issues, milestones
 - Addressed Github issues posted by the PE-D, and also planning to address issues on PE
 
----
-
-### Enhancements to Existing Features
-Updated CLI text color palette,
-Updated to a more user friendly prompt, so that user can navigate more easily in the budget and saving component
-Added tests to increase coverage
 
 ---
 
-### Documentation
 
 #### User Guide
 Listed all features, and command details for Budget and Saving Management
@@ -72,7 +64,12 @@ User stories for the Budget and Saving part
 
 ---
 
-### Contributions to Team Based Tasks
+#### Enhancements to Existing Features
+Updated CLI text color palette,
+Updated to a more user friendly prompt, so that user can navigate more easily in the budget and saving component
+Added tests to increase coverage
+
+#### Contributions to Team Based Tasks
 Reviewed and approved PRs with meaningful feedbacks, 
 Collaborate with team mates to integrate Budget Expense features,
 Managed the milestone and issue creations,
@@ -80,8 +77,7 @@ Resolve Merge Conflicts from any PRs,
 Managed team deadlines and remind team about the deliverables,
 Tested other team members code for robustness of the application
 
----
-### Contributions Beyond the Project Team
+#### Contributions Beyond the Project Team
 Give peer reviews to other teams regarding their DG. Explains file structures to other team on minimising conflicts
 
 

@@ -71,7 +71,7 @@ public class Budget extends Finance {
         boolean equalName = e1.getDescription().equals(e2.getDescription());
         boolean equalAmount = e1.getAmount() == e2.getAmount();
         boolean equalDate = e1.getDate().isEqual(e2.getDate());
-        boolean equalCategory = e1.getCategory().equals(e2.getCategory());
+        boolean equalCategory = capitalize(e1.getCategory()).equals(capitalize(e2.getCategory()));
 
         return equalName && equalAmount && equalDate && equalCategory;
     }
