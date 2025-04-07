@@ -48,17 +48,15 @@ Below are the summary to my contributions.
   - Proactively set **reminders and internal deadlines** when team engagement was low
   - Frequently updated and **kept the team accountable** for milestones and deliverables
   - Initiated a **review workflow**, where each PR must be reviewed by another team member before merging
-  - **Chaired internal meetings** and design syncs to align on implementation priorities
-
+ 
 - **Project Setup & Admin**:
   - Set up the GitHub repository, issue tracker, project board, and milestones
   - Configured repository access, PR templates, and default GitHub branch protection
-  - Maintained a clean commit history and release tagging
 
 ### 🤝 Review / Mentoring Contributions
 
 - Reviewed multiple pull requests related to Input validation, CLI parsing, command execution logic, and UI consistency
-- Shared tutorials with teammates on: How to write PlantUML diagrams and Proper Java checkstyle practices
+- Shared tutorials with teammates on how to write PlantUML diagrams
 - Helped resolve merge conflicts during final week integration
 
 ### 🌐 Contributions Beyond the Team
