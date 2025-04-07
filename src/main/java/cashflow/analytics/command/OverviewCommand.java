@@ -12,8 +12,7 @@ public class OverviewCommand extends AnalyticGeneralCommand {
     }
 
     @Override
-    public void execute(FinanceData data) {
-        AnalyticsManager analytics = data.getAnalyticsManager();
+    public void execute(AnalyticsManager analytics){
         if (analytics != null) {
             System.out.println(analytics.getMonthlySummary(month, year));
         } else {

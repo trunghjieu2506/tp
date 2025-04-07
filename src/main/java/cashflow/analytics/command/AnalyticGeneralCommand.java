@@ -1,14 +1,15 @@
 package cashflow.analytics.command;
 
+import cashflow.analytics.AnalyticsManager;
 import cashflow.analytics.parser.AnalyticCommandParser;
 import cashflow.model.FinanceData;
 
 import java.util.Scanner;
 
 public abstract class AnalyticGeneralCommand {
-    public abstract void execute(FinanceData data);
+    public abstract void execute(AnalyticsManager analyticManager);
 
-    public static void handleAnalyticCommand(Scanner scanner, FinanceData data) {
+    public static void handleAnalyticCommand(Scanner scanner, AnalyticsManager analyticManager) {
         System.out.println("Analytic Mode: Enter commands (type 'exit' to return, type 'help' for commands)");
         while (true) {
             System.out.print("> ");
@@ -19,7 +20,7 @@ public abstract class AnalyticGeneralCommand {
             }
             try{
                 AnalyticGeneralCommand c = AnalyticCommandParser.parseCommand(input);
-                c.execute(data);
+                c.execute(analyticManager);
             } catch (Exception e){
                 System.out.println(e.getMessage());
             }

@@ -10,6 +10,7 @@ import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static budgetsaving.budget.BudgetList.capitalize;
 
@@ -56,6 +57,22 @@ public class Budget extends Finance {
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
         this.activeStatus = BudgetActiveStatus.ACTIVE;
         this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
+    }
+
+    public boolean containsExpense(ArrayList<Expense> expenses, Expense target) {
+        for (Expense e : expenses) {
+            if (isSameExpense(e, target)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSameExpense(Expense e1, Expense e2) {
+        return Objects.equals(e1.getDescription(), e2.getDescription())
+                && Objects.equals(e1.getAmount(), e2.getAmount())
+                && Objects.equals(e1.getDate(), e2.getDate())
+                && Objects.equals(e1.getCategory(), e2.getCategory());
     }
 
     // Getter for budget name
@@ -152,7 +169,7 @@ public class Budget extends Finance {
         if (expense == null) {
             throw new BudgetRuntimeException("Invalid expense.");
         }
-        if (!expenses.contains(expense)) {
+        if (!containsExpense(expenses, expense)) {
             throw new BudgetRuntimeException("Expense not found in the budget.");
         }
         if (expenses.remove(expense)) {
