@@ -1,0 +1,34 @@
+@startuml
+actor User
+participant UI
+participant "AnalyticGeneralCommand" as AGC
+participant "AnalyticCommandParser" as ACP
+participant "OverviewCommand" as OC
+participant "AnalyticsManager" as AM
+
+User -> UI: run()
+UI -> User: prompts "Enter command"
+User -> UI: types "analytic"
+UI -> AGC: handleAnalyticCommand(scanner, analyticsManager)
+
+note over AGC
+  Prints: "Analytic Mode: Enter commands..."
+  Then enters loop
+end note
+
+AGC -> User: prompts ">"
+User -> AGC: "overview 2025-04"
+
+AGC -> ACP: parseCommand("overview 2025-04")
+ACP -> ACP: Parses input, creates new OverviewCommand
+ACP --> AGC: returns OverviewCommand instance
+
+AGC -> OC: c.execute(analyticsManager)
+
+OC -> AM: getMonthlySummary(month=4, year=2025)
+AM -> AM: Calculate income, expenses, net savings
+AM --> OC: returns summary string
+
+OC -> User: prints the monthly summary
+
+@enduml

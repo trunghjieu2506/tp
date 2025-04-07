@@ -1,0 +1,97 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+package cashflow{
+    class CashFlowManager {
+        - expenseStorage: Storage
+        - incomeStorage: Storage
+        - savingStorage: Storage
+        - loanStorage: Storage
+        - contactStorage: Storage
+        - setupStorage: Storage
+        - savingManager: SavingList
+        - budgetManager: BudgetList
+        - loanManager: LoanManager
+        - expenseManager: ExpenseManager
+        - incomeManager: IncomeManager
+        - setUpManager: SetUpManager
+        - data: FinanceData
+        - isFirstTime: boolean
+        - isExit: boolean
+        --
+        + CashFlowManager()
+        + run(): void
+    }
+
+    package cashflow.ui{
+    class UI {
+        - data: FinanceData
+        - isExit: boolean
+        --
+        + UI(FinanceData)
+        + isExit(): boolean
+        + run(): void
+    }
+    }
+    package storage{
+        class Storage {
+            - file: File
+            + Storage(String)
+            + loadFile(): ArrayList<Finance>
+            + saveFile(financeList: ArrayList<Finance>): void
+            + loadSetupConfig(): SetupConfig
+            + saveSetupConfig(config: SetupConfig): void
+        }
+    }
+    package cashflow.model{
+        class FinanceData {
+            - currency: Currency
+            - isFirstTime: boolean
+            - expenseManager: ExpenseManager
+            - incomeManager: IncomeManager
+            - savingsManager: SavingList
+            - budgetManager: BudgetList
+            - loanManager: LoanManager
+            - analyticsManager: AnalyticsManager
+            - setUpManager: SetUpManager
+            --
+            + get/setCurrency()
+            + get/setFirstTime()
+            + get/setExpenseManager()
+            + get/setIncomeManager()
+            + get/setSavingsManager()
+            + get/setBudgetManager()
+            + get/setLoanManager()
+            + get/setAnalyticsManager()
+            + get/setSetUpManager()
+        }
+        package setup{
+            class SetupConfig {
+                - firstTime: boolean
+                - currencyCode: String
+                + SetupConfig(firstTime: boolean, currencyCode: String)
+                + isFirstTime(): boolean
+                + getCurrencyCode(): String
+            }
+            class SetUpManager {
+                - setupStorage: Storage
+                + getSetupStorage(): Storage
+            }
+        }
+    }
+}
+
+
+
+
+
+
+' Relationships
+CashFlowManager --> cashflow.storage.Storage
+CashFlowManager --> cashflow.model.setup.SetupConfig
+CashFlowManager --> cashflow.model.FinanceData
+CashFlowManager --> cashflow.model.setup.SetUpManager
+CashFlowManager --> cashflow.ui.UI
+
+@enduml
