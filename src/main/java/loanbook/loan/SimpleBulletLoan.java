@@ -67,18 +67,16 @@ public class SimpleBulletLoan extends Loan {
     }
 
     @Override
-    public String getType()
-    {
+    public String getType() {
         return "Overview";
     }
     @Override
-    public double getAmount()
-    {
+    public double getAmount() {
         return 0;
     }
 
     @Override
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return startDate;
     }
 }

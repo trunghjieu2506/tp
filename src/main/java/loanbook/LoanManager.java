@@ -13,12 +13,9 @@ import utils.tags.TagList;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Stores the list of loanManager and related operations. Each instance requires a <code>String</code> username.

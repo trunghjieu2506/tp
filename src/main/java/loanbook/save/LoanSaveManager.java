@@ -87,10 +87,12 @@ public class LoanSaveManager extends SaveManager {
             loan.addTags(tagList);
             return loan;
         } else if (save.startsWith("<AdvancedBulletLoanStart>")) {
-            Interest interest = InterestParser.parseInterest(splitLine[9].replace("<Interest>", "").trim());
+            Interest interest = InterestParser.parseInterest(splitLine[9].replace("<Interest>", "")
+                    .trim());
             Loan loan;
             try {
-                loan = new AdvancedBulletLoan(description, lender, borrower, principal, startDate, returnDate, interest);
+                loan = new AdvancedBulletLoan(description, lender, borrower, principal, startDate, returnDate,
+                        interest);
             } catch (DateUndefinedException e) {
                 return null;
             }

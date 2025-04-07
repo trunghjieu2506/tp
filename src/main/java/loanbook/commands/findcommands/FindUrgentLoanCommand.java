@@ -2,11 +2,6 @@ package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
 import loanbook.ui.LoanUI;
-import utils.io.IOHandler;
-
-import java.util.Scanner;
-
-import static utils.textcolour.TextColour.RED;
 
 public class FindUrgentLoanCommand extends FindLoanCommand {
     protected int count;

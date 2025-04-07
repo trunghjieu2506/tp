@@ -30,7 +30,8 @@ public class AdvancedBulletLoan extends Loan {
     }
 
     public AdvancedBulletLoan(String description, Person lender, Person borrower, Money money,
-                              LocalDate startDate, LocalDate returnDate, Interest interest) throws DateUndefinedException {
+                              LocalDate startDate, LocalDate returnDate, Interest interest)
+            throws DateUndefinedException {
         super(description, lender, borrower, money, startDate, returnDate);
         if (startDate == null) {
             throw new DateUndefinedException("Start date not defined");
@@ -133,13 +134,11 @@ public class AdvancedBulletLoan extends Loan {
     }
 
     @Override
-    public String getType()
-    {
+    public String getType() {
         return "Overview";
     }
     @Override
-    public double getAmount()
-    {
+    public double getAmount() {
         return 0;
     }
 

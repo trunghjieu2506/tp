@@ -1,10 +1,8 @@
 package loanbook.commands.findcommands;
 
 import loanbook.LoanManager;
-import loanbook.loan.Loan;
 import loanbook.ui.LoanUI;
 
-import java.util.ArrayList;
 
 public class FindMyIncomingLoanCommand extends FindIncomingLoanCommand {
     public FindMyIncomingLoanCommand(LoanManager loanManager) {

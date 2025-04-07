@@ -250,8 +250,7 @@ public class LoanCommandParser {
                 count = 5;
             }
             return new FindLargestLoanCommand(loanManager, count);
-        }
-        else {
+        } else {
             try {
                 Person person = loanManager.getContactsList().findName(input.trim());
                 return new FindAssociatedLoanCommand(loanManager, person);
