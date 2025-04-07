@@ -1,0 +1,24 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+package "utils.tags" {
+
+    interface Taggable {
+        + getTagList() : ArrayList<String>
+        + addTag(tag : String) : void
+        + removeTag(tag : String) : void
+        + removeAllTags() : void
+    }
+
+    class TagList<T extends Taggable> {
+        - tagList : HashMap<String, ArrayList<T>>
+        + addMap(tag: String, object: T) : void
+        + removeMap(tag: String, object: T) : void
+        + removeObject(object: T) : void
+        + removeTag(tag: String) : void
+        + findWithTag(tag: String) : ArrayList<T>
+    }
+}
+@enduml

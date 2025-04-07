@@ -1,9 +1,14 @@
 package budgetsaving.saving.utils;
 
-import budgetsaving.saving.command.*;
 import budgetsaving.saving.exceptions.SavingException;
 import budgetsaving.saving.exceptions.SavingParserException;
 import cashflow.ui.command.Command;
+import budgetsaving.saving.command.ContributeGoalCommand;
+import budgetsaving.saving.command.DeleteContributionCommand;
+import budgetsaving.saving.command.CheckSavingCommand;
+import budgetsaving.saving.command.DeleteSavingCommand;
+import budgetsaving.saving.command.ListSavingsCommand;
+import budgetsaving.saving.command.SetSavingCommand;
 import cashflow.model.interfaces.SavingManager;
 import utils.money.Money;
 import java.time.LocalDate;
@@ -39,11 +44,17 @@ public class SavingParser {
         return index;
     }
 
+    private static String checkValidName(String name) throws SavingParserException {
+        if (name == null || name.isEmpty()){
+            throw new SavingParserException("Name identifier is missing or name is empty.");
+        }
+        return name;
+    }
 
     public static Command parseSetGoalCommand(String input, SavingManager savingList)
             throws SavingException {
         SavingAttributes attributes = new SavingAttributes(input);
-        String name = attributes.getName();
+        String name = checkValidName(attributes.getName());
         double amount = isValidAmount(attributes.getAmount());
         Money setAmount = new Money(savingList.getCurrency(), amount);
         LocalDate deadline = isFutureDate(attributes.getDeadline());
@@ -75,12 +86,12 @@ public class SavingParser {
     public static Command parseDeleteContributionCommand(String input, SavingManager savingList)
             throws SavingException {
         SavingAttributes attributes = new SavingAttributes(input);
-        int index_s = isValidIndex(attributes.getIndex());
-        int index_c = isValidIndex(attributes.getContributionIndex());
-        return new DeleteContributionCommand(index_s, index_c, savingList);
+        int indexS = isValidIndex(attributes.getIndex());
+        int indexC = isValidIndex(attributes.getContributionIndex());
+        return new DeleteContributionCommand(indexS, indexC, savingList);
     }
 
-    public static Command parseCheckGoalCommand(String input, SavingManager savingList)
+    public static Command parseCheckSavingCommand(String input, SavingManager savingList)
             throws SavingException {
         SavingAttributes attributes = new SavingAttributes(input);
         int index = isValidIndex(attributes.getIndex());

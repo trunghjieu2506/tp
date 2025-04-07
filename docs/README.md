@@ -1,10 +1,10 @@
 # CashFlow.java
 
-**CashFlow** is a personal finance tracking application that helps you manage your **expenses**, **incomes**, **budgets**, **loans**, and **savings** — all in one place. Designed for individuals who want to stay in control of their finances, CashFlow runs in a simple **command-line interface** and supports key features such as:
+**CashFlow** is a personal finance tracking application that helps you manage your **expenses**, **incomes**, **budgets**, **loanManager**, and **savings** — all in one place. Designed for individuals who want to stay in control of their finances, CashFlow runs in a simple **command-line interface** and supports key features such as:
 
 - Adding, editing, and listing expenses and incomes
 - Adding, editing, and listing budgets and savings
-- Adding, editing, and listing loans
+- Adding, editing, and listing loanManager
 - Analysing all these trends for better decision makings
 
 CashFlow is ideal for students and working professionals who want a lightweight, intuitive tool to stay financially organized. No fancy UI needed — just meaningful commands that get the job done.

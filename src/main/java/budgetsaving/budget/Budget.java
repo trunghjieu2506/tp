@@ -9,7 +9,6 @@ import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 
 
@@ -51,10 +50,17 @@ public class Budget extends Finance {
         this.expenses = new ArrayList<>();
         this.startDate = LocalDate.now();
         this.endDate = endDate;
-        this.category = category;
+        this.category = capitalize(category);
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
         this.activeStatus = BudgetActiveStatus.ACTIVE;
         this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
+    }
+
+    private static String capitalize(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
     // Getter for budget name
@@ -183,7 +189,7 @@ public class Budget extends Finance {
             this.endDate = endDate;
         }
         if (category != null) {
-            this.category = category;
+            this.category = capitalize(category);
         }
     }
 

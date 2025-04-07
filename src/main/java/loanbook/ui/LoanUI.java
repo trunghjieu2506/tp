@@ -5,8 +5,10 @@ import loanbook.commands.LoanCommand;
 import loanbook.loan.Loan;
 import loanbook.parsers.LoanCommandParser;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -17,7 +19,7 @@ public class LoanUI {
      * Runs continuously in loan mode
      * @param loanManager the <code>LoanManager</code> that the commands operates on.
      * @param scanner the <code>Scanner</code> that reads inputs.
-     * @param currency the currency that the loans are recorded in.
+     * @param currency the currency that the loanManager are recorded in.
      */
     public static void handleLoanCommands(LoanManager loanManager, Scanner scanner, Currency currency) {
         System.out.println("Loan Mode: Enter commands (type 'exit' to return)");
@@ -50,6 +52,20 @@ public class LoanUI {
         for (Loan loan : loans) {
             output.append("[" + i + "] ").append(loan.basicInfo()).append('\n');
             i++;
+        }
+        return output.toString();
+    }
+
+    /**
+     * Converts a <code>Map</code> of currency and amount to a ready-to-print <code>String</code>. Each map is printed
+     *     in a new line.
+     * @param maps the <code>Map</code> to be printed.
+     * @return the converted <code>String</code>.
+     */
+    public static String forPrint(Map<Currency, BigDecimal> maps) {
+        StringBuilder output = new StringBuilder();
+        for (Currency currency : maps.keySet()) {
+            output.append(currency.getCurrencyCode()).append(maps.get(currency)).append('\n');
         }
         return output.toString();
     }

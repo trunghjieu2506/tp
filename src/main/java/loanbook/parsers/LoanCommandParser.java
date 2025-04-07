@@ -3,6 +3,9 @@ package loanbook.parsers;
 import loanbook.LoanManager;
 import loanbook.commands.DeleteLoanCommand;
 import loanbook.commands.LoanHelpCommand;
+import loanbook.commands.findcommands.FindLargestLoanCommand;
+import loanbook.commands.findcommands.FindOverdueLoanCommand;
+import loanbook.commands.findcommands.FindUrgentLoanCommand;
 import loanbook.commands.printcommands.InvalidMessageCommand;
 import loanbook.commands.printcommands.PrintMessageCommand;
 import loanbook.commands.ListLoansCommand;
@@ -13,7 +16,7 @@ import loanbook.commands.addcommands.AddSimpleBulletLoanCommand;
 import loanbook.commands.findcommands.FindAssociatedLoanCommand;
 import loanbook.commands.findcommands.FindIncomingLoanCommand;
 import loanbook.commands.findcommands.FindMyIncomingLoanCommand;
-import loanbook.commands.findcommands.FindMyOutoingLoanCommand;
+import loanbook.commands.findcommands.FindMyOutgoingLoanCommand;
 import loanbook.commands.findcommands.FindOutgoingLoanCommand;
 import loanbook.commands.findcommands.FindTaggedLoanCommand;
 import loanbook.commands.setcommands.SetDescriptionCommand;
@@ -22,9 +25,11 @@ import loanbook.commands.setcommands.SetPrincipalCommand;
 import loanbook.commands.setcommands.SetReturnDateCommand;
 import loanbook.commands.setcommands.SetReturnStatusCommand;
 import loanbook.commands.setcommands.SetStartDateCommand;
+import loanbook.commands.setcommands.SetTagCommand;
 import loanbook.interest.Interest;
 import loanbook.loan.SimpleBulletLoan;
 import utils.contacts.ContactsUI;
+import utils.contacts.PersonNotFoundException;
 import utils.datetime.DateParser;
 import utils.io.IOHandler;
 import utils.money.Money;
@@ -55,10 +60,7 @@ public class LoanCommandParser {
                 int deleteIndex = Integer.parseInt(splitFirst[1]);
                 return new DeleteLoanCommand(loanManager, deleteIndex);
             case "add":
-                if (splitFirst.length == 2) {
-
-                }
-                return handleAddLoanCommand(loanManager, scanner, defaultCurrency);
+                return handleAddLoanCommandUI(loanManager, scanner, defaultCurrency);
             case "show":
                 int showIndex = Integer.parseInt(splitFirst[1]);
                 return new ShowLoanDetailCommand(loanManager, showIndex);
@@ -66,7 +68,7 @@ public class LoanCommandParser {
                 if (splitFirst.length == 1) {
                     return new PrintMessageCommand("""
                             Which loan are you updating? Command format: "return X"
-                            To view the list of loans, type "list".
+                            To view the list of loanManager, type "list".
                             """);
                 }
                 int returnIndex = Integer.parseInt(splitFirst[1]);
@@ -75,7 +77,7 @@ public class LoanCommandParser {
                 if (splitFirst.length == 1) {
                     return new PrintMessageCommand("""
                             Which loan are you updating? Command format: "unreturn X"
-                            To view the list of loans, type "list".
+                            To view the list of loanManager, type "list".
                             """);
                 }
                 int unReturnIndex = Integer.parseInt(splitFirst[1]);
@@ -94,12 +96,12 @@ public class LoanCommandParser {
                             "What part of which loan are you editing? Format: edit X [attribute]");
                 }
                 String attribute = split[1];
-                return handleSetCommand(loanManager, scanner, index, attribute, defaultCurrency);
+                return handleSetCommandUI(loanManager, scanner, index, attribute, defaultCurrency);
             case "find":
                 if (splitFirst.length == 1) {
                     return new PrintMessageCommand("What are you looking for? Type \"help find\" for help.");
                 }
-                return handleFindCommand(loanManager, splitFirst[1]);
+                return handleFindCommand(loanManager, scanner, splitFirst[1]);
             case "help":
                 if (splitFirst.length == 1) {
                     return handleHelpCommand(null);
@@ -118,12 +120,12 @@ public class LoanCommandParser {
         return parse(loanManager, scanner, Currency.getInstance(defaultCurrency), input);
     }
 
-    private static LoanCommand handleAddLoanCommand(LoanManager loanManager, Scanner scanner, Currency currency) {
+    private static LoanCommand handleAddLoanCommandUI(LoanManager loanManager, Scanner scanner, Currency currency) {
         String mode;
         System.out.print("With or without interest? (y/n)\n> ");
         mode = scanner.nextLine();
         while (!(mode.equalsIgnoreCase("y") || mode.equalsIgnoreCase("n"))) {
-            IOHandler.writeOutputWithColour("Input y or n only!\n> ", RED);
+            System.out.print("Input y or n only!\n> ");
             mode = scanner.nextLine();
         }
         Person lender = handlePersonInputUI(loanManager.getContactsList(), scanner,
@@ -164,8 +166,8 @@ public class LoanCommandParser {
         return null;
     }
 
-    private static LoanCommand handleSetCommand(LoanManager loanManager, Scanner scanner, int index, String attribute,
-                                                Currency defaultCurrency) {
+    private static LoanCommand handleSetCommandUI(LoanManager loanManager, Scanner scanner, int index, String attribute,
+                                                  Currency defaultCurrency) {
         switch (attribute) {
         case "lender":
         case "borrower":
@@ -198,6 +200,8 @@ public class LoanCommandParser {
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 return new SetInterestCommand(loanManager, index, interest);
             }
+        case "tag":
+            return new SetTagCommand(loanManager, scanner, index);
         default:
             return null;
         }
@@ -212,11 +216,11 @@ public class LoanCommandParser {
         return input;
     }
 
-    private static LoanCommand handleFindCommand(LoanManager loanManager, String input) {
+    private static LoanCommand handleFindCommand(LoanManager loanManager, Scanner scanner, String input) {
         if (input.contains("outgoing loan")) {
             String name = input.replace("outgoing loan", "");
             if (name.isBlank()) {
-                return new FindMyOutoingLoanCommand(loanManager);
+                return new FindMyOutgoingLoanCommand(loanManager);
             }
             return new FindOutgoingLoanCommand(loanManager, name.trim());
         } else if (input.contains("incoming loan")) {
@@ -228,19 +232,38 @@ public class LoanCommandParser {
         } else if (input.trim().startsWith("tag")){
             String tag = input.replace("tag", "").trim();
             return new FindTaggedLoanCommand(loanManager, tag);
+        } else if (input.trim().equalsIgnoreCase("overdue loan")) {
+            return new FindOverdueLoanCommand(loanManager);
+        } else if (input.contains("urgent loan")) {
+            int count;
+            try {
+                count = Integer.parseInt(input.replace("urgent loan", "").trim());
+            } catch (NumberFormatException e) {
+                count = 5;
+            }
+            return new FindUrgentLoanCommand(loanManager, count);
+        } else if (input.contains("largest loan")) {
+            int count;
+            try {
+                count = Integer.parseInt(input.replace("largest loan", "").trim());
+            } catch (NumberFormatException e) {
+                count = 5;
+            }
+            return new FindLargestLoanCommand(loanManager, count);
         } else {
-            Person person = loanManager.getContactsList().findName(input.trim());
-            if (person != null) {
+            try {
+                Person person = loanManager.getContactsList().findName(input.trim());
                 return new FindAssociatedLoanCommand(loanManager, person);
+            } catch (PersonNotFoundException e) {
+                return new PrintMessageCommand("Person [" + input.trim() + "] not found");
             }
         }
-        return null;
     }
 
     private static ArrayList<String> handleTagsInputUI(Scanner scanner) {
         ArrayList<String> output = new ArrayList<>();
         while (true) {
-            System.out.print("Key in a tag (Key in \"N/A\" if not applicable):\n> ");
+            System.out.print("Key in a tag (Key in \"N/A\" to finish):\n> ");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("N/A")) {
                 break;
@@ -249,6 +272,7 @@ public class LoanCommandParser {
                 IOHandler.writeOutputWithColour("You cannot enter an empty tag.", RED);
             } else {
                 output.add(input);
+                System.out.println("Added tag: [" + input + "]");
             }
         }
         return output;
@@ -261,14 +285,15 @@ public class LoanCommandParser {
         switch (input.trim()) {
         case "find":
             return new PrintMessageCommand("""
-                    You can find loans by entering these commands:
-                    "find outgoing loan": shows all loans lent by you.
-                    "find incoming loan": shows all loans borrowed by you.
-                    "find my loan": shows all loans lent or borrowed by you.
-                    "find [name] outgoing loan": shows all loans lent by [name].
-                    "find [name] incoming loan": shows all loans borrowed by [name].
-                    "find [name]": shows all loans lent or borrowed by [name].
-                    "find [tag]": shows all loans tagged with [tag].
+                    You can find loanManager by entering these commands:
+                    "find overdue loan": shows all overdue loanManager.
+                    "find outgoing loan": shows all loanManager lent by you.
+                    "find incoming loan": shows all loanManager borrowed by you.
+                    "find my loan": shows all loanManager lent or borrowed by you.
+                    "find [name] outgoing loan": shows all loanManager lent by [name].
+                    "find [name] incoming loan": shows all loanManager borrowed by [name].
+                    "find [name]": shows all loanManager lent or borrowed by [name].
+                    "find [tag]": shows all loanManager tagged with [tag].
                     """);
         case "edit":
             return new PrintMessageCommand("""
@@ -278,7 +303,8 @@ public class LoanCommandParser {
                     return date
                     amount
                     principal
-                    interest (For advanced bullet loans only)
+                    tag
+                    interest (For advanced bullet loanManager only)
                     """);
         case "add":
             return new PrintMessageCommand("You can simply type \"add\", and more instructions will guide you.");
