@@ -345,24 +345,16 @@ LocalDate end = attributes.getEndDate();     // 2025-12-31
 String category = attributes.getCategory();  // "Travel"
 ```
 #### Integrating Budget with Expense
-A key feature to our application is that it can automatically deduct an expense from a budget, provided that
-both the expense and the budget are in the same category. 
+A key feature to our application is that it can automatically deduct an expense from a budget. 
+This integration between two major classes is to allow users to know the status of their budgets 
+after adding their expenses. This is provided that
+both the expense and the budget are in the same category, and the expense is within the time frame of the budget.
 
 After the expense is added, the constructor will call the BudgetManager to execute the method `deductBudgetFromExpense()`
 as illustrated by the sequence diagram below:
 
-![DeductBudgetFromExpense](DeductBudgetFromExpense.png)
-
-
-#### [Future Features] Deleting a Budget 
-Deleting a budget is an upcoming feature that is still under development, but it is important to let user
-to have the freedom of deleting redundant or no longer used budgets.
-
-#### Budget Expense Integration
-
-This integration between two major classes is to allow users to know the status of their budgets after adding their expenses.
-
-It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. A warning will be displayed if budget has been exceeded.
+It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. 
+A warning will be displayed if budget has been exceeded.
 
 ```
 BudgetManager budgetManager = data.getBudgetManager();
@@ -374,13 +366,16 @@ if (budgetManager != null) {
 }
 ```
 
+![DeductBudgetFromExpense](DeductBudgetFromExpense.png)
+
+
+#### [Future Features] Deleting a Budget 
+Deleting a budget is an upcoming feature that is still under development, but it is important to let user
+to have the freedom of deleting redundant or no longer used budgets.
 
 ---
 
-### Saving 
-
-The implementation of Saving Management system is very similar to the Budget Management System, and only a number of 
-the method calls will be shown here.
+### Saving
 
 This is an example of the implementation of the Budget and Saving command: `Set Budget`,
 which can represent the generic flow of the Budget and Saving management's execution flow.

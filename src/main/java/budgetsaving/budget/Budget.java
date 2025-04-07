@@ -1,5 +1,6 @@
 package budgetsaving.budget;
 
+import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetExceedStatus;
 import budgetsaving.budget.utils.BudgetSerialiser;
@@ -140,18 +141,18 @@ public class Budget extends Finance {
             double remainingAmountDouble = remainingAmount.doubleValue();
             exceedStatus = remainingAmountDouble > 0 ?
                     BudgetExceedStatus.HAS_REMAINING_BUDGET : exceedStatus;
-            return remainingAmountDouble > 0;
+            return remainingAmountDouble < 0;
         }
         throw new IllegalStateException("Error adding the expense to the budget.");
     }
 
 
-    public void removeExpenseFromBudget(Expense expense) {
+    public void removeExpenseFromBudget(Expense expense) throws BudgetRuntimeException {
         if (expense == null) {
-            throw new IllegalArgumentException("Invalid expense.");
+            throw new BudgetRuntimeException("Invalid expense.");
         }
         if (!expenses.contains(expense)) {
-            throw new IllegalArgumentException("Expense not found in the budget.");
+            throw new BudgetRuntimeException("Expense not found in the budget.");
         }
         if (expenses.remove(expense)) {
             BigDecimal amount = BigDecimal.valueOf(expense.getAmount());

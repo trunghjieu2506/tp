@@ -448,11 +448,21 @@ contribute i/1 a/500
 
 ---
 
+### Check on a Saving
+**Command**: 
+```
+check i/INDEX
+```
+
+- `INDEX`: The index of the saving you want to check. You can get the index by listing the savings.
+
+**Example**: check i/1 
+
 ### Delete a Saving
 
 **Command:**
 ```
-delete i/INDEX
+delete-s i/INDEX
 ```
 
 - `INDEX`: The index of the saving you want to delete. You can get the index by listing the savings.
@@ -494,6 +504,7 @@ delete-c i/1 c/1
 ```
 - This deletes the 2nd contribution of saving index 1. 
 - Note that the rest of the contribution will be shifted after deletion, just like deleting a saving.
+
 ---
 
 ### Budget Expense Integration

@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class BudgetList implements BudgetManager, BudgetDataManager {
     private ArrayList<Budget> budgets;
@@ -129,40 +130,55 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
     }
 
     public boolean deductBudgetFromExpense(Expense expense) {
-        String category = expense.getCategory();
-        //dont need to check if category is null
-        //its done on expense side
         Budget targetBudget = null;
-        boolean hasExceededBudget = Boolean.FALSE;
-        for (int i = 0; i < budgets.size(); i++) {
-            if (budgets.get(i).getCategory().equalsIgnoreCase(category)) {
-                targetBudget = budgets.get(i);
-            }
-        }
         try {
-            if (targetBudget == null) {
-                throw new BudgetRuntimeException("Expense is not in any of the budget category");
-            }
-            if (expense.getDate().isBefore(targetBudget.getStartDate())
-                    || expense.getDate().isAfter(targetBudget.getEndDate())) {
-                IOHandler.writeWarning(
-                        "Notice: The expense you wish to deduct from budget is not in the time frame of the budget.");
-            }
-            hasExceededBudget = targetBudget.deductFromExpense(expense);
+            // Retrieve the budget for the given expense category. If none is found, an exception is thrown.
+            targetBudget = getBudgetForCategory(expense.getCategory())
+                    .orElseThrow(() -> new BudgetRuntimeException("Expense is not in any of the budget category"));
+
+            checkExpenseDateWithinBudget(expense, targetBudget);
+
+            boolean hasExceededBudget = targetBudget.deductFromExpense(expense);
             IOHandler.writeOutput("Budget deducted: " + targetBudget);
-            Money remainingBudget = targetBudget.getRemainingBudget();
-            double remainingAmount = remainingBudget.getAmount().doubleValue();
-            if (remainingAmount < 0){
-                hasExceededBudget = true;
-            } else{
-                hasExceededBudget = false;
+            if (targetBudget.getRemainingBudget().getAmount().doubleValue() < 0) {
+                return true;
             }
-        } catch (BudgetRuntimeException e){
+            return hasExceededBudget;
+        } catch (BudgetRuntimeException e) {
             IOHandler.writeError(e.getMessage());
-        } catch (NullPointerException e) {
-            IOHandler.writeOutput("No budgets found.");
         }
-        return hasExceededBudget;
+        return false;
+    }
+
+    private Optional<Budget> getBudgetForCategory(String category) {
+        return budgets.stream()
+                .filter(budget -> budget.getCategory().equalsIgnoreCase(category))
+                .findFirst();
+    }
+
+    private void checkExpenseDateWithinBudget(Expense expense, Budget budget) {
+        if (expense.getDate().isBefore(budget.getStartDate()) || expense.getDate().isAfter(budget.getEndDate())) {
+            IOHandler.writeWarning(
+                    "Notice: The expense you wish to deduct from budget is " +
+                            "not in the time frame of the budget.");
+        }
+    }
+
+    public void removeExpenseFromBudget(Expense expense) {
+        // Find the budget that matches the expense category.
+        Budget targetBudget;
+        try {
+            targetBudget = getBudgetForCategory(expense.getCategory())
+                    .orElseThrow(() -> new BudgetRuntimeException("Expense is not in any of the budget category"));
+            targetBudget.removeExpenseFromBudget(expense);
+        } catch (BudgetRuntimeException e) {
+            IOHandler.writeError(e.getMessage());
+        }
+    }
+
+    public boolean modifyExpenseInBudget(Expense oldExpense, Expense newExpense){
+        removeExpenseFromBudget(oldExpense);
+        return deductBudgetFromExpense(newExpense);
     }
 
     public Budget getBudget(int index) {
