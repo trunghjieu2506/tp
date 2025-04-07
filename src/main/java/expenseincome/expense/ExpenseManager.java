@@ -186,9 +186,17 @@ public class ExpenseManager implements ExpenseDataManager {
             validateExpenseDetails(newDescription, newAmount, newCategory);
 
             Expense expense = expenses.get(index - 1);
-            Expense oldExpense = expenses.get(index - 1);
             Currency currency = data.getCurrency();
             Money money = new Money(currency, newAmount);
+
+            Money oldMoney = new Money(currency, expense.getAmount());
+            Expense oldExpense = new Expense(
+                    expense.getDescription(),
+                    oldMoney,
+                    expense.getDate(),
+                    expense.getCategory()
+            );
+
 
             expense.setDescription(newDescription);
             expense.setAmount(money);
