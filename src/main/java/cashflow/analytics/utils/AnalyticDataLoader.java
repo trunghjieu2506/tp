@@ -6,7 +6,9 @@ import expenseincome.expense.Expense;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AnalyticDataLoader {
@@ -16,9 +18,22 @@ public class AnalyticDataLoader {
     }
 
     /**
+     * Helper method: Summarizes a list of Finance items by category.
+     */
+    public static Map<String, Double> sumExpensesByCategory(List<Expense> expenses) {
+        Map<String, Double> totals = new HashMap<>();
+        for (Expense e : expenses) {
+            String cat = e.getCategory();
+            totals.put(cat, totals.getOrDefault(cat, 0.0) + e.getAmount());
+        }
+        return totals;
+    }
+
+    /**
      * Helper method to get total income for a given month/year.
      * This is used for the "comparison with last month" logic.
      */
+
     public double getTotalIncomeForMonth(int month, int year) {
         List<Finance> tx = retrieveTransactionsForMonth(month, year);
         double total = 0;
@@ -48,28 +63,6 @@ public class AnalyticDataLoader {
         return getTotalIncomeForMonth(month, year) - getTotalExpensesForMonth(month, year);
     }
 
-    public double getTotalLoanForMonth(int month, int year) {
-        List<Finance> tx = retrieveTransactionsForMonth(month, year);
-        double total = 0;
-        for (Finance t : tx) {
-            if ("loan".equalsIgnoreCase(t.getType())) {
-                total += t.getAmount();
-            }
-        }
-        return total;
-    }
-
-    public double getTotalDebtForMonth(int month, int year) {
-        List<Finance> tx = retrieveTransactionsForMonth(month, year);
-        double total = 0;
-        for (Finance t : tx) {
-            if ("loan".equalsIgnoreCase(t.getType())) {
-                total += t.getAmount();
-            }
-        }
-        return total;
-    }
-
     public ArrayList<Expense> retrieveMonthlyExpenses(int month, int year) {
         ArrayList<Expense> allExpenses = data.getExpenseManager().getList();
         // Filter by year/month
@@ -94,7 +87,6 @@ public class AnalyticDataLoader {
 
     public ArrayList<Finance> retrieveTransactionsFromRange(LocalDate start, LocalDate end) {
         ArrayList<Finance> allTransactions = retrieveAllTransactions();
-        // Filter by year/month
         return allTransactions.stream()
                 .filter(t -> t.getDate().isAfter(start) && t.getDate().isBefore(end))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -108,20 +100,10 @@ public class AnalyticDataLoader {
         ArrayList<Finance> incomeList = data.getIncomeManager() != null
                 ? data.getIncomeManager().getIncomeList()
                 : new ArrayList<Finance>();
-//        ArrayList<Finance> savingsList = data.getSavingsManager() != null
-//                ? data.getSavingsManager().getSavingList()
-//                : new ArrayList<Finance>();
 
-        ArrayList<Finance> loanDebtList = data.getLoanManager() != null
-                ? data.getLoanManager().getLoanList()
-                : new ArrayList<Finance>();
-
-        // Combine them
         ArrayList<Finance> allTransactions = new ArrayList<>();
         allTransactions.addAll(expenseList);
         allTransactions.addAll(incomeList);
-//        allTransactions.addAll(savingsList);
-        allTransactions.addAll(loanDebtList);
         return allTransactions;
     }
 }
