@@ -1,16 +1,19 @@
 package cashflow.stub;
 
+import cashflow.model.FinanceData;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.Finance;
+import cashflow.model.storage.Storage;
 import expenseincome.expense.ExpenseManager;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class StubExpenseManager extends ExpenseManager {
 
-    public StubExpenseManager(BudgetManager budgetManager) {
-        super(budgetManager);
+    public StubExpenseManager(FinanceData data, String currency, Storage expenseStorage) throws FileNotFoundException {
+        super(data, currency, expenseStorage);
     }
 
     @Override
