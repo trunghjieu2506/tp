@@ -1,6 +1,5 @@
 package budgetsaving.saving;
 
-import budgetsaving.budget.Budget;
 import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.SavingDataManager;

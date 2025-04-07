@@ -1,9 +1,7 @@
 package budgettest;
 
-import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import org.junit.jupiter.api.Test;
 import budgetsaving.budget.Budget;
-import utils.io.IOHandler;
 import utils.money.Money;
 import expenseincome.expense.Expense;
 
