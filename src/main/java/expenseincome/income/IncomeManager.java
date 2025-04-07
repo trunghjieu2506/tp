@@ -4,7 +4,6 @@ import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.IncomeDataManager;
 import cashflow.model.storage.Storage;
-import expenseincome.expense.Expense;
 import expenseincome.income.exceptions.IncomeException;
 import utils.money.Money;
 

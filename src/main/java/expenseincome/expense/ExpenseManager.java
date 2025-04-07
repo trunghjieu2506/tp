@@ -2,7 +2,6 @@ package expenseincome.expense;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Currency;
