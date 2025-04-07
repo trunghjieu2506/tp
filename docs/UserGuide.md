@@ -699,6 +699,98 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 ```
 
 
+
+## Analytics Command
+
+The analytics commands will be available when entering **analytic mode**.
+
+**NOTE**: The program currently does not support currency conversion. All analytics generated will use the latest currency configuration and do not take into account currency conversion.
+
+### Display monthly financial summary
+Generates monthly summary of total expense, income, savings, and comparison with previous month. Takes in optional month
+
+**Command:**. ```overview [yyyy-mm]```
+- `yyyy-mm` *(optional)*: Month of summary. Defaults to current month if omitted.
+
+**Example:**
+```
+> overview
+---------------------------------
+
+Monthly Summary for APRIL 2025:
+- Total Income: EUR 1500.0
+- Total Expenses: EUR 216.5
+- Net Savings (Income - Expense): EUR 1283.5
+
+---------------------------------
+
+Comparison with Last Month (MARCH 2025):
+ - Income: EUR 1500.0 vs EUR0.0
+ - Expenses: EUR 216.5 vs EUR1173.0
+
+---------------------------------
+```
+### Display financial trends
+Generate bar charts of income/expense trends on a weekly or monthly basis. 
+
+**Command:**. ```trend <data-type> <start-date> <end-date> <interval>```
+- `data-type`: Type of data to display. Select between expense and income.
+- `start-date`: Start date of the chart. Follow format yyyy-mm-dd.
+- `end-date`: End date of the chart. Follow format yyyy-mm-dd.
+- `interval`: Interval to display. Select between monthly and weekly. 
+
+**Example:**
+```
+> trend expense 2025-03-01 2025-04-30 monthly
+Trend Over Time for EXPENSE (monthly):
+From 2025-03-01 to 2025-04-30
+--------------------------------------------
+2025-03    | ################################################## (1173.00)
+2025-04    | ######### (216.50)
+--------------------------------------------
+```
+System.out.println("  help                                                  - Display available commands and usage");
+System.out.println("  overview [yyyy-mm]                                    - Display monthly financial summary");
+System.out.println("  trend <data-type> <start-date> <end-date> <interval>  - Display trends from a range");
+System.out.println("  insight [yyyy-mm]                                     - Display spending insights");
+System.out.println("  exit                                                  - Exit the analytic program");
+### Display spending insights
+Generates insights on new type of spending and significant changes in spending compared to previous month. 
+
+**Command:**. ```insight [yyyy-mm]```
+- `yyyy-mm` *(optional)*: Month of insights. Defaults to current month if omitted.
+
+**Example:**
+```
+> insight
+Spending Insights for 2025-04 vs. 2025-03:
+--------------------------------------------------
+- New spending in category 'Lifestyle': 111.00 (no spending in this category last month)
+- You spent 95.1% less on Food this month than last month. (55.50 vs. 1123.00)
+--------------------------------------------------
+```
+System.out.println("  spending-breakdown [yyyy-mm]                          - Display breakdown of spending");
+
+### Display breakdown of spending
+Generates breakdown of monthly spending in terms of spending categories. Display bar charts with percentages for each spending category. 
+
+**Command:**. ```spending-breakdown [yyyy-mm]```
+- `yyyy-mm` *(optional)*: Month of spending breakdown report. Defaults to current month if omitted.
+
+**Example:**
+```
+> spending-breakdown
+Spending Breakdown for 2025-04:
+--------------------------------------------------
+Education       | ######################                             (50.00) [23.1%]
+Lifestyle       | ################################################## (111.00) [51.3%]
+Food            | #########################                          (55.50) [25.6%]
+Grand Total: 216.50
+--------------------------------------------------
+```
+
+---
+
 ## FAQ
 
 **Q:** What happens if I forget to type the date for expense and income?  
@@ -776,6 +868,19 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 | Delete Loan           | `delete X`           |
 | Show Loan Details     | `show X`             |
 | Find associated loans | `find [name]`        |
+
+### Analytics & Program Setup
+
+| Feature                           | Command Format                                         |
+|-----------------------------------|--------------------------------------------------------|
+| Display monthly financial summary | `overview [yyyy-mm]`                                   |
+| Display financial trends          | `trend <data-type> <start-date> <end-date> <interval>` |
+| Display spending insights         | `insight [yyyy-mm]`                                    |
+| Display breakdown of spending     | `spending-breakdown [yyyy-mm]`                         |
+| Set Currency                      | `setup`                                                |
+
+
+
 
 ## Possible Enhancements
 
