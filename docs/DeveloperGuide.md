@@ -95,29 +95,29 @@ Budget: Represents a budget allocation for a specific month, storing variables a
 ### Loan Management
 This includes the `Loan`, `Interest`, `LoanManager` and associated commands and parsers.
 
-The goal of these modules is to allow users accurately and efficiently manage their loanManager, as well as loanManager between other people. The module supports the adding, editing, deleting, listing, tagging, sorting and searching entries.
+The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, tagging, sorting and searching entries.
 
 #### Loan Structure
 
-Every type of loan inherits from the abstract `Loan` class, which contains universal attributes and methods for all loanManager. The loanManager are managed by the manager class `LoanManager`, which stores loanManager in an `ArrayList`.
+Every type of loan inherits from the abstract `Loan` class, which contains universal attributes and methods for all loans. The loans are managed by the manager class `LoanManager`, which stores loans in an `ArrayList`.
 
 #### Interest Structure
 
-Advanced loan types that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+Advanced Bullet Loans that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
 
-The diagram below shows the high-level class structure:
+The diagram below shows the high-level structure of core classes:
 
 ![LoanManager.png](images/LoanManager.png)
 
 #### Command Parsing and Execution
 
-To carry out operations on the loanManager, the user inputs are read through the `LoanUI` class and parsed by the `LoanCommandParser` class, which generates commands based on the user's inputs.
+To carry out operations on the loans, the user inputs are read through the `LoanUI` class and parsed by the `LoanCommandParser` class, which generates commands based on the user's inputs.
 
 Each command extends from an abstract `LoanCommand` base class and overrides the `execute()` method.
 
 Due to the large number of attributes in each `Loan` class, the parser would ask for inputs sequentially.
 
-The diagram below shows the high-level class structure for loan commands:
+The diagram below shows the high-level structure of loan commands:
 
 ![LoanCommands.png](images/LoanCommands.png)
 
@@ -126,6 +126,8 @@ The diagram below shows the high-level class structure for loan commands:
 ### Other utilities
 
 #### Money
+A `Money` class is created to standardise the management of each unit of money. The Currency class for 
+
 ![Money.png](images/Money.png)
 #### Tags
 ![TagList.png](images/TagList.png)
