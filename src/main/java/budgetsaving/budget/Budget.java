@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static budgetsaving.budget.BudgetList.capitalize;
+
 
 public class Budget extends Finance {
     private String name;
@@ -54,13 +56,6 @@ public class Budget extends Finance {
         this.remainingBudget = new Money(totalBudget.getCurrency(), totalBudget.getAmount());
         this.activeStatus = BudgetActiveStatus.ACTIVE;
         this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
-    }
-
-    private static String capitalize(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
     // Getter for budget name
@@ -204,12 +199,12 @@ public class Budget extends Finance {
 
     public String printExpenses() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this);
+        sb.append(this + "\n");
         if (expenses.isEmpty()) {
             sb.append("\n\tThere are no expenses in this budget yet");
         } else {
             for (Expense expense : expenses) {
-                sb.append( "\t " + expense.toString());
+                sb.append( "\t " + expense.toString() + "\n");
             }
         }
         return sb.toString();

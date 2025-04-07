@@ -250,3 +250,25 @@ Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator l
 FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void expensetest.ExpenseManagerTest.testDeleteExpenseInvalidIndex()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
 Apr 07, 2025 11:22:11 PM java.io.ObjectInputFilter$Config traceFilter
 FINER: Builtin factory: null -> new: null
+4月 08, 2025 12:31:58 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:32:21 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:32:21 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:40:39 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:40:39 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:43:58 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:43:58 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:52:37 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:55:49 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:55:49 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null
+4月 08, 2025 12:58:14 上午 java.io.ObjectInputFilter$Config traceFilter
+较详细: Builtin factory: null -> new: null

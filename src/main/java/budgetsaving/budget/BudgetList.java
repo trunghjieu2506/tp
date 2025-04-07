@@ -45,9 +45,17 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
             for (Finance f : loadedFile) {
                 if (f instanceof Budget) {
                     budgets.add((Budget) f);
+                    budgetByCategory.put(capitalize(((Budget) f).getCategory()), (Budget)f);
                 }
             }
         }
+    }
+
+    public static String capitalize(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
     // Added getter (and optionally setter) for currency
@@ -86,13 +94,13 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         if (budget == null) {
             throw new BudgetException("Cannot add a null budget.");
         }
-        String category = budget.getCategory();
+        String category = capitalize(budget.getCategory());
         if (budgetByCategory.containsKey(category)) {
             throw new BudgetRuntimeException("Budget in category '" + category + "' already exists.");
         }
         assert !budgets.contains(budget) : "Budget already exists before addition.";
         budgets.add(budget);
-        budgetByCategory.put(category, budget);
+        budgetByCategory.put(capitalize(category), budget);
         assert budgets.contains(budget) : "Budget not added properly.";
     }
 
