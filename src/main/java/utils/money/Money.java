@@ -1,10 +1,11 @@
 package utils.money;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
-public class Money implements Comparable<Money> {
+public class Money implements Comparable<Money>, Serializable {
     protected Currency currency;
     protected BigDecimal amount;
 
