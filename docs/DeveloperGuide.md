@@ -15,6 +15,7 @@
    - [Saving](#saving-)
    - [Budget](#budget-)
    - [Loan](#loan)
+  -  [Analytic](#analytic-command)
 - [Appendix A: Product Scope](#appendix-a-product-scope)
 - [Appendix B: User Stories](#appendix-b-user-stories)
 - [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
@@ -166,7 +167,7 @@ CashFlowManager is the central coordinator for initializing and running the core
 4. Handle first-time user setup with SetUpCommand.
 
 5. Start and control the main UI loop (UI.run()).
-6. 
+
 #### Class Diagram
 
 Here is a class diagram of CashFlowManager (references among CashFlowManager and other managers such as ExpenseManager are redacted for ease of view)
