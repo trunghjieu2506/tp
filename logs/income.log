@@ -155,3 +155,9 @@ Apr 07, 2025 1:18:34 PM expenseincome.income.IncomeManager addIncome
 INFO: Added income: school - EUR 1500.00 on 2025-04-05 [Category: Research]
 Apr 07, 2025 1:18:42 PM java.io.ObjectInputFilter$Config traceFilter
 FINER: Builtin factory: null -> new: null
+4月 07, 2025 9:04:25 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: food - USD 20.00 on 2025-04-07 [Category: Trip]
+4月 07, 2025 9:05:52 下午 expenseincome.expense.ExpenseManager addExpense
+信息: Added expense: fdood - USD 20.00 on 2025-04-07 [Category: Trip]
+4月 07, 2025 9:07:00 下午 expenseincome.expense.ExpenseManager editExpense
+信息: Updated expense: food - USD 30.00 on 2025-04-07 [Category: Trip]

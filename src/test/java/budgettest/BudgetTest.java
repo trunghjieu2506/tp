@@ -1,7 +1,9 @@
 package budgettest;
 
+import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import org.junit.jupiter.api.Test;
 import budgetsaving.budget.Budget;
+import utils.io.IOHandler;
 import utils.money.Money;
 import expenseincome.expense.Expense;
 
@@ -131,21 +133,27 @@ public class BudgetTest {
         LocalDate futureDate = LocalDate.now().plusDays(10);
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
-        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
+        // Ensure expense's category matches the budget's category.
+        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Category1");
         budget.deductFromExpense(expense);
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(800)));
 
-        // Remove expense => remaining budget should increase back
-        budget.removeExpenseFromBudget(expense);
+        // Removing the expense should restore the remaining budget.
+        try {
+            budget.removeExpenseFromBudget(expense);
+        } catch (BudgetRuntimeException e) {
+            IOHandler.writeOutput("Error");
+        }
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(1000)));
 
-        // Removing an expense that is not in the list => throws IllegalArgumentException
-        Expense notAddedExpense = new Expense("NotAdded", new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Misc");
-        assertThrows(IllegalArgumentException.class, () -> budget.removeExpenseFromBudget(notAddedExpense));
+        // Attempting to remove an expense that is not in the budget should throw BudgetRuntimeException.
+        Expense notAddedExpense = new Expense("NotAdded", new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Category1");
+        assertThrows(BudgetRuntimeException.class, () -> budget.removeExpenseFromBudget(notAddedExpense));
 
-        // Null expense => IllegalArgumentException
-        assertThrows(IllegalArgumentException.class, () -> budget.removeExpenseFromBudget(null));
+        // Passing a null expense should also throw BudgetRuntimeException.
+        assertThrows(BudgetRuntimeException.class, () -> budget.removeExpenseFromBudget(null));
     }
+
 
     @Test
     public void testModifyBudget() {
