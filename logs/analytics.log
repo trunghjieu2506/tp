@@ -30,3 +30,45 @@ Apr 07, 2025 10:16:24 PM cashflow.analytics.AnalyticsManager showSpendingInsight
 INFO: Finished spending insights comparison.
 Apr 07, 2025 10:16:47 PM cashflow.analytics.AnalyticsManager showCategoryBreakdown
 INFO: Category breakdown displayed.
+Apr 07, 2025 11:17:45 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 07, 2025 11:17:45 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 07, 2025 11:17:45 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 07, 2025 11:18:57 PM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 2.00 on 2025-04-07 [Category: Food]
+Apr 07, 2025 11:19:14 PM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: 2 - USD 3.00 on 2025-04-07 [Category: Food]
+Apr 07, 2025 11:20:41 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:20:41 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:20:41 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:20:42 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 07, 2025 11:20:42 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 07, 2025 11:20:42 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 07, 2025 11:22:07 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: 1 - USD 1.00 on 2025-04-07 [Category: 1]
+Apr 07, 2025 11:22:10 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:22:10 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:22:10 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:22:10 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:22:10 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 07, 2025 11:22:11 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 07, 2025 11:22:11 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 07, 2025 11:22:11 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 07, 2025 11:23:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
