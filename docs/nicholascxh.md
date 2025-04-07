@@ -110,16 +110,16 @@ These are the class and sequence diagrams I have created according to the projec
 
 ### Class Diagram - Expense Package
 
-![Expense Class Diagram](../img_6.png)
+![Expense Class Diagram](img_6.png)
 
 ### Class Diagram - Income Package
 
-![Income Class Diagram](../img_5.png)
+![Income Class Diagram](img_5.png)
 
 ### Sequence Diagram - Add Expense Command
 
-![AddExpenseCommand Sequence](../img_7.png)
+![AddExpenseCommand Sequence](img_7.png)
 
 ### Sequence Diagram - Edit Income Command
 
-![EditIncomeCommand Sequence](../img_8.png)
+![EditIncomeCommand Sequence](img_8.png)
