@@ -69,10 +69,12 @@ public class Budget extends Finance {
     }
 
     private boolean isSameExpense(Expense e1, Expense e2) {
-        return Objects.equals(e1.getDescription(), e2.getDescription())
-                && Objects.equals(e1.getAmount(), e2.getAmount())
-                && Objects.equals(e1.getDate(), e2.getDate())
-                && Objects.equals(e1.getCategory(), e2.getCategory());
+        boolean equalName = e1.getDescription().equals(e2.getDescription());
+        boolean equalAmount = e1.getAmount() == e2.getAmount();
+        boolean equalDate = e1.getDate().isEqual(e2.getDate());
+        boolean equalCategory = e1.getCategory().equals(e2.getCategory());
+
+        return equalName && equalAmount && equalDate && equalCategory;
     }
 
     // Getter for budget name
@@ -169,13 +171,15 @@ public class Budget extends Finance {
         if (expense == null) {
             throw new BudgetRuntimeException("Invalid expense.");
         }
-        if (!containsExpense(expenses, expense)) {
-            throw new BudgetRuntimeException("Expense not found in the budget.");
+        for (Expense e : expenses) {
+            if (isSameExpense(e, expense)){
+                expenses.remove(e);
+                BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
+                remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
+                return;
+            }
         }
-        if (expenses.remove(expense)) {
-            BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
-            remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
-        }
+        throw new BudgetRuntimeException("Expense is not inside the budget");
     }
 
 
