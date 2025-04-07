@@ -1,7 +1,7 @@
 package cashflow.analytics.parser;
 
 import cashflow.analytics.command.AnalyticGeneralCommand;
-import cashflow.analytics.command.CategoryInsightCommand;
+import cashflow.analytics.command.SpendingBreakDownCommand;
 import cashflow.analytics.command.CommandHandler;
 import cashflow.analytics.command.HelpCommand;
 import cashflow.analytics.command.OverviewCommand;
@@ -90,11 +90,11 @@ public class AnalyticCommandParser {
         COMMANDS.put("spending-breakdown", input -> {
         String[] command = input.split(" ");
         if (command.length < 2) {
-            return new CategoryInsightCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+            return new SpendingBreakDownCommand(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
         } else {
             try {
                 YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
-                return new CategoryInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
+                return new SpendingBreakDownCommand(yearMonth.getMonthValue(), yearMonth.getYear());
             }  catch(DateTimeParseException e){
                 throw new DateTimeParseException("Incorrect DateTime Format.\n"
                         +"Follow this syntax: spending-breakdown [yyyy-mm]", command[1], 0);

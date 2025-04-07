@@ -12,8 +12,7 @@ public class SpendingInsightCommand extends AnalyticGeneralCommand{
         this.year = year;
     }
     @Override
-    public void execute(FinanceData data) {
-        AnalyticsManager analytics = data.getAnalyticsManager();
+    public void execute(AnalyticsManager analytics) {
         if (analytics != null) {
             analytics.showSpendingInsights(month, year);
         } else {

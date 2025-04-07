@@ -18,8 +18,7 @@ public class TrendCommand extends AnalyticGeneralCommand {
     }
 
     @Override
-    public void execute(FinanceData data) {
-        AnalyticsManager analytics = data.getAnalyticsManager();
+    public void execute(AnalyticsManager analytics) {
         if (analytics != null) {
             analytics.showTrendOverTime(type,start,end,interval);
         } else {

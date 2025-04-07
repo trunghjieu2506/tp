@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static budgetsaving.budget.BudgetList.capitalize;
+
 
 public class Budget extends Finance {
     private String name;
@@ -56,11 +58,22 @@ public class Budget extends Finance {
         this.exceedStatus = BudgetExceedStatus.HAS_REMAINING_BUDGET;
     }
 
-    private static String capitalize(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
+    public boolean containsExpense(ArrayList<Expense> expenses, Expense target) {
+        for (Expense e : expenses) {
+            if (isSameExpense(e, target)) {
+                return true;
+            }
         }
-        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+        return false;
+    }
+
+    private boolean isSameExpense(Expense e1, Expense e2) {
+        boolean equalName = e1.getDescription().equals(e2.getDescription());
+        boolean equalAmount = e1.getAmount() == e2.getAmount();
+        boolean equalDate = e1.getDate().isEqual(e2.getDate());
+        boolean equalCategory = capitalize(e1.getCategory()).equals(capitalize(e2.getCategory()));
+
+        return equalName && equalAmount && equalDate && equalCategory;
     }
 
     // Getter for budget name
@@ -153,19 +166,41 @@ public class Budget extends Finance {
     }
 
 
+    public void removeExpenseFromBudget(Expense oldExpense, Expense expense) throws BudgetRuntimeException {
+        if (expense == null) {
+            throw new BudgetRuntimeException("Invalid expense.");
+        }
+        for (Expense e : expenses) {
+            if (isSameExpense(e, expense)){
+                expenses.remove(e);
+                BigDecimal amount = BigDecimal.valueOf(oldExpense.getAmount());
+                remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
+                return;
+            }
+        }
+        throw new BudgetRuntimeException("Expense is not inside the budget");
+    }
+
     public void removeExpenseFromBudget(Expense expense) throws BudgetRuntimeException {
         if (expense == null) {
             throw new BudgetRuntimeException("Invalid expense.");
         }
-        if (!expenses.contains(expense)) {
-            throw new BudgetRuntimeException("Expense not found in the budget.");
+        boolean removed = expenses.removeIf(e -> isSameExpense(e, expense));
+        if (!removed) {
+            throw new BudgetRuntimeException("Expense is not inside the budget");
         }
-        if (expenses.remove(expense)) {
-            BigDecimal amount = BigDecimal.valueOf(expense.getAmount());
-            remainingBudget.setAmount(remainingBudget.getAmount().add(amount));
-        }
+        // Reset the available amount by recalculating the remaining budget.
+        recalcRemainingBudget();
     }
 
+    // Recalculates the remaining budget based on the current expenses.
+    public void recalcRemainingBudget() {
+        BigDecimal spent = BigDecimal.ZERO;
+        for (Expense e : expenses) {
+            spent = spent.add(BigDecimal.valueOf(e.getAmount()));
+        }
+        remainingBudget.setAmount(totalBudget.getAmount().subtract(spent));
+    }
 
     //If do not modify one of the attributes, call the method with
     //totalAmount = 0, and name = null
@@ -204,12 +239,12 @@ public class Budget extends Finance {
 
     public String printExpenses() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this);
+        sb.append(this + "\n");
         if (expenses.isEmpty()) {
             sb.append("\n\tThere are no expenses in this budget yet");
         } else {
             for (Expense expense : expenses) {
-                sb.append( "\t " + expense.toString());
+                sb.append( "\t " + expense.toString() + "\n");
             }
         }
         return sb.toString();

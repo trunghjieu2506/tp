@@ -6,11 +6,12 @@ import java.util.ArrayList;
 
 import budgetsaving.saving.exceptions.SavingRuntimeException;
 import budgetsaving.saving.utils.SavingStatus;
+import cashflow.model.interfaces.Finance;
 import utils.io.IOHandler;
 import utils.money.Money;
 import utils.textcolour.TextColour;
 
-public class Saving {
+public class Saving extends Finance {
     private String name;
     private Money goalAmount;
     private Money currentAmount;
@@ -158,5 +159,20 @@ public class Saving {
         } catch (Exception e){
             throw new SavingRuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return deadline;
+    }
+
+    @Override
+    public double getAmount() {
+        return currentAmount.getAmount().doubleValue();
+    }
+
+    @Override
+    public String getType() {
+        return name;
     }
 }

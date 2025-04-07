@@ -15,3 +15,14 @@ bin/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
+
+/logs/analytics.log
+/logs/analytics.log.lck
+/logs/cashflow.log
+/logs/cashflow.log.lck
+/data/expense.dat
+/expense.dat
+/data/income.dat
+/logs/income.log.lck
+/data/setup.dat
+/data/loan.dat

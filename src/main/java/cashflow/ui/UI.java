@@ -1,18 +1,12 @@
 package cashflow.ui;
 
-import budgetsaving.budget.BudgetList;
-import cashflow.model.setup.SetUpManager;
 import cashflow.ui.command.HelpCommand;
 import cashflow.model.FinanceData;
-import budgetsaving.saving.SavingList;
 import cashflow.model.setup.SetUpCommand;
-import expenseincome.expense.ExpenseManager;
 import expenseincome.expense.HandleExpenseCommand;
 import expenseincome.income.HandleIncomeCommand;
-import expenseincome.income.IncomeManager;
 
 import loanbook.ui.LoanUI;
-import loanbook.LoanManager;
 import loanbook.save.LoanSaveManager;
 import utils.io.IOHandler;
 
@@ -25,22 +19,10 @@ import static cashflow.analytics.command.AnalyticGeneralCommand.handleAnalyticCo
 
 public class UI {
     private FinanceData data;
-    private SavingList savingList;
-    private BudgetList budgetList;
-    private LoanManager loanManager;
-    private ExpenseManager expenseManager;
-    private IncomeManager incomeManager;
-    private SetUpManager setUpManager;
     private boolean isExit = false;
 
     public UI(FinanceData data) {
         this.data = data;
-        this.savingList = data.getSavingsManager();
-        this.budgetList = data.getBudgetManager();
-        this.loanManager = data.getLoanManager();
-        this.expenseManager = data.getExpenseManager();
-        this.incomeManager = data.getIncomeManager();
-        this.setUpManager = data.getSetUpManager();
     }
 
     public boolean isExit() {
@@ -58,7 +40,7 @@ public class UI {
 
             if (input.equalsIgnoreCase("exit")) {
                 try {
-                    LoanSaveManager.saveLoanList(loanManager);
+                    LoanSaveManager.saveLoanList(data.getLoanManager());
                 } catch (IOException e) {
                     IOHandler.writeOutput("Unable to update save file");
                 }
@@ -71,25 +53,25 @@ public class UI {
                 new HelpCommand().execute();
                 break;
             case "setup":
-                new SetUpCommand(data, setUpManager.getSetupStorage()).execute();
+                new SetUpCommand(data, data.getSetUpManager().getSetupStorage()).execute();
                 break;
             case "analytic":
-                handleAnalyticCommand(scanner, data);
+                handleAnalyticCommand(scanner, data.getAnalyticsManager());
                 break;
             case "saving":
-                handleSavingCommand(scanner, savingList);
+                handleSavingCommand(scanner, data.getSavingsManager());
                 break;
             case "budget":
-                handleBudgetCommand(scanner, budgetList);
+                handleBudgetCommand(scanner, data.getBudgetManager());
                 break;
             case "expense":
-                HandleExpenseCommand.handle(scanner, expenseManager);
+                HandleExpenseCommand.handle(scanner, data.getExpenseManager());
                 break;
             case "income":
-                HandleIncomeCommand.handle(scanner, incomeManager);
+                HandleIncomeCommand.handle(scanner, data.getIncomeManager());
                 break;
             case "loan":
-                LoanUI.handleLoanCommands(loanManager, scanner, data.getCurrency());
+                LoanUI.handleLoanCommands(data.getLoanManager(), scanner, data.getCurrency());
                 break;
             default:
                 System.out.println("Unknown command. Type 'help' for list of commands.");
