@@ -1,10 +1,10 @@
 package cashflow.analytics.command;
 
-import cashflow.model.FinanceData;
+import cashflow.analytics.AnalyticsManager;
 
 public class HelpCommand extends AnalyticGeneralCommand {
     @Override
-    public void execute(FinanceData financeData) {
+    public void execute(AnalyticsManager data) {
         System.out.println("Available commands:");
         System.out.println("  help                                                  - Display available commands and usage");
         System.out.println("  overview [yyyy-mm]                                    - Display monthly financial summary");
