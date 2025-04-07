@@ -64,7 +64,6 @@ public class ExpenseManager implements ExpenseDataManager {
     private final ArrayList<Expense> expenses;
     private final FinanceData data;
     private final String currency;
-    private String currency;
     private Storage expenseStorage;
 
     /**
@@ -73,8 +72,7 @@ public class ExpenseManager implements ExpenseDataManager {
      * @param data     FinanceData instance for accessing currency and budget
      * @param currency User's preferred currency code (e.g. "USD")
      */
-    public ExpenseManager(FinanceData data, String currency) {
-        this.expenses = new ArrayList<>();
+    public ExpenseManager(FinanceData data, String currency, Storage expenseStorage) throws FileNotFoundException {
         this.data = data;
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.currency = currency;
