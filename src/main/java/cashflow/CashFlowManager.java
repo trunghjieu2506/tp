@@ -49,6 +49,7 @@ public class CashFlowManager {
     private final Storage expenseStorage;
     private final Storage incomeStorage;
     private final Storage savingStorage;
+    private final Storage budgetStorage;
     private final Storage loanStorage;
     private final Storage contactStorage;
     private final Storage setupStorage;
@@ -72,6 +73,7 @@ public class CashFlowManager {
         String expenseFile = "data/expense.dat";
         String incomeFile = "data/income.dat";
         String savingFile = "data/saving.dat";
+        String budgetFile = "data/budget.dat";
         String loanFile = "data/loan.dat";
         String contactFile = "data/contact.dat";
         String setupFile = "data/setup.dat";
@@ -80,6 +82,7 @@ public class CashFlowManager {
         expenseStorage = new Storage(expenseFile);
         incomeStorage = new Storage(incomeFile);
         savingStorage = new Storage(savingFile);
+        budgetStorage = new Storage(budgetFile);
         loanStorage = new Storage(loanFile);
         contactStorage = new Storage(contactFile);
         setupStorage = new Storage(setupFile);
@@ -119,8 +122,8 @@ public class CashFlowManager {
 
         expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
         incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
-        savingManager = new SavingList(currencyStr);
-        budgetManager = new BudgetList(currency);
+        savingManager = new SavingList(currencyStr, savingStorage);
+        budgetManager = new BudgetList(currency, budgetStorage);
         loanManager = new LoanManager("defaultUser");
         setUpManager = new SetUpManager(setupStorage);
         assert setupStorage != null : "setupStorage failed to initialize.";
