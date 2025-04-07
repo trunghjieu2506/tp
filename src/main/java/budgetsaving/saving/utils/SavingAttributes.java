@@ -23,28 +23,9 @@ public class SavingAttributes {
     private LocalDate deadline;
     private int contributionIndex;
 
-    // Updated ordering check to include contribution
-    private boolean identifierIsInOrder(int iPos, int nPos, int aPos, int dPos, int cPos) {
-        List<Map.Entry<String, Integer>> orderedIdentifiers = new ArrayList<>();
-        if (iPos != -1) orderedIdentifiers.add(Map.entry(INDEX_IDENTIFIER, iPos));
-        if (nPos != -1) orderedIdentifiers.add(Map.entry(NAME_IDENTIFIER, nPos));
-        if (aPos != -1) orderedIdentifiers.add(Map.entry(AMOUNT_IDENTIFIER, aPos));
-        if (dPos != -1) orderedIdentifiers.add(Map.entry(DEADLINE_IDENTIFIER, dPos));
-        if (cPos != -1) orderedIdentifiers.add(Map.entry(CONTRIBUTION_IDENTIFIER, cPos));
-
-        for (int i = 0; i < orderedIdentifiers.size() - 1; i++) {
-            int currentPos = orderedIdentifiers.get(i).getValue();
-            int nextPos = orderedIdentifiers.get(i + 1).getValue();
-            if (currentPos >= nextPos) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public SavingAttributes(String input) throws SavingAttributeException {
-        // Check for repeated identifiers.
-        String[] identifiers = { INDEX_IDENTIFIER, NAME_IDENTIFIER, AMOUNT_IDENTIFIER, DEADLINE_IDENTIFIER, CONTRIBUTION_IDENTIFIER };
+        String[] identifiers = { INDEX_IDENTIFIER, NAME_IDENTIFIER, AMOUNT_IDENTIFIER,
+            DEADLINE_IDENTIFIER, CONTRIBUTION_IDENTIFIER };
         for (String id : identifiers) {
             int firstOccurrence = input.indexOf(id);
             int lastOccurrence = input.lastIndexOf(id);
@@ -125,6 +106,35 @@ public class SavingAttributes {
         } else {
             this.contributionIndex = -1;
         }
+    }
+
+    // Updated ordering check to include contribution
+    private boolean identifierIsInOrder(int iPos, int nPos, int aPos, int dPos, int cPos) {
+        List<Map.Entry<String, Integer>> orderedIdentifiers = new ArrayList<>();
+        if (iPos != -1){
+            orderedIdentifiers.add(Map.entry(INDEX_IDENTIFIER, iPos));
+        }
+        if (nPos != -1){
+            orderedIdentifiers.add(Map.entry(NAME_IDENTIFIER, nPos));
+        }
+        if (aPos != -1){
+            orderedIdentifiers.add(Map.entry(AMOUNT_IDENTIFIER, aPos));
+        }
+        if (dPos != -1){
+            orderedIdentifiers.add(Map.entry(DEADLINE_IDENTIFIER, dPos));
+        }
+        if (cPos != -1){
+            orderedIdentifiers.add(Map.entry(CONTRIBUTION_IDENTIFIER, cPos));
+        }
+
+        for (int i = 0; i < orderedIdentifiers.size() - 1; i++) {
+            int currentPos = orderedIdentifiers.get(i).getValue();
+            int nextPos = orderedIdentifiers.get(i + 1).getValue();
+            if (currentPos >= nextPos) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Getters

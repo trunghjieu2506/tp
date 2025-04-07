@@ -6,3 +6,4 @@ Apr 07, 2025 10:11:53 PM cashflow.CashFlowManager <init>
 INFO: Loaded setup config: isFirstTime=false, currency=USD
 Apr 07, 2025 10:11:53 PM cashflow.CashFlowManager <init>
 INFO: Initializing managers...
+
