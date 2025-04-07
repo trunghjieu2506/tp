@@ -47,7 +47,7 @@ public class AnalyticsManager {
                 .append(year)
                 .append("\n");
         sb.append("---------------------------------\n");
-        sb.append("Total Income: ").append(data.getCurrency()).append(totalIncome).append("\n");
+        sb.append("\nTotal Income: ").append(data.getCurrency()).append(totalIncome).append("\n");
         sb.append("Total Expenses: ").append(data.getCurrency()).append(totalExpenses).append("\n");
         sb.append("Net Savings (Income - Expense): ")
                 .append(data.getCurrency()).append(netSavings).append("\n");
@@ -57,7 +57,7 @@ public class AnalyticsManager {
         sb.append("Outstanding Loans (You owe): ").append(data.getCurrency()).append(totalOwed).append("\n");
         sb.append("Outstanding Debts (Others owe you): ").append(data.getCurrency()).append(totalReceivable).append("\n");
         // Comparison with last month
-        sb.append("---------------------------------\n");
+        sb.append("\n---------------------------------\n");
         sb.append("\nComparison with Last Month (")
                 .append(lastMonth.getMonth())
                 .append(" ")
@@ -68,7 +68,7 @@ public class AnalyticsManager {
         sb.append(" - Expenses: ").append(data.getCurrency()).append(totalExpenses)
                 .append(" vs ").append(data.getCurrency()).append(lastMonthExpenses).append("\n");
 
-        sb.append("---------------------------------\n");
+        sb.append("\n---------------------------------\n");
         return sb.toString();
     }
 
