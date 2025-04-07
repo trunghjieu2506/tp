@@ -2,9 +2,7 @@
 
 Our product, **CashFlow**, is a Command Line Interface (CLI) application that empowers users to record, categorize, and analyze their personal expenses and income efficiently.
 
-I was in charge of the entire **Expense and Income** modules. This included end-to-end development from design, implementation, and testing, to documentation. I also played a key leadership role in coordinating the team’s workflow, ensuring standardization, and guiding team progress throughout the project lifecycle.
-
-Below are the summary to my contributions.
+I was in charge of the entire **Expense and Income** modules. This included end-to-end development from design, implementation, and testing, to documentation. I also played a key leadership role in coordinating the team’s workflow, ensuring standardization, and guiding team progress throughout the project lifecycle. Below are the summary to my contributions:
 
 ### 🧑‍💻 Code Contributed
 - [My code on Code Dashboard](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=nicholascxh&breakdown=true)
