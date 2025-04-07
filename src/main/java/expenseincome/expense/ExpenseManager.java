@@ -193,6 +193,7 @@ public class ExpenseManager implements ExpenseDataManager {
             expense.setAmount(money);
             expense.setDate(newDate);
             expense.setCategory(newCategory);
+            expenseStorage.saveFile(new ArrayList<>(expenses));
 
             BudgetManager budgetManager = data.getBudgetManager();
             if (budgetManager != null) {
