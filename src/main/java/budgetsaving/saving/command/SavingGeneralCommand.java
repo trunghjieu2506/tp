@@ -16,14 +16,13 @@ import static budgetsaving.budget.command.BudgetGeneralCommand.EXIT_COMMAND;
 import static budgetsaving.budget.command.BudgetGeneralCommand.HELP_COMMAND;
 
 public class SavingGeneralCommand implements Command {
-    private static final String SET_SAVING_COMMAND = "set";
-    private static final String CONTRIBUTE_COMMAND = "contribute";
-    private static final String LIST_SAVING_COMMAND = "list";
-    private static final String CHECK_SAVING_COMMAND = "check";
-    private static final String DELETE_SAVING_COMMAND = "delete-s";
-    private static final String DELETE_CONTRIBUTION_COMMAND = "delete-c";
-
-    private static final String LINE_SEPARATOR = "-".repeat(70);
+    public static final String SET_SAVING_COMMAND = "set";
+    public static final String CONTRIBUTE_COMMAND = "contribute";
+    public static final String LIST_SAVING_COMMAND = "list";
+    public static final String CHECK_SAVING_COMMAND = "check";
+    public static final String DELETE_SAVING_COMMAND = "delete-s";
+    public static final String DELETE_CONTRIBUTION_COMMAND = "delete-c";
+    public static final String LINE_SEPARATOR = "-".repeat(70);
     public static final String DASH = "- ";
     public static final String SAVING_COMMANDS =
                     LINE_SEPARATOR + '\n'
