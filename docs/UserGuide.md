@@ -729,7 +729,9 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 | Bottom Category   | `bottom`                                                  |
 | List all commands | `help`                                                    |
 
+
 ### Incomes
+
 | Feature           | Command Format                                              |
 |-------------------|-------------------------------------------------------------|
 | Add Income        | `add <source> <amount> <category> [date]`                   |
@@ -741,6 +743,7 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 | Top Category      | `top`                                                       |
 | Bottom Category   | `bottom`                                                    |
 | List all commands | `help`                                                      |
+
 
 ### Budget
 
@@ -763,7 +766,6 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 | Delete Saving        | `delete-s i/INDEX`                        |
 | Delete Contribution  | `delete-s i/INDEX_S c/INDEX_C`            |
 | Check Saving         | `check i/INDEX`                           |
-
 
 
 ### Loans
