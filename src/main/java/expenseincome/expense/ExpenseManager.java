@@ -162,6 +162,7 @@ public class ExpenseManager implements ExpenseDataManager {
         try {
             validateIndex(index);
             Expense removed = expenses.remove(index - 1);
+            expenseStorage.saveFile(new ArrayList<>(expenses));
             logger.log(Level.INFO, "Deleted expense: {0}", removed);
             System.out.println("Deleted: " + removed);
         } catch (ExpenseException e) {
@@ -267,6 +268,7 @@ public class ExpenseManager implements ExpenseDataManager {
         expenses.sort((e1, e2) -> mostRecentFirst
                 ? e2.getDate().compareTo(e1.getDate())
                 : e1.getDate().compareTo(e2.getDate()));
+        expenseStorage.saveFile(new ArrayList<>(expenses));
 
         System.out.println("Expenses sorted by " + (mostRecentFirst ? "most recent" : "oldest") + " first:");
         listExpenses();

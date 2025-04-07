@@ -1,0 +1,32 @@
+Apr 07, 2025 10:11:53 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 07, 2025 10:11:53 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 07, 2025 10:11:53 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 07, 2025 10:14:57 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 07, 2025 10:14:57 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=40.00, NetSavings=-40.00
+Apr 07, 2025 10:14:57 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 07, 2025 10:15:28 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 11/2222
+Apr 07, 2025 10:15:28 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=0.00, NetSavings=0.00
+Apr 07, 2025 10:15:28 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 07, 2025 10:15:52 PM cashflow.analytics.AnalyticsManager showTrendOverTime
+INFO: showTrendOverTime called: dataType=expense, start=2025-01-01, end=2025-12-12, interval=monthly
+Apr 07, 2025 10:15:52 PM cashflow.analytics.AnalyticsManager showTrendOverTime
+INFO: TrendOverTime chart displayed successfully.
+Apr 07, 2025 10:16:12 PM cashflow.analytics.AnalyticsManager showTrendOverTime
+INFO: showTrendOverTime called: dataType=expense, start=2025-01-01, end=2025-12-12, interval=weekly
+Apr 07, 2025 10:16:12 PM cashflow.analytics.AnalyticsManager showTrendOverTime
+INFO: TrendOverTime chart displayed successfully.
+Apr 07, 2025 10:16:24 PM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: showSpendingInsights for 2025-04 vs 2025-03
+Apr 07, 2025 10:16:24 PM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: Finished spending insights comparison.
+Apr 07, 2025 10:16:47 PM cashflow.analytics.AnalyticsManager showCategoryBreakdown
+INFO: Category breakdown displayed.
