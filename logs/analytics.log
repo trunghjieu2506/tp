@@ -164,3 +164,83 @@ SEVERE: Exception occurred during run: No line found
 信息: Updated expense: food - USD 300.00 on 2025-04-08 [Category: Food]
 4月 08, 2025 2:43:55 上午 cashflow.CashFlowManager run
 严重: Exception occurred during run: No line found
+Apr 08, 2025 3:14:34 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 3:14:34 AM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 3:14:34 AM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 3:15:53 AM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 2 - USD 100.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:15:58 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 2 - USD 100.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:16:12 AM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 2 - USD 10.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:16:24 AM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: 2 - USD 199.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:16:34 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 2 - USD 199.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:16:42 AM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 2 - USD 3.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:16:51 AM cashflow.CashFlowManager run
+INFO: Exiting CashFlowManager.
+Apr 08, 2025 3:16:53 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 3:16:53 AM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 3:16:53 AM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 3:17:15 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:17:15 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:17:15 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:18:36 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 3:18:36 AM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 3:18:36 AM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 3:18:48 AM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 2 - USD 3.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:19:00 AM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 3 - USD 300.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:19:29 AM expenseincome.expense.ExpenseManager editExpense
+INFO: Updated expense: 3 - USD 10.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:20:20 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:20:20 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:20:20 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:20:20 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:20:21 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 3:20:21 AM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 3:20:21 AM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 3:20:33 AM expenseincome.expense.ExpenseManager addExpense
+INFO: Added expense: 1 - USD 2.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:20:39 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 1 - USD 2.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:21:23 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 2 - USD 5.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:21:26 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 1 - USD 2.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:21:28 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 2 - USD 3.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:21:30 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 2 - USD 3.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:21:35 AM expenseincome.expense.ExpenseManager deleteExpense
+INFO: Deleted expense: 3 - USD 10.00 on 2025-04-08 [Category: Food]
+Apr 08, 2025 3:21:45 AM expenseincome.income.IncomeManager deleteIncome
+INFO: Deleted income: 1 - USD 1.00 on 2025-04-07 [Category: 1]
+Apr 08, 2025 3:22:36 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:22:36 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 3:22:36 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found

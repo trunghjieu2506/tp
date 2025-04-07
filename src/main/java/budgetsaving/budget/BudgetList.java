@@ -179,6 +179,28 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         return false;
     }
 
+    public boolean removeExpenseInBudget(Expense expense) {
+        // Check if a budget exists for the given expense category.
+        Optional<Budget> budgetOpt = getBudgetForCategory(expense.getCategory());
+        if (!budgetOpt.isPresent()) {
+            // No budget for this category; nothing to remove.
+            return false;
+        }
+        Budget budget = budgetOpt.get();
+        try {
+            // Remove the expense and recalculate the available budget.
+            budget.removeExpenseFromBudget(expense);
+            budgetStorage.saveFile(new ArrayList<>(budgets));
+            IOHandler.writeOutput("Budget deducted: " + budget);
+            // Return true if the remaining budget is negative (exceeded), false otherwise.
+            return (budget.getRemainingBudget().getAmount().doubleValue() < 0);
+        } catch (BudgetRuntimeException e) {
+            IOHandler.writeWarning(e.getMessage());
+            return false;
+        }
+    }
+
+
     private Optional<Budget> getBudgetForCategory(String category) {
         return budgets.stream()
                 .filter(budget -> budget.getCategory().equalsIgnoreCase(category))
