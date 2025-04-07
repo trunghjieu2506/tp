@@ -23,12 +23,10 @@ public class SavingGeneralCommand implements Command {
     private static final String DELETE_SAVING_COMMAND = "delete-s";
     private static final String DELETE_CONTRIBUTION_COMMAND = "delete-c";
 
-
-    //just reuse it because it might be more confusing to read to import from budget side
-    public static final String DASH = "- ";
-
     private static final String LINE_SEPARATOR = "-".repeat(70);
-    static final String SAVING_COMMANDS =
+    private Command command;
+    public static final String DASH = "- ";
+    public static final String SAVING_COMMANDS =
                     LINE_SEPARATOR + '\n'
             + TextColour.GREEN  + DASH + SET_SAVING_COMMAND + " n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD\n"
             + TextColour.YELLOW + DASH + CONTRIBUTE_COMMAND + " i/INDEX a/AMOUNT\n"
@@ -41,7 +39,8 @@ public class SavingGeneralCommand implements Command {
             + DASH + EXIT_COMMAND + " to exit from saving mode\n"
             + LINE_SEPARATOR + '\n';
 
-    private Command command;
+
+
 
     /**
      * Constructs a SavingGeneralCommand by parsing the user input and initializing the corresponding command.
@@ -79,8 +78,7 @@ public class SavingGeneralCommand implements Command {
                 command = SavingParser.parseDeleteContributionCommand(input, savingList);
             } else if (lowerInput.startsWith(CHECK_SAVING_COMMAND)) {
                 command = SavingParser.parseCheckGoalCommand(input, savingList);
-            }
-            else {
+            } else {
                 IOHandler.writeError("Unknown saving command.");
             }
         } catch (SavingException e) {

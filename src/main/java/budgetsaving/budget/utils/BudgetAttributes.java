@@ -21,26 +21,6 @@ public class BudgetAttributes {
     private LocalDate endDate;
     private String category;
 
-
-    private boolean identifierIsInOrder(int iPos, int nPos, int aPos, int ePos, int cPos){
-        // Check order of identifiers
-        List<Map.Entry<String, Integer>> orderedIdentifiers = new ArrayList<>();
-        if (iPos != -1) orderedIdentifiers.add(Map.entry("i/", iPos));
-        if (nPos != -1) orderedIdentifiers.add(Map.entry("n/", nPos));
-        if (aPos != -1) orderedIdentifiers.add(Map.entry("a/", aPos));
-        if (ePos != -1) orderedIdentifiers.add(Map.entry("e/", ePos));
-        if (cPos != -1) orderedIdentifiers.add(Map.entry("c/", cPos));
-
-        for (int i = 0; i < orderedIdentifiers.size() - 1; i++) {
-            int currentPos = orderedIdentifiers.get(i).getValue();
-            int nextPos = orderedIdentifiers.get(i + 1).getValue();
-            if (currentPos >= nextPos) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     //this constructor needs to ensure that:
     //INDEX is an int
     //NAME is a non empty String
@@ -48,7 +28,8 @@ public class BudgetAttributes {
     //endDate is a date
     public BudgetAttributes(String input) throws BudgetAttributeException {
         // Additional check for repeated identifiers.
-        String[] identifiers = { INDEX_IDENTIFIER, NAME_IDENTIFIER, AMOUNT_IDENTIFIER, END_DATE_IDENTIFIER, CATEGORY_IDENTIFIER };
+        String[] identifiers = { INDEX_IDENTIFIER, NAME_IDENTIFIER,
+                AMOUNT_IDENTIFIER, END_DATE_IDENTIFIER, CATEGORY_IDENTIFIER };
         for (String id : identifiers) {
             int firstOccurrence = input.indexOf(id);
             int lastOccurrence = input.lastIndexOf(id);
@@ -131,7 +112,34 @@ public class BudgetAttributes {
         }
     }
 
+    private boolean identifierIsInOrder(int iPos, int nPos, int aPos, int ePos, int cPos){
+        // Check order of identifiers
+        List<Map.Entry<String, Integer>> orderedIdentifiers = new ArrayList<>();
+        if (iPos != -1) {
+            orderedIdentifiers.add(Map.entry("i/", iPos));
+        }
+        if (nPos != -1) {
+            orderedIdentifiers.add(Map.entry("n/", nPos));
+        }
+        if (aPos != -1) {
+            orderedIdentifiers.add(Map.entry("a/", aPos));
+        }
+        if (ePos != -1) {
+            orderedIdentifiers.add(Map.entry("e/", ePos));
+        }
+        if (cPos != -1) {
+            orderedIdentifiers.add(Map.entry("c/", cPos));
+        }
 
+        for (int i = 0; i < orderedIdentifiers.size() - 1; i++) {
+            int currentPos = orderedIdentifiers.get(i).getValue();
+            int nextPos = orderedIdentifiers.get(i + 1).getValue();
+            if (currentPos >= nextPos) {
+                return false;
+            }
+        }
+        return true;
+    }
     // Helper method to find the next identifier position after 'current'
     // among a variable number of identifier positions.
     public static int findNextIdentifier(String input, int current, int... positions) {

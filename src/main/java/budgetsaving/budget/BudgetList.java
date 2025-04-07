@@ -4,7 +4,6 @@ import budgetsaving.budget.exceptions.BudgetException;
 import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import budgetsaving.budget.utils.BudgetActiveStatus;
 import budgetsaving.budget.utils.BudgetAlert;
-import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.model.interfaces.BudgetDataManager;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.Finance;

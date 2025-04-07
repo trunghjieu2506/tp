@@ -1,11 +1,9 @@
 package budgetsaving.saving.command;
 
-import budgetsaving.saving.Saving;
 import budgetsaving.saving.exceptions.SavingException;
 import budgetsaving.saving.exceptions.SavingRuntimeException;
 import cashflow.model.interfaces.SavingManager;
 import cashflow.ui.command.Command;
-import utils.io.IOHandler;
 
 public class DeleteSavingCommand implements Command {
     private int index;
