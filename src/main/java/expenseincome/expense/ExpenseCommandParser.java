@@ -12,16 +12,30 @@ import expenseincome.expense.commands.HelpExpenseCommand;
 import expenseincome.expense.exceptions.ExpenseException;
 
 import java.time.LocalDate;
-
+/**
+ * Parses string-based user input into executable ExpenseCommand objects.
+ * Also returns feedback messages when the input is invalid.
+ * This class serves as the CLI interface logic for the Expense module.
+ */
 public class ExpenseCommandParser {
-
+    /**
+     * Capitalizes the first letter of a string and lowercases the rest.
+     *
+     * @param input the string to capitalize
+     * @return the formatted string
+     */
     private static String capitalize(String input) {
         if (input == null || input.isEmpty()) {
             return input;
         }
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
-
+    /**
+     * Parses a full command string and returns a structured result.
+     *
+     * @param input the user input string
+     * @return ExpenseParserResult containing either a command or feedback
+     */
     public static ExpenseParserResult parseCommand(String input) {
         if (input == null || input.trim().isEmpty()) {
             return new ExpenseParserResult(null, "Please enter a command.");

@@ -1,7 +1,6 @@
 package budgettest;
 
 import org.junit.jupiter.api.Test;
-
 import budgetsaving.budget.Budget;
 import utils.money.Money;
 import expenseincome.expense.Expense;
@@ -79,6 +78,7 @@ public class BudgetTest {
 
         // setTotalBudget / setRemainingBudget (valid)
         budget.setTotalBudget(2000);
+        // Check that the money amount was updated accordingly
         assertEquals(BigDecimal.valueOf(2000.00), money.getAmount());
 
         budget.setRemainingBudget(1500);
@@ -103,13 +103,13 @@ public class BudgetTest {
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
         // Valid expense deduction
-        Expense expense = new Expense("Expense1", 200, LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
         boolean result = budget.deductFromExpense(expense);
         assertTrue(result);
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(800)));
 
         // Deduct expense that exactly depletes the remaining budget
-        Expense expenseExact = new Expense("Expense2", 800, LocalDate.now(), "Groceries");
+        Expense expenseExact = new Expense("Expense2", new Money("USD", BigDecimal.valueOf(800)), LocalDate.now(), "Groceries");
         result = budget.deductFromExpense(expenseExact);
         // If remaining goes to 0, method returns false
         assertFalse(result);
@@ -121,7 +121,7 @@ public class BudgetTest {
         // Negative or zero amount won't be possible at runtime unless assertions are off;
         // but we can test that the constructor itself triggers AssertionError
         assertThrows(AssertionError.class, () ->
-                new Expense("InvalidExpense", -50, LocalDate.now(), "Utilities")
+                new Expense("InvalidExpense", new Money("USD", BigDecimal.valueOf(-50)), LocalDate.now(), "Utilities")
         );
     }
 
@@ -131,7 +131,7 @@ public class BudgetTest {
         LocalDate futureDate = LocalDate.now().plusDays(10);
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
-        Expense expense = new Expense("Expense1", 200, LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
         budget.deductFromExpense(expense);
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(800)));
 
@@ -140,7 +140,7 @@ public class BudgetTest {
         assertEquals(0, budget.getRemainingBudget().getAmount().compareTo(BigDecimal.valueOf(1000)));
 
         // Removing an expense that is not in the list => throws IllegalArgumentException
-        Expense notAddedExpense = new Expense("NotAdded", 100, LocalDate.now(), "Misc");
+        Expense notAddedExpense = new Expense("NotAdded", new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Misc");
         assertThrows(IllegalArgumentException.class, () -> budget.removeExpenseFromBudget(notAddedExpense));
 
         // Null expense => IllegalArgumentException
@@ -154,7 +154,7 @@ public class BudgetTest {
         Budget budget = new Budget("Budget1", money, futureDate, "Category1");
 
         // Add an expense so money spent is 200
-        Expense expense = new Expense("Expense1", 200, LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(200)), LocalDate.now(), "Food");
         budget.deductFromExpense(expense);
 
         // Trying to set total amount below money spent => IllegalArgumentException
@@ -204,7 +204,7 @@ public class BudgetTest {
 
         // Reset output and add an expense
         outContent.reset();
-        Expense expense = new Expense("Expense1", 100, LocalDate.now(), "Food");
+        Expense expense = new Expense("Expense1", new Money("USD", BigDecimal.valueOf(100)), LocalDate.now(), "Food");
         budget.deductFromExpense(expense);
         result = budget.printExpenses();
         assertNotNull(result);

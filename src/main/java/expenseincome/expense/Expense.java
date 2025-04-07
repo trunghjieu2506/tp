@@ -5,7 +5,10 @@ import utils.money.Money;
 
 import java.io.Serial;
 import java.time.LocalDate;
-
+/**
+ * Represents a single expense entry with description, amount, date, and category.
+ * Used as a model for storing financial records in the ExpenseManager.
+ */
 public class Expense extends Finance {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -14,7 +17,14 @@ public class Expense extends Finance {
     private Money amount;
     private LocalDate date;
     private String category;
-
+    /**
+     * Constructs a new Expense object.
+     *
+     * @param description the description of the expense
+     * @param amount the amount of the expense as a Money object
+     * @param date the date the expense occurred
+     * @param category the category this expense falls under
+     */
     public Expense(String description, Money amount, LocalDate date, String category) {
         assert description != null && !description.trim().isEmpty();
         assert date != null;

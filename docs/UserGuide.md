@@ -336,6 +336,8 @@ list
 ---
 
 ### Check Budget
+This command checks on a specific budget, and print out all the details, including all attributes,
+and also its expense history
 
 **Command:** 
 ```
@@ -351,22 +353,6 @@ check i/1
 
 ---
 
-### Add to Budget
-
-**Command:** 
-
-```
-add i/INDEX a/AMOUNT
-```
-
-- `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
-- `AMOUNT`: The amount of budget to be added
-
-**Example**:  
-```
-add i/1 a/500
-```
-- This adds $500 to budget with index 1, on top of the current budget limit
 
 ### Deduct from Budget
 
@@ -385,6 +371,7 @@ deduct i/1 a/500
 - This deducts $500 to budget with index 1, so the new remaining budget will be last_remaining_budget - 500
 
 ### Modify Budget
+(v2.1 changes): Merged Add Budget command into modify budget, as the modify command can also handle add budget command.
 
 **Command:** 
 ```
@@ -413,7 +400,7 @@ The Saving commands will be available when entering saving mode:
 saving
 ```
 
-Manage your budgets alongside your expenses and incomes with the following commands:
+Manage your savings through these commands:
 
 ### Set Saving
 
@@ -422,13 +409,13 @@ Manage your budgets alongside your expenses and incomes with the following comma
 n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD
 ```
 
-- `GOAL_NAME`: The name for your budget.
-- `AMOUNT`: The total budget amount.
-- `YYYY-MM-DD`: The end date for the budget period.
+- `GOAL_NAME`: The name for your saving.
+- `AMOUNT`: The total saving amount.
+- `YYYY-MM-DD`: The deadline for the saving period.
 
 **Example:** 
 ```
-set n/Entertainment a/500 e/2025-12-31
+set n/Entertainment a/500 b/2025-12-31
 ```
 - This sets a new saving of $500 to be completed by 31 Dec 2025
 
@@ -450,8 +437,8 @@ list
 contribute i/INDEX a/AMOUNT
 ```
 
-- `INDEX`: The index of the budget you want to check. You can get the index by listing the budget
-- `AMOUNT`: The amount of budget to be added
+- `INDEX`: The index of the saving you want to contribute to. You can get the index by listing the savings
+- `AMOUNT`: The amount of saving to be added
 
 **Example**:  
 ```
@@ -461,6 +448,79 @@ contribute i/1 a/500
 
 ---
 
+### Delete a Saving
+
+**Command:**
+```
+delete i/INDEX
+```
+
+- `INDEX`: The index of the saving you want to delete. You can get the index by listing the savings.
+
+**Example**:
+```
+delete-s i/1
+```
+- This deletes the saving of index 1. Note that the rest of the savings will be shifted after deletion.
+- ```
+  Example:
+  
+  list
+  
+  Saving 1. [ACTIVE] {Name: saving1, Goal: USD 100.00, Current Progress: USD 0.00, By: 2025-04-30}
+  Saving 2. [ACTIVE] {Name: saving2, Goal: USD 100.00, Current Progress: USD 0.00, By: 2025-04-30}
+  
+  delete-s i/1
+  list
+  
+  Saving 1. [ACTIVE] {Name: saving2, Goal: USD 100.00, Current Progress: USD 0.00, By: 2025-04-30}
+  ```
+
+---
+
+### Delete a Contribution
+
+**Command:**
+```
+delete-c i/INDEX_S c/INDEX_C
+```
+
+- `INDEX_S`: The index of the saving you want to check on. You can get the index by listing the savings.
+- `INDEX_C`: The index of the contribution you want to delete. You can get the index by checking the saving.
+
+**Example**:
+```
+delete-c i/1 c/1
+```
+- This deletes the 2nd contribution of saving index 1. 
+- Note that the rest of the contribution will be shifted after deletion, just like deleting a saving.
+---
+
+### Budget Expense Integration
+
+This feature allows expenses added to be deducted from budget automatically. The deduction is based on the same category set by user.
+
+**Example of not exceeding budget:** 
+```
+> set n/Food a/200 e/2025-12-12 c/Food
+> add cookie 3 food
+Budget deducted: [ACTIVE][HAS_REMAINING_BUDGET]{Name: Food, Category: Food, RemainingBudget: USD 197.00, From 2025-04-06 to 2025-12-12}
+Added: cookie - USD 3.00 on 2025-04-06 [Category: Food]
+```
+
+When the expenses added exceeds the budget set, a warning message will be printed to let the users know.
+
+**Example of exceeding budget (continued):**
+```
+> add Fine-Dining 200 Food
+Budget deducted: [ACTIVE][EXCEEDED_BUDGET]{Name: Food, Category: Food, RemainingBudget: USD -3.00, From 2025-04-06 to 2025-12-12}
+Warning: You have exceeded your budget for category: Food
+Added: Fine-Dining - USD 200.00 on 2025-04-06 [Category: Food]
+```
+
+**Note**: Calculation of available budget left after expense is added only works for existing budget. It does not account for new budget set after the expenses are already recorded.
+
+---
 ### Loan Management Commands
 
 The Loan commands will be available when entering loan mode:
@@ -650,51 +710,61 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 **Q:** Can my desc have multiple words for expense and income?  
 **A:** Yes, however do use hyphen '-' to replace the spaces.
 
-**Q:** Do I need to follow the date formate exactly in Budget and Saving managements?
+**Q:** Do I need to follow the date format exactly in Budget and Saving managements?
 **A:** Yes! Please use the exact date format `YYYY-MM-DD`
 
 ## Command Summary
 
 ### Expenses
 
-| Feature           | Command Format |
-|-------------------|----------------|
-| Add Expense       | `add <desc> <amount> <category> [date]` |
+| Feature           | Command Format                                            |
+|-------------------|-----------------------------------------------------------|
+| Add Expense       | `add <desc> <amount> <category> [date]`                   |
 | Edit Expense      | `edit <index> <newDesc> <newAmount> <newCategory> [date]` |
-| Delete Expense    | `delete <index>` |
-| List Expenses     | `list` |
-| List by Category  | `list category <name>` |
-| Sort by Date      | `sort recent` / `sort oldest` |
-| Top Category      | `top` |
-| Bottom Category   | `bottom` |
-| List all commands | `help` |
+| Delete Expense    | `delete <index>`                                          |
+| List Expenses     | `list`                                                    |
+| List by Category  | `list category <name>`                                    |
+| Sort by Date      | `sort recent` / `sort oldest`                             |
+| Top Category      | `top`                                                     |
+| Bottom Category   | `bottom`                                                  |
+| List all commands | `help`                                                    |
 
 ### Incomes
-| Feature           | Command Format |
-|-------------------|----------------|
-| Add Income        | `add <source> <amount> <category> [date]` |
+| Feature           | Command Format                                              |
+|-------------------|-------------------------------------------------------------|
+| Add Income        | `add <source> <amount> <category> [date]`                   |
 | Edit Income       | `edit <index> <newSource> <newAmount> <newCategory> [date]` |
-| Delete Income     | `delete <index>` |
-| List Income       | `list` |
-| List by Category  | `list category <name>` |
-| Sort by Date      | `sort recent` / `sort oldest` |
-| Top Category      | `top` |
-| Bottom Category   | `bottom` |
-| List all commands | `help` |
+| Delete Income     | `delete <index>`                                            |
+| List Income       | `list`                                                      |
+| List by Category  | `list category <name>`                                      |
+| Sort by Date      | `sort recent` / `sort oldest`                               |
+| Top Category      | `top`                                                       |
+| Bottom Category   | `bottom`                                                    |
+| List all commands | `help`                                                      |
 
-### Budgets and Savings
+### Budget
 
-| Feature            | Command Format                                               |
-|--------------------|--------------------------------------------------------------|
-| Set Budget         | `set n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY`           |
-| Check Budget       | `check i/INDEX`                                              |
-| List Budgets       | `list`                                                       |
-| Deduct from Budget | `deduct i/INDEX a/AMOUNT`                                      |
-| Add to Budget      | `add i/INDEX a/AMOUNT`                                         |
-| Modify Budget      | `modify i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY`         |
-| Set Saving Goal      | `set n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD`           |
-| Contribute to Saving | `contribute i/INDEX a/AMOUNT`                     |
-| List Saving Goals    | `list`                                           |
+| Feature            | Command Format                                           |
+|--------------------|----------------------------------------------------------|
+| Set Budget         | `set n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY`     |
+| Check Budget       | `check i/INDEX`                                          |
+| List Budgets       | `list`                                                   |
+| Deduct from Budget | `deduct i/INDEX a/AMOUNT`                                |
+| Modify Budget      | `modify i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY` |
+
+
+### Saving
+
+| Feature              | Command Format                            |
+|----------------------|-------------------------------------------|
+| Set Saving Goal      | `set n/GOAL_NAME a/AMOUNT b/YYYY-MM-DD`   |
+| Contribute to Saving | `contribute i/INDEX a/AMOUNT`             |
+| List Saving Goals    | `list`                                    |
+| Delete Saving        | `delete-s i/INDEX`                        |
+| Delete Contribution  | `delete-s i/INDEX_S c/INDEX_C`            |
+| Check Saving         | `check i/INDEX`                           |
+
+
 
 ### Loans
 
@@ -713,4 +783,6 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 - Exporting to CSV
 - Search by keyword or date range
 - Gives a saving summary upon completing a saving goal
+- Giving the user the freedom to modify their saving
+- Giving user the freedom to delete any budget they want
 - Give user the freedom to filter the Budgets/Savings to list out based on their active status

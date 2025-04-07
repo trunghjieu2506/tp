@@ -10,30 +10,48 @@ import utils.contacts.PersonNotFoundException;
 import utils.tags.TagList;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
  * Stores the list of loans and related operations. Each instance requires a <code>String</code> username.
  */
 public class LoanManager implements LoanDataManager {
-    protected String user;
+    protected String username;
     protected ArrayList<Loan> loans;
     protected ContactsList contactsList;
     protected TagList<Loan> tags;
 
+    public LoanManager() {
+        loans = new ArrayList<>();
+        contactsList = new ContactsList();
+        tags = new TagList<>();
+    }
+
     public LoanManager(String user) {
-        this.user = user;
+        this.username = user;
         loans = new ArrayList<>();
         contactsList = new ContactsList(user);
         tags = new TagList<>();
     }
 
     public LoanManager(String user, ArrayList<Loan> loans, ContactsList contactsList) {
-        this.user = user;
+        this.username = user;
         this.loans = loans;
         this.contactsList = contactsList;
+        for (Loan loan : loans) {
+            if (!contactsList.hasPerson(loan.lender().getName())) {
+                contactsList.addPerson(loan.lender());
+            }
+            if (!contactsList.hasPerson(loan.borrower().getName())) {
+                contactsList.addPerson(loan.borrower());
+            }
+        }
         initialiseTags();
+    }
+
+    public void setUsername(String name) {
+        this.username = name;
+        contactsList.setUser(name);
     }
 
     public ContactsList getContactsList() {
@@ -44,8 +62,8 @@ public class LoanManager implements LoanDataManager {
         this.contactsList = contactsList;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
     public void add(Loan loan) {

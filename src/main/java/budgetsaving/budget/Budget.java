@@ -8,6 +8,7 @@ import expenseincome.expense.Expense;
 import utils.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 
 
@@ -79,6 +80,7 @@ public class Budget extends Finance {
     public BudgetActiveStatus getBudgetActiveStatus(){
         return this.activeStatus;
     }
+
 
     public void updateBudgetActiveStatus(BudgetActiveStatus status) {
         this.activeStatus = status;
@@ -190,14 +192,14 @@ public class Budget extends Finance {
         return  "[" + activeStatus + "]" + "[" + exceedStatus + "]" + "{Name: " + name +
                 ", Category: " + category +
                 ", RemainingBudget: " + remainingBudget.toString() +
-                ", From " + startDate + " to " + endDate + "}\n";
+                ", From " + startDate + " to " + endDate + "}";
     }
 
     public String printExpenses() {
         StringBuilder sb = new StringBuilder();
         sb.append(this);
         if (expenses.isEmpty()) {
-            sb.append("\tThere are no expenses in this budget yet");
+            sb.append("\n\tThere are no expenses in this budget yet");
         } else {
             for (Expense expense : expenses) {
                 sb.append( "\t " + expense.toString());
@@ -223,5 +225,9 @@ public class Budget extends Finance {
     @Override
     public String getType() {
         return this.category;
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
     }
 }

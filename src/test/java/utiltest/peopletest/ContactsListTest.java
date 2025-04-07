@@ -2,14 +2,20 @@ package utiltest.peopletest;
 
 import org.junit.jupiter.api.Test;
 import utils.contacts.ContactsList;
+import utils.contacts.ContactsUI;
 import utils.contacts.Person;
 import utils.contacts.SameNameException;
 import utils.contacts.ContactsSaveManager;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactsListTest {
     private ContactsList createContactList(String user) {
@@ -85,5 +91,18 @@ public class ContactsListTest {
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
+    }
+
+    @Test
+    public void testAddPersonUI() {
+        ContactsList contactsList = createContactList("Cashflow");
+        String input = """
+                lender
+                N/A
+                233@erd
+                """;
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
+        Person person = ContactsUI.handlePersonInputUI(contactsList, scanner, "", null);
+        assertEquals("lender", person.getName());
     }
 }

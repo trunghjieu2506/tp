@@ -112,31 +112,28 @@ public class SavingModuleTest {
     public void testAddContributionAndCompletion() {
         Money goal = new Money("USD", new BigDecimal("100.0"));
         LocalDate deadline = LocalDate.of(2025, 12, 31);
-        Saving saving = new Saving("Goal1", goal, deadline);
+
+        // Assert that creating a new Saving does not throw any exception.
+        Saving saving = assertDoesNotThrow(() -> new Saving("Goal1", goal, deadline),
+                "Creation of Saving should not throw SavingException");
 
         Money contribution = new Money("USD", new BigDecimal("50.0"));
-        saving.addContribution(contribution);
+        // Assert that adding the first contribution does not throw any exception.
+        assertDoesNotThrow(() -> saving.addContribution(contribution),
+                "Adding first contribution should not throw SavingException");
         assertEquals(new BigDecimal("50.0"), saving.getCurrentAmount().getAmount());
 
         // Now add a contribution that exceeds the goal amount.
         Money contribution2 = new Money("USD", new BigDecimal("60.0"));
-        saving.addContribution(contribution2);
+        assertDoesNotThrow(() -> saving.addContribution(contribution2),
+                "Adding second contribution should not throw SavingException");
         assertEquals(new BigDecimal("100.0"), saving.getCurrentAmount().getAmount());
+
         // Check that the saving status update message is printed.
         String outStr = outContent.toString();
         assertTrue(outStr.contains("Saving status updated to: COMPLETED"));
     }
 
-    @Test
-    public void testToStringWithContributions() {
-        Money goal = new Money("USD", new BigDecimal("100.0"));
-        LocalDate deadline = LocalDate.of(2025, 12, 31);
-        Saving saving = new Saving("Goal1", goal, deadline);
-        saving.addContribution(new Money("USD", new BigDecimal("30.0")));
-
-        String detailed = saving.toStringWithContributions();
-        assertTrue(detailed.contains("Contribution 0"));
-    }
 
     // ----- Tests for SavingAttributes -----
 

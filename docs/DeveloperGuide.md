@@ -65,30 +65,63 @@ The diagram below shows how different classes in the income package interact:
 
 ### Budget Management
 
+#### Architecture 
+The Budget Management system is designed to handle all budget commands, and it also integrated with the
+expense management system, to automatically track expenses and manage budget.
+
+Below is the overview of the Budget system. It illustrates the architecture and the procedure of 
+a budget command being executed.
+
+BudgetList implements BudgetManager, and holds an Arraylist of Budgets.
+The user input a string, and it parsed by BudgetAttribute, BudgetParser classes to return a command.
+The command is then executed by calling methods from BudgetList.
+Budget, Budgetlist throws BudgetExceptions which are catch inside Budget Commands classes.
+
+![BudgetManager.png](team/BudgetManager.png)
+
+#### Flow of the commands
+To execute a command, the user first type in the CLI. The input is captured by the IOHandler class,
+which then passes in the input to the BudgetGeneralCommand, which will handle all the different commands
+in budget. The class then decides which command to execute based on the first keyword by the user.
+
+The a new, specific command is created, by passing the input into the BudgetParser class, which then pass
+the input to BudgetAttribute class. The reason for this is that: we can use a single class to handle all
+input attributes, such as `n/`, `a/`, and return it to the parser for further processing.
+
+The BudgetParser takes in the attributes, then select the required attribute. In this process, exceptions
+are thrown as BudgetParserException, which happens in the class BudgetParser, or BudgetAttributeException,
+which are exceptions found by the BudgetAttribute class.
+
+The command then proceed to execute, which calls the method in BudgetList, and subsequently Budget for the commands.
+
+The following sequence diagram illustrates a general flow of the Budget Management system's command.
+![BudgetManagerSequence](BudgetSavingSequence.png)
+
+#### Exception Handling
+
+To properly handle exceptions and output the details of the error, so that users can quickly identify the error in input,
+the exceptions are separated into many different child classes of the Exception class. A multi-level inheritance is used
+where BudgetException inherits from Exceptions, while each details exceptions inherit from BudgetException.
+
+Each detailed exception will have its own unique outputs. Which help us to identify, at which stage in the sequence diagram
+did an exception happened.
+
+![BudgetExceptions](BugdetExceptions.png)
+
 ---
 
 ### Saving Management
-   Responsible for implementing the Budget and Saving management modules. This includes the Budget, Saving, BudgetList, SavingList, and the associated commands and parsers.
+Responsible for implementing the Budget and Saving management modules. 
+This includes the Saving, SavingList, and the associated commands and parsers.
 
-The goal of these modules is to allow users to manage budgets and track savings efficiently, with support for adding, editing, deleting, listing, and viewing summary data.
+The goal of these modules is to allow users to manage budgets and track savings efficiently, 
+with support for adding, editing, deleting, listing, and viewing summary data.
 
-#### Budget and Saving Logic
-Each of the two entities — Budget and Saving — is represented by its own class and managed through its own container class (BudgetList, SavingList).
+#### Saving Architecture and Sequential Flow
+The Saving Management system flow and design architecture is very similar to the Budget Management System, except that the
+methods called in the Saving and SavingList are different. 
+Therefore please refer to the diagrams in Budget above. Details will be explained inside the implementation.
 
-The diagram below shows the high-level class structure:
-
-![BudgetManager.png](team/BudgetManager.png)
-![Saving.png](team/Saving.png)
-
-
-Budget: Represents a budget allocation for a specific month, storing variables as follows:
-- name: String
-- totalAmount: Money
-- RemainingAmount: Money
-- expenses: ArrayList<Expense>
-- deadline: LocalDate
-- category: String
-- and BudgetCompletionStatus, BudgetExceedStatus
 
 ---
 
@@ -172,20 +205,6 @@ This makes testing and future enhancements (e.g. undo/redo) straightforward.
 An example of the sequence diagram for Add Expense Command is as shown:
 ![Add Expense Command Sequence](img_7.png)
 
-### Error Handling
-
-- Custom exceptions via `ExpenseException` to handle user input validation.
-- Example validations:
-   - Description must not be empty.
-   - Amount must be positive.
-   - Index must be within list bounds.
-- Parser handles syntax and structure validation; Manager handles business rule validation.
-
-### Logging
-
-- Internally uses Java’s `Logger` to log all state-changing operations.
-- Warnings are logged but not shown to users unless necessary.
-
 ---
 
 ### Income
@@ -240,7 +259,7 @@ This makes the logic modular, testable, and easily extendable.
 
 An example of the sequence diagram for Edit Income Command is as shown:
 ![Edit Income Command Sequence](img_8.png)
-
+---
 ### Error Handling for Expense and Income
 
 - Custom exceptions via `ExpenseException` and `IncomeException` to handle user input validation.
@@ -258,10 +277,111 @@ An example of the sequence diagram for Edit Income Command is as shown:
 ---
 
 ### Budget 
+#### Overview of the Budget Class
+The Budget contains:
+```
+- name: String
+- totalAmount: Money
+- RemainingAmount: Money
+- expenses: ArrayList<Expense>
+- deadline: LocalDate
+- category: String
+- and BudgetCompletionStatus, BudgetExceedStatus
+```
+The exact manipulation of the Budget Management system would be too long to describe here. In this section I will only 
+show the details of a few interesting class that I have implemented, and also some proposed features that is not 
+implemented yet, but will do it in the future.
+
+#### Budget Attributes
+The class currently supports the following input identifiers:
+
+| Identifier | Field        | Type         | Description                             |
+|------------|--------------|--------------|-----------------------------------------|
+| `i/`       | `index`      | `int`        | 0-based index for identifying a budget  |
+| `n/`       | `name`       | `String`     | Budget name                             |
+| `a/`       | `amount`     | `double`     | Budget amount                           |
+| `e/`       | `endDate`    | `LocalDate`  | End date of the budget (format: YYYY-MM-DD) |
+| `c/`       | `category`   | `String`     | Category associated with the budget     |
+
+1. **Input String Received**  
+   The constructor of `BudgetAttributes` takes in a raw input string (e.g., `"n/Groceries a/500.0 e/2025-12-31 c/Food"`).
+
+2. **Identifier Order & Duplication Check**
+  - It ensures no identifier is repeated.
+  - It checks that identifiers appear in strictly increasing order.
+
+3. **Field Extraction & Validation**  
+   The identifiers must follow these rules:
+   - Amount must be greater than or equal to 0.01, and it should be a real number
+   - Any decimals after 0.01 in amount is ignored. For example, `0.00103` will be parsed as just `0.01`
+   - Date must strictly follow the format YYYY-MM-DD
+   - Date input must be after the current date
+   - Index must be a positive integer, ranging from 1 to the size of the list, depending on the list type
+   - Strings must not be empty, if the identifier is declared
+   
+   **Note** that during BudgetAttribute parsing, 1-index base is converted to 0-index base
+
+4. **Parsed Object**  
+   The class returns itself after parsing, containing all valid fields ready for use.
+
+
+
+The design choice to have `BudgetAttributes` return itself after construction makes it easily reusable:
+
+- **Command classes** do not need to deal with parsing logic.
+- Centralized validation ensures consistency across different parts of the application.
+- Easier unit testing of parsing logic.
+- The same class supports all command variants (e.g., those requiring only `i/` or only `c/`).
+
+#### Example Usage
+
+```java
+String input = "n/Trip a/1000 e/2025-12-31 c/Travel";
+BudgetAttributes attributes = new BudgetAttributes(input);
+
+String name = attributes.getName();          // "Trip"
+double amount = attributes.getAmount();      // 1000.0
+LocalDate end = attributes.getEndDate();     // 2025-12-31
+String category = attributes.getCategory();  // "Travel"
+```
+#### Integrating Budget with Expense
+A key feature to our application is that it can automatically deduct an expense from a budget, provided that
+both the expense and the budget are in the same category. 
+
+After the expense is added, the constructor will call the BudgetManager to execute the method `deductBudgetFromExpense()`
+as illustrated by the sequence diagram below:
+
+![DeductBudgetFromExpense](DeductBudgetFromExpense.png)
+
+
+#### [Future Features] Deleting a Budget 
+Deleting a budget is an upcoming feature that is still under development, but it is important to let user
+to have the freedom of deleting redundant or no longer used budgets.
+
+#### Budget Expense Integration
+
+This integration between two major classes is to allow users to know the status of their budgets after adding their expenses.
+
+It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. A warning will be displayed if budget has been exceeded.
+
+```
+BudgetManager budgetManager = data.getBudgetManager();
+if (budgetManager != null) {
+   boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+   if (exceeded) {
+       System.out.println("Warning: You have exceeded your budget for category: " + category);
+   }
+}
+```
+
 
 ---
 
 ### Saving 
+
+The implementation of Saving Management system is very similar to the Budget Management System, and only a number of 
+the method calls will be shown here.
+
 This is an example of the implementation of the Budget and Saving command: `Set Budget`,
 which can represent the generic flow of the Budget and Saving management's execution flow.
 
@@ -328,13 +448,31 @@ which can represent the generic flow of the Budget and Saving management's execu
 
 ## Appendix D: Glossary
 
-- **CLI**: Command Line Interface
-- **Index**: The number shown when listing items; used to refer to entries.
-- **Expense**: Money spent.
-- **Income**: Money received.
-- **Budget**: Limit set on specific categories.
-- **Loan**: Money lent or borrowed, optionally with interest.
-- **Category**: A label such as "Food", "Job", "Transport".
+- **CLI**: Command Line Interface. A text-based interface where users interact with the program by typing commands.
+- **Index**: The number shown when listing items; used to refer to entries in a list (1-based for user, 0-based in code).
+- **IOHandler**: A utility class that handles all input/output operations. Abstracts away calls to `System.out` and `System.err` for better modularity and testability.
+- **Expense**: Money spent by the user on items such as food, transport, or utilities.
+- **Income**: Money received by the user from various sources like salary, gifts, or investments.
+- **Budget**: A financial constraint defined by the user for a particular category, with a total amount and deadline.
+- **Loan**: Money lent or borrowed, optionally with interest applied over time.
+- **Saving**: A goal the user is saving money towards, tracked by name, amount, and deadline.
+- **Category**: A label to classify a transaction (e.g., "Food", "Travel", "Salary", "Entertainment").
+- **Command Pattern**: A software design pattern where each operation is encapsulated in a separate object that implements a common interface (e.g., `execute()` method).
+- **Parser**: A class responsible for converting raw user input into structured data or command objects. Different parsers exist for each module (e.g., `BudgetParser`, `ExpenseCommandParser`).
+- **Attribute class**: A utility class (e.g., `BudgetAttributes`) that extracts fields from user input using identifiers like `n/` (name), `a/` (amount), `e/` (end date).
+- **Identifier**: A prefix used in command input strings to label arguments. For example:
+    - `n/` = name
+    - `a/` = amount
+    - `e/` = end date
+    - `c/` = category
+    - `i/` = index
+- **Money**: A class representing an amount of currency with support for precision and arithmetic operations.
+- **Finance**: An abstract class extended by financial entities like `Budget`, `Income`, or `Expense`.
+- **Interest**: A class used by advanced `Loan` types to apply and calculate interest over time.
+- **Command**: A base class/interface for all user actions (e.g., `AddExpenseCommand`, `DeleteBudgetCommand`). Each command overrides `execute(...)`.
+- **Mode**: A context in which the user interacts with a specific feature (e.g., "expense mode", "budget mode"). Each mode has its own set of valid commands.
+
+
 ---
 
 ## Appendix E: Instructions for Manual Testing
@@ -363,23 +501,28 @@ which can represent the generic flow of the Budget and Saving management's execu
    ```
 
 ### Budget Module
-
+1. Run `budget` to enter budget mode from the main menu.
+2. Try:
 ```
-budget
 set n/Trip a/1000 e/2025-12-31 c/Travel
 check i/1
-add i/1 a/500
+list
 deduct i/1 a/200
-modify i/1 n/Holiday
+modify i/1 [n/Holiday] [a/300] [e/2025-10-10] [c/Trip]
 ```
+**Note**: the attributes in `[ ]` are optional to include. If not included, the program assumes
+the attribute is not modified. For example, `modify i/1 a/500 c/Trip` only modifies `amount` and `category`,
+but does not modify `name` and `endDate`.
 
 ### Saving Module
-
+1. Run `saving` to enter budget mode from the main menu.
+2. Try:
 ```
-saving
 set n/Laptop a/2000 b/2025-10-01
 contribute i/1 a/500
 list
+delete-s i/1
+delete-c i/1 c/1
 ```
 
 ### Loan Module
@@ -393,6 +536,7 @@ edit 1 description
 find John outgoing loan
 delete 1
 ```
+**Note**: Manual testing does not persist data unless storage is implemented. Re-adding entries is required after restarting the app.
 
 ---
 
@@ -401,4 +545,3 @@ delete 1
 - This project reused some ideas and interfaces from the [AddressBook-Level3](https://github.com/se-edu/addressbook-level3) project.
 - Structure and format of the Developer Guide closely follow AB3’s conventions.
 
-Note: Manual testing does not persist data unless storage is implemented. Re-adding entries is required after restarting the app.

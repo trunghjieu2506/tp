@@ -28,13 +28,14 @@ public class BudgetGeneralCommand implements Command {
 
     static final String BUDGET_COMMANDS =
             LINE_SEPARATOR + '\n'
+        + "Attributes in '[ ]' are optional.\n"
         + TextColour.PURPLE    + DASH + SET_BUDGET
                   + " n/BUDGET_NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n"  + TextColour.RESET
         + TextColour.GREEN  + DASH + CHECK_BUDGET  + " i/INDEX\n"                 + TextColour.RESET
         + TextColour.YELLOW + DASH + LIST_BUDGET   + "\n"                         + TextColour.RESET
         + TextColour.BLUE   + DASH + DEDUCT_BUDGET + " i/INDEX a/AMOUNT\n"        + TextColour.RESET
         + TextColour.CYAN   + DASH + MODIFY_BUDGET
-                  + " i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY\n" + TextColour.RESET
+                  + " i/INDEX [n/NAME] [a/AMOUNT] [e/YYYY-MM-DD] [c/CATEGORY]\n" + TextColour.RESET
         + DASH + HELP_COMMAND + " to check all possible commands\n"
         + DASH + EXIT_COMMAND + " to exit to the main menu\n"
         + LINE_SEPARATOR;
@@ -81,7 +82,7 @@ public class BudgetGeneralCommand implements Command {
 
     //the 'main' function to all budget commands
     public static void handleBudgetCommand(Scanner scanner, BudgetManager budgetManager) {
-        IOHandler.writeOutput("Here's a list of budget commands: \n" + BUDGET_COMMANDS);
+        IOHandler.writeOutput("Budget Mode: Enter commands (type 'exit' to return)");
         while (true){
             IOHandler.writeOutputNoLn("> ");
             String input = scanner.nextLine().trim();

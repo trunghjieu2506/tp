@@ -23,6 +23,13 @@ import cashflow.model.storage.Storage;
 import utils.money.Money;
 import expenseincome.expense.exceptions.ExpenseException;
 
+/**
+ * Manages all expense-related operations including adding, editing, deleting,
+ * listing, sorting, and analyzing expenses.
+ * <p>
+ * Integrates with {@link FinanceData} and {@link BudgetManager} to enable
+ * budget-aware expense tracking.
+ */
 public class ExpenseManager implements ExpenseDataManager {
     private static final Logger logger = Logger.getLogger(ExpenseManager.class.getName());
 
@@ -44,7 +51,7 @@ public class ExpenseManager implements ExpenseDataManager {
             }
 
             // Set up file handler to log into logs/expense.log
-            FileHandler fileHandler = new FileHandler("logs/expense.log", true); // append mode
+            FileHandler fileHandler = new FileHandler("logs/expense.log", true);
             fileHandler.setFormatter(new SimpleFormatter());
             rootLogger.addHandler(fileHandler);
             rootLogger.setLevel(Level.ALL);
@@ -54,13 +61,20 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
-
     private final ArrayList<Expense> expenses;
     private final FinanceData data;
+    private final String currency;
     private String currency;
     private Storage expenseStorage;
 
-    public ExpenseManager(FinanceData data, String currency, Storage expenseStorage) throws FileNotFoundException {
+    /**
+     * Constructs a new ExpenseManager.
+     *
+     * @param data     FinanceData instance for accessing currency and budget
+     * @param currency User's preferred currency code (e.g. "USD")
+     */
+    public ExpenseManager(FinanceData data, String currency) {
+        this.expenses = new ArrayList<>();
         this.data = data;
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.currency = currency;
@@ -76,26 +90,48 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Returns a defensive copy of the list of expenses as Finance objects.
+     */
     public ArrayList<Finance> getExpenseList() {
         return new ArrayList<>(expenses);
     }
 
+    /**
+     * Returns the actual internal list of Expense objects.
+     */
     public ArrayList<Expense> getList() {
         return expenses;
     }
 
+    /**
+     * Returns the number of expense entries recorded.
+     */
     public int getExpenseCount() {
         return expenses.size();
     }
 
+    /**
+     * Retrieves an expense at the given index (0-based).
+     *
+     * @param i the index to retrieve
+     * @return the corresponding Expense object
+     */
     public Expense getExpense(int i) {
         return expenses.get(i);
     }
 
+    /**
+     * Adds a new expense after validating all fields. Updates budget if linked.
+     *
+     * @param description the description of the expense
+     * @param amount      the monetary amount
+     * @param date        the date of the expense
+     * @param category    the expense category
+     */
     public void addExpense(String description, double amount, LocalDate date, String category) {
         try {
             validateExpenseDetails(description, amount, category);
-
             Currency currency = data.getCurrency();
             Money money = new Money(currency, amount);
             Expense expense = new Expense(description, money, date, category);
@@ -119,6 +155,11 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Deletes an expense at a given index (1-based).
+     *
+     * @param index the index (1-based) to delete
+     */
     public void deleteExpense(int index) {
         try {
             validateIndex(index);
@@ -131,6 +172,15 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Edits an existing expense entry.
+     *
+     * @param index         the index (1-based) to edit
+     * @param newDescription new description
+     * @param newAmount      new amount
+     * @param newDate        new date
+     * @param newCategory    new category
+     */
     public void editExpense(int index, String newDescription, double newAmount,
                             LocalDate newDate, String newCategory) {
         try {
@@ -146,6 +196,14 @@ public class ExpenseManager implements ExpenseDataManager {
             expense.setDate(newDate);
             expense.setCategory(newCategory);
 
+            BudgetManager budgetManager = data.getBudgetManager();
+            if (budgetManager != null) {
+                boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+                if (exceeded) {
+                    System.out.println("Warning: You have exceeded your budget for category: " + newCategory);
+                }
+            }
+
             logger.log(Level.INFO, "Updated expense: {0}", expense);
             System.out.println("Updated: " + expense);
         } catch (ExpenseException e) {
@@ -154,6 +212,9 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Prints a list of all recorded expenses.
+     */
     public void listExpenses() {
         if (expenses.isEmpty()) {
             System.out.println("No expenses recorded.");
@@ -166,6 +227,11 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Lists expenses filtered by the given category.
+     *
+     * @param category the category to filter by
+     */
     public void listExpensesByCategory(String category) {
         if (expenses.isEmpty()) {
             System.out.println("No expenses recorded.");
@@ -188,6 +254,11 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Sorts expenses by date.
+     *
+     * @param mostRecentFirst true for descending (recent first), false for ascending
+     */
     public void sortExpensesByDate(boolean mostRecentFirst) {
         if (expenses.isEmpty()) {
             System.out.println("No expenses to sort.");
@@ -202,14 +273,25 @@ public class ExpenseManager implements ExpenseDataManager {
         listExpenses();
     }
 
+    /**
+     * Prints the category with the highest total expense.
+     */
     public void printTopCategory() {
         printCategorySummary(true);
     }
 
+    /**
+     * Prints the category with the lowest total expense.
+     */
     public void printBottomCategory() {
         printCategorySummary(false);
     }
 
+    /**
+     * Prints summary of total spending per category.
+     *
+     * @param top if true, prints top category; otherwise prints bottom category
+     */
     private void printCategorySummary(boolean top) {
         if (expenses.isEmpty()) {
             System.out.println("No expenses recorded.");
@@ -241,6 +323,12 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Validates the given index is within the range of the expense list.
+     *
+     * @param index index to validate (1-based)
+     * @throws ExpenseException if index is invalid or list is empty
+     */
     private void validateIndex(int index) throws ExpenseException {
         if (expenses.isEmpty()) {
             throw new ExpenseException("No expenses to delete. Your list is empty.");
@@ -250,6 +338,14 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Validates the fields for an expense before adding or editing.
+     *
+     * @param description the description of the expense
+     * @param amount      the amount
+     * @param category    the category
+     * @throws ExpenseException if any field is invalid
+     */
     private void validateExpenseDetails(String description, double amount, String category)
             throws ExpenseException {
         if (description == null || description.trim().isEmpty()) {
@@ -263,6 +359,11 @@ public class ExpenseManager implements ExpenseDataManager {
         }
     }
 
+    /**
+     * Returns the category with the highest total spending.
+     *
+     * @return name of the top category
+     */
     @Override
     public String getTopCategory() {
         if (expenses.isEmpty()) {
@@ -293,3 +394,4 @@ public class ExpenseManager implements ExpenseDataManager {
         return topCategory;
     }
 }
+

@@ -100,7 +100,6 @@ public class SavingGeneralCommand implements Command {
             IOHandler.writeError(SetSavingCommand.DATE_FORMAT_ERROR);
         } catch (SavingException e) {
             //error is definitely handled at earlier part, so we dont need to print anything
-            //IOHandler.writeError(e.getMessage());
         }
     }
 
@@ -108,7 +107,7 @@ public class SavingGeneralCommand implements Command {
     //public Result excute()
 
     public static void handleSavingCommand(Scanner scanner, SavingManager savingManager) {
-        IOHandler.writeOutputNoLn("Here's a list of saving commands: \n" + SAVING_COMMANDS);
+        IOHandler.writeOutput("Saving Mode: Enter commands (type 'exit' to return)");
         while (true){
             IOHandler.flushError();
             IOHandler.flushOutput();

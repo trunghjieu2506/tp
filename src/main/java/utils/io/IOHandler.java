@@ -27,6 +27,10 @@ public class IOHandler {
         System.out.println(output);
     }
 
+    public static void writeWarning(String output) {
+        System.out.println(TextColour.YELLOW + output + TextColour.RESET);
+    }
+
     public static void writeError(String error){
         System.err.println(error);
         System.err.flush();
