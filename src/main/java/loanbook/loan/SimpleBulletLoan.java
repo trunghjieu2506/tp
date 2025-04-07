@@ -23,7 +23,7 @@ public class SimpleBulletLoan extends Loan {
     }
 
     /**
-     * The balance equals the principal for simple bullet loans.
+     * The balance equals the principal for simple bullet loanManager.
      * @return a <code>Money</code> class representing the current balance.
      */
     @Override
@@ -52,7 +52,7 @@ public class SimpleBulletLoan extends Loan {
     public String basicInfo() {
         return "Lender: [" + lender.getName()
                 + "]    Borrower: [" + borrower.getName()
-                + "]    Amount: " + principal + '\n'
+                + "]\n    Amount: " + principal
                 + (isReturned ? "    Returned" : "    Not Returned");
     }
 
@@ -67,18 +67,16 @@ public class SimpleBulletLoan extends Loan {
     }
 
     @Override
-    public String getType()
-    {
+    public String getType() {
         return "Overview";
     }
     @Override
-    public double getAmount()
-    {
+    public double getAmount() {
         return 0;
     }
 
     @Override
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return startDate;
     }
 }

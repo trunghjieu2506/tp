@@ -540,7 +540,7 @@ loan
 ```
 
 ### List all loans
-Displays a list of all loans. Only basic information (lender, borrower, balance and return status) is shown.
+Displays a list of all loanManager. Only basic information (lender, borrower, balance and return status) is shown.
 
 **Command:** 
 ```
@@ -551,7 +551,7 @@ list
 **Example:** `list`
 ```
 > list
-Here are all recorded loans:
+Here are all recorded loanManager:
 [1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
     Not Returned
 [2] Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
@@ -583,9 +583,7 @@ show X
 ### Adding a simple bullet loan
 Adds a simple bullet loan to the list, with optional description and return dates.
 
-
 **Input sequence:** as shown in the code example
-
 
 **Example:** `add`
 ```
@@ -605,11 +603,10 @@ Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable)
 Simple Bullet Loan added: Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
     Not Returned
 ```
-### Adding an advanced loan
-Adds an advanced loan to the list, with compulsory start date, optional description and return dates.
+### Adding an advanced bullet loan
+Adds an advanced bullet loan to the list, with compulsory start date, optional description and return dates.
 
 **Input sequence:** as shown in the code example
-
 
 **Example:** `add`
 ```
@@ -659,21 +656,42 @@ Description: This is a simple bullet loan.
 Tags: None
 Not Returned
 ```
+
+### Finding outgoing loans
+Finds all loans lent by the user.
+
+**Command:**
+```
+find outgoing loan
+```
+
+**Example:** `find lender 1 outgoing loan`
+
 ### Finding outgoing loans from someone
+
 Finds all loans lent by the input name.
 
 **Command:** 
 ```
-find [name] outgoing loan` or `find outgoing loan [name]
+find [name] outgoing loan` or find outgoing loan [name]
 ```
 
 **Example:** `find lender 1 outgoing loan`
 ```
 > find lender 1 outgoing loan
-Outgoing loans for [lender 1] is:
+Outgoing loanManager for [lender 1] is:
 [1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
     Not Returned
 ```
+
+### Finding incoming loans
+Finds all loans borrowed by the user.
+
+**Command:**
+```
+find incoming loan
+```
+
 ### Finding incoming loans from someone
 Finds all loans borrowed by the input name.
 
@@ -685,7 +703,7 @@ find [name] incoming loan` or `find incoming loan [name]
 **Example:** `find borrower 1 incoming loan`
 ```
 > find borrower 1 incoming loan
-Incoming loans for [borrower 1] are:
+Incoming loanManager for [borrower 1] are:
 [1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
     Not Returned
 [2] Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
@@ -693,7 +711,32 @@ Incoming loans for [borrower 1] are:
     Outstanding Balance: USD 500.00
     Not Returned
 ```
-### Deleting loans
+### Finding overdue loans
+Finds all overdue loans.
+
+**Command:**
+```
+find overdue loan
+```
+
+### Finding urgent loans
+Finds the top X loans with the earliest return dates.
+
+**Command:**
+```
+find X urgent loan
+```
+
+### Finding largest loans
+Finds the top X loans with the highest balance.
+
+**Command:**
+```
+find X largest loan
+```
+
+
+### Deleting Loan
 Deletes the Xth loan from the list.
 
 **Command:** 
@@ -788,7 +831,7 @@ Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
 | List Loans            | `list`               |
 | Delete Loan           | `delete X`           |
 | Show Loan Details     | `show X`             |
-| Find associated loans | `find [name]`        |
+| Find associated loanManager | `find [name]`        |
 
 ## Possible Enhancements
 

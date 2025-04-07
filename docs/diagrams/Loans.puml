@@ -1,11 +1,71 @@
 @startuml
-'https://plantuml.com/sequence-diagram
 
-autonumber
+hide circle
+skinparam classAttributeIconSize 0
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+abstract class Loan extends Finance implements Taggable {
+    - description : String
+    - lender : Person {final}
+    - borrower : Person {final}
+    - principal : Money
+    - isReturned : boolean
+    - startDate : LocalDate
+    - returnDate : LocalDate
+    - tags : ArrayList<String>
+    --
+    + description() : String
+    + setDescription(description: String) : void
+    + borrower() : Person
+    + lender() : Person
+    + principal() : Money
+    + setPrincipal(money: Money) : void
+    + getBalance() : Money {abstract}
+    + isReturned() : boolean
+    + setReturnStatus(isReturned: boolean) : void
+    + setStartDate(date: LocalDate) : void
+    + startDate() : LocalDate
+    + setReturnDate(date: LocalDate) : void
+    + returnDate() : LocalDate
+    + hasTag(tag: String) : boolean
+    + addTag(tag: String) : void
+    + addTags(tags: ArrayList<String>) : void
+    + removeTag(tag: String) : void
+    + removeAllTags() : void
+    + getTagList() : ArrayList<String>
+    + getTagsString() : String
+    + isOverdue() : boolean
+    + basicInfo() : String
+    + showDetails() : String
+    + forSave() : String
+}
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+class SimpleBulletLoan extends Loan {
+    + getBalance() : Money
+    + forSave() : String
+    + basicInfo() : String
+    + showDetails() : String
+    + getType() : String
+    + getAmount() : double
+    + getDate() : LocalDate
+}
+
+
+class AdvancedBulletLoan extends Loan {
+    - outstandingBalance : Money
+    - interest : Interest
+    - incrementCount : int
+    --
+    + getBalance() : Money
+    + incrementCount() : int
+    + setStart(date: LocalDate) : void
+    + setInterest(interest: Interest) : void
+    + calculateBalance() : void
+    + basicInfo() : String
+    + showDetails() : String
+    + forSave() : String
+    + getType() : String
+    + getAmount() : double
+    + getDate() : LocalDate
+}
+
 @enduml

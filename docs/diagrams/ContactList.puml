@@ -1,0 +1,58 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+package utils.tags {
+  interface Taggable
+  class TagList<T>
+}
+
+package "utils.contacts" {
+  class Person {
+    - name: String <<final>>
+    - contactNumber: String
+    - email: String
+    - myTags: ArrayList<String>
+    + getName(): String
+    + getContactNumber(): String
+    + getEMail(): String
+    + hasTag(tag: String): boolean
+    + addTag(tag: String): void
+    + addTags(tags: ArrayList<String>): void
+    + removeTag(tag: String): void
+    + removeAllTags(): void
+    + getTagList(): ArrayList<String>
+    + setContactNumber(number: String): void
+    + setEmail(email: String): void
+    + getTags(): ArrayList<String>
+    + showTags(): String
+    + toString(): String
+    + showDetails(): String
+    + forSave(): String
+  }
+
+  class ContactsList {
+    - user: String
+    - contacts: HashMap<String, Person>
+    - tags: TagList<Person>
+    + setUser(name: String): void
+    + addPerson(person: Person): void
+    + addTag(name: String, tag: String): void
+    + addTag(person: Person, tag: String): void
+    + remove(name: String): void
+    + remove(person: Person): void
+    + hasPerson(name: String): boolean
+    + findName(name: String): Person
+    + findOrAdd(name: String): Person
+    + initialiseTags(): void
+    + findPeopleWithTag(tag: String): ArrayList<Person>
+    + listPeopleWithTag(tag: String): String
+    + listAll(): String
+    + toSave(): String
+  }
+}
+
+utils.contacts.Person ..|> utils.tags.Taggable
+utils.contacts.ContactsList --> "1..*" utils.contacts.Person : contacts
+utils.contacts.ContactsList --> "1" utils.tags.TagList : tagList
+@enduml
