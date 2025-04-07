@@ -88,14 +88,19 @@ public class CashFlowManager {
         SetupConfig setupConfig = setupStorage.loadSetupConfig();
 
         if (setupConfig != null) {
+
             // If the config exists, read its fields
             isFirstTime = setupConfig.isFirstTime();
             String currencyStr = setupConfig.getCurrencyCode();
+
+            assert currencyStr != null && !currencyStr.trim().isEmpty()
+                    : "Loaded currency code from setup config is null or empty.";
             logger.info("Loaded setup config: isFirstTime=" + isFirstTime + ", currency=" + currencyStr);
 
             System.out.println("Loaded config: isFirstTime=" + isFirstTime
                     + ", currency=" + currencyStr);
             data = new FinanceData();
+            assert data != null : "FinanceData failed to initialize after loading config.";
             data.setCurrency(currencyStr);
         } else {
             logger.warning("No setup config found. Defaulting to isFirstTime=true and currency=USD.");
@@ -103,6 +108,7 @@ public class CashFlowManager {
             System.out.println("No setup config found, default to isFirstTime=true, currency=USD");
             isFirstTime = true;
             data = new FinanceData();
+            assert data != null : "FinanceData failed to initialize with default settings.";
             data.setCurrency("USD");
         }
 
@@ -117,6 +123,7 @@ public class CashFlowManager {
         budgetManager = new BudgetList(currency);
         loanManager = new LoanManager("defaultUser");
         setUpManager = new SetUpManager(setupStorage);
+        assert setupStorage != null : "setupStorage failed to initialize.";
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);
