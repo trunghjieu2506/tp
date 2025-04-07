@@ -72,7 +72,7 @@ public class SimpleBulletLoan extends Loan {
     }
     @Override
     public double getAmount() {
-        return 0;
+        return principal.getAmount().doubleValue();
     }
 
     @Override

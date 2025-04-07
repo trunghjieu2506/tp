@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Manages the saving of loan information to a text file.
+ * Old class that manages the saving of loan information to a text file. Use cashflow.model.storage.Storage instead.
  */
 public class LoanSaveManager extends SaveManager {
     public static final String LOAN_SEPARATOR = "<LoanSaveSeparator>\n";
@@ -34,15 +34,13 @@ public class LoanSaveManager extends SaveManager {
      *     information of one <code>Loan</code>. Reads each small <code>String</code> by calling the
      *     <code>readLoan()</code> method.
      * @param save the fill save String.
-     * @param contactsList the <code>ContactList</code> that stores information of every known person. Should be read
-     *                     before reading the loanManager save.
      * @return an <code>ArrayList</code> of <code>Loan</code>s.
      */
-    public static ArrayList<Loan> readSaveString(String save, ContactsList contactsList) {
+    public static ArrayList<Loan> readSaveString(String save) {
         String[] splitLoan = save.split(LOAN_SEPARATOR);
         ArrayList<Loan> list = new ArrayList<>();
         for (String loanString : splitLoan) {
-            Loan loan = readLoan(loanString, contactsList);
+            Loan loan = readLoan(loanString);
             if (loan != null) {
                 list.add(loan);
             }
@@ -53,14 +51,12 @@ public class LoanSaveManager extends SaveManager {
     /**
      * Parses every information of a <code>Loan</code> from a save String segment.
      * @param save the <code>String</code> that stores every information of one <code>Loan</code>.
-     * @param contactsList the <code>ContactList</code> that stores information of every known person. Should be read
-     *                     before reading the loanManager save.
      * @return a <code>Loan</code> class containing the parsed information.
      */
-    private static Loan readLoan(String save, ContactsList contactsList) {
+    private static Loan readLoan(String save) {
         String[] splitLine = save.split("\n");
-        Person lender = contactsList.findOrAdd(splitLine[1].replace("<Lender>", "").trim());
-        Person borrower = contactsList.findOrAdd(splitLine[2].replace("<Borrower>", "").trim());
+        Person lender = new Person(splitLine[1].replace("<Lender>", "").trim());
+        Person borrower = new Person(splitLine[2].replace("<Borrower>", "").trim());
         Money principal = MoneyParser.parse(splitLine[3].replace("<Principal>", "").trim());
         LocalDate startDate;
         LocalDate returnDate;
@@ -118,15 +114,8 @@ public class LoanSaveManager extends SaveManager {
     }
 
     public static LoanManager readLoanList(String user) throws FileNotFoundException {
-        ContactsList contactsList;
-        try {
-            contactsList = ContactsSaveManager.readSave(user);
-        } catch (FileNotFoundException e) {
-            System.out.println("Contact book for [" + user + "] not found. Creating a new contact book");
-            contactsList = new ContactsList(user);
-        }
         String save = getSaveString(savePath(user));
-        return new LoanManager(user, readSaveString(save, contactsList), contactsList);
+        return new LoanManager(user, readSaveString(save));
     }
 
     public static void appendSave(String user, String text) throws IOException {

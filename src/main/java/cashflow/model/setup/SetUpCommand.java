@@ -18,6 +18,17 @@ public class SetUpCommand implements Command {
     @Override
     public void execute() {
         Scanner scanner = new Scanner(System.in);
+        // Set username.
+        String username;
+        while (true) {
+            System.out.print("Enter your username:");
+            username = scanner.nextLine().trim();
+            if (username.isBlank()) {
+                System.out.println("You cannot enter an empty username");
+            } else {
+                break;
+            }
+        }
         // Set currency.
         while (true) {
             System.out.print("Enter your currency (e.g., USD, EUR): ");
@@ -27,6 +38,7 @@ public class SetUpCommand implements Command {
                 System.out.println("Currency set to: " + data.getCurrency().getCurrencyCode());
                 String currencyStr = data.getCurrency().getCurrencyCode();
                 SetupConfig newConfig = new SetupConfig(data.isFirstTime(), currencyStr);
+                newConfig.setUsername(username);
                 setupStorage.saveSetupConfig(newConfig);
                 break; // exit the loop if valid
             } catch (IllegalArgumentException e) {
@@ -34,6 +46,7 @@ public class SetUpCommand implements Command {
                 System.out.println(e.getMessage());
             }
         }
+        data.getLoanManager().setUsername(username);
         System.out.println("Setup complete!\n");
     }
 }

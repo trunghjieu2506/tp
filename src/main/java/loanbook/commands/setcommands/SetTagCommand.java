@@ -42,5 +42,6 @@ public class SetTagCommand extends SetCommand {
                 break;
             }
         }
+        loanManager.storeLoans();
     }
 }

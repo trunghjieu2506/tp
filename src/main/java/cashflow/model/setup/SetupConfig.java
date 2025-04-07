@@ -11,6 +11,7 @@ public class SetupConfig implements Serializable {
 
     private boolean firstTime;
     private String currencyCode;  // e.g. "USD"
+    private String username;
 
     public SetupConfig(boolean firstTime, String currencyCode) {
         this.currencyCode = currencyCode;
@@ -36,5 +37,12 @@ public class SetupConfig implements Serializable {
     }
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String name) {
+        username = name;
     }
 }

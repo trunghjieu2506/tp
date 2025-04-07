@@ -14,10 +14,10 @@ public class ContactsSaveManager extends SaveManager {
     public static final String CONTACT_NUMBER = "<ContactNumber>";
     public static final String EMAIL = "<EMail>";
     public static final String TAGS = "<Tags>";
-    public static final String CONTACTS_SAVE_FOLDER = "save/people";
-    public static final String SAVE_FILE_SUFFIX = "_contacts.txt";
+    public static final String CONTACTS_SAVE_FOLDER = "data/contacts";
+    public static final String SAVE_FILE_SUFFIX = "contacts.txt";
 
-    private static HashMap<String, Person> readSaveString(String user, String save) {
+    private static HashMap<String, Person> readSaveString(String save) {
         HashMap<String, Person> saved = new HashMap<>();
         String[] splitPerson = save.split(CONTACTS_SEPARATOR);
         for (String personString : splitPerson) {
@@ -63,21 +63,21 @@ public class ContactsSaveManager extends SaveManager {
         return null;
     }
 
-    public static ContactsList readSave(String user) throws FileNotFoundException {
-        String save = getSaveString(savePath(user));
-        return new ContactsList(user, readSaveString(user, save));
+    public static ContactsList readSave() throws FileNotFoundException {
+        String save = getSaveString(savePath());
+        return new ContactsList(readSaveString(save));
     }
 
     public static void savePeopleList(ContactsList contactsList) throws IOException {
-        String path = savePath(contactsList.user);
+        String path = savePath();
         writeTextFile(CONTACTS_SAVE_FOLDER, path, contactsList.toSave());
     }
 
     public static void appendSave(ContactsList contactsList, String text) throws IOException {
-        appendTextFile(CONTACTS_SAVE_FOLDER, savePath(contactsList.user), text);
+        appendTextFile(CONTACTS_SAVE_FOLDER, savePath(), text);
     }
 
-    private static String savePath(String user) {
-        return CONTACTS_SAVE_FOLDER + '/' + user + SAVE_FILE_SUFFIX;
+    private static String savePath() {
+        return CONTACTS_SAVE_FOLDER + '/' + SAVE_FILE_SUFFIX;
     }
 }

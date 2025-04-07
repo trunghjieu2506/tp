@@ -50,7 +50,6 @@ public class CashFlowManager {
     private final Storage incomeStorage;
     private final Storage savingStorage;
     private final Storage loanStorage;
-    private final Storage contactStorage;
     private final Storage setupStorage;
 
     private SavingList savingManager;
@@ -73,7 +72,6 @@ public class CashFlowManager {
         String incomeFile = "data/income.dat";
         String savingFile = "data/saving.dat";
         String loanFile = "data/loan.dat";
-        String contactFile = "data/contact.dat";
         String setupFile = "data/setup.dat";
 
         // take these objects as arguments in your Manager constructor
@@ -81,8 +79,8 @@ public class CashFlowManager {
         incomeStorage = new Storage(incomeFile);
         savingStorage = new Storage(savingFile);
         loanStorage = new Storage(loanFile);
-        contactStorage = new Storage(contactFile);
         setupStorage = new Storage(setupFile);
+        String username;
 
         // Attempt to load existing config
         SetupConfig setupConfig = setupStorage.loadSetupConfig();
@@ -102,6 +100,7 @@ public class CashFlowManager {
             data = new FinanceData();
             assert data != null : "FinanceData failed to initialize after loading config.";
             data.setCurrency(currencyStr);
+            username = setupConfig.getUsername();
         } else {
             logger.warning("No setup config found. Defaulting to isFirstTime=true and currency=USD.");
             // If file not found or load failed, default to your existing approach
@@ -110,6 +109,7 @@ public class CashFlowManager {
             data = new FinanceData();
             assert data != null : "FinanceData failed to initialize with default settings.";
             data.setCurrency("USD");
+            username = "defaultUser";
         }
 
         String currencyStr = data.getCurrency().getCurrencyCode();
@@ -121,8 +121,9 @@ public class CashFlowManager {
         incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
         savingManager = new SavingList(currencyStr);
         budgetManager = new BudgetList(currency);
-        loanManager = new LoanManager("defaultUser");
+        loanManager = new LoanManager(loanStorage);
         setUpManager = new SetUpManager(setupStorage);
+        loanManager.setUsername(username);
         assert setupStorage != null : "setupStorage failed to initialize.";
 
         // Set integration points in FinanceData.

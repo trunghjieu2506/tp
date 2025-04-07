@@ -139,7 +139,8 @@ public class AdvancedBulletLoan extends Loan {
     }
     @Override
     public double getAmount() {
-        return 0;
+        calculateBalance();
+        return outstandingBalance.getAmount().doubleValue();
     }
 
     @Override
