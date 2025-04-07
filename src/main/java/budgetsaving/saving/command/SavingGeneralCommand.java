@@ -74,7 +74,7 @@ public class SavingGeneralCommand implements Command {
             } else if (lowerInput.startsWith(DELETE_CONTRIBUTION_COMMAND)) {
                 command = SavingParser.parseDeleteContributionCommand(input, savingList);
             } else if (lowerInput.startsWith(CHECK_SAVING_COMMAND)) {
-                command = SavingParser.parseCheckGoalCommand(input, savingList);
+                command = SavingParser.parseCheckSavingCommand(input, savingList);
             } else {
                 IOHandler.writeError("Unknown saving command.");
             }

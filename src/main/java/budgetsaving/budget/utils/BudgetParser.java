@@ -17,6 +17,9 @@ import java.time.LocalDate;
 public class BudgetParser {
 
     private static double isPositiveAmount(double amount) throws BudgetParserException {
+        if (amount == -1){
+            throw new BudgetParserException("Missing amount identifier or invalid amount.");
+        }
         if (amount < 0) {
             throw new BudgetParserException("The amount you have entered is negative.");
         }
@@ -35,19 +38,36 @@ public class BudgetParser {
 
     // each method will handle its own max index based on their size
     private static int isValidIndex(int index) throws BudgetParserException {
+        if (index == -1){
+            throw new BudgetParserException("Wrong index identifier or invalid index.");
+        }
         if (index < 0) {
             throw new BudgetParserException("The index you have entered is out of range.");
         }
         return index;
     }
 
+    private static String checkValidName(String name) throws BudgetParserException {
+        if (name == null || name.isEmpty()){
+            throw new BudgetParserException("Name identifier is missing or name is empty.");
+        }
+        return name;
+    }
+
+    private static String checkValidCategory(String category) throws BudgetParserException {
+        if (category == null || category.isEmpty()){
+            throw new BudgetParserException("Category identifier is missing or name is empty.");
+        }
+        return category;
+    }
+
     public static Command parseSetBudgetCommand(String input, BudgetManager budgetManager)
             throws BudgetParserException, BudgetAttributeException {
         BudgetAttributes attributes = new BudgetAttributes(input);
-        String name = attributes.getName();
-        String category = attributes.getCategory();
+        String name = checkValidName(attributes.getName());
         double amount = isPositiveAmount(attributes.getAmount());
         LocalDate endDate = isFutureDate(attributes.getEndDate());
+        String category = checkValidCategory(attributes.getCategory());
         return new SetBudgetCommand(budgetManager, name, amount, endDate, category);
     }
 
@@ -76,10 +96,10 @@ public class BudgetParser {
         // Expected format: set-budget n/BUDGET_NAME a/AMOUNT
         BudgetAttributes attributes = new BudgetAttributes(input);
         int index = isValidIndex(attributes.getIndex());
-        String name = attributes.getName();
+        String name = checkValidName(attributes.getName());
         double amount = isPositiveAmount(attributes.getAmount());
         LocalDate endDate = isFutureDate(attributes.getEndDate());
-        String category = attributes.getCategory();
+        String category = checkValidCategory(attributes.getCategory());
         return new ModifyBudgetCommand(budgetManager, index, amount, name, endDate, category);
     }
 

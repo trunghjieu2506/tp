@@ -44,11 +44,17 @@ public class SavingParser {
         return index;
     }
 
+    private static String checkValidName(String name) throws SavingParserException {
+        if (name == null || name.isEmpty()){
+            throw new SavingParserException("Name identifier is missing or name is empty.");
+        }
+        return name;
+    }
 
     public static Command parseSetGoalCommand(String input, SavingManager savingList)
             throws SavingException {
         SavingAttributes attributes = new SavingAttributes(input);
-        String name = attributes.getName();
+        String name = checkValidName(attributes.getName());
         double amount = isValidAmount(attributes.getAmount());
         Money setAmount = new Money(savingList.getCurrency(), amount);
         LocalDate deadline = isFutureDate(attributes.getDeadline());
@@ -85,7 +91,7 @@ public class SavingParser {
         return new DeleteContributionCommand(indexS, indexC, savingList);
     }
 
-    public static Command parseCheckGoalCommand(String input, SavingManager savingList)
+    public static Command parseCheckSavingCommand(String input, SavingManager savingList)
             throws SavingException {
         SavingAttributes attributes = new SavingAttributes(input);
         int index = isValidIndex(attributes.getIndex());
