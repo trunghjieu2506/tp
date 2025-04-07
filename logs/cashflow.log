@@ -111,3 +111,35 @@ INFO: Initializing managers...
 信息: Loaded setup config: isFirstTime=false, currency=USD
 4月 08, 2025 2:38:39 上午 cashflow.CashFlowManager <init>
 信息: Initializing managers...
+Apr 08, 2025 3:14:34 AM cashflow.CashFlowManager <init>
+INFO: Initializing CashFlowManager...
+Apr 08, 2025 3:14:34 AM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 08, 2025 3:14:34 AM cashflow.CashFlowManager <init>
+INFO: Loaded setup config: isFirstTime=false, currency=USD
+Apr 08, 2025 3:14:34 AM cashflow.CashFlowManager <init>
+INFO: Initializing managers...
+Apr 08, 2025 3:16:53 AM cashflow.CashFlowManager <init>
+INFO: Initializing CashFlowManager...
+Apr 08, 2025 3:16:53 AM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 08, 2025 3:16:53 AM cashflow.CashFlowManager <init>
+INFO: Loaded setup config: isFirstTime=false, currency=USD
+Apr 08, 2025 3:16:53 AM cashflow.CashFlowManager <init>
+INFO: Initializing managers...
+Apr 08, 2025 3:18:36 AM cashflow.CashFlowManager <init>
+INFO: Initializing CashFlowManager...
+Apr 08, 2025 3:18:36 AM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 08, 2025 3:18:36 AM cashflow.CashFlowManager <init>
+INFO: Loaded setup config: isFirstTime=false, currency=USD
+Apr 08, 2025 3:18:36 AM cashflow.CashFlowManager <init>
+INFO: Initializing managers...
+Apr 08, 2025 3:20:21 AM cashflow.CashFlowManager <init>
+INFO: Initializing CashFlowManager...
+Apr 08, 2025 3:20:21 AM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 08, 2025 3:20:21 AM cashflow.CashFlowManager <init>
+INFO: Loaded setup config: isFirstTime=false, currency=USD
+Apr 08, 2025 3:20:21 AM cashflow.CashFlowManager <init>
+INFO: Initializing managers...

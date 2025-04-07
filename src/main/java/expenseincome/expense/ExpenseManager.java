@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
+import budgetsaving.budget.BudgetList;
 import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.ExpenseDataManager;
 import cashflow.model.interfaces.Finance;
@@ -164,11 +165,21 @@ public class ExpenseManager implements ExpenseDataManager {
             expenseStorage.saveFile(new ArrayList<>(expenses));
             logger.log(Level.INFO, "Deleted expense: {0}", removed);
             System.out.println("Deleted: " + removed);
+
+            BudgetManager budgetManager = data.getBudgetManager();
+            if (budgetManager != null) {
+                boolean exceeded = budgetManager.removeExpenseInBudget(removed);
+                if (exceeded) {
+                    String category = removed.getCategory();
+                    System.out.println("Warning: You have exceeded your budget for category: " + category);
+                }
+            }
         } catch (ExpenseException e) {
             logger.log(Level.WARNING, "Failed to delete expense at index: " + index, e);
             System.out.println(e.getMessage());
         }
     }
+
 
     /**
      * Edits an existing expense entry.

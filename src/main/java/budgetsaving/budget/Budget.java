@@ -181,6 +181,26 @@ public class Budget extends Finance {
         throw new BudgetRuntimeException("Expense is not inside the budget");
     }
 
+    public void removeExpenseFromBudget(Expense expense) throws BudgetRuntimeException {
+        if (expense == null) {
+            throw new BudgetRuntimeException("Invalid expense.");
+        }
+        boolean removed = expenses.removeIf(e -> isSameExpense(e, expense));
+        if (!removed) {
+            throw new BudgetRuntimeException("Expense is not inside the budget");
+        }
+        // Reset the available amount by recalculating the remaining budget.
+        recalcRemainingBudget();
+    }
+
+    // Recalculates the remaining budget based on the current expenses.
+    public void recalcRemainingBudget() {
+        BigDecimal spent = BigDecimal.ZERO;
+        for (Expense e : expenses) {
+            spent = spent.add(BigDecimal.valueOf(e.getAmount()));
+        }
+        remainingBudget.setAmount(totalBudget.getAmount().subtract(spent));
+    }
 
     //If do not modify one of the attributes, call the method with
     //totalAmount = 0, and name = null
