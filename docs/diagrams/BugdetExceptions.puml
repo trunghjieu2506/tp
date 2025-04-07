@@ -1,0 +1,24 @@
+@startuml
+
+skinparam packageStyle rectangle
+hide circle
+hide members
+skinparam classAttributeIconSize 0
+skinparam classStyle rectangle
+skinparam class {
+    BackgroundColor #ffffff
+    BorderColor Black
+}
+
+class Exception
+
+class BudgetException
+class BudgetAttributeException
+class BudgetParserException
+class BudgetRuntimeException
+
+BudgetException --|> Exception
+BudgetAttributeException --|> BudgetException
+BudgetParserException --|> BudgetException
+BudgetRuntimeException --|> BudgetException
+@enduml

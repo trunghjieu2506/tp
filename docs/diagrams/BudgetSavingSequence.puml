@@ -1,39 +1,35 @@
 @startuml
-title General Sequence Diagram for Budget and Saving Commands
-
-
-hide circle
-skinparam classAttributeIconSize 0
-
 actor User
-participant LogicManager
-participant BudgetParser
-participant SetBudgetCommand
-participant BudgetManager
 
-
-== "Set" Budget Command ==
-User -> LogicManager: execute("set n/Name a/Amount e/Date c/Category")
-activate LogicManager
-
-LogicManager -> BudgetParser: parseCommand("set n/Name a/Amount e/Date c/Category")
+User -> BudgetParser : input(commandString)
 activate BudgetParser
-BudgetParser -> SetBudgetCommand: create SetBudgetCommand(...)
+
+BudgetParser -> BudgetAttributes : new(input)
+activate BudgetAttributes
+BudgetAttributes --> BudgetParser : return BudgetAttributes
+deactivate BudgetAttributes
+
+BudgetParser -> BudgetCommand : create command (using attributes)
+activate BudgetCommand
+BudgetParser --> User : return BudgetCommand
 deactivate BudgetParser
 
-LogicManager <- BudgetParser: SetBudgetCommand
-LogicManager -> SetBudgetCommand: execute()
-activate SetBudgetCommand
+activate BudgetCommand
 
-SetBudgetCommand -> BudgetManager: setBudget(name, amount, endDate, category)
-activate BudgetManager
-BudgetManager -> SetBudgetCommand:
-deactivate BudgetManager
+BudgetCommand -> BudgetList : execute()
+activate BudgetList
 
-SetBudgetCommand -> LogicManager: new CommandResult("Budget set successfully")
-deactivate SetBudgetCommand
+BudgetList -> Budget : budget methods
+activate Budget
+Budget --> BudgetList : result / exception
+deactivate Budget
 
-LogicManager -> User: CommandResult
-deactivate LogicManager
+BudgetList --> BudgetCommand : result / exception
+deactivate BudgetList
+
+BudgetCommand --> User : output result or error
+deactivate BudgetCommand
+
+note right of BudgetCommand : catches BudgetException
 
 @enduml
