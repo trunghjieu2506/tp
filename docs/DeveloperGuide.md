@@ -8,6 +8,7 @@
    - [Budget Management](#budget-management)
    - [Saving Management](#saving-management)
    - [Loan Management](#loan-management)
+   - [Application Management](#application-management)
 - [Implementation](#implementation)
    - [Expense](#expense-)
    - [Income](#income)
@@ -147,6 +148,59 @@ Each command extends from an abstract `LoanCommand` base class and overrides the
 Due to the large number of attributes in each `Loan` class, the parser would ask for inputs sequentially.
 
 Example:
+
+### Application Management
+CashFlowManager is the central coordinator for initializing and running the core features of the CashFlow application. It sets up data persistence, managers for different financial modules (e.g., expense, income, savings), and launches the CLI-based UI loop.
+
+#### Class Responsibilities
+1. Load persistent storage and configuration files.
+
+2. Initialize the following managers:
+
+- ExpenseManager, IncomeManager, SavingList, BudgetList, LoanManager
+
+- AnalyticsManager to manage Analytic Program
+- SetUpManager to manage settings configuration
+3. Set up FinanceData with initialized managers for dependency injection.
+
+4. Handle first-time user setup with SetUpCommand.
+
+5. Start and control the main UI loop (UI.run()).
+6. 
+#### Class Diagram
+
+Here is a class diagram of CashFlowManager (references among CashFlowManager and other managers such as ExpenseManager are redacted for ease of view)
+
+![CashFlowManager.png](CashFlowManager.png)
+
+### Analytics Management
+The AnalyticsManager is the core component responsible for computing financial insights for the user in CashFlow. It analyzes income and expense data from the system and provides summaries, trend analysis, and breakdowns in a human-readable format.
+
+AnalyticsManager is the 
+
+#### Class Responsibilities
+AnalyticManager - main entry point for all analytic operations:
+
+1. Generate monthly summaries (getMonthlySummary)
+
+2. Print trends over time (showTrendOverTime)
+
+3. Provide spending insights (showSpendingInsights)
+
+4. Display expense breakdowns by category (showCategoryBreakdown)
+
+AnalyticDataLoader - A utility class used internally by AnalyticsManager to:
+
+1. Retrieve all transactions for a specific month or date range
+
+2. Compute total income, expenses, and net savings
+
+3. Filter and aggregate expense data
+#### Class Diagram
+
+Here is a class diagram of AnalyticsManager
+
+![AnalyticManager.png](AnalyticManager.png)
 
 --- 
 ## Implementation
@@ -405,6 +459,48 @@ which can represent the generic flow of the Budget and Saving management's execu
 
 ### Loan
 
+---
+---
+
+### Analytic Command
+Here are the implementation of OverviewCommand, one of the four analytic commands, along with a sequence diagram: 
+1. **UI.run()**
+
+- The UI class begins listening for user commands in its run() method.
+
+- The user types "analytic", and the UI invokes AnalyticGeneralCommand.handleAnalyticCommand(scanner, analyticsManager).
+
+- This kicks off the “Analytic Mode,” where the system prompts for analytic commands (overview, trend, etc.).
+
+2. **handleAnalyticCommand**
+
+- Inside AnalyticGeneralCommand.handleAnalyticCommand(), the method prints a welcome message ("Analytic Mode: Enter commands...") and loops, continually reading lines from the user.
+
+- When the user types "overview 2025-04", it captures that input for parsing.
+
+3. **Parsing the Command**
+
+- Next, AnalyticGeneralCommand calls AnalyticCommandParser.parseCommand("overview 2025-04").
+
+- AnalyticCommandParser instantiates a new OverviewCommand(4, 2025)
+
+4. **Execution of OverviewCommand**
+
+- After returning the newly created OverviewCommand, handleAnalyticCommand calls overviewCommand.execute(analyticsManager).
+
+- In execute(), the command calls method getMonthlySummary(month, year) from AnalyticManager.
+
+5. **Analytics Logic**
+
+- AnalyticsManager fetches relevant data—like total income, total expenses, and net savings—for April 2025 via its helper (AnalyticDataLoader).
+
+- It assembles a final summary string, including comparisons to March 2025, and returns it to OverviewCommand.
+
+6. **User Output**
+
+- Finally, OverviewCommand prints the returned summary string to the console, displaying the monthly overview to the user.
+
+![OverviewCommandSequence.png](OverviewCommandSequence.png)
 
 
 ---
@@ -425,16 +521,20 @@ which can represent the generic flow of the Budget and Saving management's execu
 
 ## Appendix B: User Stories
 
-| Priority | As a ... | I want to ... | So that I can ... |
-|----------|-----------|----------------|-------------------|
-| High | User | Add expenses | Track spending |
-| High | User | Edit/delete expenses | Fix mistakes |
-| Medium | User | Sort expenses | View spending trends |
-| Medium | User | See top category | Analyze major expenses |
-| High | User | Add income sources | Record earnings |
-| Medium | User | Manage budgets | Stay within limits |
-| Medium | User | Save for goals | Reach financial milestones |
-| Low | User | Track loans | Manage borrowings and lending |
+| Priority | As a ... | I want to ...                  | So that I can ...                              |
+|----------|-----------|--------------------------------|------------------------------------------------|
+| High     | User | Add expenses                   | Track spending                                 |
+| High     | User | Edit/delete expenses           | Fix mistakes                                   |
+| Medium   | User | Sort expenses                  | View spending trends                           |
+| Medium   | User | See top category               | Analyze major expenses                         |
+| High     | User | Add income sources             | Record earnings                                |
+| Medium   | User | Manage budgets                 | Stay within limits                             |
+| Medium   | User | Save for goals                 | Reach financial milestones                     |
+| Low      | User | Track loans                    | Manage borrowings and lending                  |
+| High     | User | See monthly financial summary  | Manage my finances better                      |
+| Medium   | User | See financial trends over time | Understand my financial habits and plan wisely |
+| Medium   | User | See spending insights          | Make wiser spending decisions                  |
+| Medium   | User | See spending breakdown         | Manage my budget better                         |
 
 ---
 
@@ -536,8 +636,15 @@ edit 1 description
 find John outgoing loan
 delete 1
 ```
-**Note**: Manual testing does not persist data unless storage is implemented. Re-adding entries is required after restarting the app.
-
+### Analytic Module
+1. Run `analytic` to enter analytic mode from the main menu.
+2. Try:
+```
+overview [yyyy-mm]                                   
+trend <data-type> <start-date> <end-date> <interval> 
+insight [yyyy-mm]                            
+spending-breakdown [yyyy-mm]                                 
+```
 ---
 
 ## Acknowledgements
