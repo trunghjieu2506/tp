@@ -128,7 +128,7 @@ Therefore please refer to the diagrams in Budget above. Details will be explaine
 ### Loan Management
 This includes the `Loan`, `Interest`, `LoanManager` and associated commands and parsers.
 
-The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, categorizing, sorting and searching entries.
+The goal of these modules is to allow users accurately and efficiently manage their loans, as well as loans between other people. The module supports the adding, editing, deleting, listing, tagging, sorting and searching entries.
 
 #### Loan Structure
 
@@ -136,7 +136,11 @@ Every type of loan inherits from the abstract `Loan` class, which contains unive
 
 #### Interest Structure
 
-Advanced loan types that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+Advanced Bullet Loans that apply interests would each refer to an `Interest` class, which specifies how the interest is applied.
+
+The diagram below shows the high-level structure of core classes:
+
+![LoanManager.png](images/LoanManager.png)
 
 #### Command Parsing and Execution
 
@@ -146,9 +150,21 @@ Each command extends from an abstract `LoanCommand` base class and overrides the
 
 Due to the large number of attributes in each `Loan` class, the parser would ask for inputs sequentially.
 
-Example:
+The diagram below shows the high-level structure of loan commands:
+
+![LoanCommands.png](images/LoanCommands.png)
 
 --- 
+
+### Other utilities
+
+#### Money
+A `Money` class is created to standardise the management of each unit of money. The Currency class for 
+
+![Money.png](images/Money.png)
+#### Tags
+![TagList.png](images/TagList.png)
+---
 ## Implementation
 
 ### Expense 
@@ -416,7 +432,7 @@ which can represent the generic flow of the Budget and Saving management's execu
 - Easy and fast, keyboard-based way of recording transactions.
 - No setup or signup — works locally and offline.
 - Lightweight and highly customizable.
-- Centralizes expenses, incomes, budgets, savings, and loans.
+- Centralizes expenses, incomes, budgets, savings, and loanManager.
 
 ## Appendix B: User Stories
 
@@ -429,7 +445,7 @@ which can represent the generic flow of the Budget and Saving management's execu
 | High | User | Add income sources | Record earnings |
 | Medium | User | Manage budgets | Stay within limits |
 | Medium | User | Save for goals | Reach financial milestones |
-| Low | User | Track loans | Manage borrowings and lending |
+| Low | User | Track loanManager | Manage borrowings and lending |
 
 ---
 

@@ -86,7 +86,7 @@ public abstract class Loan extends Finance implements Taggable {
         this.isReturned = isReturned;
     }
 
-    public void setStart(LocalDate date) {
+    public void setStartDate(LocalDate date) {
         this.startDate = date;
     }
 
@@ -133,6 +133,10 @@ public abstract class Loan extends Finance implements Taggable {
         return new ArrayList<>(tags);
     }
 
+    /**
+     * Generates a <code>String</code> to be printed when showing all tags of this loan.
+     * @return the <code>String</code> generated.
+     */
     public String getTagsString() {
         if (tags == null || tags.isEmpty()) {
             return "None";
@@ -149,6 +153,10 @@ public abstract class Loan extends Finance implements Taggable {
         return output.toString();
     }
 
+    /**
+     * Checks whether this loan is overdue.
+     * @return <code>true</code> only if <code>returnDate</code> is defined and is before the day this method is called.
+     */
     public boolean isOverdue() {
         if (returnDate == null) {
             return false;
@@ -162,7 +170,7 @@ public abstract class Loan extends Finance implements Taggable {
      */
     public String basicInfo() {
         return "Lender: [" + lender.getName()
-                + "] Borrower: [" + borrower.getName()
+                + "] Borrower: [" + borrower.getName() + '\n'
                 + "] Amount: " + principal
                 + (isReturned ? "    Returned" : "    Not Returned");
     }
@@ -181,6 +189,10 @@ public abstract class Loan extends Finance implements Taggable {
                 + "Tags: " + getTagsString() + '\n';
     }
 
+    /**
+     * Generates a <code>String</code> that can be stored and read easily, containing all information of this loan.
+     * @return the <code>String</code> generated.
+     */
     public String forSave() {
         return "<Lender>" + lender + '\n' +
                 "<Borrower>" + borrower + '\n' +

@@ -187,6 +187,7 @@ public class ExpenseManager implements ExpenseDataManager {
             validateExpenseDetails(newDescription, newAmount, newCategory);
 
             Expense expense = expenses.get(index - 1);
+            Expense oldExpense = expenses.get(index - 1);
             Currency currency = data.getCurrency();
             Money money = new Money(currency, newAmount);
 
@@ -198,7 +199,7 @@ public class ExpenseManager implements ExpenseDataManager {
 
             BudgetManager budgetManager = data.getBudgetManager();
             if (budgetManager != null) {
-                boolean exceeded = budgetManager.deductBudgetFromExpense(expense);
+                boolean exceeded = budgetManager.modifyExpenseInBudget(oldExpense, expense);
                 if (exceeded) {
                     System.out.println("Warning: You have exceeded your budget for category: " + newCategory);
                 }

@@ -4,7 +4,6 @@ import loanbook.LoanManager;
 import loanbook.ui.LoanUI;
 
 public class FindTaggedLoanCommand extends FindLoanCommand {
-    protected LoanManager loanManager;
     protected String tag;
 
     public FindTaggedLoanCommand(LoanManager loanManager, String tag) {
@@ -15,11 +14,11 @@ public class FindTaggedLoanCommand extends FindLoanCommand {
     @Override
     public void execute() {
         found = loanManager.findLoanWithTag(tag);
-        if (found.isEmpty()) {
+        if (found == null) {
             System.out.println("No results found");
         } else {
-            System.out.println("Here are the list of loans with \"" + tag + "\" tag:");
-            System.out.println(LoanUI.forPrint(loanManager.findLoanWithTag(tag)));
+            System.out.println("Here is the list of loanManager with \"" + tag + "\" tag:");
+            System.out.println(LoanUI.forPrint(found));
         }
     }
 }

@@ -1,6 +1,7 @@
 package incometest;
 
 import cashflow.model.FinanceData;
+import cashflow.model.storage.DummyStorage;
 import expenseincome.income.IncomeManager;
 import expenseincome.income.commands.AddIncomeCommand;
 import expenseincome.income.commands.DeleteIncomeCommand;
@@ -14,6 +15,7 @@ import expenseincome.income.commands.BottomCategoryIncomeCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,10 +24,11 @@ public class IncomeCommandTestSuite {
     private IncomeManager incomeManager;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws FileNotFoundException {
         FinanceData data = new FinanceData();
         data.setCurrency("USD");
-        incomeManager = new IncomeManager(data,"USD");
+        DummyStorage dummyStorage = new DummyStorage();
+        incomeManager = new IncomeManager(data,"USD", dummyStorage);
     }
 
     @Test

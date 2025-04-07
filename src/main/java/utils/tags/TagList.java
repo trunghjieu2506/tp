@@ -36,7 +36,7 @@ public class TagList<T extends Taggable> {
      * @param tag the tag of the removed mapping.
      * @param object the object of the removed mapping.
      */
-    public void removeMap(String tag, Taggable object) {
+    public void removeMap(String tag, T object) {
         if (tagList.get(tag) != null) {
             tagList.get(tag).remove(object);
         }

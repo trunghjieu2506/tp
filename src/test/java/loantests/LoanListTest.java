@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Scanner;
 
 public class LoanListTest {
@@ -56,7 +57,7 @@ public class LoanListTest {
         commandDetail.execute();
 
         Loan first = loanManager.get(1);
-        first.setStart(LocalDate.parse("2025-01-01"));
+        first.setStartDate(LocalDate.parse("2025-01-01"));
 
         contactsList.findName("George").setContactNumber("12345678");
         George.setEmail("12345677@nus.com");
@@ -164,11 +165,11 @@ public class LoanListTest {
         System.out.println("Details of the first loan");
         ShowLoanDetailCommand command_7 = new ShowLoanDetailCommand(loanManager, 1);
         command_7.execute();
-        System.out.println("Outgoing loans of George");
+        System.out.println("Outgoing loanManager of George");
         System.out.println(LoanUI.forPrint(loanManager.findOutgoingLoan(George)));
-        System.out.println("Outgoing loans of Miao");
+        System.out.println("Outgoing loanManager of Miao");
         System.out.println(LoanUI.forPrint(loanManager.findOutgoingLoan(Miao)));
-        System.out.println("Remove loans[5]");
+        System.out.println("Remove loanManager[5]");
         DeleteLoanCommand command_8= new DeleteLoanCommand(loanManager, 5);
         command_8.execute();
         command_list.execute();
@@ -314,5 +315,27 @@ public class LoanListTest {
         }
         System.out.println(loanManager.simpleFulList());
         System.out.println(loanManager.showDetail(1));
+    }
+
+    @Test
+    public void testUI2() {
+        ContactsList contactsList = new ContactsList("testUi2");
+        LoanManager loanManager = new LoanManager("testUi2", testList(contactsList), contactsList);
+        String input = """
+                add
+                y
+                George
+                John
+                wer
+                123
+                2025-13-13
+                2025-1-1
+                2025-03-10
+                not interest
+                COMPOUND 3% per month
+                N/A
+                """;
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes()));
+        LoanUI.handleLoanCommands(loanManager, scanner, Currency.getInstance("USD"));
     }
 }

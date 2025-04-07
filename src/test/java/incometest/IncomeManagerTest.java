@@ -1,11 +1,13 @@
 package incometest;
 
 import cashflow.model.FinanceData;
+import cashflow.model.storage.DummyStorage;
 import expenseincome.income.Income;
 import expenseincome.income.IncomeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,10 +16,11 @@ public class IncomeManagerTest {
     private IncomeManager manager;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws FileNotFoundException {
         FinanceData data = new FinanceData();
         data.setCurrency("USD");
-        manager = new IncomeManager(data, "USD");
+        DummyStorage dummyStorage = new DummyStorage();
+        manager = new IncomeManager(data, "USD", dummyStorage);
     }
 
     @Test
