@@ -3,9 +3,13 @@ package expenseincome.income;
 import cashflow.model.interfaces.Finance;
 import utils.money.Money;
 
+import java.io.Serial;
 import java.time.LocalDate;
 
 public class Income extends Finance {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String source;
     private Money amount;
     private LocalDate date;
