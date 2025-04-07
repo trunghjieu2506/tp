@@ -1,2 +1,3 @@
-4月 07, 2025 11:02:40 下午 java.io.ObjectInputFilter$Config traceFilter
-较详细: Builtin factory: null -> new: null
+Apr 07, 2025 10:11:53 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+
