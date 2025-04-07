@@ -14,12 +14,8 @@ when the user adds a new expense with conditions (see Developer Guide).
 ## Summary of Contributions
 
 ### 1. Budget Management Features
-- **Set Budget**: Set a new budget with a deadline, name, amount and category
-- **Deduct from Budget**
-- **List Budget**: List out all budgets and their remaining money
-- **Budget Exceed Alerts**: Alert user when budget exceeds, but do not restrict user from spending
-- **Check Detail Expenses of a Budget**: List out all expense histories in the budget
-- **Utils, Commands and Parsers**: Helper class which helps to execute the programs
+- **Set Budget, Deduct from Budget, List Budget, Budget Exceed Alerts, Check Detail Expenses of a Budget, 
+Utils, Commands and Parsers**
 
 **What it does**: Manage multiple budgets with basic commands
 
@@ -28,14 +24,8 @@ Integrates with expense for auto budget deduction upon adding an expense
 
 
 #### 2. Saving Management
-- **Set Saving**: Set a new saving with a deadline, name and amount
-- **Add Contributions**: Add a contribution to a saving by depositing money into the saving
-- **List Savings**: List out all savings and their remaining money to contribute
-- **Check Savings**: Check on the details of a saving, including all contributions
-- **Delete Saving**: The user is able to delete a saving
-- **Delete Contribution**: The user is able to delete a contribution within a saving.
-- **Utils, Commands and Parsers**: Helper class which helps to execute the programs
-- **Contributions**: A subclass of Saving to record each contribution to a saving, with amount and date
+- **Set Saving, Add Contributions, List Savings, Check Savings, Delete Saving,
+Delete Contribution, Utils, Commands and Parsers, Contributions**
 - **What it does**: Manage multiple savings with basic commands
 - **Highlights**: Added more colourful commands in CLI, for clearer text identification
   Integrates with expense for auto budget deduction upon adding an expense
