@@ -1,18 +1,34 @@
 package savingtest;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import budgetsaving.saving.SavingList;
+import budgetsaving.saving.Saving;
 
 import budgetsaving.saving.exceptions.SavingAttributeException;
 import budgetsaving.saving.exceptions.SavingRuntimeException; // <-- new import for runtime exception
-import org.junit.jupiter.api.*;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import budgetsaving.saving.*;
-import budgetsaving.saving.utils.*;
-import budgetsaving.saving.command.*;
+import budgetsaving.saving.utils.SavingAttributes;
+import budgetsaving.saving.utils.SavingParser;
+import budgetsaving.saving.command.SetSavingCommand;
+import budgetsaving.saving.command.ContributeGoalCommand;
+import budgetsaving.saving.command.ListSavingsCommand;
+import budgetsaving.saving.command.SavingGeneralCommand;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import utils.money.Money;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class SavingModuleTest {
 
@@ -101,7 +117,8 @@ public class SavingModuleTest {
     public void testModifySavingInvalidIndex() {
         SavingList savingList = new SavingList("USD");
         // With no savings, modifying index 0 should trigger an error.
-        savingList.modifySaving(0, new Money("USD", new BigDecimal("50.0")), LocalDate.of(2025, 1, 1));
+        savingList.modifySaving(0, new Money("USD",
+                new BigDecimal("50.0")), LocalDate.of(2025, 1, 1));
         String errStr = errContent.toString();
         assertTrue(errStr.contains("Index out of bounds."));
     }
@@ -211,8 +228,10 @@ public class SavingModuleTest {
     public void testContributeGoalCommandExecute() {
         SavingList savingList = new SavingList("USD");
         LocalDate deadline = LocalDate.of(2025, 12, 31);
-        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", new Money("USD", new BigDecimal("100.0")), deadline));
-        ContributeGoalCommand command = new ContributeGoalCommand(savingList, 0, new Money("USD", new BigDecimal("50.0")));
+        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1",
+                new Money("USD", new BigDecimal("100.0")), deadline));
+        ContributeGoalCommand command = new ContributeGoalCommand(savingList,
+                0, new Money("USD", new BigDecimal("50.0")));
         command.execute();
         String outStr = outContent.toString();
         assertTrue(outStr.contains("funded"));
@@ -221,7 +240,8 @@ public class SavingModuleTest {
     @Test
     public void testListGoalCommandExecute() {
         SavingList savingList = new SavingList("USD");
-        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", new Money("USD", new BigDecimal("100.0")), LocalDate.of(2025, 12, 31)));
+        assertDoesNotThrow(() -> savingList.setNewSaving("Goal1", new Money("USD",
+                new BigDecimal("100.0")), LocalDate.of(2025, 12, 31)));
         ListSavingsCommand command = new ListSavingsCommand(savingList);
         command.execute();
         String outStr = outContent.toString();
@@ -233,7 +253,8 @@ public class SavingModuleTest {
         SavingList savingList = new SavingList("USD");
         // Using assertDoesNotThrow to ensure setNewSaving does not unexpectedly throw
         SetSavingCommand command = new SetSavingCommand(savingList, "Goal1",
-                new Money("USD", new BigDecimal("100.0")), LocalDate.of(2025, 12, 31));
+                new Money("USD", new BigDecimal("100.0")),
+                LocalDate.of(2025, 12, 31));
         assertDoesNotThrow(() -> command.execute());
         String outStr = outContent.toString();
         assertTrue(outStr.contains("Goal1"));
