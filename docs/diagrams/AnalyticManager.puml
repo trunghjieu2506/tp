@@ -2,49 +2,71 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-class FinanceData {
-  -expenseManager: ExpenseManager
-  -incomeManager: IncomeManager
-  -savingsManager: SavingList
-  -budgetManager: BudgetList
-  -loanManager: LoanManager
-  +getCurrency(): Currency
-  +setCurrency(): void
-  +getExpenseManager(): ExpenseManager
-  +setExpenseManager(expenseManager: ExpenseManager): void
-  +getIncomeManager(): IncomeManager
-  +setIncomeManager(incomeManager: IncomeManager): void
-  +getSavingManager(): SavingManager
-  +setSavingManager(savingManager: SavingManager): void
-  +getBudgetManager(): BudgetManager
-  +setBudgetManager(BudgetManager: BudgetManager): void
-  +getLoanManager(): LoanManager
-  +setLoanManager(loanManager: LoanManager): void
-  +getAnalyticManager(): AnalyticManager
-  +setAnalyticManager(analyticManager: AnalyticManager): void
+package "cashflow.analytics" {
+    class AnalyticsManager {
+        - data: FinanceData
+        - dataLoader: AnalyticDataLoader
+        + getMonthlySummary(month: int, year: int): String
+        + showTrendOverTime(dataType: String, start: LocalDate, end: LocalDate, interval: String)
+        + showSpendingInsights(month: int, year: int)
+        + showCategoryBreakdown(month: int, year: int)
+    }
+    package utils{
+        class AnalyticDataLoader {
+            - data: FinanceData
+            + getTotalIncomeForMonth(month: int, year: int): double
+            + getTotalExpensesForMonth(month: int, year: int): double
+            + getNetSavingsForMonth(month: int, year: int): double
+            + retrieveTransactionsForMonth(month: int, year: int): ArrayList<Finance>
+            + retrieveTransactionsFromRange(start: LocalDate, end: LocalDate): ArrayList<Finance>
+            + retrieveMonthlyExpenses(month: int, year: int): ArrayList<Expense>
+            + sumExpensesByCategory(expenses: List<Expense>): Map<String, Double>
+        }
+    }
 }
 
-class AnalyticDataLoader {
-  -data: FinanceData
-  +AnalyticDataLoader(data: FinanceData)
-  +getTotalIncomeForMonth(month: int, year: int): double
-  +getTotalExpenseForMonth(month: int, year: int): double
-  +getNetSavingsForMonth(month: int, year: int): double
-  +getTotalLoanForMonth(month: int, year: int): double
-  +getTotalDebtForMonth(month: int, year: int): double
-  +retrieveMonthlyExpenses(month: int, year: int): ArrayList<Expense>
-  +retrieveTransactionsForMonth(month: int, year: int): ArrayList<Finance>
-  +retrieveTransactionsFromRange(start: LocalDate, end: LocalDate): ArrayList<Finance>
-  +retrieveAllTransactions(): ArrayList<Finance>
+package "cashflow.model" {
+    class FinanceData {
+        + getExpenseManager(): ExpenseManager
+        + getIncomeManager(): IncomeManager
+    }
 }
 
-class AnalyticManager {
-  -data: FinanceData
-  -dataLoader: AnalyticDataLoader
-  +getMonthlySummary(month: int, year: int): String
-  +showTrendOverTime(dataType: String, start: LocalDate, end: LocalDate, interval: String): void
-  +showCategoryBreakDown(month: int, year: int): void
-  +showSpendingInsights(month: int, year: int): void
+package "expenseincome.expense" {
+    class Expense
 }
+
+package "cashflow.model.interfaces" {
+    abstract class Finance {
+        + getDate(): LocalDate
+        + getAmount(): double
+        + getType(): String
+    }
+}
+
+package cashflow.analytics.command {
+
+    abstract class AnalyticGeneralCommand {
+        + execute(analyticManager: AnalyticsManager): void
+        + handleAnalyticCommand(scanner: Scanner, analyticManager: AnalyticsManager): void
+    }
+
+    class OverviewCommand
+    class SpendingInsightCommand
+    class TrendCommand
+    class SpendingBreakDownCommand
+
+    OverviewCommand --|> AnalyticGeneralCommand
+    SpendingInsightCommand --|> AnalyticGeneralCommand
+    TrendCommand --|> AnalyticGeneralCommand
+    SpendingBreakDownCommand --|> AnalyticGeneralCommand
+}
+
+AnalyticsManager --> AnalyticDataLoader
+AnalyticsManager --> FinanceData
+AnalyticDataLoader --> FinanceData
+AnalyticDataLoader --> Finance
+AnalyticDataLoader --> Expense
+Expense --|> Finance
 
 @enduml

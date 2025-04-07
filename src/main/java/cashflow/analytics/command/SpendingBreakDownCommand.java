@@ -3,17 +3,16 @@ package cashflow.analytics.command;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.model.FinanceData;
 
-public class CategoryInsightCommand extends AnalyticGeneralCommand{
+public class SpendingBreakDownCommand extends AnalyticGeneralCommand{
     private int year;
     private int month;
 
-    public CategoryInsightCommand(int month, int year) {
+    public SpendingBreakDownCommand(int month, int year) {
         this.month = month;
         this.year = year;
     }
     @Override
-    public void execute(FinanceData data) {
-        AnalyticsManager analytics = data.getAnalyticsManager();
+    public void execute(AnalyticsManager analytics) {
         if (analytics != null) {
             analytics.showCategoryBreakdown(month, year);
         } else {
