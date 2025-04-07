@@ -250,5 +250,3 @@ Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator l
 FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void expensetest.ExpenseManagerTest.testDeleteExpenseInvalidIndex()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
 Apr 07, 2025 11:22:11 PM java.io.ObjectInputFilter$Config traceFilter
 FINER: Builtin factory: null -> new: null
-Apr 08, 2025 1:20:18 AM java.io.ObjectInputFilter$Config traceFilter
-FINER: Builtin factory: null -> new: null
