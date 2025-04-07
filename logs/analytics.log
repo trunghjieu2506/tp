@@ -104,3 +104,9 @@ INFO: Category breakdown displayed.
 信息: Running CashFlowManager main loop.
 4月 08, 2025 12:58:26 上午 expenseincome.expense.ExpenseManager addExpense
 信息: Added expense: trip - USD 20.00 on 2025-04-08 [Category: Trip]
+4月 08, 2025 1:08:43 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 1:08:43 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
+4月 08, 2025 1:08:43 上午 cashflow.CashFlowManager run
+严重: Exception occurred during run: No line found
