@@ -1,6 +1,8 @@
 package expenseincome.expense;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Currency;
@@ -17,6 +19,7 @@ import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.interfaces.ExpenseDataManager;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.FinanceData;
+import cashflow.model.storage.Storage;
 import utils.money.Money;
 import expenseincome.expense.exceptions.ExpenseException;
 
@@ -55,12 +58,22 @@ public class ExpenseManager implements ExpenseDataManager {
     private final ArrayList<Expense> expenses;
     private final FinanceData data;
     private String currency;
+    private Storage expenseStorage;
 
-    public ExpenseManager(FinanceData data, String currency) {
-        this.expenses = new ArrayList<>();
+    public ExpenseManager(FinanceData data, String currency, Storage expenseStorage) throws FileNotFoundException {
         this.data = data;
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
         this.currency = currency;
+        this.expenseStorage = expenseStorage;
+        this.expenses = new ArrayList<Expense>();
+        ArrayList<Finance> loadedFile = expenseStorage.loadFile();
+        if (loadedFile != null) {
+            for (Finance f : loadedFile) {
+                if (f instanceof Expense) {
+                    expenses.add((Expense) f);
+                }
+            }
+        }
     }
 
     public ArrayList<Finance> getExpenseList() {
@@ -87,6 +100,7 @@ public class ExpenseManager implements ExpenseDataManager {
             Money money = new Money(currency, amount);
             Expense expense = new Expense(description, money, date, category);
             expenses.add(expense);
+            expenseStorage.saveFile(new ArrayList<>(expenses));
 
             BudgetManager budgetManager = data.getBudgetManager();
             if (budgetManager != null) {

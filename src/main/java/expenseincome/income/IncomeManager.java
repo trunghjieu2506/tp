@@ -3,9 +3,12 @@ package expenseincome.income;
 import cashflow.model.FinanceData;
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.IncomeDataManager;
+import cashflow.model.storage.Storage;
+import expenseincome.expense.Expense;
 import expenseincome.income.exceptions.IncomeException;
 import utils.money.Money;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -23,6 +26,7 @@ public class IncomeManager implements IncomeDataManager {
     private final ArrayList<Income> incomes;
     private final FinanceData data;
     private final String currency;
+    private final Storage incomeStorage;
 
     static {
         try {
@@ -52,11 +56,20 @@ public class IncomeManager implements IncomeDataManager {
         }
     }
 
-    public IncomeManager(FinanceData data, String currency) {
+    public IncomeManager(FinanceData data, String currency, Storage incomeStorage) throws FileNotFoundException {
         assert currency != null && !currency.isEmpty() : "Currency must not be null or empty.";
-        this.incomes = new ArrayList<>();
         this.data = data;
         this.currency = currency;
+        this.incomeStorage = incomeStorage;
+        this.incomes = new ArrayList<>();
+        ArrayList<Finance> loadedFile = incomeStorage.loadFile();
+        if (loadedFile != null) {
+            for (Finance f : loadedFile) {
+                if (f instanceof Income) {
+                    incomes.add((Income) f);
+                }
+            }
+        }
     }
 
     public ArrayList<Finance> getIncomeList() {
@@ -78,6 +91,7 @@ public class IncomeManager implements IncomeDataManager {
             Money money = new Money(currency, amount);
             Income income = new Income(source, money, date, category);
             incomes.add(income);
+            incomeStorage.saveFile(new ArrayList<>(incomes));
             logger.log(Level.INFO, "Added income: {0}", income);
             System.out.println("Added: " + income);
         } catch (IncomeException e) {
