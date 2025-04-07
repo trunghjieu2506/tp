@@ -22,8 +22,16 @@ public class SetUpCommand implements Command {
         data.setCurrency(currency);
 
         //Set username for LoanManager
-        System.out.print("Enter your username:\n> ");
-        String username = scanner.nextLine();
+        String username;
+        while (true) {
+            System.out.print("Enter your username:\n> ");
+            username = scanner.nextLine();
+            if (username.isBlank()) {
+                System.out.println("Username cannot be blank!");
+            } else {
+                break;
+            }
+        }
         data.getLoanManager().setUsername(username);
         System.out.println("Setup complete!\n");
     }

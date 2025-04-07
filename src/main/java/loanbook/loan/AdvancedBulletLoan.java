@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import static loanbook.interest.InterestType.SIMPLE;
 
 /**
- * Advanced loans are loans that apply interests.
+ * Advanced loanManager are loanManager that apply interests.
  */
 public class AdvancedBulletLoan extends Loan {
     protected Money outstandingBalance;
@@ -55,7 +55,7 @@ public class AdvancedBulletLoan extends Loan {
     }
 
     @Override
-    public void setStart(LocalDate date) {
+    public void setStartDate(LocalDate date) {
         this.startDate = date;
         calculateBalance();
     }
@@ -97,11 +97,11 @@ public class AdvancedBulletLoan extends Loan {
         calculateBalance();
         return "Lender: [" + lender.getName()
                 + "]    Borrower: [" + borrower.getName()
-                + "]    Amount: " + principal
+                + "]\n    Principal: " + principal
+                + "    Interest: " + interest + '\n'
                 + "    Start Date: " + startDate
                 + (returnDate == null ? "" : "    Return Date: " + returnDate) + '\n'
-                + "    Interest: " + interest + '\n'
-                + "    Outstanding Balance: " + outstandingBalance + '\n'
+                + "    Outstanding Balance: " + outstandingBalance
                 + (isReturned ? "    Returned" : "    Not Returned");
     }
 

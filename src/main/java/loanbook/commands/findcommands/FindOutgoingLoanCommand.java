@@ -25,7 +25,7 @@ public class FindOutgoingLoanCommand extends FindLoanCommand {
         if (lender == null) {
             System.out.println("Person not found");
         } else {
-            ArrayList<Loan> found = loanManager.findOutgoingLoan(lender);
+            found = loanManager.findOutgoingLoan(lender);
             if (found.isEmpty()) {
                 System.out.println("No results found");
             } else {

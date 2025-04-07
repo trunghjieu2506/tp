@@ -13,12 +13,11 @@ public class FindMyIncomingLoanCommand extends FindIncomingLoanCommand {
 
     @Override
     public void execute() {
-        ArrayList<Loan> found = loanManager.findIncomingLoan(borrower);
+        found = loanManager.findIncomingLoan(borrower);
         if (found.isEmpty()) {
             System.out.println("No results found");
         } else {
-            System.out.println("Incoming loan" + (found.size() == 1 ? "" : "s") +
-                    (found.size() == 1 ? " is:" : " are:"));
+            System.out.println("Your incoming loan" + (found.size() == 1 ? " is:" : "s are:"));
             System.out.println(LoanUI.forPrint(found));
         }
     }
