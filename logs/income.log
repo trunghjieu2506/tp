@@ -1,0 +1,252 @@
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testListIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testSortIncomeCommandOldest()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testHelpIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testSortIncomeCommandRecent()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testDeleteIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testListCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testBottomCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testEditIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testTopCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x0000027e8111f5a8@15994b0b] from source [method budgettest.BudgetStatusTest.setup]
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class budgettest.BudgetStatusTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testBudgetStatusRemainsActiveIfNotExpired() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testNoCrashWhenBudgetIsNullInUpdateStatus()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testBudgetStatusChangesToExpiredIfPastEndDate() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class utiltest.parsertests.InterestParserTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void utiltest.parsertests.InterestParserTest.testOne()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x0000027e8111f5a8@3a5e2525] from source [method budgettest.BudgetListTest.setup]
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class budgettest.BudgetListTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testUnknownCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testDeductFromBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testCheckBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testAddNewBudget() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testListBudgets()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testModifyBudgetInBudgetList() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:51 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testSetCommandViaGeneralCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:52 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testSetBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:52 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testCurrencyGetterSetter()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:52 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testGetBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:52 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x0000027e8111f5a8@5ee77baf] from source [method expensetest.ExpenseManagerTest.setUp]
+Apr 07, 2025 10:50:52 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class expensetest.ExpenseManagerTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 10:50:52 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void expensetest.ExpenseManagerTest.testDeleteExpenseInvalidIndex()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Salary - USD 3000.00 on 2025-03-26 [Category: Job]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testListIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Allowance - USD 100.00 on 2025-04-07 [Category: Personal]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testSortIncomeCommandOldest()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: X - USD 1.00 on 2025-03-10 [Category: Job]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Y - USD 1.00 on 2022-03-10 [Category: Job]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testHelpIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testSortIncomeCommandRecent()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: A - USD 1.00 on 2023-01-01 [Category: Misc]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: B - USD 2.00 on 2025-01-01 [Category: Misc]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testDeleteIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Bonus - USD 500.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager deleteIncome
+INFO: Deleted income: Bonus - USD 500.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testListCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Part-time - USD 800.00 on 2025-04-07 [Category: Work]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testBottomCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Paycheck - USD 3000.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Freelance - USD 200.00 on 2025-04-07 [Category: Freelance]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testEditIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Gift - USD 100.00 on 2025-04-07 [Category: Gift]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager editIncome
+INFO: Updated income: Investment - USD 200.00 on 2025-03-27 [Category: Finance]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testTopCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Paycheck - USD 3000.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Freelance - USD 2000.00 on 2025-04-07 [Category: Freelance]
+Apr 07, 2025 11:03:53 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Bonus - USD 1000.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x000001bd0811f340@2353354a] from source [method budgettest.BudgetStatusTest.setup]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class budgettest.BudgetStatusTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testBudgetStatusRemainsActiveIfNotExpired() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testNoCrashWhenBudgetIsNullInUpdateStatus()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testBudgetStatusChangesToExpiredIfPastEndDate() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class utiltest.parsertests.InterestParserTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void utiltest.parsertests.InterestParserTest.testOne()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x000001bd0811f340@2565a7d0] from source [method budgettest.BudgetListTest.setup]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class budgettest.BudgetListTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testUnknownCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testDeductFromBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testCheckBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testAddNewBudget() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testListBudgets()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testModifyBudgetInBudgetList() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testSetCommandViaGeneralCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testSetBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testCurrencyGetterSetter()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testGetBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x000001bd0811f340@60ed0b9d] from source [method expensetest.ExpenseManagerTest.setUp]
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class expensetest.ExpenseManagerTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:03:53 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void expensetest.ExpenseManagerTest.testDeleteExpenseInvalidIndex()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Salary - USD 3000.00 on 2025-03-26 [Category: Job]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testListIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Allowance - USD 100.00 on 2025-04-07 [Category: Personal]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testSortIncomeCommandOldest()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: X - USD 1.00 on 2025-03-10 [Category: Job]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Y - USD 1.00 on 2022-03-10 [Category: Job]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testHelpIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testSortIncomeCommandRecent()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: A - USD 1.00 on 2023-01-01 [Category: Misc]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: B - USD 2.00 on 2025-01-01 [Category: Misc]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testDeleteIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Bonus - USD 500.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager deleteIncome
+INFO: Deleted income: Bonus - USD 500.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testListCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Part-time - USD 800.00 on 2025-04-07 [Category: Work]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testBottomCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Paycheck - USD 3000.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Freelance - USD 200.00 on 2025-04-07 [Category: Freelance]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testEditIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Gift - USD 100.00 on 2025-04-07 [Category: Gift]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager editIncome
+INFO: Updated income: Investment - USD 200.00 on 2025-03-27 [Category: Finance]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void incometest.IncomeCommandTestSuite.testTopCategoryIncomeCommandExecute()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Paycheck - USD 3000.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Freelance - USD 2000.00 on 2025-04-07 [Category: Freelance]
+Apr 07, 2025 11:11:36 PM expenseincome.income.IncomeManager addIncome
+INFO: Added income: Bonus - USD 1000.00 on 2025-04-07 [Category: Job]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x000002011a11d850@356b6b5d] from source [method budgettest.BudgetStatusTest.setup]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class budgettest.BudgetStatusTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testBudgetStatusRemainsActiveIfNotExpired() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testNoCrashWhenBudgetIsNullInUpdateStatus()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetStatusTest.testBudgetStatusChangesToExpiredIfPastEndDate() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class utiltest.parsertests.InterestParserTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void utiltest.parsertests.InterestParserTest.testOne()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x000002011a11d850@46b5f061] from source [method budgettest.BudgetListTest.setup]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class budgettest.BudgetListTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testUnknownCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testDeductFromBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testCheckBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testAddNewBudget() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testListBudgets()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testModifyBudgetInBudgetList() throws budgetsaving.budget.exceptions.BudgetException] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testSetCommandViaGeneralCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testSetBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testCurrencyGetterSetter()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [public void budgettest.BudgetListTest.testGetBudget()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.extension.MutableExtensionRegistry registerExtension
+FINER: Registering synthetic extension [org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor$$Lambda$430/0x000002011a11d850@2b35c7aa] from source [method expensetest.ExpenseManagerTest.setUp]
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class expensetest.ExpenseManagerTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:11:36 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void expensetest.ExpenseManagerTest.testDeleteExpenseInvalidIndex()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 07, 2025 11:22:11 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
