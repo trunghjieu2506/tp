@@ -29,6 +29,7 @@ public class UI {
     private LoanManager loanManager;
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
+    private boolean isExit = false;
 
     public UI(FinanceData data) {
         this.data = data;
@@ -39,7 +40,9 @@ public class UI {
         this.incomeManager = data.getIncomeManager();
     }
 
-    //printResult(Result result)
+    public boolean isExit() {
+        return isExit;
+    }
 
     public void run() {
         Scanner scanner = new Scanner(System.in, "UTF-8");
@@ -57,6 +60,7 @@ public class UI {
                     IOHandler.writeOutput("Unable to update save file");
                 }
                 IOHandler.writeOutput("Exiting. Goodbye!");
+                this.isExit = true;
                 break;
             }
             switch (input.toLowerCase()) {

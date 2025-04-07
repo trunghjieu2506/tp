@@ -11,16 +11,19 @@ import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Currency;
 
 public class CashFlowManager {
 
     /** Storage component responsible for reading and writing task data. */
-    private final Storage storageExpense;
-    private final Storage storageIncome;
-    private final Storage storageSaving;
-    private final Storage storageLoan;
-    private final Storage storageContact;
+    private final Storage expenseStorage;
+    private final Storage incomeStorage;
+    private final Storage savingStorage;
+    private final Storage loanStorage;
+    private final Storage contactStorage;
+    private final Storage setupStorage;
 
     private SavingList savingManager;
     private BudgetList budgetManager;
@@ -31,33 +34,33 @@ public class CashFlowManager {
     private FinanceData data;
 
     //Initialization
-    public CashFlowManager(){
+    public CashFlowManager() throws FileNotFoundException {
 
-        String expenseFile = "src/main/java/cashflow/model/storage/expense.dat";
-        String incomeFile = "src/main/java/cashflow/model/storage/income.dat";
-        String savingFile = "src/main/java/cashflow/model/storage/saving.dat";
-        String loanFile = "src/main/java/cashflow/model/storage/loan.dat";
-        String contactFile = "src/main/java/cashflow/model/storage/contact.dat";
+        String expenseFile = "data/expense.dat";
+        String incomeFile = "data/income.dat";
+        String savingFile = "data/saving.dat";
+        String loanFile = "data/loan.dat";
+        String contactFile = "data/contact.dat";
+        String setupFile = "data/setup.dat";
 
         // take these objects as arguments in your Manager constructor
-        storageExpense = new Storage(expenseFile);
-        storageIncome = new Storage(incomeFile);
-        storageSaving = new Storage(savingFile);
-        storageLoan = new Storage(loanFile);
-        storageContact = new Storage(contactFile);
+        expenseStorage = new Storage(expenseFile);
+        incomeStorage = new Storage(incomeFile);
+        savingStorage = new Storage(savingFile);
+        loanStorage = new Storage(loanFile);
+        contactStorage = new Storage(contactFile);
+        setupStorage = new Storage(setupFile);
+
 
         data = new FinanceData();
         String currencyStr = "USD"; //data.getCurrency().getCurrencyCode();
         Currency currency = Currency.getInstance(currencyStr);
 
-        // Initialize integration modules (dummy implementations for now).
-
-        expenseManager = new ExpenseManager(data, currencyStr);     //need to change this part to accept Currency class
-        incomeManager = new IncomeManager(data, currencyStr);
+        expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
+        incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
         savingManager = new SavingList(currencyStr);
         budgetManager = new BudgetList(currency);
         this.loanManager = new LoanManager("defaultUser");
-
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);
@@ -73,6 +76,7 @@ public class CashFlowManager {
 
 
     private static boolean isFirstTime = true;
+    private boolean isExit = false;
     /**
      * Runs the main application loop.
      * Continuously reads user commands, parses them, and executes the corresponding actions
@@ -80,23 +84,22 @@ public class CashFlowManager {
      */
     public void run() {
         UI ui = new UI(data);
-
-        // Display a welcome message with an initial financial summary.
         System.out.println("welcome to cashflow!");
-//        System.out.println(data.getAnalyticsManager().getFinancialSummary());
         System.out.println();
-
         // Run first-time setup.
-        if (isFirstTime) {
-            new SetUpCommand(data).execute();
-            isFirstTime = false;
+
+        while (!isExit) {
+            try {
+                if (isFirstTime) {
+                    new SetUpCommand(data).execute();
+                    isFirstTime = false;
+                }
+                // Start the command-line UI loop.
+                ui.run();
+                isExit = ui.isExit();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
         }
-        // Start the command-line UI loop.
-        ui.run();
     }
-    /**
-     * Default path for storing the task list file.
-     * Creates a hidden directory named '.corgimanager' in the user's home folder
-     * and stores tasks in 'tasks.dat'.
-     */
 }
