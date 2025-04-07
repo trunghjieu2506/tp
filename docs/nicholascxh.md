@@ -65,8 +65,7 @@ Below are the summary to my contributions.
 
 ### 🤝 Review / Mentoring Contributions
 
-- Reviewed multiple pull requests related to:
-  - Input validation, CLI parsing, command execution logic, and UI consistency
+- Reviewed multiple pull requests related to Input validation, CLI parsing, command execution logic, and UI consistency
 - Shared tutorials with teammates on:
   - How to write PlantUML diagrams
   - Proper Java logging practices
