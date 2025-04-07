@@ -19,7 +19,7 @@ public class FindLargestLoanCommand extends FindLoanCommand{
         } else {
             int actualCount = Math.min(count, found.size());
             System.out.println("Here " + (count == 1 ? "is" : "are") + " the top " + actualCount + " largest loan" +
-                    (count == 1 ? "" : "s"));
+                    (count == 1 ? ":" : "s:"));
             System.out.println(LoanUI.forPrint(found));
         }
     }

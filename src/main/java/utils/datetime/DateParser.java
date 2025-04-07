@@ -78,7 +78,7 @@ public class DateParser {
             String input = scanner.nextLine().trim();
             try {
                 date = parse(input);
-                if (date.isBefore(startDate)) {
+                if (startDate != null && date.isBefore(startDate)) {
                     IOHandler.writeOutputWithColour("The return date cannot be before the start date", RED);
                 } else {
                     break;
@@ -104,7 +104,7 @@ public class DateParser {
                     return null;
                 }
                 date = parse(input);
-                if (date.isBefore(startDate)) {
+                if (startDate != null && date.isBefore(startDate)) {
                     IOHandler.writeOutputWithColour("The return date cannot be before the start date", RED);
                 } else {
                     break;

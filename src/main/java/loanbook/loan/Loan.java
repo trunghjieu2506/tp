@@ -100,7 +100,7 @@ public abstract class Loan extends Finance implements Taggable {
         return startDate;
     }
 
-    public void setReturnDate(LocalDate date) {
+    public void setReturnDate(LocalDate date) throws ReturnDateException {
         if (startDate != null && startDate.isAfter(date)) {
             throw new ReturnDateException("The return date cannot be before the start date");
         }

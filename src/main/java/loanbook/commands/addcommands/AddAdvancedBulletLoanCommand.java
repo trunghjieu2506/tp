@@ -36,7 +36,7 @@ public class AddAdvancedBulletLoanCommand extends AddSimpleBulletLoanCommand {
     public void execute() {
         Loan loan = new AdvancedBulletLoan(description, lender, borrower, money, startDate, returnDate, interest);
         loan.addTags(tags);
-        loanManager.add(loan);
+        loanManager.addAndStore(loan);
         System.out.println("Advanced Bullet Loan added: " + loan.basicInfo());
     }
 }

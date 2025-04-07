@@ -107,6 +107,10 @@ public class LoanManager implements LoanDataManager {
         if (!contactsList.hasPerson(loan.borrower().getName())) {
             contactsList.addPerson(loan.borrower());
         }
+    }
+
+    public void addAndStore(Loan loan) {
+        add(loan);
         storeLoans();
     }
 

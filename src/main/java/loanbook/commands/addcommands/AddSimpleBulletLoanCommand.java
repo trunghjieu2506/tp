@@ -73,7 +73,7 @@ public class AddSimpleBulletLoanCommand extends LoanCommand {
     public void execute() {
         Loan loan = new SimpleBulletLoan(description, lender, borrower, money, startDate, returnDate);
         loan.addTags(tags);
-        loanManager.add(loan);
+        loanManager.addAndStore(loan);
         System.out.println("Simple Bullet Loan added: " + loan.basicInfo());
     }
 }
