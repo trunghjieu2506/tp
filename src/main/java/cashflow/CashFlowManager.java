@@ -4,14 +4,15 @@ import budgetsaving.budget.BudgetList;
 import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
 import cashflow.model.FinanceData;
+import cashflow.model.setup.SetUpManager;
+import cashflow.model.setup.SetupConfig;
 import cashflow.model.storage.Storage;
 import cashflow.ui.UI;
-import cashflow.ui.command.SetUpCommand;
+import cashflow.model.setup.SetUpCommand;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Currency;
 
@@ -30,8 +31,12 @@ public class CashFlowManager {
     private LoanManager loanManager;
     private ExpenseManager expenseManager;
     private IncomeManager incomeManager;
+    private SetUpManager setUpManager;
 
     private FinanceData data;
+
+    private static boolean isFirstTime;
+    private boolean isExit = false;
 
     //Initialization
     public CashFlowManager() throws FileNotFoundException {
@@ -51,16 +56,34 @@ public class CashFlowManager {
         contactStorage = new Storage(contactFile);
         setupStorage = new Storage(setupFile);
 
+        // Attempt to load existing config
+        SetupConfig setupConfig = setupStorage.loadSetupConfig();
 
-        data = new FinanceData();
-        String currencyStr = "USD"; //data.getCurrency().getCurrencyCode();
+        if (setupConfig != null) {
+            // If the config exists, read its fields
+            isFirstTime = setupConfig.isFirstTime();
+            String currencyStr = setupConfig.getCurrencyCode();
+            System.out.println("Loaded config: isFirstTime=" + isFirstTime
+                    + ", currency=" + currencyStr);
+            data = new FinanceData();
+            data.setCurrency(currencyStr);
+        } else {
+            // If file not found or load failed, default to your existing approach
+            System.out.println("No setup config found, default to isFirstTime=true, currency=USD");
+            isFirstTime = true;
+            data = new FinanceData();
+            data.setCurrency("USD");
+        }
+
+        String currencyStr = data.getCurrency().getCurrencyCode();
         Currency currency = Currency.getInstance(currencyStr);
 
         expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
         incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
         savingManager = new SavingList(currencyStr);
         budgetManager = new BudgetList(currency);
-        this.loanManager = new LoanManager("defaultUser");
+        loanManager = new LoanManager("defaultUser");
+        setUpManager = new SetUpManager(setupStorage);
 
         // Set integration points in FinanceData.
         data.setExpenseManager(expenseManager);
@@ -68,15 +91,12 @@ public class CashFlowManager {
         data.setSavingsManager(savingManager);
         data.setBudgetManager(budgetManager);
         data.setLoanManager(loanManager);
-
+        data.setSetUpManager(setUpManager);
         // Initialize Analytics module.
         AnalyticsManager analyticsManager = new AnalyticsManager(data);
         data.setAnalyticsManager(analyticsManager);
     }
 
-
-    private static boolean isFirstTime = true;
-    private boolean isExit = false;
     /**
      * Runs the main application loop.
      * Continuously reads user commands, parses them, and executes the corresponding actions
@@ -91,8 +111,11 @@ public class CashFlowManager {
         while (!isExit) {
             try {
                 if (isFirstTime) {
-                    new SetUpCommand(data).execute();
+                    System.out.println("First-time user setup:"
+                            + "\n---------------------------------");
+                    new SetUpCommand(data, setupStorage).execute();
                     isFirstTime = false;
+                    data.setFirstTime(isFirstTime);
                 }
                 // Start the command-line UI loop.
                 ui.run();
