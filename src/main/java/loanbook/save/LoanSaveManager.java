@@ -9,7 +9,6 @@ import loanbook.loan.SimpleBulletLoan;
 import loanbook.parsers.InterestParser;
 import utils.money.Money;
 import utils.money.MoneyParser;
-import utils.contacts.ContactsList;
 import utils.contacts.ContactsSaveManager;
 import utils.contacts.Person;
 import utils.savemanager.SaveManager;

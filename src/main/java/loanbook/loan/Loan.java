@@ -1,7 +1,6 @@
 package loanbook.loan;
 
 import cashflow.model.interfaces.Finance;
-import utils.contacts.SameNameException;
 import utils.datetime.ReturnDateException;
 import utils.datetime.StartDateException;
 import utils.money.Money;

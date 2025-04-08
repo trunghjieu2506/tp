@@ -574,7 +574,7 @@ User Interface Outputs:
 Runs continuously when the program is in `loan` mode. Reads the user input, generates commands using `LoanCommandParser` and executes the commands.
 
 #### LoanCommandParser
-Contains methods to parse commands from various user inputs. Due to the large amount of attributes in each `Loan`, the parsers would ask for user inputs sequentially.
+Contains methods to parse commands from various user inputs. Due to the large amount of attributes in each `Loan`, the parsers would ask for user inputs sequentially. The commands would then call the respective methods in `LoanManager` to get or modify information.
 
 An example simplified sequence diagram of the `EditReturnDateCommand` is shown below:
 
@@ -664,6 +664,17 @@ This class can be instantiated in the managers of `Taggable` objects. It stores 
 - `removeObject(T object)`: Removes the object from all tag mappings.
 - `findWithTag(String tag)`: Returns an `ArrayList<T>` of objects containing the tag.
 
+#### Custom Exceptions
+
+- `DateUndefinedException`: thrown when the start date of an `AdvancedBulletLoan` is invalid.
+- `EmptyNameException`: thrown the input for a `Person`'s name is blank.
+- `PersonNotFoundException`: thrown when the `ContactList` does not contain the input name.
+- `SameNameException`: thrown when adding a `Person` to the `ContactList` that already contains a `Person` with the same name.
+- `StartDateException`: thrown when setting the start date of a loan to be after the previously defined return date.
+- `ReturnDateException`: thrown when setting the return date of a loan to be before the previously defined start date.
+- `NegativeValueException`: thrown when the user inputs a negative `Money` amount, `Interest` rate or other value that is not supposed to be negative.
+- `CurrencyNotMatchException`: thrown when trying to compare two `Money` of different currencies.
+
 ---
 
 ### Analytic Command
@@ -715,6 +726,7 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 - CLI users who prefer keyboard-based interactions.
 - Budget-conscious individuals tracking daily spending.
 - Students, young adults or working professionals managing personal finances.
+- People who don't remember their loans and debts well.
 
 ### Value proposition
 
@@ -747,8 +759,14 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 | High     | User | See monthly financial summary  | Manage my finances better                                       |
 | Medium   | User | See financial trends over time | Understand my financial habits and plan wisely                  |
 | Medium   | User | See spending insights          | Make wiser spending decisions                                   |
-| Medium   | User | See spending breakdown         | Manage my budget better                                         |
-
+| Medium   | User | Add loans                      | Track my debts                                                  |
+| Medium   | User | Edit loans                     | Fix my input mistakes                                           |
+| Medium   | User | Delete loans                   | Remove unnecessary loan records                                 |
+| Medium   | User | List loans                     | Have a cleared idea of how much I owe                           |
+| Medium   | User | Sort loans                     | Be reminded of the most important loans                         |
+| Medium   | User | Store people I know            | Get their contact information quickly                           |
+| Medium   | User | Set loan status                | Know how much I have worked to return my debts                  |
+| Medium   | User | Find loans based on attributes | Get information of wanted loans quickly                         |
 ---
 
 ## Appendix C: Non-Functional Requirements
@@ -768,6 +786,9 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 - **Income**: Money received by the user from various sources like salary, gifts, or investments.
 - **Budget**: A financial constraint defined by the user for a particular category, with a total amount and deadline.
 - **Loan**: Money lent or borrowed, optionally with interest applied over time.
+- **Simple Bullet Loan**: A loan with no interest, and one-shot repayment.
+- **Advanced Bullet Loan**: A loan that applies interest, with one-shot repayment.
+- **Principal**: The original amount money lent.
 - **Saving**: A goal the user is saving money towards, tracked by name, amount, and deadline.
 - **Category**: A label to classify a transaction (e.g., "Food", "Travel", "Salary", "Entertainment").
 - **Command Pattern**: A software design pattern where each operation is encapsulated in a separate object that implements a common interface (e.g., `execute()` method).
@@ -780,10 +801,11 @@ Here are the implementation of OverviewCommand, one of the four analytic command
     - `c/` = category
     - `i/` = index
 - **Money**: A class representing an amount of currency with support for precision and arithmetic operations.
-- **Finance**: An abstract class extended by financial entities like `Budget`, `Income`, or `Expense`.
-- **Interest**: A class used by advanced `Loan` types to apply and calculate interest over time.
+- **Finance**: An abstract class extended by financial entities like `Budget`, `Income`, `Expense`, and `Loan`.
+- **Interest**: A class used by `AdvancedBulletLoan` to apply and calculate interest over time.
 - **Command**: A base class/interface for all user actions (e.g., `AddExpenseCommand`, `DeleteBudgetCommand`). Each command overrides `execute(...)`.
 - **Mode**: A context in which the user interacts with a specific feature (e.g., "expense mode", "budget mode"). Each mode has its own set of valid commands.
+- **Tag**: A `String` variable assigned to an object in order to categorise it.
 
 
 ---

@@ -11,13 +11,13 @@ I am in charge of the design, implementation and improvement of the **Loan, Cont
 
 #### 1. Loan Management
 
-- All functionalities in loan management, including **adding, editing, deleting, listing, sorting, tagging, searching** and **storing**, etc different types of loans. Also include relevant classes such as **Interest**.
-- Specially designed user interface provides clear guidance and robust error handling techniques. Very user-friendly.
+- Designed and implemented all functionalities in loan management, including **adding, editing, deleting, listing, sorting, tagging, searching** and **storing**, etc different types of loans. Also include relevant classes such as **Interest**.
+- Specially designed user interface provides clear guidance and robust error handling techniques. Improved user experience with user-friendly interfaces.
 - Exploration of multiple users design. My loan management module can adopt multiple users easily.
 
 #### 2. Contacts Management
 
-- All functionalities in contacts management, including **adding, editing, deleting, listing, tagging** and **searching** people.
+- Designed and implemented all functionalities in contacts management, including **adding, editing, deleting, listing, tagging** and **searching** people.
 - While this module is currently integrated into the **Loan Management** modules, it is designed to be an independent module that also is ready to support multiple users. It ensures the flexibility and extensibility of our software in future developments.
 
 #### 3. Utilities
@@ -33,11 +33,14 @@ I am in charge of the design, implementation and improvement of the **Loan, Cont
 
 #### User Guide Contribution
 
-- Listed all features and commands with examples for the **Loan** module. Written FAQs and possible enhancements.
+- Listed all features and commands with examples for the **Loan** module. 
+- Written FAQs and possible enhancements.
 
 #### Developer Guide Contribution
 
-- Contributed all details of the **Loan, Contacts** and **Other Utilities** part. Crafted UML class and sequence diagrams and given conversation flow examples to make the Developer Guide more pleasant to read.
+- Contributed all details of the **Loan, Contacts** and **Other Utilities** part. 
+- Crafted UML class and sequence diagrams and given conversation flow examples to make the Developer Guide more pleasant to read.
+- Contributed information on **Product Scope, User Stories, Glossary** and **Testing Instructions**.
 
 #### Contribution to Team-Based Tasks
 
@@ -45,5 +48,3 @@ I am in charge of the design, implementation and improvement of the **Loan, Cont
 - Review pull requests, help with checkstyle fixes.
 - Resolve merge conflicts
 - Help forming ideas on the software structure
-
-#### 
