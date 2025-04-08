@@ -1,0 +1,21 @@
+@startuml
+actor User
+participant "handleLocalDateUI" as Handler
+participant Scanner
+participant "LocalDate.parse()" as Parser
+participant IOHandler
+
+loop until valid date entered
+    Handler -> Console: print(instruction + "\n> ")
+    Handler -> Scanner: nextLine()
+    Scanner --> Handler: input
+    Handler -> Parser: parse(input)
+    alt Parsing Successful
+        Parser --> Handler: LocalDate date
+        Handler -> Handler: break loop & return date
+    else Parsing Fails\n(DateTimeParseException thrown)
+        Parser --> Handler: throws exception
+        Handler -> IOHandler: writeOutputWithColour("Invalid date format!", RED)
+    end
+end
+@enduml

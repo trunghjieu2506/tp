@@ -45,7 +45,7 @@ public class Storage {
             out.writeObject(financeList);
             System.out.println("Tasks saved successfully!");
         } catch (IOException e) {
-            System.err.println("Error saving tasks: " + e.getMessage());
+            //System.err.println("Error saving tasks: " + e.getMessage());
         }
     }
 

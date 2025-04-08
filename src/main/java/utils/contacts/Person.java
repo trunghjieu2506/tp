@@ -1,7 +1,9 @@
 package utils.contacts;
 
+import cashflow.model.interfaces.Finance;
 import utils.tags.Taggable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  * <code>name</code> cannot be changed once instantiated. The tags are automatically traced in
  *     <code>ContactsList</code>.
  */
-public class Person implements Taggable {
+public class Person extends Finance implements Taggable {
     protected final String name;
     protected String contactNumber;
     protected String email;
@@ -141,5 +143,20 @@ public class Person implements Taggable {
                 "<ContactNumber>" + (contactNumber == null ? "None" : contactNumber) + '\n' +
                 "<EMail>" + (email == null ? "None" : email) + '\n' +
                 "<Tags>" + showTags();
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return null;
+    }
+
+    @Override
+    public double getAmount() {
+        return 0;
+    }
+
+    @Override
+    public String getType() {
+        return "Person";
     }
 }

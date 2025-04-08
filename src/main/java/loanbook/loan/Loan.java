@@ -1,6 +1,9 @@
 package loanbook.loan;
 
 import cashflow.model.interfaces.Finance;
+import utils.contacts.SameNameException;
+import utils.datetime.ReturnDateException;
+import utils.datetime.StartDateException;
 import utils.money.Money;
 import utils.contacts.Person;
 import utils.tags.Taggable;
@@ -86,7 +89,10 @@ public abstract class Loan extends Finance implements Taggable {
         this.isReturned = isReturned;
     }
 
-    public void setStartDate(LocalDate date) {
+    public void setStartDate(LocalDate date) throws StartDateException {
+        if (returnDate != null && returnDate.isBefore(date)) {
+            throw new StartDateException("The start date cannot be after the return date");
+        }
         this.startDate = date;
     }
 
@@ -94,7 +100,10 @@ public abstract class Loan extends Finance implements Taggable {
         return startDate;
     }
 
-    public void setReturnDate(LocalDate date) {
+    public void setReturnDate(LocalDate date) throws ReturnDateException {
+        if (startDate != null && startDate.isAfter(date)) {
+            throw new ReturnDateException("The return date cannot be before the start date");
+        }
         returnDate = date;
     }
 

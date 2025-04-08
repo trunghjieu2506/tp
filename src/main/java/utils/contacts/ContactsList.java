@@ -7,10 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * Stores the list of <code>Person</code> that can be used. All people are added to this list once instantiated.
+ * Stores the list of <code>Person</code> that can be used.
  */
 public class ContactsList {
-    public String user;
     protected HashMap<String, Person> contacts;
     protected TagList<Person> tags;
 
@@ -19,24 +18,9 @@ public class ContactsList {
         tags = new TagList<>();
     }
 
-    public ContactsList(String user) {
-        this.user = user;
-        contacts = new HashMap<>();
-        tags = new TagList<>();
-        addPerson(new Person(user));
-    }
-
-    public ContactsList(String user, HashMap<String, Person> people) {
-        this.user = user;
+    public ContactsList(HashMap<String, Person> people) {
         contacts = people;
         initialiseTags();
-    }
-
-    public void setUser(String name) {
-        this.user = name;
-        if (!hasPerson(name)) {
-            addPerson(new Person(name));
-        }
     }
 
     public void addPerson(Person person) throws SameNameException {

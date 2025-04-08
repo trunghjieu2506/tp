@@ -16,7 +16,6 @@ bin/
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
 
-/save/
 /logs/analytics.log
 /logs/analytics.log.lck
 /logs/cashflow.log
@@ -26,3 +25,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 /data/income.dat
 /logs/income.log.lck
 /data/setup.dat
+/data/loan.dat

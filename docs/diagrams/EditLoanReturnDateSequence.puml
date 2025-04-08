@@ -1,0 +1,52 @@
+@startuml
+actor User
+
+activate LoanUI
+User -> LoanUI : input(commandString, scanner)
+
+LoanUI -> LoanCommandParser : parse(commandString)
+activate LoanCommandParser
+
+LoanCommandParser -> SetReturnDateCommand : new SetReturnDateCommand(scanner)
+LoanCommandParser --> LoanUI
+deactivate LoanCommandParser
+
+LoanUI --> SetReturnDateCommand : execute()
+activate SetReturnDateCommand
+SetReturnDateCommand -> DateParser : handleDateInput
+activate DateParser
+
+loop until valid date parsed
+    User -> DateParser : input(dateString)
+    DateParser -> DateParser : parse(dateString)
+    alt valid date parsed
+        DateParser --> SetReturnDateCommand : returnDate
+        note right: valid date parsed
+    else no valid date parsed
+        DateParser --> User : print(invalidDateMessage)
+    end
+end
+
+deactivate DateParser
+
+
+
+
+SetReturnDateCommand -> LoanManager : get(int index)
+activate LoanManager
+LoanManager -> Loan : get(int index)
+LoanManager --> SetReturnDateCommand
+deactivate LoanManager
+SetReturnDateCommand -> Loan : setReturnDate(returnDate)
+activate Loan
+
+Loan --> SetReturnDateCommand
+deactivate Loan
+SetReturnDateCommand --> LoanUI
+deactivate SetReturnDateCommand
+
+
+
+
+
+@enduml

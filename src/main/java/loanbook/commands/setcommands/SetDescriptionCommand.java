@@ -13,6 +13,7 @@ public class SetDescriptionCommand extends SetCommand {
     @Override
     public void execute() {
         loan.setDescription(newDescription);
+        loanManager.storeLoans();
         System.out.println("The description of the following loan is updated:");
         System.out.println(loan.showDetails());
     }

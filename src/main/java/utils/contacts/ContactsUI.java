@@ -1,7 +1,11 @@
 package utils.contacts;
 
+import utils.io.IOHandler;
+
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import static utils.textcolour.TextColour.RED;
 
 public class ContactsUI {
 
@@ -12,7 +16,7 @@ public class ContactsUI {
             System.out.print(instruction + "\n> ");
             String name = scanner.nextLine().trim();
             if (lender != null && name.equals(lender.getName())) {
-                System.out.println("The borrower must be different from the lender");
+                IOHandler.writeOutputWithColour("The borrower must be different from the lender", RED);
             } else {
                 try {
                     if (contactsList.hasPerson(name)) {
@@ -67,7 +71,10 @@ public class ContactsUI {
         return number;
     }
 
-    public static Person addPersonInputUI(Scanner scanner, String name) {
+    public static Person addPersonInputUI(Scanner scanner, String name) throws EmptyNameException {
+        if (name.isBlank()) {
+            throw new EmptyNameException("Name cannot be empty");
+        }
         Person person = new Person(name);
         System.out.println("New person: [" + name + "]");
         String contactNumber = addContactNumberInputUI(scanner);

@@ -2,6 +2,7 @@ package loanbook;
 
 import cashflow.model.interfaces.Finance;
 import cashflow.model.interfaces.LoanDataManager;
+import cashflow.model.storage.Storage;
 import loanbook.loan.Loan;
 import loanbook.save.LoanSaveManager;
 import utils.contacts.ContactsList;
@@ -10,6 +11,7 @@ import utils.contacts.PersonNotFoundException;
 import utils.money.Money;
 import utils.tags.TagList;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class LoanManager implements LoanDataManager {
     protected ArrayList<Loan> loans;
     protected ContactsList contactsList;
     protected TagList<Loan> tags;
+    protected Storage loanStorage;
 
     public LoanManager() {
         loans = new ArrayList<>();
@@ -35,15 +38,14 @@ public class LoanManager implements LoanDataManager {
     public LoanManager(String user) {
         this.username = user;
         loans = new ArrayList<>();
-        contactsList = new ContactsList(user);
+        contactsList = new ContactsList();
         tags = new TagList<>();
     }
 
-    public LoanManager(String user, ArrayList<Loan> loans, ContactsList contactsList) {
+    public LoanManager(String user, ArrayList<Loan> loans) {
         this.username = user;
         this.loans = loans;
-        this.contactsList = contactsList;
-        contactsList.setUser(user);
+        contactsList = new ContactsList();
         for (Loan loan : loans) {
             if (!contactsList.hasPerson(loan.lender().getName())) {
                 contactsList.addPerson(loan.lender());
@@ -55,23 +57,46 @@ public class LoanManager implements LoanDataManager {
         initialiseTags();
     }
 
+    public LoanManager(Storage loanStorage) throws FileNotFoundException {
+        this.loanStorage = loanStorage;
+        loans = new ArrayList<>();
+        contactsList = new ContactsList();
+        tags = new TagList<>();
+        ArrayList<Finance> loadedFile = loanStorage.loadFile();
+        if (loadedFile != null) {
+            for (Finance f : loadedFile) {
+                if (f instanceof Loan) {
+                    add((Loan) f);
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the loan storage.
+     */
+    public void storeLoans() {
+        if (loanStorage != null) {
+            loanStorage.saveFile(new ArrayList<>(loans));
+        }
+    }
+
     public void setUsername(String name) {
         this.username = name;
-        contactsList.setUser(name);
     }
 
     public ContactsList getContactsList() {
         return contactsList;
     }
 
-    public void setContactsList(ContactsList contactsList) {
-        this.contactsList = contactsList;
-    }
-
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Adds a loan to the loan list. Updates the tag list and contact list accordingly.
+     * @param loan the loan to be added.
+     */
     public void add(Loan loan) {
         loans.add(loan);
         assert loan.getTagList() != null;
@@ -79,6 +104,17 @@ public class LoanManager implements LoanDataManager {
         for (String tag : loanTagList) {
             tags.addMap(tag, loan);
         }
+        if (!contactsList.hasPerson(loan.lender().getName())) {
+            contactsList.addPerson(loan.lender());
+        }
+        if (!contactsList.hasPerson(loan.borrower().getName())) {
+            contactsList.addPerson(loan.borrower());
+        }
+    }
+
+    public void addAndStore(Loan loan) {
+        add(loan);
+        storeLoans();
     }
 
     /**
@@ -100,16 +136,29 @@ public class LoanManager implements LoanDataManager {
         } catch (IOException e) {
             System.out.println("Unable to update save file");
         }
+        storeLoans();
     }
 
+    /**
+     * Add a tag to the <code>index</code>th loan.
+     * @param index the index of the loan.
+     * @param tag the tag to be added.
+     */
     public void addTag(int index, String tag) {
         get(index).addTag(tag);
         tags.addMap(tag, get(index));
+        storeLoans();
     }
 
+    /**
+     * Deletes the <code>tag</code> from the <code>index</code>th loan.
+     * @param index the index of the loan.
+     * @param tag the tag to be deleted.
+     */
     public void deleteTag(int index, String tag) {
         get(index).removeTag(tag);
         tags.removeMap(tag, get(index));
+        storeLoans();
     }
 
     /**
@@ -166,6 +215,10 @@ public class LoanManager implements LoanDataManager {
         return found;
     }
 
+    /**
+     * Finds all overdue loans recorded, with reference to the date this method is called.
+     * @return an <code>ArrayList</code> of overdue <code>Loan</code>s.
+     */
     public ArrayList<Loan> findOverdueLoan() {
         ArrayList<Loan> found = new ArrayList<>();
         for (Loan loan : loans) {
@@ -176,12 +229,22 @@ public class LoanManager implements LoanDataManager {
         return found;
     }
 
+    /**
+     * Finds the loans with the earliest return dates.
+     * @param count the number of loans to be listed.
+     * @return an <code>ArrayList</code> of the most urgent <code>Loan</code>s.
+     */
     public ArrayList<Loan> findUrgentLoan(int count) {
         ArrayList<Loan> all = new ArrayList<>(loans);
         all.sort(Comparator.comparing(Loan::returnDate));
         return new ArrayList<>(all.subList(0, Math.min(count, all.size())));
     }
 
+    /**
+     * Finds the loans with the highest balance.
+     * @param count the number of loans to be listed.
+     * @return an <code>ArrayList</code> of the largest <code>Loan</code>s.
+     */
     public ArrayList<Loan> findLargestLoans(int count) {
         ArrayList<Loan> all = new ArrayList<>(loans);
         all.sort(Comparator.comparing(Loan::getBalance).reversed());
@@ -213,6 +276,12 @@ public class LoanManager implements LoanDataManager {
         return tags.findWithTag(tag);
     }
 
+    /**
+     * Calculates the total amount of money that a person has borrowed.
+     * @param name the name of the person.
+     * @return a <code>HashMap</code> of the total amount of money borrowed mapped to each currency.
+     * @throws PersonNotFoundException when the person is not in the contact list.
+     */
     public HashMap<Currency, BigDecimal> getTotalDebt(String name) throws PersonNotFoundException {
         Person borrower = contactsList.findName(name);
         HashMap<Currency, BigDecimal> debts = new HashMap<>();
@@ -231,6 +300,12 @@ public class LoanManager implements LoanDataManager {
         return debts;
     }
 
+    /**
+     * Finds the total amount of money that the person has lent.
+     * @param name the name of the person.
+     * @return a <code>HashMap</code> of the total amount of money lent mapped to each currency.
+     * @throws PersonNotFoundException when the person is not in the contact list.
+     */
     public HashMap<Currency, BigDecimal> getTotalLent(String name) throws PersonNotFoundException {
         Person lender = contactsList.findName(name);
         HashMap<Currency, BigDecimal> lents = new HashMap<>();
@@ -304,6 +379,11 @@ public class LoanManager implements LoanDataManager {
         return "[" + index + "] " + String.join("\n", lines);
     }
 
+    /**
+     * Converts the loan list to a <code>String</code> that can be stored and read easily by
+     *     <code>LoanSaveManager</code>.
+     * @return the converted <code>String</code>
+     */
     public String toSave() {
         StringBuilder save = new StringBuilder();
         for (Loan loan : loans) {
