@@ -11,7 +11,8 @@ public class InsightHelper {
                 category, currentAmount);
     }
 
-    private static void printChange(String category, double currentAmount, double lastAmount, double percentChange) {
+    private static void printChange(String category, double currentAmount,
+                                    double lastAmount, double percentChange) {
         if (percentChange > 0) {
             System.out.printf("- You spent %.1f%% more on %s this month than last month. (%.2f vs. %.2f)\n",
                     percentChange, category, currentAmount, lastAmount);
@@ -21,7 +22,8 @@ public class InsightHelper {
         }
     }
 
-    public static void displayInsights(YearMonth current, YearMonth last, Map<String, Double> currentTotals, Map<String, Double> lastTotals){
+    public static void displayInsights(YearMonth current, YearMonth last, Map<String,
+            Double> currentTotals, Map<String, Double> lastTotals){
         Set<String> allCategories = new HashSet<>();
         allCategories.addAll(currentTotals.keySet());
         allCategories.addAll(lastTotals.keySet());
