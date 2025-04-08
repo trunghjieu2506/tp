@@ -58,12 +58,6 @@ public class CashFlowManager {
     private final Storage setupStorage;
 
     private FinanceData data;
-//    private ExpenseManager expenseManager;
-//    private IncomeManager incomeManager;
-//    private SavingList savingManager;
-//    private BudgetList budgetManager;
-//    private LoanManager loanManager;
-//    private SetUpManager setUpManager;
 
     private boolean isExit = false;
 
@@ -127,7 +121,7 @@ public class CashFlowManager {
 
         logger.info("Initializing managers...");
 
-        ExpenseManager expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
+        ExpenseManager expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);
         IncomeManager incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
         SavingList savingManager = new SavingList(currencyStr, savingStorage);
         BudgetList budgetManager = new BudgetList(currency, budgetStorage);
