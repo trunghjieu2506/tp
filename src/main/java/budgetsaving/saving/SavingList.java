@@ -1,23 +1,44 @@
 package budgetsaving.saving;
 
 import budgetsaving.saving.exceptions.SavingRuntimeException;
+import cashflow.model.interfaces.Finance;
+import cashflow.model.interfaces.SavingDataManager;
 import cashflow.model.interfaces.SavingManager;
+
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import cashflow.model.storage.Storage;
 import utils.io.IOHandler;
 import utils.money.Money;
 
-public class SavingList implements SavingManager {
+public class SavingList implements SavingManager, SavingDataManager {
     private ArrayList<Saving> savings;
     private String currency;
+    private Storage savingStorage;
 
     public SavingList(){
         savings = new ArrayList<>();
     }
 
-    public SavingList(String currency) {
+    public SavingList(String currency){
         this.currency = currency;
         savings = new ArrayList<>();
+    }
+
+    public SavingList(String currency, Storage savingStorage) throws FileNotFoundException {
+        this.currency = currency;
+        this.savingStorage = savingStorage;
+        savings = new ArrayList<>();
+        ArrayList<Finance> loadedFile = savingStorage.loadFile();
+        if (loadedFile != null){
+            for (Finance f : loadedFile) {
+                if (f instanceof Saving) {
+                    savings.add((Saving) f);
+                }
+            }
+        }
     }
 
     @Override
@@ -39,6 +60,7 @@ public class SavingList implements SavingManager {
         try {
             Saving goal = new Saving(name, amount, deadline);
             savings.add(goal);
+            savingStorage.saveFile(new ArrayList<>(savings));
             return "Saving set: " + goal;
         } catch (SavingRuntimeException e) {
             throw e;
@@ -59,6 +81,7 @@ public class SavingList implements SavingManager {
                 saving.getGoalAmount().getCurrency(),
                 saving.getGoalAmount().getAmount().subtract(saving.getCurrentAmount().getAmount())
         );
+        savingStorage.saveFile(new ArrayList<>(savings));
         return "You have funded your saving goal. Good job!\n" + saving;
     }
 
@@ -97,6 +120,7 @@ public class SavingList implements SavingManager {
         try {
             Saving saving = savings.get(index);
             savings.remove(saving);
+            savingStorage.saveFile(new ArrayList<>(savings));
             IOHandler.writeOutput("Saving deleted.");
         } catch (Exception e) {
             throw new SavingRuntimeException("Error occured when removing the saving.");
@@ -115,6 +139,8 @@ public class SavingList implements SavingManager {
         }
         SavingContribution cont = saving.getContribution(contributionIndex);
         saving.removeContribution(cont);
+        savingStorage.saveFile(new ArrayList<>(savings));
+        IOHandler.writeOutput("Contribution deleted.");
     }
 
     @Override
@@ -141,4 +167,8 @@ public class SavingList implements SavingManager {
         return "";
     }
 
+    @Override
+    public ArrayList<Finance> getSavingList() {
+        return new ArrayList<>(savings);
+    }
 }

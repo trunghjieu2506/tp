@@ -23,6 +23,8 @@ public interface BudgetManager {
 
     boolean modifyExpenseInBudget(Expense oldExpense, Expense newExpense);
 
+    boolean removeExpenseInBudget(Expense expense);
+
     void checkBudget(int index);
 
     void modifyBudget(int index, String name, double amount, LocalDate endDate, String category)
