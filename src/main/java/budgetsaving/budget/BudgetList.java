@@ -200,7 +200,6 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         }
     }
 
-
     private Optional<Budget> getBudgetForCategory(String category) {
         return budgets.stream()
                 .filter(budget -> budget.getCategory().equalsIgnoreCase(category))

@@ -1,0 +1,20 @@
+<Name>George
+<ContactNumber>None
+<EMail>None
+<Tags>Student
+<ContactsSaveSeparator>
+<Name>DBS Bank
+<ContactNumber>None
+<EMail>None
+<Tags>None
+<ContactsSaveSeparator>
+<Name>freundin
+<ContactNumber>None
+<EMail>None
+<Tags>None
+<ContactsSaveSeparator>
+<Name>Miao
+<ContactNumber>None
+<EMail>None
+<Tags>Parent
+<ContactsSaveSeparator>
