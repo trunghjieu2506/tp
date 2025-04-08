@@ -1,41 +1,51 @@
 @startuml
 actor User
-participant ":UI"
-participant ":IncomeCommandParser"
-participant ":IncomeParserResult"
-participant ":EditIncomeCommand"
-participant ":IncomeManager"
+participant ":UI" as UI
+participant ":IncomeCommandParser" as Parser
+participant ":IncomeParserResult" as Result
+participant ":EditIncomeCommand" as EditCommand
+participant ":IncomeManager" as Manager
+participant ":Storage" as Storage
 hide footbox
 
-User -> ":UI" : enters "edit 1 Bonus 500 Job 2025-04-01"
-activate ":UI"
+User -> UI : enters "edit 1 Bonus 500 Job 2025-04-01"
+activate UI
 
-":UI" -> ":IncomeCommandParser": parseCommand(input)
-activate ":IncomeCommandParser"
+UI -> Parser : parseEdit(input)
+activate Parser
 
-":IncomeCommandParser" -> ":IncomeParserResult": construct result (EditIncomeCommand, null)
-activate ":IncomeParserResult"
-":IncomeParserResult" --> ":IncomeCommandParser"
-deactivate ":IncomeParserResult"
+Parser -> Result : new IncomeParserResult(EditIncomeCommand, null)
+activate Result
 
-":IncomeCommandParser" --> ":UI": IncomeParserResult instance
-deactivate ":IncomeCommandParser"
+Result --> Parser
+deactivate Result
 
-":UI" -> ":IncomeParserResult": getCommand()
-activate ":IncomeParserResult"
-":IncomeParserResult" --> ":UI": EditIncomeCommand instance
-deactivate ":IncomeParserResult"
+Parser --> UI : IncomeParserResult instance
+deactivate Parser
 
-":UI" -> ":EditIncomeCommand": execute(incomeManager)
-activate ":EditIncomeCommand"
+UI -> Result : getCommand()
+activate Result
 
-":EditIncomeCommand" -> ":IncomeManager": editIncome(index, newSource, newAmount, newDate, newCategory)
-activate ":IncomeManager"
-":IncomeManager" --> ":EditIncomeCommand"
-deactivate ":IncomeManager"
+Result --> UI : EditIncomeCommand instance
+deactivate Result
 
-":EditIncomeCommand" --> ":UI"
-deactivate ":EditIncomeCommand"
+UI -> EditCommand : execute(Manager)
+activate EditCommand
 
-deactivate ":UI"
+EditCommand -> Manager : editIncome(1, "Bonus", 500, 2025-04-01, "Job")
+activate Manager
+
+Manager -> Storage : saveFile(incomes)
+activate Storage
+
+Storage --> Manager
+deactivate Storage
+
+Manager --> EditCommand
+deactivate Manager
+
+EditCommand --> UI
+deactivate EditCommand
+
+deactivate UI
 @enduml
