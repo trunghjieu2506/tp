@@ -135,7 +135,7 @@ public class Saving extends Finance {
             if (contribution == null) {
                 throw new RuntimeException("Saving contribution is null");
             }
-            sb.append("\tContribution " + i + 1 + ". " + contributions.get(i).toString());
+            sb.append("\tContribution " + i + 1 + ". " + contributions.get(i).toString() + "\n");
         }
         return sb.toString();
     }

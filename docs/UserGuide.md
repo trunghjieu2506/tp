@@ -298,7 +298,11 @@ bottom
 ---
 ## Budget Management Commands
 
-**Important note**: (v2.1) budget category is no longer case sensitive, but others are.
+**Important note**: 
+- (v2.1) budget category is no longer case sensitive, but others are.
+- (v2.1) you might experience something like "Error loading tasks: writing aborted;
+java.io.NotSerializableException: budgetsaving.saving.SavingContribution", when you close and open the application.
+We are trying to fix on that now.
 
 The Budget commands will be available when entering budget mode.
 
