@@ -12,11 +12,14 @@ import cashflow.model.interfaces.BudgetManager;
 
 import java.time.LocalDate;
 
-import static budgetsaving.budget.utils.BudgetAttributes.*;
-
 //it should make sure that all the input to the command should follow its valid form, example:
 //amount must be positive for set budget
 public class BudgetParser {
+    public static final String INDEX_IDENTIFIER = "i/";
+    public static final String NAME_IDENTIFIER = "n/";
+    public static final String AMOUNT_IDENTIFIER = "a/";
+    public static final String END_DATE_IDENTIFIER = "e/";
+    public static final String CATEGORY_IDENTIFIER = "c/";
 
     private static double isPositiveAmount(double amount) throws BudgetParserException {
         if (amount == -1){
