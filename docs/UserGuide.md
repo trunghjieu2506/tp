@@ -378,7 +378,8 @@ deduct i/1 a/500
 
 **Command:** 
 ```
-i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
+i/INDEX [n/NAME] [a/AMOUNT] [e/YYYY-MM-DD] [c/CATEGORY]
+attributes in '[ ]' are optional to include
 ```
 
 **You can skip any of the attributes if you are not changing them, but must include the index**
