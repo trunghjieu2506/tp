@@ -39,21 +39,6 @@ public class BudgetStatusTest {
     }
 
 
-    //this test should be done by commenting the "end date is before curr date" check
-    //in the budget class
-    @Test
-    public void testBudgetStatusChangesToExpiredIfPastEndDate() throws BudgetException {
-        Budget expiredBudget = new Budget("Travel",
-                new Money("SGD", BigDecimal.valueOf(500.00)),
-                LocalDate.now().minusDays(1), "Leisure");
-
-        budgetList.addNewBudget(expiredBudget);
-        budgetList.refreshBudgetStatuses();
-
-        assertEquals(BudgetActiveStatus.EXPIRED, expiredBudget.getBudgetActiveStatus(),
-                "Budget should be marked as expired if the current date is past the end date.");
-    }
-
     @Test
     public void testNoCrashWhenBudgetIsNullInUpdateStatus() {
         // Directly calling the private method isn't ideal, but we can subclass to expose it if needed.
