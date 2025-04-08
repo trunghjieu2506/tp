@@ -24,7 +24,7 @@ CashFlow is ideal for students and working professionals who want a lightweight,
 
 ## Features
 
-
+**Note**: We have acknowledged some features that might be considered flaws or bugs to Users, but they are intentional. Please read this User Guide carefully.
 ## Expense Management Commands
 
 The Expense commands will be available when entering **expense mode**:
@@ -529,6 +529,8 @@ Warning: You have exceeded your budget for category: Food
 Added: Fine-Dining - USD 200.00 on 2025-04-06 [Category: Food]
 ```
 
+This feature allows budget to be modified when expenses are added, modified, or deleted.
+
 **Note**: Calculation of available budget left after expense is added only works for existing budget. It does not account for new budget set after the expenses are already recorded.
 
 ---
@@ -876,8 +878,6 @@ Interest: Compound Interest 3.0% Per 1 Month
 Outstanding Balance: USD 1000.00
 Returned
 ```
-
-
 
 ## Analytics Command
 
