@@ -1,0 +1,5 @@
+<Name>defaultUser
+<ContactNumber>None
+<EMail>None
+<Tags>None
+<ContactsSaveSeparator>

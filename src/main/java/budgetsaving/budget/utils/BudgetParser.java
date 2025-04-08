@@ -15,6 +15,11 @@ import java.time.LocalDate;
 //it should make sure that all the input to the command should follow its valid form, example:
 //amount must be positive for set budget
 public class BudgetParser {
+    public static final String INDEX_IDENTIFIER = "i/";
+    public static final String NAME_IDENTIFIER = "n/";
+    public static final String AMOUNT_IDENTIFIER = "a/";
+    public static final String END_DATE_IDENTIFIER = "e/";
+    public static final String CATEGORY_IDENTIFIER = "c/";
 
     private static double isPositiveAmount(double amount) throws BudgetParserException {
         if (amount == -1){
@@ -93,13 +98,25 @@ public class BudgetParser {
 
     public static Command parseModifyBudgetCommand(String input, BudgetManager budgetManager)
             throws BudgetParserException, BudgetAttributeException {
-        // Expected format: set-budget n/BUDGET_NAME a/AMOUNT
         BudgetAttributes attributes = new BudgetAttributes(input);
         int index = isValidIndex(attributes.getIndex());
-        String name = checkValidName(attributes.getName());
-        double amount = isPositiveAmount(attributes.getAmount());
-        LocalDate endDate = isFutureDate(attributes.getEndDate());
-        String category = checkValidCategory(attributes.getCategory());
+        String name = null;
+        if (input.contains(NAME_IDENTIFIER)) {
+            name = checkValidName(attributes.getName());
+        }
+        double amount = -1.0d;
+        if (input.contains(AMOUNT_IDENTIFIER)) {
+            amount = isPositiveAmount(attributes.getAmount());
+        }
+        LocalDate endDate = null;
+        if (input.contains(END_DATE_IDENTIFIER)) {
+            endDate = isFutureDate(attributes.getEndDate());
+        }
+        String category = null;
+        if (input.contains(CATEGORY_IDENTIFIER)) {
+            category = checkValidCategory(attributes.getCategory());
+        }
+
         return new ModifyBudgetCommand(budgetManager, index, amount, name, endDate, category);
     }
 

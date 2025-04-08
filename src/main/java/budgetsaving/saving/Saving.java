@@ -104,6 +104,10 @@ public class Saving extends Finance {
     }
 
     public void addContribution(Money contribution) {
+        if (currentAmount.getAmount().doubleValue() == goalAmount.getAmount().doubleValue()) {
+            IOHandler.writeWarning("Saving contribution is already completed.");
+            return;
+        }
         currentAmount.increment(contribution.getAmount());
         //double check currency and restrict amount
         SavingContribution newContribution = new SavingContribution(contribution, LocalDate.now());
@@ -131,7 +135,7 @@ public class Saving extends Finance {
             if (contribution == null) {
                 throw new RuntimeException("Saving contribution is null");
             }
-            sb.append("\tContribution " + i + 1 + ". " + contributions.get(i).toString());
+            sb.append("\tContribution " + i + 1 + ". " + contributions.get(i).toString() + "\n");
         }
         return sb.toString();
     }

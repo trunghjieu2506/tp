@@ -298,7 +298,14 @@ bottom
 ---
 ## Budget Management Commands
 
+**Important note**: 
+- (v2.1) budget category is no longer case sensitive, but others are.
+- (v2.1) you might experience something like "Error loading tasks: writing aborted;
+java.io.NotSerializableException: budgetsaving.saving.SavingContribution", when you close and open the application.
+We are trying to fix on that now.
+
 The Budget commands will be available when entering budget mode.
+
 ```
 budget
 ```
@@ -375,7 +382,8 @@ deduct i/1 a/500
 
 **Command:** 
 ```
-i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
+i/INDEX [n/NAME] [a/AMOUNT] [e/YYYY-MM-DD] [c/CATEGORY]
+attributes in '[ ]' are optional to include
 ```
 
 **You can skip any of the attributes if you are not changing them, but must include the index**
@@ -391,6 +399,8 @@ i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
 - ```modify i/1 n/trip c/trip123```
 - ```modify i/1 a/5000```
 - This adds $500 to budget with index 1, on top of the current budget limit
+
+**Note**: changing the budget category will remove all its expenses. So do it wisely!
 
 
 ## Saving Management Commands
