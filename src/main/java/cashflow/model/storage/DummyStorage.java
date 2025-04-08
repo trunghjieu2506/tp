@@ -29,7 +29,6 @@ public class DummyStorage extends Storage {
 
     @Override
     public void saveSetupConfig(SetupConfig config) {
-        // optional: implement if you want to test setup logic
     }
 
     @Override

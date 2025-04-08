@@ -721,7 +721,7 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 - Easy and fast, keyboard-based way of recording transactions.
 - No setup or signup — works locally and offline.
 - Lightweight and highly customizable.
-- Centralizes expenses, incomes, budgets, savings, and loanManager.
+- Comprehensive personal finance toolings including Expense & Income Manger, Saving & Budget Manager, Loan Manager and Analytics Manager.
 
 ## Appendix B: User Stories
 
@@ -857,10 +857,10 @@ delete 1
 1. Run `analytic` to enter analytic mode from the main menu.
 2. Try:
 ```
-overview [yyyy-mm]                                   
-trend <data-type> <start-date> <end-date> <interval> 
-insight [yyyy-mm]                            
-spending-breakdown [yyyy-mm]                                 
+overview 2025-03                                   
+trend income 2025-04-01 2025-05-02 weekly
+insight                            
+spending-breakdown 2024-12                                 
 ```
 ---
 
