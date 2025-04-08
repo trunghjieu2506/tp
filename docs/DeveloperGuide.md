@@ -163,7 +163,7 @@ The diagram below shows the high-level structure of loan commands:
 ### Other utilities
 
 #### Money
-A `Money` class is created to standardise the management of each unit of money. The Currency class for 
+A `Money` class is created to standardise the management of each unit of money.
 
 ![Money.png](images/Money.png)
 
@@ -772,6 +772,7 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 | Medium   | User | Store people I know            | Get their contact information quickly                           |
 | Medium   | User | Set loan status                | Know how much I have worked to return my debts                  |
 | Medium   | User | Find loans based on attributes | Get information of wanted loans quickly                         |
+
 ---
 
 ## Appendix C: Non-Functional Requirements
