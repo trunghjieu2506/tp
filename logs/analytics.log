@@ -30,3 +30,19 @@ Apr 07, 2025 10:16:24 PM cashflow.analytics.AnalyticsManager showSpendingInsight
 INFO: Finished spending insights comparison.
 Apr 07, 2025 10:16:47 PM cashflow.analytics.AnalyticsManager showCategoryBreakdown
 INFO: Category breakdown displayed.
+Apr 08, 2025 1:06:09 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 1:06:09 AM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 1:06:09 AM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 1:06:21 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 1:06:21 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=1.00, Expenses=25.00, NetSavings=-24.00
+Apr 08, 2025 1:06:21 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 1:06:23 AM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: showSpendingInsights for 2025-04 vs 2025-03
+Apr 08, 2025 1:06:23 AM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: Finished spending insights comparison.
