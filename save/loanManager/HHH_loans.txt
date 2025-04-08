@@ -1,0 +1,36 @@
+<AdvancedBulletLoanStart>
+<Lender>Qiaozi (Contact Number: 12345678) (E-Mail: someone@example.com)
+<Borrower>George
+<Principal>USD 100.00
+<StartDate>2023-01-01
+<ReturnDate>2025-01-01
+<Description>None
+<Tags>food
+<IsReturned>false
+<Interest>COMPOUND 3.0% Per 1 Year
+<AdvancedBulletLoanEnd>
+<LoanSaveSeparator>
+<SimpleBulletLoanStart>
+<Lender>George
+<Borrower>Qiaozi (Contact Number: 12345678) (E-Mail: someone@example.com)
+<Principal>USD 500.00
+<StartDate>None
+<ReturnDate>2025-10-01
+<Description>None
+<Tags>food
+
+<IsReturned>false
+<SimpleBulletLoanEnd>
+<LoanSaveSeparator>
+<AdvancedBulletLoanStart>
+<Lender>George
+<Borrower>John (Contact Number: 11111111)
+<Principal>USD 1000.00
+<StartDate>2025-04-01
+<ReturnDate>2026-04-01
+<Description>Toy
+<Tags>food
+<IsReturned>true
+<Interest>COMPOUND 3.0% Per 1 Month
+<AdvancedBulletLoanEnd>
+<LoanSaveSeparator>
