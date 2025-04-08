@@ -162,7 +162,7 @@ The diagram below shows the high-level structure of loan commands:
 ### Other utilities
 
 #### Money
-A `Money` class is created to standardise the management of each unit of money. The Currency class for 
+A `Money` class is created to standardise the management of each unit of money.
 
 ![Money.png](images/Money.png)
 
