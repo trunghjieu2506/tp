@@ -9,6 +9,7 @@
    - [Saving Management](#saving-management)
    - [Loan Management](#loan-management)
    - [Application Management](#application-management)
+   - [Analytic Management](#analytics-management)
 - [Implementation](#implementation)
    - [Expense](#expense-)
    - [Income](#income)
@@ -16,6 +17,7 @@
    - [Saving](#saving)
    - [Loan](#loan)
   -  [Analytic](#analytic-command)
+
 - [Appendix A: Product Scope](#appendix-a-product-scope)
 - [Appendix B: User Stories](#appendix-b-user-stories)
 - [Appendix C: Non-Functional Requirements](#appendix-c-non-functional-requirements)
