@@ -1,5 +1,6 @@
 package budgetsaving.saving;
 
+import cashflow.model.interfaces.Finance;
 import utils.money.Money;
 
 import java.io.Serializable;
@@ -28,6 +29,9 @@ public class SavingContribution implements Serializable {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+    public String getType(){
+        return "Saving";
     }
 
     public String toString() {

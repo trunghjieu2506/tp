@@ -1,6 +1,5 @@
 package cashflow.analytics.command;
 import cashflow.analytics.AnalyticsManager;
-import cashflow.model.FinanceData;
 
 import java.time.LocalDate;
 
