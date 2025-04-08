@@ -1,7 +1,6 @@
 package cashflow.analytics.command;
 
 import cashflow.analytics.AnalyticsManager;
-import cashflow.model.FinanceData;
 
 public class SpendingInsightCommand extends AnalyticGeneralCommand{
     private int year;

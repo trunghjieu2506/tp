@@ -11,8 +11,14 @@ import expenseincome.expense.Expense;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class AnalyticsManager {
     /** Logger for analytics operations. */

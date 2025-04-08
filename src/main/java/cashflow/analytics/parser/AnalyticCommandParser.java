@@ -23,15 +23,10 @@ import java.util.Map;
  */
 public class AnalyticCommandParser {
     private static final Map<String, CommandHandler> COMMANDS = new HashMap<>();
-
-    /**
-     * Maps command keywords to their respective command handlers for command instantiation.
-     */
     static {
         COMMANDS.put("help", input -> new HelpCommand());
         // Handler for the 'overview' command. Parses optional 'yyyy-MM' argument.
         // Defaults to the current month and year if no argument is provided.
-
         COMMANDS.put("overview", input -> {
             String[] command = input.split(" ", 2);
             if (command.length < 2) {
@@ -40,7 +35,7 @@ public class AnalyticCommandParser {
                 try {
                     YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
                     return new OverviewCommand(yearMonth.getMonthValue(), yearMonth.getYear());
-                }  catch(DateTimeParseException e){
+                } catch(DateTimeParseException e){
                     throw new DateTimeParseException("Incorrect DateTime Format.\n"
                             +"Follow this syntax: overview [yyyy-mm]", command[1], 0);
                 }
@@ -81,7 +76,6 @@ public class AnalyticCommandParser {
 
             return new TrendCommand(type, start, end, interval);
         });
-
         COMMANDS.put("insight", input -> {
             String[] command = input.split(" ");
             if (command.length < 2) {
@@ -90,12 +84,12 @@ public class AnalyticCommandParser {
                 try {
                     YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
                     return new SpendingInsightCommand(yearMonth.getMonthValue(), yearMonth.getYear());
-                }  catch(DateTimeParseException e){
+                } catch(DateTimeParseException e){
                     throw new DateTimeParseException("Incorrect DateTime Format.\n"
                             +"Follow this syntax: insight [yyyy-mm]", command[1], 0);
                 }
             }
-    });
+        });
         COMMANDS.put("spending-breakdown", input -> {
         String[] command = input.split(" ");
         if (command.length < 2) {
@@ -104,12 +98,12 @@ public class AnalyticCommandParser {
             try {
                 YearMonth yearMonth = YearMonth.parse(command[1], DateTimeFormatter.ofPattern("yyyy-MM"));
                 return new SpendingBreakDownCommand(yearMonth.getMonthValue(), yearMonth.getYear());
-            }  catch(DateTimeParseException e){
+            } catch(DateTimeParseException e){
                 throw new DateTimeParseException("Incorrect DateTime Format.\n"
                         +"Follow this syntax: spending-breakdown [yyyy-mm]", command[1], 0);
             }
         }
-    });
+        });
     }
 
     /**

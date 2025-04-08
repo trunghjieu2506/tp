@@ -16,7 +16,11 @@ import loanbook.LoanManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Currency;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class CashFlowManager {
 
@@ -44,8 +48,8 @@ public class CashFlowManager {
         }
     }
 
+    private static boolean isFirstTime;
 
-    /** Storage component responsible for reading and writing task data. */
     private final Storage expenseStorage;
     private final Storage incomeStorage;
     private final Storage savingStorage;
@@ -53,16 +57,14 @@ public class CashFlowManager {
     private final Storage loanStorage;
     private final Storage setupStorage;
 
-    private SavingList savingManager;
-    private BudgetList budgetManager;
-    private LoanManager loanManager;
-    private ExpenseManager expenseManager;
-    private IncomeManager incomeManager;
-    private SetUpManager setUpManager;
-
     private FinanceData data;
+//    private ExpenseManager expenseManager;
+//    private IncomeManager incomeManager;
+//    private SavingList savingManager;
+//    private BudgetList budgetManager;
+//    private LoanManager loanManager;
+//    private SetUpManager setUpManager;
 
-    private static boolean isFirstTime;
     private boolean isExit = false;
 
     /**
@@ -125,13 +127,13 @@ public class CashFlowManager {
 
         logger.info("Initializing managers...");
 
-        expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
-        incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
-        savingManager = new SavingList(currencyStr, savingStorage);
-        budgetManager = new BudgetList(currency, budgetStorage);
-        loanManager = new LoanManager(loanStorage);
-        setUpManager = new SetUpManager(setupStorage);
+        ExpenseManager expenseManager = new ExpenseManager(data, currencyStr, expenseStorage);     //need to change this part to accept Currency class
+        IncomeManager incomeManager = new IncomeManager(data, currencyStr, incomeStorage);
+        SavingList savingManager = new SavingList(currencyStr, savingStorage);
+        BudgetList budgetManager = new BudgetList(currency, budgetStorage);
+        LoanManager loanManager = new LoanManager(loanStorage);
         loanManager.setUsername(username);
+        SetUpManager setUpManager = new SetUpManager(setupStorage);
         assert setupStorage != null : "setupStorage failed to initialize.";
 
         // Set integration points in FinanceData.
