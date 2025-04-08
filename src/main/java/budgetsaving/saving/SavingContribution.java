@@ -1,5 +1,6 @@
 package budgetsaving.saving;
 
+import cashflow.model.interfaces.Finance;
 import utils.money.Money;
 
 import java.time.LocalDate;
@@ -26,6 +27,9 @@ public class SavingContribution {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+    public String getType(){
+        return "Saving";
     }
 
     public String toString() {

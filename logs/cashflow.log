@@ -471,3 +471,19 @@ INFO: Loaded setup config: isFirstTime=false, currency=USD
 Apr 08, 2025 12:21:10 PM cashflow.CashFlowManager <init>
 INFO: Initializing managers...
 
+Apr 08, 2025 12:44:24 PM cashflow.CashFlowManager <init>
+INFO: Initializing CashFlowManager...
+Apr 08, 2025 12:44:24 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 08, 2025 12:44:24 PM cashflow.CashFlowManager <init>
+INFO: Loaded setup config: isFirstTime=false, currency=USD
+Apr 08, 2025 12:44:24 PM cashflow.CashFlowManager <init>
+INFO: Initializing managers...
+Apr 08, 2025 12:45:56 PM cashflow.CashFlowManager <init>
+INFO: Initializing CashFlowManager...
+Apr 08, 2025 12:45:56 PM java.io.ObjectInputFilter$Config traceFilter
+FINER: Builtin factory: null -> new: null
+Apr 08, 2025 12:45:56 PM cashflow.CashFlowManager <init>
+INFO: Loaded setup config: isFirstTime=false, currency=USD
+Apr 08, 2025 12:45:56 PM cashflow.CashFlowManager <init>
+INFO: Initializing managers...

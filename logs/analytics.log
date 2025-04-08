@@ -789,3 +789,17 @@ Apr 08, 2025 12:21:19 PM cashflow.analytics.AnalyticsManager getMonthlySummary
 INFO: Monthly summary generated successfully.
 Apr 08, 2025 12:21:30 PM cashflow.CashFlowManager run
 SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:44:24 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:44:24 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 12:44:24 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 12:45:54 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:45:56 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:45:56 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 12:45:56 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
