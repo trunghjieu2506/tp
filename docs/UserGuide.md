@@ -7,7 +7,7 @@
 - Adding, editing, and listing expenses and incomes
 - Adding, editing, and listing budgets and savings
 - Adding, editing, and listing loans
-- Analysing all these trends for better decision makings
+- Receiving analytics reports such income trends, spending breakdown and more.
 
 CashFlow is ideal for students and working professionals who want a lightweight, intuitive tool to stay financially organized. No fancy UI needed — just meaningful commands that get the job done.
 
@@ -947,3 +947,4 @@ Grand Total: 216.50
 - Giving the user the freedom to modify their saving
 - Giving user the freedom to delete any budget they want
 - Give user the freedom to filter the Budgets/Savings to list out based on their active status
+- New analytic features focused on Savings and Loan such as Budget Warning, Loan Due Warning, etc
