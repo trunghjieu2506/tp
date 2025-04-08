@@ -437,6 +437,9 @@ as illustrated by the sequence diagram below:
 It is done by calling a boolean method from `Expense Manager` to check if budget is exceeded or not. 
 A warning will be displayed if budget has been exceeded.
 
+**Important note**: to smoothly integrate with expense, budget category will be changed to non-case sensitive.
+The string is converted such that the first letter is capitalized, while the rest are converted to lower case.
+
 ```
 BudgetManager budgetManager = data.getBudgetManager();
 if (budgetManager != null) {
@@ -722,20 +725,29 @@ Here are the implementation of OverviewCommand, one of the four analytic command
 
 ## Appendix B: User Stories
 
-| Priority | As a ... | I want to ... | So that I can ... |
-|----------|-----------|----------------|-------------------|
-| High | User | Add expenses | Track spending |
-| High | User | Edit/delete expenses | Fix mistakes |
-| Medium | User | Sort expenses | View spending trends |
-| Medium | User | See top category | Analyze major expenses |
-| High | User | Add income sources | Record earnings |
-| Medium | User | Manage budgets | Stay within limits |
-| Medium | User | Save for goals | Reach financial milestones |
-| Low | User | Track loanManager | Manage borrowings and lending |
-| High     | User | See monthly financial summary  | Manage my finances better                      |
-| Medium   | User | See financial trends over time | Understand my financial habits and plan wisely |
-| Medium   | User | See spending insights          | Make wiser spending decisions                  |
-| Medium   | User | See spending breakdown         | Manage my budget better                         |
+| Priority | As a ... | I want to ...                  | So that I can ...                                               |
+|----------|-----------|--------------------------------|-----------------------------------------------------------------|
+| High     | User | Add expenses                   | Track spending                                                  |
+| High     | User | Edit/delete expenses           | Fix mistakes                                                    |
+| Medium   | User | Sort expenses                  | View spending trends                                            |
+| Medium   | User | See top category               | Analyze major expenses                                          |
+| High     | User | Add income sources             | Record earnings                                                 |
+| High     | User | Set budgets                    | Stay within limits                                              |
+| Medium   | User | Check on budgets               | Get insights of spending history and remaining budgets          |
+| Medium   | User | List all budgets               | Get a short summary of my budgets                               |
+| High     | User | Modify budgets                 | Change any attributes if I want                                 |
+| High     | User | Deduct expenses from budgets   | easily track my budget without manually adding expenses into it |
+| High     | User | Set goals                      | Reach financial milestones                                      |
+| High     | User | Add contributions to goals     | Have a better idea of how much I have saved                     |
+| Medium   | User | Delete goals                   | Have the freedom to discard any goals                           |
+| Medium   | User | Delete contributions           | Have the freedom to discard or unsave a contribution            |
+| Medium   | User | Check on savings               | Get insights of saving history                                  |
+| Medium   | User | List all savings               | Get a short summary of my savings                               |
+| Low      | User | Track loanManager              | Manage borrowings and lending                                   |
+| High     | User | See monthly financial summary  | Manage my finances better                                       |
+| Medium   | User | See financial trends over time | Understand my financial habits and plan wisely                  |
+| Medium   | User | See spending insights          | Make wiser spending decisions                                   |
+| Medium   | User | See spending breakdown         | Manage my budget better                                         |
 
 ---
 
