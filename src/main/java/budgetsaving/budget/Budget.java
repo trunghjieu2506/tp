@@ -15,6 +15,7 @@ import static budgetsaving.budget.BudgetList.capitalize;
 
 
 public class Budget extends Finance {
+    private static final long serialVersionUID = 1L;
     private String name;
     private Money totalBudget;
     private Money remainingBudget;
