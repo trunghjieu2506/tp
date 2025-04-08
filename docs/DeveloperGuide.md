@@ -9,6 +9,7 @@
    - [Saving Management](#saving-management)
    - [Loan Management](#loan-management)
    - [Application Management](#application-management)
+   - [Analytic Management](#analytics-management)
 - [Implementation](#implementation)
    - [Expense](#expense-)
    - [Income](#income)
