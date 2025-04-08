@@ -151,6 +151,9 @@ public class AnalyticsManager {
     /**
      * Provides spending insights (new spending category) and recommendations by comparing the given month
      * with the previous month. Example: "You spent 30% more on dining this month than last month."
+     *
+     * @param month the month you want spending insights
+     * @param year  the year you want spending insights
      */
     public void showSpendingInsights(int month, int year) {
         YearMonth current = YearMonth.of(year, month);
@@ -179,10 +182,13 @@ public class AnalyticsManager {
     }
 
     /**
-     * Displays a category breakdown of expenses for a given month/year.
+     * Displays a spending breakdown of expenses in terms of categories for a given month/year.
      * Shows a bar diagram and percentage share per category.
+     *
+     * @param month the month you want spending insights
+     * @param year  the year you want spending insights
      */
-    public void showCategoryBreakdown(int month, int year) {
+    public void showSpendingBreakDown(int month, int year) {
         ArrayList<Expense> monthlyExpenses = dataLoader.retrieveMonthlyExpenses(month, year);
 
         if (monthlyExpenses.isEmpty()) {
