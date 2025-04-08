@@ -12,8 +12,8 @@
 - [Implementation](#implementation)
    - [Expense](#expense-)
    - [Income](#income)
-   - [Saving](#saving-)
    - [Budget](#budget-)
+   - [Saving](#saving)
    - [Loan](#loan)
   -  [Analytic](#analytic-command)
 - [Appendix A: Product Scope](#appendix-a-product-scope)
@@ -37,7 +37,7 @@ This module follows the **Command Pattern** for extensibility, the **Separation 
 
 The diagram shows the how different classes within the expense package interacts with one another:
 
-![ExpensePackageClassDiagram](img_6.png)
+![ExpensePackageClassDiagram](img_11.png)
 
 ---
 
@@ -53,7 +53,7 @@ This module follows the Command Pattern to organize operations, promotes Separat
 
 The diagram below shows how different classes in the income package interact:
 
-![IncomePackageClassDiagram](img_5.png)
+![IncomePackageClassDiagram](img_10.png)
 ---
 
 ### Design Principles for both Expense and Income
@@ -284,7 +284,8 @@ public void execute(ExpenseManager manager) {
 This makes testing and future enhancements (e.g. undo/redo) straightforward.
 
 An example of the sequence diagram for Add Expense Command is as shown:
-![Add Expense Command Sequence](img_7.png)
+![Add Expense Command Sequence](img_12.png)
+**Note**: UI object will print a success message back to User when sequence has completed.
 
 ---
 
@@ -339,7 +340,9 @@ public void execute(IncomeManager manager) {
 This makes the logic modular, testable, and easily extendable.
 
 An example of the sequence diagram for Edit Income Command is as shown:
-![Edit Income Command Sequence](img_8.png)
+
+![Edit Income Command Sequence](img_13.png)
+**Note**: UI object will print a success message back to User when sequence has completed.
 ---
 ### Error Handling for Expense and Income
 

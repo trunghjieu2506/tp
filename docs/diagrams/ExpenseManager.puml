@@ -22,6 +22,7 @@ package "expense" {
         - expenses : ArrayList<Expense>
         - data : FinanceData
         - currency : String
+        - expenseStorage : Storage
         + addExpense(String, double, LocalDate, String)
         + editExpense(int, String, double, LocalDate, String)
         + deleteExpense(int)
@@ -36,53 +37,15 @@ package "expense" {
         + execute(ExpenseManager)
     }
 
-    class AddExpenseCommand {
-        - description : String
-        - amount : double
-        - date : LocalDate
-        - category : String
-        + execute(ExpenseManager)
-    }
-
-    class EditExpenseCommand {
-        - index : int
-        - newDescription : String
-        - newAmount : double
-        - newDate : LocalDate
-        - newCategory : String
-        + execute(ExpenseManager)
-    }
-
-    class DeleteExpenseCommand {
-        - index : int
-        + execute(ExpenseManager)
-    }
-
-    class ListExpenseCommand {
-        + execute(ExpenseManager)
-    }
-
-    class ListCategoryExpenseCommand {
-        - category : String
-        + execute(ExpenseManager)
-    }
-
-    class SortExpenseCommand {
-        - mostRecentFirst : boolean
-        + execute(ExpenseManager)
-    }
-
-    class TopCategoryExpenseCommand {
-        + execute(ExpenseManager)
-    }
-
-    class BottomCategoryExpenseCommand {
-        + execute(ExpenseManager)
-    }
-
-    class HelpExpenseCommand {
-        + execute(ExpenseManager)
-    }
+    class AddExpenseCommand
+    class EditExpenseCommand
+    class DeleteExpenseCommand
+    class ListExpenseCommand
+    class ListCategoryExpenseCommand
+    class SortExpenseCommand
+    class TopCategoryExpenseCommand
+    class BottomCategoryExpenseCommand
+    class HelpExpenseCommand
 
     class ExpenseCommandParser {
         + parseCommand(String) : ExpenseParserResult
@@ -97,10 +60,41 @@ package "expense" {
         + hasFeedback() : boolean
     }
 
+    class HandleExpenseCommand {
+        + handle(Scanner, ExpenseManager)
+    }
+
+    class FinanceData {
+        + getBudgetManager() : BudgetManager
+    }
+
+    interface BudgetManager {
+        + deductBudgetFromExpense(Expense) : boolean
+        + modifyExpenseInBudget(Expense, Expense) : boolean
+        + removeExpenseInBudget(Expense) : boolean
+    }
+
+    class Storage {
+        + saveFile(ArrayList<>)
+        + loadFile()
+    }
+
     class ExpenseException extends Exception
 
     ' Relationships
     ExpenseManager --> Expense
+    ExpenseManager --> FinanceData
+    ExpenseManager --> Storage
+    FinanceData --> BudgetManager
+
+    ExpenseManager ..> ExpenseException : throws
+    ExpenseCommandParser --> ExpenseParserResult
+    ExpenseCommandParser ..> ExpenseException : throws
+    ExpenseParserResult --> ExpenseCommand
+
+    HandleExpenseCommand --> ExpenseManager
+    HandleExpenseCommand --> ExpenseCommandParser
+
     ExpenseCommand <|-- AddExpenseCommand
     ExpenseCommand <|-- EditExpenseCommand
     ExpenseCommand <|-- DeleteExpenseCommand
@@ -110,9 +104,6 @@ package "expense" {
     ExpenseCommand <|-- TopCategoryExpenseCommand
     ExpenseCommand <|-- BottomCategoryExpenseCommand
     ExpenseCommand <|-- HelpExpenseCommand
-
-    ExpenseCommandParser --> ExpenseParserResult
-    ExpenseParserResult --> ExpenseCommand
 }
 
 @enduml
