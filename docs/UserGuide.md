@@ -24,7 +24,7 @@ CashFlow is ideal for students and working professionals who want a lightweight,
 
 ## Features
 
-
+**Note**: We have acknowledged some features that might be considered flaws or bugs to Users, but they are intentional. Please read this User Guide carefully.
 ## Expense Management Commands
 
 The Expense commands will be available when entering **expense mode**:
@@ -298,7 +298,11 @@ bottom
 ---
 ## Budget Management Commands
 
-**Important note**: (v2.1) budget category is no longer case sensitive, but others are.
+**Important note**: 
+- (v2.1) budget category is no longer case sensitive, but others are.
+- (v2.1) you might experience something like "Error loading tasks: writing aborted;
+java.io.NotSerializableException: budgetsaving.saving.SavingContribution", when you close and open the application.
+We are trying to fix on that now.
 
 The Budget commands will be available when entering budget mode.
 
@@ -378,7 +382,8 @@ deduct i/1 a/500
 
 **Command:** 
 ```
-i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
+i/INDEX [n/NAME] [a/AMOUNT] [e/YYYY-MM-DD] [c/CATEGORY]
+attributes in '[ ]' are optional to include
 ```
 
 **You can skip any of the attributes if you are not changing them, but must include the index**
@@ -533,6 +538,8 @@ Budget deducted: [ACTIVE][EXCEEDED_BUDGET]{Name: Food, Category: Food, Remaining
 Warning: You have exceeded your budget for category: Food
 Added: Fine-Dining - USD 200.00 on 2025-04-06 [Category: Food]
 ```
+
+This feature allows budget to be modified when expenses are added, modified, or deleted.
 
 **Note**: Calculation of available budget left after expense is added only works for existing budget. It does not account for new budget set after the expenses are already recorded.
 
@@ -881,8 +888,6 @@ Interest: Compound Interest 3.0% Per 1 Month
 Outstanding Balance: USD 1000.00
 Returned
 ```
-
-
 
 ## Analytics Command
 
