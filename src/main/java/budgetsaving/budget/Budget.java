@@ -272,4 +272,17 @@ public class Budget extends Finance {
     public LocalDate getStartDate() {
         return this.startDate;
     }
+
+    public void removeExpenses() throws BudgetRuntimeException {
+        try {
+            if (!expenses.isEmpty()) {
+                for (Expense e : expenses) {
+                    expenses.remove(e);
+                }
+            }
+            recalcRemainingBudget();
+        } catch(NullPointerException e) {
+            throw new BudgetRuntimeException("Error removing expenses during category change.");
+        }
+    }
 }

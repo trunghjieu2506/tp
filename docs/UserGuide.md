@@ -298,7 +298,10 @@ bottom
 ---
 ## Budget Management Commands
 
+**Important note**: (v2.1) budget category is no longer case sensitive, but others are.
+
 The Budget commands will be available when entering budget mode.
+
 ```
 budget
 ```
@@ -391,6 +394,8 @@ i/INDEX n/NAME a/AMOUNT e/YYYY-MM-DD c/CATEGORY
 - ```modify i/1 n/trip c/trip123```
 - ```modify i/1 a/5000```
 - This adds $500 to budget with index 1, on top of the current budget limit
+
+**Note**: changing the budget category will remove all its expenses. So do it wisely!
 
 
 ## Saving Management Commands

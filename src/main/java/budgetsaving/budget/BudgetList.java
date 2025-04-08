@@ -260,12 +260,13 @@ public class BudgetList implements BudgetManager, BudgetDataManager {
         }
         Budget b = budgets.get(index);
         String oldCategory = b.getCategory();
-        if (category != null && !oldCategory.equals(category)) {
+        if (category != null && !oldCategory.equalsIgnoreCase(category)) {
             if (budgetByCategory.containsKey(category)) {
                 throw new BudgetRuntimeException("Budget in category " + category + " already exists.");
             }
             budgetByCategory.remove(oldCategory);
             budgetByCategory.put(category, b);
+            b.removeExpenses();
         }
         b.modifyBudget(amount, name, endDate, category);
         budgetStorage.saveFile(new ArrayList<>(budgets));
