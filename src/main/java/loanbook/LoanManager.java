@@ -72,6 +72,9 @@ public class LoanManager implements LoanDataManager {
         }
     }
 
+    /**
+     * Updates the loan storage.
+     */
     public void storeLoans() {
         if (loanStorage != null) {
             loanStorage.saveFile(new ArrayList<>(loans));

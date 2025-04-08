@@ -3,8 +3,11 @@ package cashflow.model.setup;
 import cashflow.model.FinanceData;
 import cashflow.model.storage.Storage;
 import cashflow.ui.command.Command;
+import utils.io.IOHandler;
 
 import java.util.Scanner;
+
+import static utils.textcolour.TextColour.RED;
 
 public class SetUpCommand implements Command {
     private FinanceData data;
@@ -21,10 +24,10 @@ public class SetUpCommand implements Command {
         // Set username.
         String username;
         while (true) {
-            System.out.print("Enter your username:");
+            System.out.print("Enter your username: ");
             username = scanner.nextLine().trim();
             if (username.isBlank()) {
-                System.out.println("You cannot enter an empty username");
+                IOHandler.writeOutputWithColour("You cannot enter an empty username", RED);
             } else {
                 break;
             }

@@ -534,9 +534,34 @@ Added: Fine-Dining - USD 200.00 on 2025-04-06 [Category: Food]
 ---
 ### Loan Management Commands
 
-The Loan commands will be available when entering loan mode:
+The Loan commands will be available when entering loan mode by this command:
 ```
 loan
+```
+
+### Help
+Displays available loan commands and how to use them.
+
+**Command:**
+```
+help
+```
+
+**Example:** `help`
+```
+> help
+Here's a list of loan commands:
+----------------------------------------------------------------------
+- "add": add a loan.
+- "list": view the list of all loanManager recorded.
+- "show X": show the details of the Xth loan in the list.
+- "edit X [attribute]": edit the specified attribute of the Xth loan.
+- "delete X": delete the Xth loan.
+- "return X": set the Xth loan as returned.
+- "unreturn X": set the Xth loan as not returned.
+- "find": find loanManager. Type "help find" for more details.
+- "exit": Exit loan program.
+----------------------------------------------------------------------
 ```
 
 ### List all loans
@@ -547,17 +572,16 @@ Displays a list of all loanManager. Only basic information (lender, borrower, ba
 list
 ```
 
-
 **Example:** `list`
 ```
 > list
 Here are all recorded loanManager:
-[1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
-    Not Returned
-[2] Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
-    Interest: Compound Interest 5.0% Per 1 Month
-    Outstanding Balance: USD 500.00
-    Not Returned
+[1] Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+[2] Lender: [Qiaozi]    Borrower: [George]
+    Principal: USD 100.00    Interest: Compound Interest 3.0% Per 1 Year
+    Start Date: 2023-01-01    Return Date: 2025-01-01
+    Outstanding Balance: USD 106.09    Not Returned
 ```
 ### Show the details of a specific loan
 Shows every detail of the Xth loan in the list. Each detail is shown in a separated line.
@@ -567,16 +591,18 @@ Shows every detail of the Xth loan in the list. Each detail is shown in a separa
 show X
 ```
 
-**Example:** `show 1`
+**Example:** `show 2`
 ```
-> show 1
-[1] Lender: lender 1
-    Borrower: borrower 1
+> show 2
+[2] Lender: Qiaozi (Contact Number: 12345678) (E-Mail: someone@example.com)
+    Borrower: George
     Amount: USD 100.00
-    Start Date: None
-    Return Date: None
-    Description: This is a simple bullet loan.
-    Tags: None
+    Start Date: 2023-01-01
+    Return Date: 2025-01-01
+    Description: None
+    Tags: food
+    Interest: Compound Interest 3.0% Per 1 Year
+    Outstanding Balance: USD 106.09
     Not Returned
 ```
 
@@ -591,17 +617,25 @@ Adds a simple bullet loan to the list, with optional description and return date
 With or without interest? (y/n)
 > n
 Enter the lender's name:
-> lender 1
+> George
 Enter the borrower's name:
-> borrower 1
+> Qiaozi
 Key in the amount of money lent:
-> 100
+> 500
 Key in the description (Key in "N/A" if not applicable):
 > N/A
-Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+Key in the start date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
 > N/A
-Simple Bullet Loan added: Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
-    Not Returned
+Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+> 2025-10-01
+Key in a tag (Key in "N/A" to finish):
+> food
+Added tag: [food]
+Key in a tag (Key in "N/A" to finish):
+> N/A
+Tasks saved successfully!
+Simple Bullet Loan added: Lender: [George]    Borrower: [Qiaozi]
+    Amount: USD 500.00    Not Returned
 ```
 ### Adding an advanced bullet loan
 Adds an advanced bullet loan to the list, with compulsory start date, optional description and return dates.
@@ -614,23 +648,29 @@ Adds an advanced bullet loan to the list, with compulsory start date, optional d
 With or without interest? (y/n)
 > y
 Enter the lender's name:
-> lender 2
+> George
 Enter the borrower's name:
-> borrower 1
+> John
 Key in the amount of principal:
-> 500
+> 1000
 Key in the start date of the loan (yyyy-mm-dd):
-> 2025-04-03
+> 2025-04-01
 Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
-> N/A
+> 2026-04-01
 Enter the interest (format: [SIMPLE/COMPOUND] [rate] per [X Years/Months/Days]):
-> COMPOUND 5% per month
+> COMPOUND 3% per month
 Key in the description (Key in "N/A" if not applicable):
-> This is an advanced loan.
-Advanced Loan added: Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
-    Interest: Compound Interest 5.0% Per 1 Month
-    Outstanding Balance: USD 500.00
-    Not Returned
+> Toy
+Key in a tag (Key in "N/A" to finish):
+> food
+Added tag: [food]
+Key in a tag (Key in "N/A" to finish):
+> N/A
+Tasks saved successfully!
+Advanced Bullet Loan added: Lender: [George]    Borrower: [John]
+    Principal: USD 1000.00    Interest: Compound Interest 3.0% Per 1 Month
+    Start Date: 2025-04-01    Return Date: 2026-04-01
+    Outstanding Balance: USD 1000.00    Not Returned
 ```
 
 ### Editing an attribute of a loan
@@ -645,14 +685,15 @@ edit X [attribute]
 ```
 > edit 1 description
 Key in the new description:
-> This is a simple bullet loan.
+> New description
+Tasks saved successfully!
 The description of the following loan is updated:
-Lender: lender 1
-Borrower: borrower 1
-Amount: USD 100.00
-Start Date: None
-Return Date: None
-Description: This is a simple bullet loan.
+Lender: Qiaozi (Contact Number: 12345678) (E-Mail: someone@example.com)
+Borrower: George
+Amount: USD 500.00
+Start Date: 2023-08-08
+Return Date: 2025-01-01
+Description: New description
 Tags: None
 Not Returned
 ```
@@ -665,7 +706,17 @@ Finds all loans lent by the user.
 find outgoing loan
 ```
 
-**Example:** `find lender 1 outgoing loan`
+**Example:** `find outgoing loan`
+```
+> find outgoing loan
+Your outgoing loans are:
+[1] Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+[2] Lender: [Qiaozi]    Borrower: [George]
+    Principal: USD 100.00    Interest: Compound Interest 3.0% Per 1 Year
+    Start Date: 2023-01-01    Return Date: 2025-01-01
+    Outstanding Balance: USD 106.09    Not Returned
+```
 
 ### Finding outgoing loans from someone
 
@@ -676,20 +727,32 @@ Finds all loans lent by the input name.
 find [name] outgoing loan` or find outgoing loan [name]
 ```
 
-**Example:** `find lender 1 outgoing loan`
+**Example:** `find George outgoing loan`
 ```
-> find lender 1 outgoing loan
-Outgoing loanManager for [lender 1] is:
-[1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
-    Not Returned
+> find George outgoing loan
+Outgoing loans for [George] are:
+[1] Lender: [George]    Borrower: [Qiaozi]
+    Amount: USD 500.00    Not Returned
+[2] Lender: [George]    Borrower: [John]
+    Principal: USD 1000.00    Interest: Compound Interest 3.0% Per 1 Month
+    Start Date: 2025-04-01    Return Date: 2026-04-01
+    Outstanding Balance: USD 1000.00    Not Returned
 ```
 
 ### Finding incoming loans
 Finds all loans borrowed by the user.
 
-**Command:**
+**Command:** 
 ```
 find incoming loan
+```
+**Example:**`find incoming loan`
+
+```
+> find incoming loan
+Your incoming loan is:
+[1] Lender: [George]    Borrower: [Qiaozi]
+    Amount: USD 500.00    Not Returned
 ```
 
 ### Finding incoming loans from someone
@@ -700,16 +763,16 @@ Finds all loans borrowed by the input name.
 find [name] incoming loan` or `find incoming loan [name]
 ```
 
-**Example:** `find borrower 1 incoming loan`
+**Example:** `find George incoming loan`
 ```
-> find borrower 1 incoming loan
-Incoming loanManager for [borrower 1] are:
-[1] Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
-    Not Returned
-[2] Lender: [lender 2]    Borrower: [borrower 1]    Amount: USD 500.00    Start Date: 2025-04-03
-    Interest: Compound Interest 5.0% Per 1 Month
-    Outstanding Balance: USD 500.00
-    Not Returned
+> find George incoming loan
+Incoming loans for [George] are:
+[1] Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+[2] Lender: [Qiaozi]    Borrower: [George]
+    Principal: USD 100.00    Interest: Compound Interest 3.0% Per 1 Year
+    Start Date: 2023-01-01    Return Date: 2025-01-01
+    Outstanding Balance: USD 106.09    Not Returned
 ```
 ### Finding overdue loans
 Finds all overdue loans.
@@ -717,6 +780,17 @@ Finds all overdue loans.
 **Command:**
 ```
 find overdue loan
+```
+**Example:** `find overdue loan`
+```
+> find overdue loan
+Overdue loans are:
+[1] Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+[2] Lender: [Qiaozi]    Borrower: [George]
+    Principal: USD 100.00    Interest: Compound Interest 3.0% Per 1 Year
+    Start Date: 2023-01-01    Return Date: 2025-01-01
+    Outstanding Balance: USD 106.09    Not Returned
 ```
 
 ### Finding urgent loans
@@ -726,6 +800,19 @@ Finds the top X loans with the earliest return dates.
 ```
 find X urgent loan
 ```
+**Example:** `find 3 urgent loan`
+```
+> find 3 urgent loan
+Here are the top 3 urgent loans
+[1] Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+[2] Lender: [Qiaozi]    Borrower: [George]
+    Principal: USD 100.00    Interest: Compound Interest 3.0% Per 1 Year
+    Start Date: 2023-01-01    Return Date: 2025-01-01
+    Outstanding Balance: USD 106.09    Not Returned
+[3] Lender: [George]    Borrower: [Qiaozi]
+    Amount: USD 500.00    Not Returned
+```
 
 ### Finding largest loans
 Finds the top X loans with the highest balance.
@@ -734,7 +821,19 @@ Finds the top X loans with the highest balance.
 ```
 find X largest loan
 ```
-
+**Example:** `find 3 largest loan`
+```
+> find 3 largest loan
+Here are the top 3 largest loans:
+[1] Lender: [George]    Borrower: [John]
+    Principal: USD 1000.00    Interest: Compound Interest 3.0% Per 1 Month
+    Start Date: 2025-04-01    Return Date: 2026-04-01
+    Outstanding Balance: USD 1000.00    Not Returned
+[2] Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+[3] Lender: [George]    Borrower: [Qiaozi]
+    Amount: USD 500.00    Not Returned
+```
 
 ### Deleting Loan
 Deletes the Xth loan from the list.
@@ -747,9 +846,35 @@ delete X
 **Example:** `delete 1`
 ```
 > delete 1
+Tasks saved successfully!
 Successfully deleted the following loan:
-Lender: [lender 1]    Borrower: [borrower 1]    Amount: USD 100.00
-    Not Returned
+Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+```
+
+### Returning / Unreturning Loan
+Return / unreturn the Xth loan from the list.
+
+**Command:**
+```
+return / unreturn X
+```
+
+**Example:** `return 3`
+```
+> return 3
+Tasks saved successfully!
+The return status of the following loan is updated:
+Lender: George
+Borrower: John (Contact Number: 11111111)
+Amount: USD 1000.00
+Start Date: 2025-04-01
+Return Date: 2026-04-01
+Description: Toy
+Tags: food
+Interest: Compound Interest 3.0% Per 1 Month
+Outstanding Balance: USD 1000.00
+Returned
 ```
 
 
@@ -859,6 +984,9 @@ Grand Total: 216.50
 **Q:** Do I need to follow the date format exactly in Budget and Saving managements?
 **A:** Yes! Please use the exact date format `YYYY-MM-DD`
 
+**Q:** What is the name of the Person in ContactList that represents myself?
+**A:** It is the same as your username.
+
 ## Command Summary
 
 ### Expenses
@@ -916,14 +1044,26 @@ Grand Total: 216.50
 
 ### Loans
 
-| Feature               | Command Format       |
-|-----------------------|----------------------|
-| Add Loan              | `add`                |
-| Edit Loan attribute   | `edit X [attribute]` |
-| List Loans            | `list`               |
-| Delete Loan           | `delete X`           |
-| Show Loan Details     | `show X`             |
-| Find associated loanManager | `find [name]`        |
+| Feature                 | Command Format       |
+|-------------------------|----------------------|
+| Add Loan                | `add`                |
+| Edit Loan attribute     | `edit X [attribute]` |
+| List Loans              | `list`               |
+| Delete Loan             | `delete X`           |
+| Show Loan Details       | `show X`             |
+| Return loan             | `return X`           |
+| Unreturn loan           | `unreturn X`         |
+| Find associated loans   | `find [name]`        |
+| Find outgoing loans     | `find outgoing loan` |
+| Find incoming loans     | `find incoming loan` |
+| Find overdue loans      | `find overdue loan`  |
+| Find urgent loans       | `find X urgent loan` |
+| Find largest loans      | `find largest loan`  |
+| Help                    | `help`               |
+| Help with find commands | `help find`          |
+| Help with edit commands | `help edit`          |
+
+
 
 ### Analytics & Program Setup
 
@@ -947,3 +1087,6 @@ Grand Total: 216.50
 - Giving the user the freedom to modify their saving
 - Giving user the freedom to delete any budget they want
 - Give user the freedom to filter the Budgets/Savings to list out based on their active status
+- Multiple users and user storages
+- Better integration of ContactsList
+- More loan types

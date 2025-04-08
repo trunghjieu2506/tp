@@ -1,40 +1,15 @@
-<Name>Giao
+<Name>George
 <ContactNumber>None
 <EMail>None
 <Tags>None
 <ContactsSaveSeparator>
-<Name>Siao
-<ContactNumber>None
-<EMail>None
-<Tags>Student
-<ContactsSaveSeparator>
-<Name>George
+<Name>Qiaozi
 <ContactNumber>12345678
-<EMail>george@example.com
-<Tags>Student, W11-2
+<EMail>someone@example.com
+<Tags>None
 <ContactsSaveSeparator>
-<Name>Ciao
-<ContactNumber>None
+<Name>John
+<ContactNumber>11111111
 <EMail>None
-<Tags>Student, Year 1, CS
-<ContactsSaveSeparator>
-<Name>Robert
-<ContactNumber>None
-<EMail>None
-<Tags>Student
-<ContactsSaveSeparator>
-<Name>Biao
-<ContactNumber>None
-<EMail>None
-<Tags>Student, Year 1, CS
-<ContactsSaveSeparator>
-<Name>Miao
-<ContactNumber>None
-<EMail>None
-<Tags>Student
-<ContactsSaveSeparator>
-<Name>Liao
-<ContactNumber>None
-<EMail>None
-<Tags>W11-2
+<Tags>None
 <ContactsSaveSeparator>
