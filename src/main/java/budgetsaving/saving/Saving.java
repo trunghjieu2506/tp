@@ -12,6 +12,7 @@ import utils.money.Money;
 import utils.textcolour.TextColour;
 
 public class Saving extends Finance {
+    private static final long serialVersionUID = 1L;
     private String name;
     private Money goalAmount;
     private Money currentAmount;
