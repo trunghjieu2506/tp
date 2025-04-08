@@ -102,9 +102,9 @@ public class AnalyticsManager {
                 .append(lastMonth.getYear())
                 .append("):\n");
         sb.append(" - Income: ").append(data.getCurrency()).append(" ").append(totalIncome)
-                .append(" vs ").append(data.getCurrency()).append(lastMonthIncome).append("\n");
+                .append(" vs ").append(data.getCurrency()).append(" ").append(lastMonthIncome).append("\n");
         sb.append(" - Expenses: ").append(data.getCurrency()).append(" ").append(totalExpenses)
-                .append(" vs ").append(data.getCurrency()).append(lastMonthExpenses).append("\n");
+                .append(" vs ").append(data.getCurrency()).append(" ").append(lastMonthExpenses).append("\n");
 
         sb.append("\n---------------------------------\n");
 

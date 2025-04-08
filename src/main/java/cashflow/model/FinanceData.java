@@ -3,33 +3,67 @@ package cashflow.model;
 import budgetsaving.budget.BudgetList;
 import budgetsaving.saving.SavingList;
 import cashflow.analytics.AnalyticsManager;
-import cashflow.model.interfaces.BudgetManager;
 import cashflow.model.setup.SetUpManager;
-import cashflow.model.storage.Storage;
 import expenseincome.expense.ExpenseManager;
 import expenseincome.income.IncomeManager;
 import loanbook.LoanManager;
-
-import java.io.FileNotFoundException;
 import java.util.Currency;
 
-//Centralized data hub
+/**
+ * Acts as a central container aggregating references to all major data management
+ * components and core configuration settings for the personal finance application.
+ */
 public class FinanceData {
+
+    /**
+     * The primary currency used for all financial amounts within the application.
+     * Should conform to ISO 4271 (e.g., USD, EUR, SGD).
+     */
     private Currency currency;
+
+    /**
+     * Flag indicating whether the application is being run for the first time by the user.
+     * Typically used to trigger initial setup procedures.
+     */
     private boolean isFirstTime;
+
+    /**
+     * Manager responsible for handling expense records and operations.
+     */
     private ExpenseManager expenseManager;
+
+    /**
+     * Manager responsible for handling income records and operations.
+     */
     private IncomeManager incomeManager;
+
+    /**
+     * List/Manager responsible for handling savings goals and records.
+     * Note: Type is {@link SavingList}.
+     */
     private SavingList savingsManager;
+
+    /**
+     * List/Manager responsible for handling budget definitions and tracking.
+     * Note: Type is {@link BudgetList}.
+     */
     private BudgetList budgetManager;
+
+    /**
+     * Manager responsible for handling loan records and operations.
+     */
     private LoanManager loanManager;
+
+    /**
+     * Manager responsible for providing financial analysis and insights.
+     */
     private AnalyticsManager analyticsManager;
+
+    /**
+     * Manager responsible for handling the initial application setup process.
+     */
     private SetUpManager setUpManager;
 
-//    public FinanceData(Storage setupStorage) throws FileNotFoundException {
-//        currency = setupStorage.loadFile();
-//    }
-
-    // Basic getters and setters.
     public Currency getCurrency() {
         return currency;
     }
