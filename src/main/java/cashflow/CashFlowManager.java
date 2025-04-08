@@ -65,7 +65,14 @@ public class CashFlowManager {
     private static boolean isFirstTime;
     private boolean isExit = false;
 
-    //Initialization
+    /**
+     * Constructs a CashFlowManager instance, initializing all necessary components.
+     * This includes setting up data storage, loading existing configuration, and initializing
+     * the various manager classes.
+     *
+     * @throws FileNotFoundException If any of the data files cannot be found.
+     */
+
     public CashFlowManager() throws FileNotFoundException {
         logger.info("Initializing CashFlowManager...");
 
@@ -98,8 +105,6 @@ public class CashFlowManager {
                     : "Loaded currency code from setup config is null or empty.";
             logger.info("Loaded setup config: isFirstTime=" + isFirstTime + ", currency=" + currencyStr);
 
-            System.out.println("Loaded config: isFirstTime=" + isFirstTime
-                    + ", currency=" + currencyStr);
             data = new FinanceData();
             assert data != null : "FinanceData failed to initialize after loading config.";
             data.setCurrency(currencyStr);
@@ -146,7 +151,7 @@ public class CashFlowManager {
     /**
      * Runs the main application loop.
      * Continuously reads user commands, parses them, and executes the corresponding actions
-     * until the ExitCommand is issued.
+     * until the isExit = true.
      */
     public void run() {
         logger.info("Running CashFlowManager main loop.");
