@@ -1,0 +1,10 @@
+<Name>George
+<ContactNumber>None
+<EMail>None
+<Tags>Student
+<ContactsSaveSeparator>
+<Name>Miao
+<ContactNumber>None
+<EMail>None
+<Tags>Parent
+<ContactsSaveSeparator>
