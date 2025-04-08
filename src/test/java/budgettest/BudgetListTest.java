@@ -2,8 +2,6 @@ package budgettest;
 
 import budgetsaving.budget.Budget;
 import budgetsaving.budget.BudgetList;
-import budgetsaving.budget.exceptions.BudgetException;
-import budgetsaving.budget.exceptions.BudgetRuntimeException;
 import cashflow.model.storage.Storage;
 import cashflow.model.interfaces.Finance;
 import expenseincome.expense.Expense;
@@ -18,10 +16,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.io.FileNotFoundException;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
+
 
 class BudgetListTest {
 
@@ -78,7 +82,8 @@ class BudgetListTest {
         // setBudget creates a new Budget and internally calls dummyStorage.saveFile(...)
         budgetList.setBudget("Food", 500.0, LocalDate.now().plusDays(10), "Essentials");
         int newSize = budgetList.getBudgetList().size();
-        assertEquals(initialSize + 1, newSize, "Budget list should have one more element after adding a new budget.");
+        assertEquals(initialSize + 1, newSize,
+                "Budget list should have one more element after adding a new budget.");
     }
 
     @Test
@@ -91,7 +96,8 @@ class BudgetListTest {
         budgetList.deductFromBudget(0, 200.0);
         double newRemaining = budget.getRemainingBudget().getAmount().doubleValue();
         // The remaining amount should decrease by 200.
-        assertEquals(initialRemaining - 200.0, newRemaining, 0.01, "Remaining budget should be reduced by the deducted amount.");
+        assertEquals(initialRemaining - 200.0, newRemaining, 0.01,
+                "Remaining budget should be reduced by the deducted amount.");
     }
 
     @Test
@@ -147,15 +153,17 @@ class BudgetListTest {
     }
 
     @Test
-    void testAddNewBudget_Duplicate() {
+    void testAddNewBudgetDuplicate() {
         // Capture the System.err output.
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
         PrintStream originalErr = System.err;
         System.setErr(new PrintStream(errContent));
 
-        budgetList.setBudget("DuplicateBudget", 400.0, LocalDate.now().plusDays(10), "Dup");
+        budgetList.setBudget("DuplicateBudget", 400.0,
+                LocalDate.now().plusDays(10), "Dup");
 
-        budgetList.setBudget("Another Budget", 500.0, LocalDate.now().plusDays(12), "dup");
+        budgetList.setBudget("Another Budget", 500.0,
+                LocalDate.now().plusDays(12), "dup");
 
         System.setErr(originalErr);
 
@@ -169,7 +177,7 @@ class BudgetListTest {
 
 
     @Test
-    void testDeductBudgetFromExpense_Exceed() {
+    void testDeductBudgetFromExpenseExceed() {
         // Add a budget with a small total amount.
         budgetList.setBudget("ExpenseTest", 100.0, LocalDate.now().plusDays(5),
                 "TestCat");
@@ -184,7 +192,7 @@ class BudgetListTest {
     }
 
     @Test
-    void testDeductBudgetFromExpense_NotExceed() {
+    void testDeductBudgetFromExpenseNotExceed() {
         // Add a budget with a relatively high total amount.
         budgetList.setBudget("ExpenseTest", 500.0, LocalDate.now().plusDays(5),
                 "TestCat");
@@ -199,7 +207,7 @@ class BudgetListTest {
     }
 
     @Test
-    void testRemoveExpenseInBudget_NotFound() {
+    void testRemoveExpenseInBudgetNotFound() {
         // Create an expense for a category that doesn't exist in any budget.
         Expense expense = new Expense("Coffee", new Money(currency, BigDecimal.valueOf(50.0)),
                 LocalDate.now(), "NonExisting");
@@ -226,7 +234,7 @@ class BudgetListTest {
     }
 
     @Test
-    void testCheckBudget_InvalidIndex() {
+    void testCheckBudgetInvalidIndex() {
         // Call checkBudget with an invalid index.
         // This method writes output via IOHandler but should not throw an exception.
         try {
