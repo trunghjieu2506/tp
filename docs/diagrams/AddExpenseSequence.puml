@@ -5,15 +5,18 @@ participant ":ExpenseCommandParser"
 participant ":ExpenseParserResult"
 participant ":AddExpenseCommand"
 participant ":ExpenseManager"
+participant ":FinanceData"
+participant ":BudgetManager"
+participant ":Storage"
 hide footbox
 
 User -> ":UI" : enters "add Lunch 12.5 Food 2025-03-25"
 activate ":UI"
 
-":UI" -> ":ExpenseCommandParser": parseCommand(input)
+":UI" -> ":ExpenseCommandParser": parseAdd(input)
 activate ":ExpenseCommandParser"
 
-":ExpenseCommandParser" -> ":ExpenseParserResult": construct result (AddExpenseCommand, null)
+":ExpenseCommandParser" -> ":ExpenseParserResult": create(AddExpenseCommand)
 activate ":ExpenseParserResult"
 ":ExpenseParserResult" --> ":ExpenseCommandParser"
 deactivate ":ExpenseParserResult"
@@ -31,6 +34,22 @@ activate ":AddExpenseCommand"
 
 ":AddExpenseCommand" -> ":ExpenseManager": addExpense("Lunch", 12.5, 2025-03-25, "Food")
 activate ":ExpenseManager"
+
+":ExpenseManager" -> ":FinanceData": getBudgetManager()
+activate ":FinanceData"
+":FinanceData" --> ":ExpenseManager": BudgetManager
+deactivate ":FinanceData"
+
+":ExpenseManager" -> ":BudgetManager": deductBudgetFromExpense(expense)
+activate ":BudgetManager"
+":BudgetManager" --> ":ExpenseManager": success/failure
+deactivate ":BudgetManager"
+
+":ExpenseManager" -> ":Storage": saveFile(expenses)
+activate ":Storage"
+":Storage" --> ":ExpenseManager"
+deactivate ":Storage"
+
 ":ExpenseManager" --> ":AddExpenseCommand"
 deactivate ":ExpenseManager"
 

@@ -22,6 +22,7 @@ package "income" {
         - incomes : ArrayList<Income>
         - data : FinanceData
         - currency : String
+        - incomeStorage : Storage
         + addIncome(String, double, LocalDate, String)
         + editIncome(int, String, double, LocalDate, String)
         + deleteIncome(int)
@@ -97,10 +98,27 @@ package "income" {
         + hasFeedback() : boolean
     }
 
+    class HandleIncomeCommand {
+        + handle(Scanner, IncomeManager)
+    }
+
     class IncomeException extends Exception
+
+    class FinanceData {
+        + getCurrency() : Currency
+    }
+
+    class Storage {
+        + saveFile(ArrayList<>)
+        + loadFile()
+    }
 
     ' Relationships
     IncomeManager --> Income
+    IncomeManager --> FinanceData
+    IncomeManager --> Storage
+    IncomeManager ..> IncomeException : throws
+
     IncomeCommand <|-- AddIncomeCommand
     IncomeCommand <|-- EditIncomeCommand
     IncomeCommand <|-- DeleteIncomeCommand
@@ -112,11 +130,11 @@ package "income" {
     IncomeCommand <|-- HelpIncomeCommand
 
     IncomeCommandParser --> IncomeParserResult
+    IncomeCommandParser ..> IncomeException : throws
     IncomeParserResult --> IncomeCommand
 
+    HandleIncomeCommand --> IncomeCommandParser
+    HandleIncomeCommand --> IncomeManager
 }
-
-@enduml
-
 
 @enduml
