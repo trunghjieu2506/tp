@@ -17,8 +17,8 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactsListTest {
-    private ContactsList createContactList(String user) {
-        ContactsList contactsList = new ContactsList(user);
+    private ContactsList createContactList() {
+        ContactsList contactsList = new ContactsList();
         String[] tags1 = {"Student", "Year 1", "CS"};
         ArrayList<String> tagList = new ArrayList<>(List.of(tags1));
 
@@ -52,7 +52,7 @@ public class ContactsListTest {
 
     @Test
     public void testOne() {
-        ContactsList contactsList = createContactList("George");
+        ContactsList contactsList = createContactList();
 
         try {
             contactsList.addPerson(new Person("Miao", "W11-3"));
@@ -71,7 +71,7 @@ public class ContactsListTest {
 
     @Test
     public void testSave() {
-        ContactsList contactsList0 = createContactList("Miao");
+        ContactsList contactsList0 = createContactList();
         try {
             ContactsSaveManager.savePeopleList(contactsList0);
         } catch (IOException e) {
@@ -84,7 +84,7 @@ public class ContactsListTest {
     public void testReadSave() {
         ContactsList contactsList;
         try {
-            contactsList = ContactsSaveManager.readSave("Miao");
+            contactsList = ContactsSaveManager.readSave();
             System.out.println(contactsList.listAll());
             System.out.println(contactsList.findName("George").showDetails());
         } catch (FileNotFoundException e) {
@@ -94,7 +94,7 @@ public class ContactsListTest {
 
     @Test
     public void testAddPersonUI() {
-        ContactsList contactsList = createContactList("Cashflow");
+        ContactsList contactsList = createContactList();
         String input = """
                 lender
                 N/A

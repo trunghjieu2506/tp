@@ -3,6 +3,9 @@ package loanbook.commands.setcommands;
 import loanbook.LoanManager;
 import loanbook.interest.Interest;
 import loanbook.loan.AdvancedBulletLoan;
+import utils.io.IOHandler;
+
+import static utils.textcolour.TextColour.RED;
 
 public class SetInterestCommand extends SetCommand {
     protected Interest interest;
@@ -24,8 +27,9 @@ public class SetInterestCommand extends SetCommand {
             advancedBulletLoan.setInterest(interest);
             System.out.println("The interest of the following loan is updated:");
             System.out.println(loan.showDetails());
+            loanManager.storeLoans();
         } else {
-            System.out.print("Error: Cannot apply interest to a simple loan\n> ");
+            IOHandler.writeOutputWithColour("Cannot apply interest to a simple loan", RED);
         }
     }
 }

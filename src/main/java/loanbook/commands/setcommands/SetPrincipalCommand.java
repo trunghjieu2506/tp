@@ -14,6 +14,7 @@ public class SetPrincipalCommand extends SetCommand{
     @Override
     public void execute() {
         loan.setPrincipal(newPrincipal);
+        loanManager.storeLoans();
         System.out.println("The principal of the following loan is updated:");
         System.out.println(loan.showDetails());
     }

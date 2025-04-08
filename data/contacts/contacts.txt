@@ -1,0 +1,15 @@
+<Name>George
+<ContactNumber>None
+<EMail>None
+<Tags>None
+<ContactsSaveSeparator>
+<Name>Qiaozi
+<ContactNumber>12345678
+<EMail>someone@example.com
+<Tags>None
+<ContactsSaveSeparator>
+<Name>John
+<ContactNumber>11111111
+<EMail>None
+<Tags>None
+<ContactsSaveSeparator>

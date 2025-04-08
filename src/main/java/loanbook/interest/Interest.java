@@ -1,5 +1,7 @@
 package loanbook.interest;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Period;
 
 /**
@@ -10,7 +12,9 @@ import java.time.Period;
  * by <code>rate</code>% of the original principal, while COMPOUND interests increase the outstanding balance
  * by <code>rate</code>% of the outstanding balance.
  */
-public class Interest {
+public class Interest implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     protected String description;
     protected double rate;
     protected InterestType type;

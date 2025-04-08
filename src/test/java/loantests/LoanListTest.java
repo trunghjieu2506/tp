@@ -67,9 +67,9 @@ public class LoanListTest {
         commandDetail.execute();
     }
 
-    private ArrayList<Loan> testList(ContactsList contactsList) {
-        contactsList.addPerson(new Person("George", "Student"));
-        contactsList.addPerson(new Person("Miao", "Parent"));
+    private ArrayList<Loan> testList() {
+        Person George = new Person("George", "Student");
+        Person Miao = new Person("Miao", "Parent");
         Money money1 = new Money("SGD", 100);
         Money money2 = new Money("USD", 123.33);
         Money money3 = new Money("CNY", 1122.33);
@@ -84,10 +84,8 @@ public class LoanListTest {
         Interest interest5 = new Interest(1.5, InterestType.COMPOUND, Period.ofMonths(3));
         Interest interest6 = new Interest(3.3, InterestType.COMPOUND, Period.ofMonths(3));
 
-        Person George = contactsList.findOrAdd("George");
-        Person Miao = contactsList.findOrAdd("Miao");
-        Person DBS = contactsList.findOrAdd("DBS Bank");
-        Person friend = contactsList.findOrAdd("freundin");
+        Person DBS = new Person("DBS Bank");
+        Person friend = new Person("freundin");
 
         ArrayList<Loan> existingLoans = new ArrayList<>();
         existingLoans.add(new AdvancedBulletLoan(null, George, Miao,
@@ -113,10 +111,8 @@ public class LoanListTest {
     @Test
     public void testTwo() {
         LoanManager loanManager = new LoanManager("Test Two");
-        ContactsList contactsList = new ContactsList("Test Two");
-        loanManager.setContactsList(contactsList);
-        contactsList.addPerson(new Person("George", "Student"));
-        contactsList.addPerson(new Person("Miao", "Parent"));
+        Person George = new Person("George", "Student");
+        Person Miao = new Person("Miao", "Parent");
         Money moneyOne = new Money("SGD", 100);
         Money moneyTwo = new Money("USD", 123.33);
         Money money3 = new Money("CNY", 1122.33);
@@ -130,9 +126,6 @@ public class LoanListTest {
         Interest interest_4 = new Interest(10, InterestType.SIMPLE, Period.ofYears(1));
         Interest interest_5 = new Interest(1.5, InterestType.COMPOUND, Period.ofMonths(3));
         Interest interest_6 = new Interest(3.3, InterestType.COMPOUND, Period.ofMonths(3));
-
-        Person George = contactsList.findName("George");
-        Person Miao = contactsList.findName("Miao");
 
         LoanCommand command_one = new AddAdvancedBulletLoanCommand(loanManager, "testOne", George, Miao,
                 moneyOne, LocalDate.of(2025, 1, 1), interest_one);
@@ -206,8 +199,7 @@ public class LoanListTest {
 
     @Test
     public void testSetCommands() {
-        ContactsList contactsList = new ContactsList("Test_Set");
-        LoanManager loanManager = new LoanManager("Test_Set", testList(contactsList), contactsList);
+        LoanManager loanManager = new LoanManager("Test_Set", testList());
 
         String input = """
                 Hello World
@@ -262,8 +254,7 @@ public class LoanListTest {
 
     @Test
     public void testFindCommands() {
-        ContactsList contactsList = new ContactsList("Test_Find");
-        LoanManager loanManager = new LoanManager("Test_Find", testList(contactsList), contactsList);
+        LoanManager loanManager = new LoanManager("Test_Find", testList());
 
         String input = """
                 
@@ -294,8 +285,7 @@ public class LoanListTest {
 
     @Test
     public void testSave() {
-        ContactsList contactsList = new ContactsList("Test_Save");
-        LoanManager loanManager = new LoanManager("Test_Save", testList(contactsList), contactsList);
+        LoanManager loanManager = new LoanManager("Test_Save", testList());
         try {
             LoanSaveManager.saveLoanList(loanManager);
         } catch (IOException e) {
@@ -319,8 +309,7 @@ public class LoanListTest {
 
     @Test
     public void testUI2() {
-        ContactsList contactsList = new ContactsList("testUi2");
-        LoanManager loanManager = new LoanManager("testUi2", testList(contactsList), contactsList);
+        LoanManager loanManager = new LoanManager("testUi2", testList());
         String input = """
                 add
                 y

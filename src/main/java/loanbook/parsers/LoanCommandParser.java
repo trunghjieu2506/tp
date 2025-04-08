@@ -138,8 +138,8 @@ public class LoanCommandParser {
                         "Key in the amount of money lent:");
                 String description = handleDescriptionInputUI(scanner);
                 LocalDate startDate = DateParser.handleLocalDateUI(scanner,
-                        "Key in the start date of the loan (yyyy-mm-dd):", null, true);
-                LocalDate returnDate = DateParser.handleLocalDateUI(scanner,
+                        "Key in the start date of the loan (yyyy-mm-dd)", true);
+                LocalDate returnDate = DateParser.handleReturnDateUI(scanner,
                         "Key in the return date of the loan (yyyy-mm-dd)", startDate, true);
                 ArrayList<String> tags = handleTagsInputUI(scanner);
                 return new AddSimpleBulletLoanCommand(loanManager, description, lender, borrower, money, startDate,
@@ -148,8 +148,8 @@ public class LoanCommandParser {
                 Money money = MoneyParser.handleMoneyInputUI(scanner, currency,
                         "Key in the amount of principal:");
                 LocalDate startDate = DateParser.handleLocalDateUI(scanner,
-                        "Key in the start date of the loan (yyyy-mm-dd):", null);
-                LocalDate returnDate = DateParser.handleLocalDateUI(scanner,
+                        "Key in the start date of the loan (yyyy-mm-dd):");
+                LocalDate returnDate = DateParser.handleReturnDateUI(scanner,
                         "Key in the return date of the loan (yyyy-mm-dd)", startDate, true);
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 assert interest != null;
@@ -180,14 +180,9 @@ public class LoanCommandParser {
             }
             return new SetDescriptionCommand(loanManager, index, description);
         case "start date":
-            LocalDate startDate = DateParser.handleLocalDateUI(scanner, "Key in the new start date:",
-                    null);
-            return new SetStartDateCommand(loanManager, index, startDate);
+            return new SetStartDateCommand(loanManager, index, scanner, false);
         case "return date":
-            LocalDate startDateReference = loanManager.get(index).startDate();
-            LocalDate returnDate = DateParser.handleLocalDateUI(scanner, "Key in the new return date:",
-                    startDateReference);
-            return new SetReturnDateCommand(loanManager, index, returnDate);
+            return new SetReturnDateCommand(loanManager, index, scanner, false);
         case "principal":
         case "amount":
             String instruction = "Key in the amount" + (attribute.equals("principal") ? "of principal" : "");
@@ -195,7 +190,7 @@ public class LoanCommandParser {
             return new SetPrincipalCommand(loanManager, index, money);
         case "interest":
             if (loanManager.get(index) instanceof SimpleBulletLoan) {
-                return new InvalidMessageCommand("A simple bullet loan does not apply interest.\n> ");
+                return new InvalidMessageCommand("A simple bullet loan does not apply interest.");
             } else {
                 Interest interest = InterestParser.handleInterestInputUI(scanner);
                 return new SetInterestCommand(loanManager, index, interest);

@@ -57,7 +57,7 @@ public class AdvancedBulletLoan extends Loan {
 
     @Override
     public void setStartDate(LocalDate date) {
-        this.startDate = date;
+        super.setStartDate(date);
         calculateBalance();
     }
 
@@ -139,7 +139,8 @@ public class AdvancedBulletLoan extends Loan {
     }
     @Override
     public double getAmount() {
-        return 0;
+        calculateBalance();
+        return outstandingBalance.getAmount().doubleValue();
     }
 
     @Override

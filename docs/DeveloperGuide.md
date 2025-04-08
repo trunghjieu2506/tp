@@ -146,7 +146,7 @@ The diagram below shows the high-level structure of core classes:
 
 #### Command Parsing and Execution
 
-To carry out operations on the loans, the user inputs are read through the `LoanUI` class and parsed by the `LoanCommandParser` class, which generates commands based on the user's inputs.
+To carry out operations on the loans, the user inputs are read through the `LoanUI` class and parsed by the `LoanCommandParser` class, which generates commands based on the user's inputs with the help of other parsers such as `InterestParser`, `MoneyParser` and `DateParser`.
 
 Each command extends from an abstract `LoanCommand` base class and overrides the `execute()` method.
 
@@ -164,8 +164,17 @@ The diagram below shows the high-level structure of loan commands:
 A `Money` class is created to standardise the management of each unit of money. The Currency class for 
 
 ![Money.png](images/Money.png)
+
 #### Tags
+A `TagList` class and a `Taggable` interface is created to improve the efficiency of searching objects with tags. Instead of going through all objects in a collection and check if the object contains the tag, one can directly use the `findWithTag()` method to get the list of objects that contains this tag.
+
 ![TagList.png](images/TagList.png)
+
+#### Contacts
+To better manage the information of each person, a `Person` class with its manager class `ContactsList` is created to store information of each person efficiently. 
+
+![ContactList.png](images/ContactList.png)
+
 ---
 ### Application Management
 CashFlowManager is the central coordinator for initializing and running the core features of the CashFlow application. It sets up data persistence, managers for different financial modules (e.g., expense, income, savings), and launches the CLI-based UI loop.
@@ -472,7 +481,186 @@ which can represent the generic flow of the Budget and Saving management's execu
 
 ### Loan
 
----
+#### Abstract class Loan
+
+The abstract class Loan contains the following attributes:
+
+- `lender`: The `Person` that lends the money. Cannot be modified.
+- `borrower`: The `Person` that borrows money from the `lender`. Cannot be modified.
+- `principal`: The original `Money` lent.
+- `isReturned`: Whether the loan has been returned.
+- `startDate`: The date the loan is lent.
+- `returnDate`: The date the loan is to be returned.
+- `tags`: An `ArrayList<String>` of tags to categorise the loans.
+
+#### Simple Bullet Loan subclass
+The `SimpleBulletLoan` is a type of loan with fixed balance and one-shot repayment.
+
+#### Advanced Bullet Loan subclass
+The `AdvancedBulletLoan` is a type of loan with interests and one-shot repayment. Apart from the basics of the `Loan` class, it also contains the following attributes:
+
+- `outstandingBalance`: The `Money` to be returned after applying interest.
+- `interest`: The `Interest` to be applied.
+
+#### Interest
+The `Interest` class specifies how the interest applies to a loan. It contains the following attributes:
+
+- `type`: The type of interest as defined in the `InterestTye`.
+- `rate`: The percentage increment of the `outstandingBalance` at the end of each `period`.
+- `period`: The `Period` between each time the interest is applied.
+
+#### InterestParser
+- Parses an `Interest` based on the `String` input. The format is shown below:
+```
+[SIMPLE / COMPOUND] [rate] per [X years/months/days]
+```
+- Also contains a `handleInterestInputUI()` method that handles invalid interest inputs and ask for new inputs, until a valid `Interest` is parsed.
+
+#### LoanManager
+Stores all recorded `Loan`s in an `ArrayList<Loan>` and supports the following operations:
+
+Storing Loans:
+- **`storeLoans()`**  
+Updates the storage by writing the current list of loans.
+
+Adding and Removing Loans:
+- **`add(Loan loan)`**  
+Adds a new loan to the list, updates the `tagList`, and ensures both the lender and borrower are in the `contactsList`.
+- **`delete(int x)`**  
+Removes the Xth loan in the list, clears its tag mappings, updates the save file.
+
+Adding and Removing Tags:
+- **`addTag(int x, String tag)`**  
+  Adds a tag to the Xth loan and updates the `tagList`.
+- **`deleteTag(int x, String tag)`**  
+  Removes a tag from the Xth loan and updates the `tagList`.
+
+Finding Loans:
+- **`get(int x)`**  
+  Returns the Xth loan in the list.
+- **`findIncomingLoan(Person borrower)`**  
+  Returns a list of loans borrowed by the `borrower`.
+- **`findOutgoingLoan(Person lender)`**  
+  Returns a list of loans lent by the `lender`.
+- **`findAssociatedLoan(Person person)`**  
+  Returns all loans lent or borrowed by the person.
+- **`findOverdueLoan()`**  
+  Returns a list of loans that are currently overdue.
+- **`findUrgentLoan(int x)`**  
+  Returns the top x loans with the earliest return dates.
+- **`findLargestLoans(int x)`**  
+  Returns the top x loans with the highest balance.
+- **`findLoan(Person lender, Person borrower)`**  
+  Returns loans from `lender` to `borrower`.
+- **`findLoanWithTag(String tag)`**  
+  Returns loans that contain the `tag`.
+
+Analytics:
+- **`getTotalDebt(String name)`**  
+  Returns a `HashMap<Currency, BigDecimal>`, mapping the person's total debt in each currency.
+- **`getTotalLent(String name)`**  
+  Returns a `HashMap<Currency, BigDecimal>`, mapping the person's total amount lent in each currency.
+
+User Interface Outputs:
+- **`simpleFulList()`**  
+  Returns a ready-to-print `String` listing all loans with basic information.
+- **`showDetail(int x)`**  
+  Returns a ready-to-print `String` containing all information of the Xth loan in the list.
+
+#### LoanUI
+Runs continuously when the program is in `loan` mode. Reads the user input, generates commands using `LoanCommandParser` and executes the commands.
+
+#### LoanCommandParser
+Contains methods to parse commands from various user inputs. Due to the large amount of attributes in each `Loan`, the parsers would ask for user inputs sequentially.
+
+An example simplified sequence diagram of the `EditReturnDateCommand` is shown below:
+
+![LoanCommandSequence.png](images/LoanCommandSequence.png)
+
+An example input/output conversation of the `AddAdvancedBulletLoanCommand` is shown below:
+```
+Loan Mode: Enter commands (type 'exit' to return)
+> add
+With or without interest? (y/n)
+> n
+Enter the lender's name:
+> Qiaozi
+New person: [Qiaozi]
+Enter the person's contact number (Enter N/A if not applicable):
+> 12345678
+Enter the person's E-Mail (Enter N/A if not applicable):
+> someone@example.com
+New person [Qiaozi] is added to the contact book.
+Enter the borrower's name:
+> George
+New person: [George]
+Enter the person's contact number (Enter N/A if not applicable):
+> N/A
+Enter the person's E-Mail (Enter N/A if not applicable):
+> N/A
+New person [George] is added to the contact book.
+Key in the amount of money lent:
+> 500
+Key in the description (Key in "N/A" if not applicable):
+> Example
+Key in the start date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+> 2023-08-08
+Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+> 2022-01-01
+The return date cannot be before the start date
+Key in the return date of the loan (yyyy-mm-dd) (Key in "N/A" if not applicable):
+> 2025-01-01
+Key in a tag (Key in "N/A" to finish):
+> N/A
+Tasks saved successfully!
+Simple Bullet Loan added: Lender: [Qiaozi]    Borrower: [George]
+    Amount: USD 500.00    Not Returned
+```
+
+### Other Utilities
+
+#### Person
+Contains the following attributes:
+
+- `name`: The name of the person. Cannot be edited.
+- `contactNumber`: The contact number of the person. Must contain at least a series of numbers.
+- `email`: The E-Mail of the person. Must contain a "@" character.
+- `tags`: An `ArrayList<String>` of tags to categorise the people.
+
+#### ContactsList
+Instantiated within the `LoanManager` class to support the efficient usage of each known person's information. It stores the information using a `HashMap<String, Person>`, mapping each person's unique name and its instance. Operations are shown below:
+
+- `add(String name)`: Creates a new person with a name.
+- `add(Person person)`: Adds an existing person.
+- `delete(String name)`: Deletes the named person.
+- `addTag(Person person, String tag)`: Add a given tag to the person. Updates the `tagList`.
+- `removeTag(Person person, String tag`: Deletes the tag from the person. Updates the `tagList`.
+- `hasPerson(String name)`: Checks if a person with the name is recorded.
+- `findName(String name)`: Finds the person mapped to the name.
+- `findTag(String tag)`: Returns an `ArrayList<Person>` of all people with the tag.
+- `listAll()`: Lists all recorded person's name.
+
+#### DateParser
+Parses a `LocalDate` given the input `String`. Also contains methods to continuously ask for user input until a valid date is parsed.
+
+#### MoneyParser
+Parses a `Money` given the input `String`. Also contains methods to continuously ask for user input until a valid money is parsed.
+
+#### Taggable interface
+This interface is available for any object that can be tagged. Each `Taggable` object contains an `ArrayList<String>` of tags. The interface contains the following methods:
+
+- `addTag(String tag)`: Adds a tag to the list of tags.
+- `removeTag(String tag)`: Removes a tag from the list of tags.
+- `getTagList()`: Returns an `ArrayList<String>` of all tags this object has.
+
+#### TagList
+This class can be instantiated in the managers of `Taggable` objects. It stores all objects of type (T implements Taggable) in a `HashMap<String, ArrayList<T>>`. It allows the managers to categorise and search for objects based on their tags easily and efficiently. Supported methods are shown below:
+
+- `addMap(String tag, T object)`: Adds a mapping of the tag and the object to the HashMap.
+- `removeMap(String tag, T object)`: Removes the mapping of the tag and the object.
+- `removeObject(T object)`: Removes the object from all tag mappings.
+- `findWithTag(String tag)`: Returns an `ArrayList<T>` of objects containing the tag.
+
 ---
 
 ### Analytic Command
@@ -639,14 +827,18 @@ delete-c i/1 c/1
 ```
 
 ### Loan Module
-
+1. Run `loan` to enter budget mode from the main menu.
+2. Try:
 ```
-loan
+help
+help edit
+help find
+help add
 add
 list
 show 1
 edit 1 description
-find John outgoing loan
+find largest loan
 delete 1
 ```
 ### Analytic Module

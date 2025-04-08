@@ -14,6 +14,7 @@ public class SetReturnStatusCommand extends SetCommand {
     @Override
     public void execute() {
         loan.setReturnStatus(isReturned);
+        loanManager.storeLoans();
         System.out.println("The return status of the following loan is updated:");
         System.out.println(loan.showDetails());
     }
