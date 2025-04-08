@@ -15,6 +15,12 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parses raw user input strings to instantiate specific analytic command objects
+ * (subclasses of {@link AnalyticGeneralCommand}).
+ * This parser uses a map to associate command keywords with handlers responsible
+ * for parsing arguments and validating syntax.
+ */
 public class AnalyticCommandParser {
     private static final Map<String, CommandHandler> COMMANDS = new HashMap<>();
 
@@ -23,6 +29,9 @@ public class AnalyticCommandParser {
      */
     static {
         COMMANDS.put("help", input -> new HelpCommand());
+        // Handler for the 'overview' command. Parses optional 'yyyy-MM' argument.
+        // Defaults to the current month and year if no argument is provided.
+
         COMMANDS.put("overview", input -> {
             String[] command = input.split(" ", 2);
             if (command.length < 2) {
@@ -102,6 +111,18 @@ public class AnalyticCommandParser {
         }
     });
     }
+
+    /**
+     * Parses the given user input string to identify the analytic command.
+     * It extracts the main command keyword, finds the associated handler in the COMMANDS map,
+     * and delegates the detailed parsing and command object creation to that handler.
+     *
+     * @param input The command string entered by the user.
+     * @return An instance of {@link AnalyticGeneralCommand} representing the parsed command, ready for execution.
+     * @throws IllegalArgumentException if the command keyword (the first word) is not recognized or if arguments are invalid based on handler logic.
+     * @throws DateTimeParseException   if date/month arguments are provided in an incorrect format.
+     * @throws Exception                for other parsing errors specific to a command's syntax or validation rules (e.g., end date before start date), as thrown by the specific {@link CommandHandler}.
+     */
     public static AnalyticGeneralCommand parseCommand(String input) throws Exception {
         String[] command = input.split(" ", 2);
         if (COMMANDS.containsKey(command[0])) {

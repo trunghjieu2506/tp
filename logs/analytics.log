@@ -444,3 +444,197 @@ SEVERE: Exception occurred during run: No line found
 信息: Running CashFlowManager main loop.
 4月 08, 2025 7:40:42 上午 cashflow.CashFlowManager run
 信息: Exiting CashFlowManager.
+Apr 08, 2025 11:45:03 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:45:03 AM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 11:45:03 AM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 11:45:06 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 11:45:06 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 11:45:06 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 11:45:06 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 11:45:06 AM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=0.00, NetSavings=0.00
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 11:47:08 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.analytics.AnalyticsManagerTest.testGetMonthlySummary_withData()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=300.00, Expenses=300.00, NetSavings=0.00
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 11:47:08 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.analytics.AnalyticsManagerTest.testShowSpendingInsights_noData()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: showSpendingInsights for 2025-04 vs 2025-03
+Apr 08, 2025 11:47:08 AM cashflow.analytics.AnalyticsManager showSpendingInsights
+FINE: No expense data found for either month.
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=0.00, NetSavings=0.00
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.analytics.AnalyticsManagerTest.testGetMonthlySummary_withData()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=300.00, Expenses=300.00, NetSavings=0.00
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.analytics.AnalyticsManagerTest.testShowSpendingInsights_noData()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: showSpendingInsights for 2025-04 vs 2025-03
+Apr 08, 2025 11:56:36 AM cashflow.analytics.AnalyticsManager showSpendingInsights
+FINE: No expense data found for either month.
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [class cashflow.stub.AnalyticCommandParserTest] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testOverviewInvalidDate()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testTrendInvalidDateRange()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testUnknownCommand()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testOverviewWithArgs() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testInsightNoArgs() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testTrendInvalidInterval()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testTrendValidCommand() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testTrendMissingArgs()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testInsightWithArgs() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testHelpCommand() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testSpendingBreakdownNoArgs() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testTrendInvalidDataType()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testOverviewNoArgs() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 11:56:36 AM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticCommandParserTest.testSpendingBreakdownWithArgs() throws java.lang.Exception] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=0.00, NetSavings=0.00
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 12:02:23 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticsManagerTest.testGetMonthlySummary_withData()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=300.00, Expenses=300.00, NetSavings=0.00
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 12:02:23 PM org.junit.jupiter.engine.execution.ConditionEvaluator logResult
+FINER: Evaluation of condition [org.junit.jupiter.engine.extension.DisabledCondition] on [void cashflow.stub.AnalyticsManagerTest.testShowSpendingInsights_noData()] resulted in: ConditionEvaluationResult [enabled = true, reason = '@Disabled is not present']
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: showSpendingInsights for 2025-04 vs 2025-03
+Apr 08, 2025 12:02:23 PM cashflow.analytics.AnalyticsManager showSpendingInsights
+FINE: No expense data found for either month.
+Apr 08, 2025 12:18:45 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:18:45 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 12:18:45 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 12:19:07 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:07 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:10 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:19:10 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 12:19:10 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:46 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:19:47 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:19:47 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 12:19:47 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 12:19:47 PM cashflow.CashFlowManager run
+INFO: First-time setup triggered.
+Apr 08, 2025 12:20:13 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 12:20:13 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=0.00, NetSavings=0.00
+Apr 08, 2025 12:20:13 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 12:20:16 PM cashflow.analytics.AnalyticsManager showSpendingInsights
+INFO: showSpendingInsights for 2025-04 vs 2025-03
+Apr 08, 2025 12:20:16 PM cashflow.analytics.AnalyticsManager showSpendingInsights
+FINE: No expense data found for either month.
+Apr 08, 2025 12:20:24 PM cashflow.analytics.AnalyticsManager showSpendingBreakDown
+FINE: No expenses found for that month.
+Apr 08, 2025 12:21:09 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:21:09 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found
+Apr 08, 2025 12:21:10 PM cashflow.analytics.AnalyticsManager <init>
+INFO: AnalyticsManager created with parameter FinanceData.
+Apr 08, 2025 12:21:10 PM cashflow.CashFlowManager <init>
+INFO: CashFlowManager initialization complete.
+Apr 08, 2025 12:21:10 PM cashflow.CashFlowManager run
+INFO: Running CashFlowManager main loop.
+Apr 08, 2025 12:21:19 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Generating monthly summary for 4/2025
+Apr 08, 2025 12:21:19 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+FINE: Income=0.00, Expenses=0.00, NetSavings=0.00
+Apr 08, 2025 12:21:19 PM cashflow.analytics.AnalyticsManager getMonthlySummary
+INFO: Monthly summary generated successfully.
+Apr 08, 2025 12:21:30 PM cashflow.CashFlowManager run
+SEVERE: Exception occurred during run: No line found

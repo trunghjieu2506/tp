@@ -1,7 +1,6 @@
 package cashflow.analytics.command;
 
 import cashflow.analytics.AnalyticsManager;
-import cashflow.model.FinanceData;
 
 public class SpendingBreakDownCommand extends AnalyticGeneralCommand{
     private int year;
@@ -14,7 +13,7 @@ public class SpendingBreakDownCommand extends AnalyticGeneralCommand{
     @Override
     public void execute(AnalyticsManager analytics) {
         if (analytics != null) {
-            analytics.showCategoryBreakdown(month, year);
+            analytics.showSpendingBreakDown(month, year);
         } else {
             System.out.println("Analytics module is not available.");
         }
