@@ -104,6 +104,10 @@ public class Saving extends Finance {
     }
 
     public void addContribution(Money contribution) {
+        if (currentAmount.getAmount().doubleValue() == goalAmount.getAmount().doubleValue()) {
+            IOHandler.writeWarning("Saving contribution is already completed.");
+            return;
+        }
         currentAmount.increment(contribution.getAmount());
         //double check currency and restrict amount
         SavingContribution newContribution = new SavingContribution(contribution, LocalDate.now());
